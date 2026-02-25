@@ -1,28 +1,305 @@
+import { z } from "zod";
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router } from "./_core/trpc";
+import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
+import { TRPCError } from "@trpc/server";
+import {
+  getSiteSettings, upsertSiteSetting,
+  getHomeSections, getAllHomeSections, upsertHomeSection, deleteHomeSection,
+  getPortfolioCategories, getAllPortfolioCategories, upsertPortfolioCategory, deletePortfolioCategory,
+  getShootsByCategory, getShootBySlug, getAllShoots, upsertShoot, deleteShoot,
+  getImagesByShoot, addPortfolioImage, deletePortfolioImage,
+  getArtworks, getAllArtworks, getArtworkBySlug, upsertArtwork, deleteArtwork,
+  getCeramics, getAllCeramics, upsertCeramic, deleteCeramic,
+  getSpecialProjects, getAllSpecialProjects, upsertSpecialProject, deleteSpecialProject,
+  getVideos, getAllVideos, upsertVideo, deleteVideo,
+  getMentorships, getAllMentorships, upsertMentorship, deleteMentorship,
+  createBooking, getAllBookings,
+  createContactMessage, getAllContactMessages, markMessageRead,
+} from "./db";
+import { storagePut } from "./storage";
+import { nanoid } from "nanoid";
+import { notifyOwner } from "./_core/notification";
+
+// Admin guard middleware
+const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
+  if (ctx.user.role !== "admin") throw new TRPCError({ code: "FORBIDDEN", message: "Acesso restrito ao administrador." });
+  return next({ ctx });
+});
 
 export const appRouter = router({
-    // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
+
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
       const cookieOptions = getSessionCookieOptions(ctx.req);
       ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
-      return {
-        success: true,
-      } as const;
+      return { success: true } as const;
     }),
   }),
 
-  // TODO: add feature routers here, e.g.
-  // todo: router({
-  //   list: protectedProcedure.query(({ ctx }) =>
-  //     db.getUserTodos(ctx.user.id)
-  //   ),
-  // }),
+  // ─── SITE SETTINGS ──────────────────────────────────────────────────────────
+  settings: router({
+    getAll: publicProcedure.query(() => getSiteSettings()),
+    upsert: adminProcedure.input(z.object({ key: z.string(), value: z.string() }))
+      .mutation(({ input }) => upsertSiteSetting(input.key, input.value)),
+  }),
+
+  // ─── HOME SECTIONS ──────────────────────────────────────────────────────────
+  home: router({
+    getSections: publicProcedure.query(() => getHomeSections()),
+    getAllSections: adminProcedure.query(() => getAllHomeSections()),
+    upsertSection: adminProcedure.input(z.object({
+      id: z.number().optional(),
+      slug: z.string(),
+      title: z.string().optional(),
+      subtitle: z.string().optional(),
+      description: z.string().optional(),
+      buttonText: z.string().optional(),
+      buttonLink: z.string().optional(),
+      imageUrl: z.string().optional(),
+      videoUrl: z.string().optional(),
+      bgColor: z.string().optional(),
+      textColor: z.string().optional(),
+      order: z.number().optional(),
+      isActive: z.boolean().optional(),
+    })).mutation(({ input }) => upsertHomeSection(input as any)),
+    deleteSection: adminProcedure.input(z.object({ id: z.number() }))
+      .mutation(({ input }) => deleteHomeSection(input.id)),
+  }),
+
+  // ─── PORTFOLIO CATEGORIES ───────────────────────────────────────────────────
+  categories: router({
+    getAll: publicProcedure.query(() => getPortfolioCategories()),
+    getAllAdmin: adminProcedure.query(() => getAllPortfolioCategories()),
+    upsert: adminProcedure.input(z.object({
+      id: z.number().optional(),
+      slug: z.string(),
+      name: z.string(),
+      description: z.string().optional(),
+      coverImageUrl: z.string().optional(),
+      type: z.enum(["ensaio", "fotografia_autoral", "ceramica", "projeto_especial"]).optional(),
+      order: z.number().optional(),
+      isActive: z.boolean().optional(),
+    })).mutation(({ input }) => upsertPortfolioCategory(input as any)),
+    delete: adminProcedure.input(z.object({ id: z.number() }))
+      .mutation(({ input }) => deletePortfolioCategory(input.id)),
+  }),
+
+  // ─── PORTFOLIO SHOOTS ───────────────────────────────────────────────────────
+  shoots: router({
+    getByCategory: publicProcedure.input(z.object({ categoryId: z.number() }))
+      .query(({ input }) => getShootsByCategory(input.categoryId)),
+    getBySlug: publicProcedure.input(z.object({ slug: z.string() }))
+      .query(({ input }) => getShootBySlug(input.slug)),
+    getAll: adminProcedure.query(() => getAllShoots()),
+    upsert: adminProcedure.input(z.object({
+      id: z.number().optional(),
+      categoryId: z.number(),
+      title: z.string(),
+      slug: z.string(),
+      description: z.string().optional(),
+      coverImageUrl: z.string().optional(),
+      date: z.string().optional(),
+      location: z.string().optional(),
+      order: z.number().optional(),
+      isActive: z.boolean().optional(),
+      isFeatured: z.boolean().optional(),
+    })).mutation(({ input }) => upsertShoot(input as any)),
+    delete: adminProcedure.input(z.object({ id: z.number() }))
+      .mutation(({ input }) => deleteShoot(input.id)),
+  }),
+
+  // ─── PORTFOLIO IMAGES ───────────────────────────────────────────────────────
+  portfolioImages: router({
+    getByShoot: publicProcedure.input(z.object({ shootId: z.number() }))
+      .query(({ input }) => getImagesByShoot(input.shootId)),
+    add: adminProcedure.input(z.object({
+      shootId: z.number(),
+      imageUrl: z.string(),
+      caption: z.string().optional(),
+      order: z.number().optional(),
+    })).mutation(({ input }) => addPortfolioImage(input as any)),
+    delete: adminProcedure.input(z.object({ id: z.number() }))
+      .mutation(({ input }) => deletePortfolioImage(input.id)),
+  }),
+
+  // ─── ARTWORKS ───────────────────────────────────────────────────────────────
+  artworks: router({
+    getAll: publicProcedure.query(() => getArtworks()),
+    getAllAdmin: adminProcedure.query(() => getAllArtworks()),
+    getBySlug: publicProcedure.input(z.object({ slug: z.string() }))
+      .query(({ input }) => getArtworkBySlug(input.slug)),
+    upsert: adminProcedure.input(z.object({
+      id: z.number().optional(),
+      title: z.string(),
+      slug: z.string(),
+      series: z.string().optional(),
+      year: z.string().optional(),
+      technique: z.string().optional(),
+      dimensions: z.string().optional(),
+      description: z.string().optional(),
+      poeticText: z.string().optional(),
+      imageUrl: z.string(),
+      additionalImages: z.string().optional(),
+      price: z.string().optional(),
+      priceDisplay: z.string().optional(),
+      isAvailable: z.boolean().optional(),
+      isFeatured: z.boolean().optional(),
+      order: z.number().optional(),
+      isActive: z.boolean().optional(),
+    })).mutation(({ input }) => upsertArtwork(input as any)),
+    delete: adminProcedure.input(z.object({ id: z.number() }))
+      .mutation(({ input }) => deleteArtwork(input.id)),
+  }),
+
+  // ─── CERAMICS ───────────────────────────────────────────────────────────────
+  ceramics: router({
+    getAll: publicProcedure.query(() => getCeramics()),
+    getAllAdmin: adminProcedure.query(() => getAllCeramics()),
+    upsert: adminProcedure.input(z.object({
+      id: z.number().optional(),
+      title: z.string(),
+      description: z.string().optional(),
+      technique: z.string().optional(),
+      dimensions: z.string().optional(),
+      imageUrl: z.string(),
+      additionalImages: z.string().optional(),
+      price: z.string().optional(),
+      priceDisplay: z.string().optional(),
+      isAvailable: z.boolean().optional(),
+      isFeatured: z.boolean().optional(),
+      order: z.number().optional(),
+      isActive: z.boolean().optional(),
+    })).mutation(({ input }) => upsertCeramic(input as any)),
+    delete: adminProcedure.input(z.object({ id: z.number() }))
+      .mutation(({ input }) => deleteCeramic(input.id)),
+  }),
+
+  // ─── SPECIAL PROJECTS ───────────────────────────────────────────────────────
+  specialProjects: router({
+    getAll: publicProcedure.query(() => getSpecialProjects()),
+    getAllAdmin: adminProcedure.query(() => getAllSpecialProjects()),
+    upsert: adminProcedure.input(z.object({
+      id: z.number().optional(),
+      title: z.string(),
+      slug: z.string(),
+      type: z.enum(["colaboracao", "exposicao", "trabalho_unico", "outro"]).optional(),
+      description: z.string().optional(),
+      coverImageUrl: z.string().optional(),
+      images: z.string().optional(),
+      date: z.string().optional(),
+      location: z.string().optional(),
+      collaborators: z.string().optional(),
+      order: z.number().optional(),
+      isActive: z.boolean().optional(),
+      isFeatured: z.boolean().optional(),
+    })).mutation(({ input }) => upsertSpecialProject(input as any)),
+    delete: adminProcedure.input(z.object({ id: z.number() }))
+      .mutation(({ input }) => deleteSpecialProject(input.id)),
+  }),
+
+  // ─── VIDEOS ─────────────────────────────────────────────────────────────────
+  videos: router({
+    getAll: publicProcedure.query(() => getVideos()),
+    getAllAdmin: adminProcedure.query(() => getAllVideos()),
+    upsert: adminProcedure.input(z.object({
+      id: z.number().optional(),
+      title: z.string(),
+      description: z.string().optional(),
+      videoUrl: z.string(),
+      thumbnailUrl: z.string().optional(),
+      type: z.enum(["manifesto", "bastidores", "processo", "depoimento", "outro"]).optional(),
+      isActive: z.boolean().optional(),
+      isFeatured: z.boolean().optional(),
+      order: z.number().optional(),
+    })).mutation(({ input }) => upsertVideo(input as any)),
+    delete: adminProcedure.input(z.object({ id: z.number() }))
+      .mutation(({ input }) => deleteVideo(input.id)),
+  }),
+
+  // ─── MENTORSHIPS ────────────────────────────────────────────────────────────
+  mentorships: router({
+    getAll: publicProcedure.query(() => getMentorships()),
+    getAllAdmin: adminProcedure.query(() => getAllMentorships()),
+    upsert: adminProcedure.input(z.object({
+      id: z.number().optional(),
+      title: z.string(),
+      description: z.string().optional(),
+      details: z.string().optional(),
+      duration: z.string().optional(),
+      modality: z.string().optional(),
+      price: z.string().optional(),
+      priceDisplay: z.string().optional(),
+      isActive: z.boolean().optional(),
+      isFeatured: z.boolean().optional(),
+      order: z.number().optional(),
+    })).mutation(({ input }) => upsertMentorship(input as any)),
+    delete: adminProcedure.input(z.object({ id: z.number() }))
+      .mutation(({ input }) => deleteMentorship(input.id)),
+  }),
+
+  // ─── BOOKINGS ───────────────────────────────────────────────────────────────
+  bookings: router({
+    create: publicProcedure.input(z.object({
+      mentorshipId: z.number().optional(),
+      name: z.string().min(2),
+      email: z.string().email(),
+      phone: z.string().optional(),
+      message: z.string().optional(),
+    })).mutation(async ({ input }) => {
+      await createBooking(input as any);
+      await notifyOwner({ title: "Novo agendamento de mentoria", content: `${input.name} (${input.email}) solicitou uma mentoria.` });
+      return { success: true };
+    }),
+    getAll: adminProcedure.query(() => getAllBookings()),
+  }),
+
+  // ─── CONTACT ────────────────────────────────────────────────────────────────
+  contact: router({
+    send: publicProcedure.input(z.object({
+      name: z.string().min(2),
+      email: z.string().email(),
+      phone: z.string().optional(),
+      subject: z.string().optional(),
+      message: z.string().min(10),
+    })).mutation(async ({ input }) => {
+      await createContactMessage(input as any);
+      await notifyOwner({ title: "Nova mensagem de contato", content: `${input.name} (${input.email}): ${input.message.slice(0, 200)}` });
+      return { success: true };
+    }),
+    getAll: adminProcedure.query(() => getAllContactMessages()),
+    markRead: adminProcedure.input(z.object({ id: z.number() }))
+      .mutation(({ input }) => markMessageRead(input.id)),
+  }),
+
+  // ─── FILE UPLOAD ────────────────────────────────────────────────────────────
+  upload: router({
+    getPresignedUrl: adminProcedure.input(z.object({
+      filename: z.string(),
+      contentType: z.string(),
+      folder: z.string().default("uploads"),
+    })).mutation(async ({ input }) => {
+      const ext = input.filename.split(".").pop() || "jpg";
+      const key = `${input.folder}/${nanoid()}.${ext}`;
+      const { url } = await storagePut(key, Buffer.alloc(0), input.contentType);
+      return { uploadUrl: url, key, publicUrl: url };
+    }),
+    uploadBase64: adminProcedure.input(z.object({
+      base64: z.string(),
+      filename: z.string(),
+      contentType: z.string(),
+      folder: z.string().default("uploads"),
+    })).mutation(async ({ input }) => {
+      const ext = input.filename.split(".").pop() || "jpg";
+      const key = `${input.folder}/${nanoid()}.${ext}`;
+      const buffer = Buffer.from(input.base64.replace(/^data:[^;]+;base64,/, ""), "base64");
+      const { url } = await storagePut(key, buffer, input.contentType);
+      return { url, key };
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

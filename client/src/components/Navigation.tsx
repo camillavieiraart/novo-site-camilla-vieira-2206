@@ -82,6 +82,7 @@ export function Navigation({ transparent = false }: NavigationProps) {
               <Link href="/ceramica" className={`nav-link ${location === "/ceramica" ? "active" : ""}`}>Cerâmica</Link>
               <Link href="/projetos" className={`nav-link ${location === "/projetos" ? "active" : ""}`}>Projetos</Link>
               <Link href="/mentorias" className={`nav-link ${location === "/mentorias" ? "active" : ""}`}>Mentorias</Link>
+              <Link href="/blog" className={`nav-link ${location === "/blog" || location.startsWith("/blog/") ? "active" : ""}`}>Blog</Link>
               <Link href="/sobre" className={`nav-link ${location === "/sobre" ? "active" : ""}`}>Sobre</Link>
               <Link href="/contato" className={`nav-link ${location === "/contato" ? "active" : ""}`}>Contato</Link>
               {user?.role === "admin" && (
@@ -143,6 +144,12 @@ export function Navigation({ transparent = false }: NavigationProps) {
             <Link href="/obras" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Obras de Arte</Link>
             <Link href="/ceramica" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Cerâmica</Link>
             <Link href="/projetos" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Projetos Especiais</Link>
+          </div>
+
+          {/* Group: Blog */}
+          <div className="mobile-nav-group">
+            <span className="mobile-nav-group-label">Blog</span>
+            <Link href="/blog" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Reflexões & Processo</Link>
           </div>
 
           {/* Group: Sobre & Contato */}

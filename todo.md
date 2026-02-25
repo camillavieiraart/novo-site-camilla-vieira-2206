@@ -116,3 +116,19 @@
 
 ## Correção Fotos de Capa das Categorias na Home (Fev 2026)
 - [x] Corrigir fotos de capa das categorias Ensaios Femininos, Gestante e Profissional — upload para CDN e atualização no banco
+
+## Seção Blog SEO+GEO (Fev 2026)
+- [x] Schema: tabela blog_posts com campos SEO (metaTitle, metaDescription, canonicalUrl, ogImage, keywords, schema JSON-LD)
+- [x] Migrar banco de dados com pnpm db:push
+- [x] Rotas tRPC: blog.getAll, blog.getBySlug, blog.upsert, blog.delete, blog.getSitemap
+- [x] Página /blog — listagem com SEO (title, description, Open Graph, Schema.org BlogPosting list)
+- [x] Página /blog/:slug — leitura com Schema.org Article, breadcrumbs, Open Graph, canonical URL
+- [x] Dados estruturados GEO: author, datePublished, wordCount, readingTime
+- [x] Adicionar Blog ao menu de navegação principal
+- [x] Gerenciamento de posts no Admin com campos SEO editáveis
+- [x] Agente autônomo: pesquisa tendências, escreve com voz da Camilla, gera imagem de capa, publica automaticamente
+- [x] Scheduler: toda quinta-feira às 09:00 BRT (node-cron, timezone America/Sao_Paulo)
+- [x] Voz calibrada com briefing completo (regras inegociáveis, vocábulário proibido, 10 editorias)
+
+## Correção Urgente - Fotos de Capa na Home (Fev 2026)
+- [x] Corrigir seção de portfólio da home para buscar coverImageUrl do banco em vez de usar constantes hardcoded

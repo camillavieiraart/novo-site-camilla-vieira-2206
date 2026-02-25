@@ -14,6 +14,7 @@ import Fotografia from "./pages/Fotografia";
 import Ceramica from "./pages/Ceramica";
 import Projetos from "./pages/Projetos";
 import Admin from "./pages/Admin";
+import Blog, { BlogPost } from "./pages/Blog";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { NewsletterPopup } from "./components/NewsletterPopup";
 
@@ -30,6 +31,8 @@ function Router() {
       <Route path="/ceramica" component={Ceramica} />
       <Route path="/projetos" component={Projetos} />
       <Route path="/projetos/:slug" component={Projetos} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug">{(params) => <BlogPost slug={params.slug ?? ""} />}</Route>
       <Route path="/sobre" component={Sobre} />
       <Route path="/mentorias" component={Mentorias} />
       <Route path="/contato" component={Contato} />

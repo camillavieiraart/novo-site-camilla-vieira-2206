@@ -1,7 +1,7 @@
 import { and, asc, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import {
-  InsertUser, artworks, bookings, ceramics, contactMessages,
+  InsertUser, artworks, blogPosts, bookings, ceramics, contactMessages,
   homeSections, mentorships, newsletterSubscribers, portfolioCategories, portfolioImages,
   portfolioShoots, siteSettings, specialProjects, testimonials, users, videos,
 } from "../drizzle/schema";
@@ -345,4 +345,60 @@ export async function unsubscribeNewsletter(email: string) {
 export async function deleteNewsletterSubscriber(id: number) {
   const db = await getDb(); if (!db) return;
   await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.id, id));
+}
+
+// ─── BLOG POSTS ───────────────────────────────────────────────────────────────
+export async function getPublishedBlogPosts(limit = 20, offset = 0) {
+  const db = await getDb(); if (!db) return [];
+  return db.select().from(blogPosts)
+    .where(eq(blogPosts.isPublished, true))
+    .orderBy(desc(blogPosts.publishedAt))
+    .limit(limit).offset(offset);
+}
+
+export async function getBlogPostBySlug(slug: string) {
+  const db = await getDb(); if (!db) return null;
+  const rows = await db.select().from(blogPosts)
+    .where(and(eq(blogPosts.slug, slug), eq(blogPosts.isPublished, true)))
+    .limit(1);
+  return rows[0] ?? null;
+}
+
+export async function getAllBlogPosts() {
+  const db = await getDb(); if (!db) return [];
+  return db.select().from(blogPosts).orderBy(desc(blogPosts.createdAt));
+}
+
+export async function getBlogPostById(id: number) {
+  const db = await getDb(); if (!db) return null;
+  const rows = await db.select().from(blogPosts).where(eq(blogPosts.id, id)).limit(1);
+  return rows[0] ?? null;
+}
+
+export async function upsertBlogPost(data: typeof blogPosts.$inferInsert & { id?: number }) {
+  const db = await getDb(); if (!db) return null;
+  if (data.id) {
+    const { id, ...rest } = data;
+    await db.update(blogPosts).set({ ...rest, updatedAt: new Date() }).where(eq(blogPosts.id, id));
+    return id;
+  } else {
+    const result = await db.insert(blogPosts).values(data);
+    return (result as any)[0]?.insertId ?? null;
+  }
+}
+
+export async function deleteBlogPost(id: number) {
+  const db = await getDb(); if (!db) return;
+  await db.delete(blogPosts).where(eq(blogPosts.id, id));
+}
+
+export async function getBlogSitemapData() {
+  const db = await getDb(); if (!db) return [];
+  return db.select({
+    slug: blogPosts.slug,
+    updatedAt: blogPosts.updatedAt,
+    publishedAt: blogPosts.publishedAt,
+  }).from(blogPosts)
+    .where(eq(blogPosts.isPublished, true))
+    .orderBy(desc(blogPosts.publishedAt));
 }

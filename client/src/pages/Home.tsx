@@ -242,12 +242,31 @@ function FotografiaSection({ isActive }: { isActive: boolean }) {
 }
 
 // ─── Section 4: Ensaios ───────────────────────────────────────────────────────
+const FALLBACK_CATS = [
+  { label: "Ensaios Femininos", href: "/portfolio/ensaios-femininos", img: PHOTO2, desc: "Retratos que celebram a autenticidade e a beleza feminina." },
+  { label: "Gestante", href: "/portfolio/gestante", img: PHOTO3, desc: "Momentos íntimos que capturam a conexão entre mãe e bebê." },
+  { label: "Profissional", href: "/portfolio/profissional", img: PHOTO1, desc: "Retratos corporativos e profissionais com olhar artístico e autoral." },
+];
+const SLUG_DESCS: Record<string, string> = {
+  "ensaios-femininos": "Retratos que celebram a autenticidade e a beleza feminina.",
+  "gestante": "Momentos íntimos que capturam a conexão entre mãe e bebê.",
+  "profissional": "Retratos corporativos e profissionais com olhar artístico e autoral.",
+  "familia": "Momentos únicos que eternizam o amor entre família.",
+  "casamentos": "O dia mais especial registrado com sensibilidade e arte.",
+  "editoriais": "Imagens conceituais que unem moda, arte e narrativa visual.",
+};
 function EnsaiosSection({ isActive }: { isActive: boolean }) {
-  const categories = [
-    { label: "Ensaios Femininos", href: "/portfolio/ensaios-femininos", img: PHOTO2, desc: "Retratos que celebram a autenticidade e a beleza feminina." },
-    { label: "Gestante", href: "/portfolio/gestante", img: PHOTO3, desc: "Momentos íntimos que capturam a conexão entre mãe e bebê." },
-    { label: "Profissional", href: "/portfolio/profissional", img: PHOTO1, desc: "Retratos corporativos e profissionais com olhar artístico e autoral." },
-  ];
+  const { data: dbCats } = trpc.categories.getAll.useQuery();
+  const categories = dbCats && dbCats.length > 0
+    ? dbCats
+        .filter(c => ["ensaios-femininos", "gestante", "profissional"].includes(c.slug))
+        .map(c => ({
+          label: c.name,
+          href: `/portfolio/${c.slug}`,
+          img: c.coverImageUrl || PHOTO1,
+          desc: SLUG_DESCS[c.slug] || c.description || "",
+        }))
+    : FALLBACK_CATS;
 
   return (
     <section className="snap-section relative flex flex-col items-center justify-center overflow-hidden"

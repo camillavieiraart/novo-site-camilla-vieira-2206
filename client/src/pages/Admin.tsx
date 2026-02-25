@@ -11,7 +11,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
-import { TestimonialsAdmin, NewsletterAdmin } from "./AdminExtras";
+import { TestimonialsAdmin, NewsletterAdmin, BlogAdmin } from "./AdminExtras";
 
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
@@ -25,6 +25,7 @@ const NAV_ITEMS = [
   { href: "/admin/mentorias", label: "Mentorias", icon: BookOpen },
   { href: "/admin/agendamentos", label: "Agendamentos", icon: Users },
   { href: "/admin/mensagens", label: "Mensagens", icon: Mail },
+  { href: "/admin/blog", label: "Blog", icon: BookOpen },
   { href: "/admin/depoimentos", label: "Depoimentos", icon: Star },
   { href: "/admin/newsletter", label: "Newsletter", icon: Users },
   { href: "/admin/configuracoes", label: "Configurações", icon: Settings },
@@ -882,6 +883,7 @@ function AdminContent() {
   if (location === "/admin/mentorias") return <MentorshipsAdmin />;
   if (location === "/admin/agendamentos") return <BookingsAdmin />;
   if (location === "/admin/mensagens") return <MessagesAdmin />;
+  if (location === "/admin/blog") return <BlogAdmin />;
   if (location === "/admin/depoimentos") return <TestimonialsAdmin />;
   if (location === "/admin/newsletter") return <NewsletterAdmin />;
   if (location === "/admin/configuracoes") return <SettingsAdmin />;

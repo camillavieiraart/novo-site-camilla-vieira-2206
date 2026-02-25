@@ -40,7 +40,7 @@ function HeroSection({ onScrollNext }: { onScrollNext: () => void }) {
       <BrushCorner position="br" color="#F5E6D3" delay={1600} />
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-4xl">
+      <div className="relative z-10 text-center px-4 sm:px-6 max-w-4xl w-full">
         {/* Eyebrow */}
         <div className={`mb-6 transition-all duration-700 ${phase >= 1 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
           <span className="section-eyebrow" style={{ color: "rgba(245,230,211,0.7)" }}>
@@ -70,11 +70,11 @@ function HeroSection({ onScrollNext }: { onScrollNext: () => void }) {
         </div>
 
         {/* CTA buttons */}
-        <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-1000 delay-[3500ms] ${phase >= 3 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          <Link href="/portfolio" className="btn-outline-light">
+        <div className={`flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 transition-all duration-1000 delay-[3500ms] ${phase >= 3 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+          <Link href="/portfolio" className="btn-outline-light w-full sm:w-auto">
             Explorar Portfólio <ArrowRight size={14} />
           </Link>
-          <Link href="/obras" className="btn-outline-light">
+          <Link href="/obras" className="btn-outline-light w-full sm:w-auto">
             Obras de Arte <ArrowRight size={14} />
           </Link>
         </div>
@@ -131,7 +131,7 @@ function ManifestoSection({ isActive }: { isActive: boolean }) {
       <BrushCorner position="tr" color="#8B6F47" delay={300} />
       <BrushCorner position="bl" color="#8B6F47" delay={600} />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full">
         {/* Text */}
         <div>
           <span className="section-eyebrow block mb-6">Manifesto</span>
@@ -142,12 +142,12 @@ function ManifestoSection({ isActive }: { isActive: boolean }) {
                 delay={400}
                 charDelay={55}
                 lineGap={200}
-                lineClassName="manifesto-line text-2xl md:text-3xl"
+                lineClassName="manifesto-line text-xl sm:text-2xl md:text-3xl"
               />
             )}
           </div>
           <div className={`divider-terracota mb-6 transition-all duration-1000 delay-[3000ms] ${isActive ? "opacity-100" : "opacity-0"}`} />
-          <p className={`text-sm leading-relaxed transition-all duration-1000 delay-[3200ms] ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+          <p className={`text-sm leading-relaxed prose-body transition-all duration-1000 delay-[3200ms] ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
             style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
             Camilla Vieira é fotógrafa e artista visual. Seu trabalho transita entre o ensaio fotográfico e a obra de arte, sempre guiado pela mesma filosofia: a imagem como linguagem da alma.
           </p>
@@ -159,7 +159,7 @@ function ManifestoSection({ isActive }: { isActive: boolean }) {
         </div>
 
         {/* Video */}
-        <div className={`relative transition-all duration-1000 delay-[800ms] ${isActive ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
+        <div className={`relative transition-all duration-1000 delay-[800ms] ${isActive ? "opacity-100 scale-100" : "opacity-0 scale-95"} hidden lg:block`}>
           <div className="relative aspect-[9/16] max-h-[70vh] overflow-hidden"
             style={{ border: "1px solid var(--brand-sand)" }}>
             {video.type === "native" ? (
@@ -248,20 +248,20 @@ function EnsaiosSection({ isActive }: { isActive: boolean }) {
       style={{ backgroundColor: "var(--brand-bege)" }}>
       <BrushCorner position="tl" color="#8B6F47" delay={400} />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-10">
-        <div className={`text-center mb-12 transition-all duration-800 ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className={`text-center mb-8 md:mb-12 transition-all duration-800 ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
           <span className="section-eyebrow block mb-3">Portfólio</span>
           <h2 className="font-serif text-4xl md:text-5xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>
             Ensaios com Alma
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
           {categories.map(({ label, href, img, desc }, i) => (
             <Link key={href} href={href}
               className={`group block no-underline transition-all duration-800 ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
               style={{ transitionDelay: `${300 + i * 150}ms` }}>
-              <div className="img-hover aspect-[3/4] mb-4" style={{ border: "1px solid var(--brand-sand)" }}>
+              <div className="img-hover aspect-[4/3] sm:aspect-[3/4] mb-3 md:mb-4" style={{ border: "1px solid var(--brand-sand)" }}>
                 <img src={img} alt={label} style={{ filter: "grayscale(30%)" }} />
                 <div className="img-hover-overlay" />
               </div>
@@ -289,18 +289,18 @@ function ObrasSection({ isActive }: { isActive: boolean }) {
       <BrushCorner position="tr" color="#F5E6D3" delay={400} />
       <BrushCorner position="bl" color="#F5E6D3" delay={700} />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Text */}
           <div className={`transition-all duration-1000 delay-200 ${isActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"}`}>
             <span className="section-eyebrow block mb-4" style={{ color: "rgba(201,112,100,0.9)" }}>Obras de Arte</span>
             <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6" style={{ color: "var(--brand-bege)" }}>
               Série <em>Fio</em>
             </h2>
-            <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(245,230,211,0.7)", fontFamily: "'Inter', sans-serif" }}>
+            <p className="text-sm leading-relaxed prose-body mb-4" style={{ color: "rgba(245,230,211,0.7)", fontFamily: "'Inter', sans-serif" }}>
               Costura sobre fotografia. Cada obra da série Fio é uma intervenção artística única: linhas de costura que atravessam a imagem fotográfica, criando uma nova camada de significado.
             </p>
-            <p className="text-sm leading-relaxed mb-8" style={{ color: "rgba(245,230,211,0.55)", fontFamily: "'Inter', sans-serif" }}>
+            <p className="text-sm leading-relaxed prose-body mb-8" style={{ color: "rgba(245,230,211,0.55)", fontFamily: "'Inter', sans-serif" }}>
               A agulha como extensão do olhar. O fio como metáfora da conexão entre o visível e o invisível.
             </p>
             <div className="divider-sand mb-8" style={{ width: "48px", height: "1px", backgroundColor: "var(--brand-sand)" }} />
@@ -309,8 +309,8 @@ function ObrasSection({ isActive }: { isActive: boolean }) {
             </Link>
           </div>
 
-          {/* Images */}
-          <div className={`grid grid-cols-2 gap-3 transition-all duration-1000 delay-500 ${isActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`}>
+          {/* Images — hidden on mobile to avoid overflow */}
+          <div className={`hidden lg:grid grid-cols-2 gap-3 transition-all duration-1000 delay-500 ${isActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`}>
             <div className="img-hover aspect-square" style={{ border: "1px solid rgba(217,204,180,0.2)" }}>
               <img src={OBRA1} alt="Série Fio" style={{ filter: "sepia(20%)" }} />
               <div className="img-hover-overlay" />
@@ -380,8 +380,8 @@ export default function Home() {
         </section>
       </div>
 
-      {/* Section dots navigation */}
-      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-2.5">
+      {/* Section dots navigation — hidden on small mobile */}
+      <div className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-50 hidden sm:flex flex-col gap-2.5">
         {[0, 1, 2, 3, 4].map((i) => (
           <button
             key={i}

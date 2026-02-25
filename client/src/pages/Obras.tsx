@@ -119,7 +119,7 @@ function ObrasGallery() {
       )}
 
       <div className="pt-24 pb-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           {/* Header */}
           <div className={`mb-16 transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <span className="section-eyebrow block mb-3">Obras de Arte</span>
@@ -127,13 +127,13 @@ function ObrasGallery() {
               Série <em>Fio</em>
             </h1>
             <div className="divider-terracota" />
-            <p className="mt-6 text-sm leading-relaxed max-w-2xl" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+            <p className="mt-6 text-sm leading-relaxed prose-body" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
               Costura sobre fotografia. Cada obra é uma intervenção artística única: linhas que atravessam a imagem fotográfica, criando uma nova camada de significado. A agulha como extensão do olhar.
             </p>
           </div>
 
           {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
             {artworks.map((artwork, i) => (
               <Link key={artwork.id} href={`/obras/${artwork.slug}`}
                 className={`group block no-underline artwork-card transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}

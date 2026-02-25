@@ -19,8 +19,8 @@ export default function Sobre() {
       <section className="relative pt-24 pb-20 overflow-hidden" style={{ backgroundColor: "var(--brand-marrom-deep)" }}>
         <BrushCorner position="tl" color="#F5E6D3" delay={400} />
         <BrushCorner position="br" color="#F5E6D3" delay={700} />
-        <div className="max-w-5xl mx-auto px-6 lg:px-10 relative z-10">
-          <div className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+          <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             <div>
               <span className="section-eyebrow block mb-4" style={{ color: "rgba(201,112,100,0.9)" }}>Sobre</span>
               <h1 className="font-serif text-5xl md:text-6xl font-medium mb-6" style={{ color: "var(--brand-bege)" }}>
@@ -43,7 +43,7 @@ export default function Sobre() {
       {/* Manifesto */}
       <section className="py-20 relative overflow-hidden" style={{ backgroundColor: "var(--brand-bege)" }}>
         <BrushCorner position="tr" color="#8B6F47" delay={300} />
-        <div className="max-w-4xl mx-auto px-6 lg:px-10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10">
           <div className={`text-center mb-16 transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <span className="section-eyebrow block mb-4">Manifesto</span>
             <h2 className="font-serif text-4xl md:text-5xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>
@@ -61,7 +61,7 @@ export default function Sobre() {
               "Sou Criadora, Maga e Sábia. Crio porque preciso. Transformo porque é minha natureza. Compartilho porque acredito que arte só existe no encontro.",
               "Este ateliê digital é um convite. Para olhar com mais cuidado. Para sentir com mais profundidade. Para reconhecer que beleza não é superfície — é essência.",
             ].map((para, i) => (
-              <p key={i} className="text-base leading-loose" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif", lineHeight: "2" }}>
+              <p key={i} className="text-sm sm:text-base prose-body" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif", lineHeight: "2", maxWidth: "100%" }}>
                 {para}
               </p>
             ))}
@@ -71,7 +71,7 @@ export default function Sobre() {
 
       {/* Arquétipos */}
       <section className="py-20" style={{ backgroundColor: "var(--brand-bege-light)" }}>
-        <div className="max-w-6xl mx-auto px-6 lg:px-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
           <div className={`text-center mb-16 transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <span className="section-eyebrow block mb-4">Arquétipos</span>
             <h2 className="font-serif text-4xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>

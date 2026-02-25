@@ -432,3 +432,236 @@
 .border-terracota  { border-color: var(--brand-terracota); }
 .font-serif        { font-family: 'Playfair Display', Georgia, serif; }
 .font-display      { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+/* ── TEXT JUSTIFICATION ─────────────────────────────────────────────────── */
+.prose-body {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  line-height: 1.8;
+  max-width: 68ch;
+}
+.prose-body-wide {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  line-height: 1.8;
+}
+/* Paragraphs inside sections always get max-width for readability */
+.snap-section p,
+.page-section p {
+  max-width: 68ch;
+}
+
+/* ── MOBILE GLOBAL ───────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Typography scale down */
+  h1 { font-size: clamp(2rem, 8vw, 3.5rem) !important; }
+  h2 { font-size: clamp(1.6rem, 6vw, 2.8rem) !important; }
+  h3 { font-size: clamp(1.1rem, 4vw, 1.6rem) !important; }
+
+  /* Snap sections: allow scroll on mobile for overflow content */
+  .snap-container {
+    scroll-snap-type: y mandatory;
+  }
+  .snap-section {
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow-y: auto;
+  }
+
+  /* Buttons full-width on mobile */
+  .btn-primary,
+  .btn-outline-light,
+  .btn-outline-dark {
+    width: 100%;
+    justify-content: center;
+    padding: 0.875rem 1.25rem;
+  }
+
+  /* Gallery grid: 2 cols on mobile */
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  /* Artwork cards: 2 cols on mobile */
+  .artwork-card {
+    transform: none !important;
+  }
+
+  /* Triptych: stack on mobile, each col 50vw tall */
+  .triptych {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .triptych-col {
+    height: 55vw;
+    min-height: 200px;
+  }
+  .triptych-label {
+    opacity: 1 !important;
+    font-size: 0.6rem;
+  }
+
+  /* Section padding on mobile */
+  .pt-24 { padding-top: 5rem !important; }
+  .pb-20 { padding-bottom: 3rem !important; }
+
+  /* Prose max-width full on mobile */
+  .prose-body,
+  .snap-section p,
+  .page-section p {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Gallery grid: 1 col on very small screens */
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Triptych: taller on small phones */
+  .triptych-col {
+    height: 65vw;
+    min-height: 180px;
+  }
+
+  /* Reduce letter-spacing on small screens */
+  .section-eyebrow {
+    letter-spacing: 0.14em;
+  }
+}
+
+/* ── MOBILE NAVIGATION ───────────────────────────────────────────────────── */
+.mobile-nav-group {
+  border-bottom: 1px solid var(--brand-sand);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.mobile-nav-group-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--brand-terracota);
+  padding: 0.75rem 0 0.25rem;
+  display: block;
+}
+.mobile-nav-item {
+  display: block;
+  padding: 0.65rem 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand-marrom-deep);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.mobile-nav-item:hover { color: var(--brand-terracota); }
+.mobile-nav-sub {
+  display: block;
+  padding: 0.45rem 0 0.45rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--brand-marrom);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.mobile-nav-sub:hover { color: var(--brand-terracota); }
+
+/* ── PAGE SECTION UTILITY ────────────────────────────────────────────────── */
+.page-section {
+  padding-top: 6rem;
+  padding-bottom: 5rem;
+}
+@media (max-width: 768px) {
+  .page-section {
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+  }
+}
+
+/* ── HERO MOBILE FIXES ───────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  /* Hero title smaller on phones */
+  .snap-section h1 {
+    font-size: clamp(2.2rem, 9vw, 3rem) !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Manifesto lines smaller */
+  .manifesto-line {
+    font-size: clamp(1.1rem, 5vw, 1.5rem) !important;
+    line-height: 1.7 !important;
+  }
+
+  /* Snap section: allow internal scroll on small screens */
+  .snap-section {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Buttons: full width, centered, comfortable tap target */
+  .btn-outline-light,
+  .btn-outline-dark,
+  .btn-primary {
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+    padding: 0.875rem 1rem;
+    font-size: 0.65rem;
+  }
+
+  /* Section eyebrow smaller */
+  .section-eyebrow {
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+  }
+
+  /* Artwork card: no hover transform on touch */
+  .artwork-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Admin sidebar: full overlay on mobile */
+  .admin-content {
+    padding: 0.75rem;
+  }
+
+  /* Form inputs: comfortable on mobile */
+  .form-input {
+    font-size: 1rem; /* prevent iOS zoom */
+    padding: 0.75rem;
+  }
+}
+
+/* ── PORTRAIT / LANDSCAPE SNAP FIX ──────────────────────────────────────── */
+@media (max-height: 600px) and (orientation: landscape) {
+  .snap-section {
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
+  }
+  .snap-container {
+    scroll-snap-type: none;
+  }
+}
+
+/* ── PROSE BODY: JUSTIFY ONLY ON WIDER SCREENS ───────────────────────────── */
+@media (max-width: 480px) {
+  .prose-body,
+  .prose-body-wide {
+    text-align: left; /* left-align on very small screens for readability */
+    hyphens: none;
+  }
+}

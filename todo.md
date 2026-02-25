@@ -54,3 +54,17 @@
 - [x] Integrar MediaUploader no Admin: Obras, Portfólio (categorias + ensaios), Vídeos, Configurações
 - [x] Exibir vídeo nativo (<video>) na seção Manifesto da Home quando URL for arquivo S3
 - [x] Suporte a upload de vídeo direto no Admin (até 500MB) e imagem (até 20MB)
+
+## Layout e Responsividade Mobile (Fev 2026)
+- [x] Corrigir layout da página Obras de Arte: grid 2 colunas bem definido, texto justificado com max-width
+- [x] Corrigir Navigation mobile: menu hambúrguer funcional, itens legíveis, sem sobreposição
+- [x] Ajustar tipografia e espaçamento em todas as páginas para mobile (padding, font-size, line-height)
+- [x] Corrigir Home mobile: hero, manifesto, triptych e ensaios adaptados para telas pequenas
+- [x] Melhorar legibilidade geral: texto justificado, max-width nos parágrafos, espaçamento entre seções
+
+## Layout Mobile e Justificação de Texto (Fev 2026)
+- [x] CSS global: texto justificado, max-width em parágrafos, breakpoints mobile refinados
+- [x] Navigation mobile: menu hambúrguer com grupos visuais, espaçamento e legibilidade
+- [x] Home mobile: hero, manifesto, triptych (1 coluna), ensaios (1 coluna), obras adaptados
+- [x] Obras de Arte mobile: grid 2 colunas, texto justificado, detalhe da obra responsivo
+- [x] Portfolio, Sobre, Mentorias, Contato: padding, font-size e layout mobile corrigidos

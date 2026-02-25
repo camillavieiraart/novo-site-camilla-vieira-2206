@@ -93,14 +93,14 @@ export default function Mentorias() {
       <section className="relative pt-24 pb-20 overflow-hidden" style={{ backgroundColor: "var(--brand-marrom-deep)" }}>
         <BrushCorner position="tl" color="#F5E6D3" delay={400} />
         <BrushCorner position="br" color="#F5E6D3" delay={700} />
-        <div className="max-w-4xl mx-auto px-6 lg:px-10 text-center relative z-10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10 text-center relative z-10">
           <div className={`transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             <span className="section-eyebrow block mb-4" style={{ color: "rgba(201,112,100,0.9)" }}>Mentorias</span>
             <h1 className="font-serif text-5xl md:text-6xl font-medium mb-6" style={{ color: "var(--brand-bege)" }}>
               Aprenda a Ver com Arte
             </h1>
             <div className="mb-6 mx-auto" style={{ width: "48px", height: "1px", backgroundColor: "var(--brand-sand)" }} />
-            <p className="text-base leading-relaxed max-w-2xl mx-auto" style={{ color: "rgba(245,230,211,0.75)", fontFamily: "'Inter', sans-serif" }}>
+            <p className="text-sm sm:text-base leading-relaxed max-w-2xl mx-auto prose-body-wide" style={{ color: "rgba(245,230,211,0.75)", fontFamily: "'Inter', sans-serif" }}>
               Mais do que técnica, ensino um olhar. Um jeito de estar presente diante da câmera e da vida que transforma imagens em arte.
             </p>
           </div>
@@ -109,7 +109,7 @@ export default function Mentorias() {
 
       {/* Mentorships */}
       <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6 lg:px-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
           <div className={`text-center mb-16 transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <span className="section-eyebrow block mb-3">Programas</span>
             <h2 className="font-serif text-4xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>
@@ -117,7 +117,7 @@ export default function Mentorias() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {mentorships.map((m, i) => {
               let details: string[] = [];
               try { details = JSON.parse(m.details || "[]"); } catch {}
@@ -138,7 +138,7 @@ export default function Mentorias() {
                   )}
                   <div className="p-8 flex flex-col flex-1">
                     <h3 className="font-serif text-2xl font-medium mb-3" style={{ color: "var(--brand-marrom-deep)" }}>{m.title}</h3>
-                    <p className="text-sm leading-relaxed mb-6" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>{m.description}</p>
+                    <p className="text-sm leading-relaxed prose-body mb-6" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", maxWidth: "100%" }}>{m.description}</p>
 
                     <div className="flex flex-col gap-2 mb-6">
                       <div className="flex items-center gap-2 text-xs" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>

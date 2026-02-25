@@ -19,6 +19,12 @@ export function Navigation({ transparent = false }: NavigationProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
   const isTransparent = transparent && !scrolled && !mobileOpen;
   const navClass = isTransparent ? "nav-transparent" : "";
 
@@ -27,20 +33,23 @@ export function Navigation({ transparent = false }: NavigationProps) {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${navClass}`}
         style={{
-          backgroundColor: isTransparent ? "transparent" : "rgba(250,244,238,0.96)",
-          backdropFilter: isTransparent ? "none" : "blur(12px)",
+          backgroundColor: isTransparent ? "transparent" : "rgba(250,244,238,0.97)",
+          backdropFilter: isTransparent ? "none" : "blur(14px)",
           borderBottom: isTransparent ? "none" : "1px solid rgba(217,204,180,0.4)",
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="flex items-center justify-between h-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+          <div className="flex items-center justify-between h-14 md:h-16">
             {/* Logo */}
-            <Link href="/" className={`nav-logo font-serif text-lg font-medium tracking-wide no-underline transition-colors ${isTransparent ? "text-[var(--brand-bege)]" : "text-[var(--brand-marrom-deep)]"}`}>
+            <Link
+              href="/"
+              className={`nav-logo font-serif text-base md:text-lg font-medium tracking-wide no-underline transition-colors ${isTransparent ? "text-[var(--brand-bege)]" : "text-[var(--brand-marrom-deep)]"}`}
+            >
               Camilla.art
             </Link>
 
             {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-8">
+            <div className="hidden lg:flex items-center gap-6 xl:gap-8">
               {/* Portfólio dropdown */}
               <div className="dropdown-trigger">
                 <button className={`nav-link flex items-center gap-1 bg-transparent border-none p-0 ${location.startsWith("/portfolio") ? "active" : ""}`}>
@@ -69,9 +78,9 @@ export function Navigation({ transparent = false }: NavigationProps) {
                 </div>
               </div>
 
-              <Link href="/obras" className={`nav-link ${location === "/obras" ? "active" : ""}`}>Obras de Arte</Link>
+              <Link href="/obras" className={`nav-link ${location === "/obras" || location.startsWith("/obras/") ? "active" : ""}`}>Obras de Arte</Link>
               <Link href="/ceramica" className={`nav-link ${location === "/ceramica" ? "active" : ""}`}>Cerâmica</Link>
-              <Link href="/projetos" className={`nav-link ${location === "/projetos" ? "active" : ""}`}>Projetos Especiais</Link>
+              <Link href="/projetos" className={`nav-link ${location === "/projetos" ? "active" : ""}`}>Projetos</Link>
               <Link href="/mentorias" className={`nav-link ${location === "/mentorias" ? "active" : ""}`}>Mentorias</Link>
               <Link href="/sobre" className={`nav-link ${location === "/sobre" ? "active" : ""}`}>Sobre</Link>
               <Link href="/contato" className={`nav-link ${location === "/contato" ? "active" : ""}`}>Contato</Link>
@@ -81,7 +90,7 @@ export function Navigation({ transparent = false }: NavigationProps) {
             </div>
 
             {/* Social + Mobile toggle */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <a href="https://instagram.com/camillavieira.art" target="_blank" rel="noopener noreferrer"
                 className={`hidden lg:flex transition-opacity hover:opacity-100 opacity-60 ${isTransparent ? "text-[var(--brand-bege)]" : "text-[var(--brand-marrom-deep)]"}`}>
                 <Instagram size={16} />
@@ -91,9 +100,9 @@ export function Navigation({ transparent = false }: NavigationProps) {
                 <Youtube size={16} />
               </a>
               <button
-                className={`lg:hidden p-1 bg-transparent border-none ${isTransparent ? "text-[var(--brand-bege)]" : "text-[var(--brand-marrom-deep)]"}`}
+                className={`lg:hidden p-2 bg-transparent border-none rounded-sm transition-colors ${isTransparent ? "text-[var(--brand-bege)]" : "text-[var(--brand-marrom-deep)]"}`}
                 onClick={() => setMobileOpen(!mobileOpen)}
-                aria-label="Menu"
+                aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
               >
                 {mobileOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
@@ -102,48 +111,74 @@ export function Navigation({ transparent = false }: NavigationProps) {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 z-40 flex flex-col pt-16"
-          style={{ backgroundColor: "var(--brand-bege-light)" }}
-        >
-          <div className="flex flex-col gap-0 px-6 py-8 overflow-y-auto">
-            {[
-              { href: "/portfolio", label: "Portfólio" },
-              { href: "/portfolio/ensaios-femininos", label: "— Ensaios Femininos" },
-              { href: "/portfolio/gestante", label: "— Gestante" },
-              { href: "/portfolio/profissional", label: "— Profissional" },
-              { href: "/fotografia", label: "Fotografia Autoral" },
-              { href: "/fotografia/serie-fio", label: "— Série Fio" },
-              { href: "/obras", label: "Obras de Arte" },
-              { href: "/ceramica", label: "Cerâmica" },
-              { href: "/projetos", label: "Projetos Especiais" },
-              { href: "/mentorias", label: "Mentorias" },
-              { href: "/sobre", label: "Sobre" },
-              { href: "/contato", label: "Contato" },
-            ].map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className="py-3 text-sm font-medium tracking-widest uppercase border-b border-[var(--brand-sand)] text-[var(--brand-marrom-deep)] no-underline hover:text-[var(--brand-terracota)] transition-colors"
-                onClick={() => setMobileOpen(false)}
-              >
-                {label}
-              </Link>
-            ))}
-            {user?.role === "admin" && (
-              <Link href="/admin" className="py-3 text-sm font-medium tracking-widest uppercase text-[var(--brand-terracota)] no-underline" onClick={() => setMobileOpen(false)}>
+      {/* Mobile Menu — full-screen overlay */}
+      <div
+        className={`fixed inset-0 z-40 flex flex-col transition-all duration-300 ${mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        style={{ backgroundColor: "var(--brand-bege-light)" }}
+      >
+        {/* Spacer for nav height */}
+        <div className="h-14" />
+
+        <div className="flex-1 overflow-y-auto px-6 py-6">
+          {/* Group: Portfólio */}
+          <div className="mobile-nav-group">
+            <span className="mobile-nav-group-label">Portfólio</span>
+            <Link href="/portfolio" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Ver Todos</Link>
+            <Link href="/portfolio/ensaios-femininos" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Ensaios Femininos</Link>
+            <Link href="/portfolio/gestante" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Gestante</Link>
+            <Link href="/portfolio/profissional" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Profissional</Link>
+          </div>
+
+          {/* Group: Fotografia Autoral */}
+          <div className="mobile-nav-group">
+            <span className="mobile-nav-group-label">Fotografia Autoral</span>
+            <Link href="/fotografia" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Ver Todas</Link>
+            <Link href="/fotografia/serie-fio" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Série Fio</Link>
+            <Link href="/fotografia/maternidade" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Maternidade</Link>
+          </div>
+
+          {/* Group: Coleções */}
+          <div className="mobile-nav-group">
+            <span className="mobile-nav-group-label">Coleções</span>
+            <Link href="/obras" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Obras de Arte</Link>
+            <Link href="/ceramica" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Cerâmica</Link>
+            <Link href="/projetos" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Projetos Especiais</Link>
+          </div>
+
+          {/* Group: Sobre & Contato */}
+          <div className="mobile-nav-group">
+            <span className="mobile-nav-group-label">Sobre</span>
+            <Link href="/mentorias" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Mentorias</Link>
+            <Link href="/sobre" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Sobre Camilla</Link>
+            <Link href="/contato" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Contato</Link>
+          </div>
+
+          {user?.role === "admin" && (
+            <div className="mt-2">
+              <Link href="/admin" className="mobile-nav-item" style={{ color: "var(--brand-terracota)" }} onClick={() => setMobileOpen(false)}>
                 Admin
               </Link>
-            )}
-            <div className="flex gap-5 mt-8">
-              <a href="https://instagram.com/camillavieira.art" target="_blank" rel="noopener noreferrer" className="text-[var(--brand-marrom)]"><Instagram size={20} /></a>
-              <a href="https://youtube.com/@camillavieira.art" target="_blank" rel="noopener noreferrer" className="text-[var(--brand-marrom)]"><Youtube size={20} /></a>
             </div>
+          )}
+
+          {/* Social links */}
+          <div className="flex gap-5 mt-8 pt-6 border-t border-[var(--brand-sand)]">
+            <a href="https://instagram.com/camillavieira.art" target="_blank" rel="noopener noreferrer"
+              className="text-[var(--brand-marrom)] hover:text-[var(--brand-terracota)] transition-colors">
+              <Instagram size={20} />
+            </a>
+            <a href="https://youtube.com/@camillavieira.art" target="_blank" rel="noopener noreferrer"
+              className="text-[var(--brand-marrom)] hover:text-[var(--brand-terracota)] transition-colors">
+              <Youtube size={20} />
+            </a>
           </div>
+
+          {/* Brand tagline */}
+          <p className="mt-6 text-xs tracking-widest uppercase opacity-40" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+            Fotografia é Arte
+          </p>
         </div>
-      )}
+      </div>
     </>
   );
 }

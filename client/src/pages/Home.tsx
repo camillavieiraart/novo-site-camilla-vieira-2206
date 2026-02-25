@@ -14,8 +14,12 @@ const HERO_BG = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=
 const PHOTO1   = "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80&auto=format&fit=crop";
 const PHOTO2   = "https://images.unsplash.com/photo-1509460913899-515f1df34fea?w=800&q=80&auto=format&fit=crop";
 const PHOTO3   = "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=800&q=80&auto=format&fit=crop";
-const OBRA1    = "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=800&q=80&auto=format&fit=crop";
-const OBRA2    = "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&q=80&auto=format&fit=crop";
+// Real photos from Camilla Vieira
+const IMG_FOTOGRAFIA_AUTORAL = "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/sqgNkHdivjNiLvQr.jpeg"; // DSC06210 — Fotografia Autoral
+const IMG_SERIE_FIO          = "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/DCqRWOnaNWyKlrIU.jpeg"; // IMG_0750 — Série Fio
+const IMG_MATERNIDADE        = "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/JWHULTsUbykXomLg.jpeg"; // DSC08627 — Maternidade
+const OBRA1    = IMG_SERIE_FIO;
+const OBRA2    = IMG_MATERNIDADE;
 
 // ─── Section 1: Hero ─────────────────────────────────────────────────────────
 function HeroSection({ onScrollNext }: { onScrollNext: () => void }) {
@@ -177,7 +181,7 @@ function ManifestoSection({ isActive }: { isActive: boolean }) {
             ) : (
               /* Placeholder when no video is set */
               <>
-                <img src={PHOTO1} alt="Manifesto Visual" className="w-full h-full object-cover" style={{ filter: "grayscale(40%)" }} />
+                <img src={IMG_FOTOGRAFIA_AUTORAL} alt="Manifesto Visual" className="w-full h-full object-cover" style={{ filter: "grayscale(20%)" }} />
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-3"
                   style={{ background: "rgba(76,48,34,0.4)" }}>
                   <div className="flex items-center justify-center w-16 h-16 rounded-full"
@@ -204,9 +208,9 @@ function FotografiaSection({ isActive }: { isActive: boolean }) {
       {/* Triptych — images fill the full section, nav is z-50 so it sits on top */}
       <div className="triptych">
         {[
-          { src: PHOTO1, label: "Série Fio" },
-          { src: PHOTO2, label: "Maternidade" },
-          { src: PHOTO3, label: "Autoral" },
+          { src: IMG_SERIE_FIO, label: "Série Fio" },
+          { src: IMG_MATERNIDADE, label: "Maternidade" },
+          { src: IMG_FOTOGRAFIA_AUTORAL, label: "Autoral" },
         ].map(({ src, label }, i) => (
           <div key={i} className="triptych-col">
             <img src={src} alt={label} />
@@ -315,7 +319,7 @@ function ObrasSection({ isActive }: { isActive: boolean }) {
 
           {/* Images 2x2 grid — visible from md */}
           <div className={`hidden md:grid grid-cols-2 gap-3 lg:gap-4 transition-all duration-1000 delay-500 ${isActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`}>
-            {[OBRA1, OBRA2, PHOTO3, PHOTO1].map((src, i) => (
+            {[OBRA1, OBRA2, IMG_FOTOGRAFIA_AUTORAL, IMG_MATERNIDADE].map((src, i) => (
               <div key={i} className="img-hover rounded-xl overflow-hidden" style={{ aspectRatio: "3/4" }}>
                 <img src={src} alt={`Série Fio — obra ${i + 1}`} className="w-full h-full object-cover" />
                 <div className="img-hover-overlay" />

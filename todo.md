@@ -109,3 +109,7 @@
 - [x] Inserir 6 ensaios com capa e descrição
 - [x] Inserir 90 fotos (15 por categoria) nas tabelas portfolio_images
 - [x] Corrigir página de detalhe do portfólio para buscar fotos reais do banco (não mais placeholders)
+
+## Substituição de Fotos Placeholder na Home (Fev 2026)
+- [x] Upload das 4 fotos reais para o CDN (Fotografia Autoral, Série Fio, Maternidade, foto da mão com fio)
+- [x] Substituir imagens de placeholder na seção Fotografia Autoral da home e grade 2x2 da Série Fio

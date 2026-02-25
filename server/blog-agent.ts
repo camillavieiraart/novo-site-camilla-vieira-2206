@@ -205,15 +205,46 @@ async function writePost(topic: string, category: string): Promise<BlogPostDraft
         role: "user",
         content: `Escreva um post de blog completo sobre o tema: "${topic}"
 
-O post deve ser escrito em HTML semântico (use <p>, <h2>, <h3>, <blockquote>, <strong>, <em>).
-Inclua subtítulos com <h2> para cada seção principal.
+O post deve ser escrito em HTML semântico rico, com imagens ilustrativas ao longo do texto.
+
+## REGRAS DE FORMATAÇÃO HTML
+
+1. Use <p>, <h2>, <h3>, <blockquote>, <strong>, <em>
+2. O PRIMEIRO parágrafo deve ter class="post-lead" (parágrafo de abertura em itálico maior)
+3. Inclua 3-5 imagens ao longo do texto usando EXATAMENTE este formato:
+
+   Imagem simples:
+   <div class="post-figure">
+     <img src="{{IMAGE_PLACEHOLDER}}" alt="[descrição da imagem]" data-prompt="[prompt em inglês para gerar com IA, estilo: moody analog photography, warm golden light, film grain, intimate]" />
+     <figcaption>[legenda descritiva e poética]</figcaption>
+   </div>
+
+   Imagem larga (para imagens de impacto visual forte):
+   <div class="post-figure post-figure--wide">
+     <img src="{{IMAGE_PLACEHOLDER}}" alt="[descrição]" data-prompt="[prompt em inglês]" />
+     <figcaption>[legenda]</figcaption>
+   </div>
+
+   Duas imagens lado a lado (para comparações ou sequências):
+   <div class="post-figure post-figure--side-by-side">
+     <div class="post-figure__grid">
+       <img src="{{IMAGE_PLACEHOLDER}}" alt="[descrição 1]" data-prompt="[prompt 1 em inglês]" />
+       <img src="{{IMAGE_PLACEHOLDER}}" alt="[descrição 2]" data-prompt="[prompt 2 em inglês]" />
+     </div>
+     <figcaption>[legenda coletiva]</figcaption>
+   </div>
+
+4. Use src="{{IMAGE_PLACEHOLDER}}" — será substituído por imagens geradas com IA
+5. O data-prompt DEVE ser específico e visual (descrever o que a imagem deve mostrar)
+6. Termine com uma nota de rodapé em <div class="post-note">...<br/><strong>Mapa de Observação Criativa</strong> — [contexto do post dentro da série]</div>
+
 Comprimento: 1.000–1.500 palavras.
 
 Retorne um JSON com os campos:
 - title: título provocativo (8-12 palavras)
 - slug: slug SEO em português (sem acentos, com hífens)
 - excerpt: resumo de 1-2 frases que abre o argumento (máx. 200 chars)
-- content: o post completo em HTML
+- content: o post completo em HTML com os placeholders de imagem
 - metaTitle: meta title SEO (máx. 60 chars)
 - metaDescription: meta description (máx. 155 chars)
 - keywords: palavras-chave separadas por vírgula (5-8 termos)

@@ -11,7 +11,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
-import { TestimonialsAdmin, NewsletterAdmin, BlogAdmin } from "./AdminExtras";
+import { TestimonialsAdmin, NewsletterAdmin, BlogAdmin, CeramicsAdmin, SpecialProjectsAdmin } from "./AdminExtras";
 
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
@@ -209,6 +209,16 @@ function ArtworksAdmin() {
               <div>
                 <label className="form-label">Preço (exibição)</label>
                 <input {...register("priceDisplay")} className="form-input" placeholder="R$ 2.800" />
+              </div>
+              <div>
+                <label className="form-label">Áudio Narrado (URL)</label>
+                <input {...register("audioUrl")} className="form-input" placeholder="https://cdn.../audio.mp3" />
+                <p className="text-xs mt-1" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.7 }}>URL do áudio narrado da obra (Série Fio)</p>
+              </div>
+              <div>
+                <label className="form-label">Vídeo Narrado (URL)</label>
+                <input {...register("videoUrl")} className="form-input" placeholder="https://youtube.com/watch?v=... ou URL direta" />
+                <p className="text-xs mt-1" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.7 }}>URL do vídeo narrado da obra</p>
               </div>
               <div>
                 <MediaUploader
@@ -886,6 +896,8 @@ function AdminContent() {
   if (location === "/admin/blog") return <BlogAdmin />;
   if (location === "/admin/depoimentos") return <TestimonialsAdmin />;
   if (location === "/admin/newsletter") return <NewsletterAdmin />;
+  if (location === "/admin/ceramica") return <CeramicsAdmin />;
+  if (location === "/admin/projetos") return <SpecialProjectsAdmin />;
   if (location === "/admin/configuracoes") return <SettingsAdmin />;
 
   return (

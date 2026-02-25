@@ -1,32 +1,119 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSEO } from "@/hooks/useSEO";
 import { StructuredData, SERIE_FIO_SCHEMA } from "@/components/StructuredData";
 import { Link, useParams } from "wouter";
-import { ArrowLeft, X, MessageCircle } from "lucide-react";
+import { ArrowLeft, X, MessageCircle, Headphones, Pause, Play } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { BrushCorner } from "@/components/BrushStroke";
 import { trpc } from "@/lib/trpc";
 import { GalleryImage } from "@/components/GalleryImage";
 
 const PLACEHOLDER_ARTWORKS = [
-  { id: 1, title: "Fio I — Raízes", slug: "fio-i-raizes", series: "Fio", year: "2023", technique: "Costura sobre fotografia", dimensions: "40 × 50 cm", description: "Linhas de linho natural que atravessam a imagem como raízes invisíveis, conectando o que foi ao que é.", poeticText: "O fio não costura apenas o tecido — ele costura o tempo.", imageUrl: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 2.800", isAvailable: true },
-  { id: 2, title: "Fio II — Presença", slug: "fio-ii-presenca", series: "Fio", year: "2023", technique: "Costura sobre fotografia", dimensions: "30 × 40 cm", description: "A presença que permanece mesmo quando o corpo já não está. Fios vermelhos sobre pele em preto e branco.", poeticText: "Presença é o que fica depois que tudo passa.", imageUrl: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 2.400", isAvailable: true },
-  { id: 3, title: "Fio III — Memória", slug: "fio-iii-memoria", series: "Fio", year: "2023", technique: "Costura sobre fotografia", dimensions: "50 × 60 cm", description: "Memória como tapeçaria — fragmentos costurados que formam o todo de quem somos.", poeticText: "Somos feitos dos fios que escolhemos guardar.", imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 3.200", isAvailable: false },
-  { id: 4, title: "Fio IV — Vínculo", slug: "fio-iv-vinculo", series: "Fio", year: "2023", technique: "Costura sobre fotografia", dimensions: "40 × 50 cm", description: "O vínculo invisível que une dois corpos, duas almas, dois mundos.", poeticText: "Entre dois pontos, um fio. Entre duas almas, amor.", imageUrl: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 2.800", isAvailable: true },
-  { id: 5, title: "Fio V — Silêncio", slug: "fio-v-silencio", series: "Fio", year: "2024", technique: "Costura sobre fotografia", dimensions: "60 × 80 cm", description: "No silêncio entre as palavras, o fio encontra seu caminho.", poeticText: "O silêncio também tem textura.", imageUrl: "https://images.unsplash.com/photo-1509460913899-515f1df34fea?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 4.500", isAvailable: true },
-  { id: 6, title: "Fio VI — Origem", slug: "fio-vi-origem", series: "Fio", year: "2024", technique: "Costura sobre fotografia", dimensions: "40 × 50 cm", description: "Retorno à origem — o fio que nos conecta ao que sempre fomos.", poeticText: "A origem não é um lugar. É um fio.", imageUrl: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 2.800", isAvailable: true },
-  { id: 7, title: "Fio VII — Corpo", slug: "fio-vii-corpo", series: "Fio", year: "2024", technique: "Costura sobre fotografia", dimensions: "50 × 70 cm", description: "O corpo como mapa — linhas que revelam o que a pele esconde.", poeticText: "Cada cicatriz é um fio que conta uma história.", imageUrl: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 3.800", isAvailable: true },
-  { id: 8, title: "Fio VIII — Tempo", slug: "fio-viii-tempo", series: "Fio", year: "2024", technique: "Costura sobre fotografia", dimensions: "40 × 50 cm", description: "O tempo como tecido — cada momento um ponto, cada vida uma tapeçaria.", poeticText: "O tempo não passa. Ele se acumula.", imageUrl: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 2.800", isAvailable: false },
-  { id: 9, title: "Fio IX — Luz", slug: "fio-ix-luz", series: "Fio", year: "2024", technique: "Costura sobre fotografia", dimensions: "30 × 40 cm", description: "Fios dourados que seguem a luz — onde a fotografia termina, a costura começa.", poeticText: "A luz não ilumina apenas o que está fora.", imageUrl: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 2.200", isAvailable: true },
-  { id: 10, title: "Fio X — Infinito", slug: "fio-x-infinito", series: "Fio", year: "2024", technique: "Costura sobre fotografia", dimensions: "60 × 80 cm", description: "O infinito como possibilidade — o fio que nunca termina, a história que continua.", poeticText: "Infinito não é tamanho. É intenção.", imageUrl: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 4.800", isAvailable: true },
+  { id: 1, title: "Fio I — Raízes", slug: "fio-i-raizes", series: "Fio", year: "2023", technique: "Costura sobre fotografia", dimensions: "40 × 50 cm", description: "Linhas de linho natural que atravessam a imagem como raízes invisíveis, conectando o que foi ao que é.", poeticText: "O fio não costura apenas o tecido — ele costura o tempo.", imageUrl: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 2.800", isAvailable: true, audioUrl: null, videoUrl: null },
+  { id: 2, title: "Fio II — Presença", slug: "fio-ii-presenca", series: "Fio", year: "2023", technique: "Costura sobre fotografia", dimensions: "30 × 40 cm", description: "A presença que permanece mesmo quando o corpo já não está. Fios vermelhos sobre pele em preto e branco.", poeticText: "Presença é o que fica depois que tudo passa.", imageUrl: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 2.400", isAvailable: true, audioUrl: null, videoUrl: null },
+  { id: 3, title: "Fio III — Memória", slug: "fio-iii-memoria", series: "Fio", year: "2023", technique: "Costura sobre fotografia", dimensions: "50 × 60 cm", description: "Memória como tapeçaria — fragmentos costurados que formam o todo de quem somos.", poeticText: "Somos feitos dos fios que escolhemos guardar.", imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 3.200", isAvailable: false, audioUrl: null, videoUrl: null },
+  { id: 4, title: "Fio IV — Vínculo", slug: "fio-iv-vinculo", series: "Fio", year: "2023", technique: "Costura sobre fotografia", dimensions: "40 × 50 cm", description: "O vínculo invisível que une dois corpos, duas almas, dois mundos.", poeticText: "Entre dois pontos, um fio. Entre duas almas, amor.", imageUrl: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 2.800", isAvailable: true, audioUrl: null, videoUrl: null },
+  { id: 5, title: "Fio V — Silêncio", slug: "fio-v-silencio", series: "Fio", year: "2024", technique: "Costura sobre fotografia", dimensions: "60 × 80 cm", description: "No silêncio entre as palavras, o fio encontra seu caminho.", poeticText: "O silêncio também tem textura.", imageUrl: "https://images.unsplash.com/photo-1509460913899-515f1df34fea?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 4.500", isAvailable: true, audioUrl: null, videoUrl: null },
+  { id: 6, title: "Fio VI — Origem", slug: "fio-vi-origem", series: "Fio", year: "2024", technique: "Costura sobre fotografia", dimensions: "40 × 50 cm", description: "Retorno à origem — o fio que nos conecta ao que sempre fomos.", poeticText: "A origem não é um lugar. É um fio.", imageUrl: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 2.800", isAvailable: true, audioUrl: null, videoUrl: null },
+  { id: 7, title: "Fio VII — Corpo", slug: "fio-vii-corpo", series: "Fio", year: "2024", technique: "Costura sobre fotografia", dimensions: "50 × 70 cm", description: "O corpo como mapa — linhas que revelam o que a pele esconde.", poeticText: "Cada cicatriz é um fio que conta uma história.", imageUrl: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 3.800", isAvailable: true, audioUrl: null, videoUrl: null },
+  { id: 8, title: "Fio VIII — Tempo", slug: "fio-viii-tempo", series: "Fio", year: "2024", technique: "Costura sobre fotografia", dimensions: "40 × 50 cm", description: "O tempo como tecido — cada momento um ponto, cada vida uma tapeçaria.", poeticText: "O tempo não passa. Ele se acumula.", imageUrl: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 2.800", isAvailable: false, audioUrl: null, videoUrl: null },
+  { id: 9, title: "Fio IX — Luz", slug: "fio-ix-luz", series: "Fio", year: "2024", technique: "Costura sobre fotografia", dimensions: "30 × 40 cm", description: "Fios dourados que seguem a luz — onde a fotografia termina, a costura começa.", poeticText: "A luz não ilumina apenas o que está fora.", imageUrl: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 2.200", isAvailable: true, audioUrl: null, videoUrl: null },
+  { id: 10, title: "Fio X — Infinito", slug: "fio-x-infinito", series: "Fio", year: "2024", technique: "Costura sobre fotografia", dimensions: "60 × 80 cm", description: "O infinito como possibilidade — o fio que nunca termina, a história que continua.", poeticText: "Infinito não é tamanho. É intenção.", imageUrl: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 4.800", isAvailable: true, audioUrl: null, videoUrl: null },
 ];
 
+// ─── Audio Player Component ───────────────────────────────────────────────────
+function ArtworkAudioPlayer({ audioUrl, title }: { audioUrl: string; title: string }) {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [playing, setPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+
+  const toggle = () => {
+    if (!audioRef.current) return;
+    if (playing) {
+      audioRef.current.pause();
+      setPlaying(false);
+    } else {
+      audioRef.current.play();
+      setPlaying(true);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (!audioRef.current) return;
+    setCurrentTime(audioRef.current.currentTime);
+    setProgress((audioRef.current.currentTime / audioRef.current.duration) * 100 || 0);
+  };
+
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!audioRef.current || !duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const pct = x / rect.width;
+    audioRef.current.currentTime = pct * duration;
+  };
+
+  const fmt = (s: number) => {
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return `${m}:${sec.toString().padStart(2, "0")}`;
+  };
+
+  return (
+    <div className="mt-5 p-5" style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
+      <audio
+        ref={audioRef}
+        src={audioUrl}
+        onEnded={() => setPlaying(false)}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={() => setDuration(audioRef.current?.duration || 0)}
+      />
+      <div className="flex items-center gap-3 mb-3">
+        <Headphones size={14} style={{ color: "var(--brand-terracota)" }} />
+        <p className="text-xs tracking-widest uppercase" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>
+          Narração da Artista
+        </p>
+      </div>
+      <p className="text-sm mb-4" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+        Ouça Camilla falar sobre <em>{title}</em>
+      </p>
+      <div className="flex items-center gap-3">
+        <button
+          onClick={toggle}
+          className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all hover:scale-105"
+          style={{ backgroundColor: "var(--brand-terracota)", color: "var(--brand-bege-light)" }}
+          aria-label={playing ? "Pausar" : "Reproduzir"}>
+          {playing ? <Pause size={13} /> : <Play size={13} />}
+        </button>
+        <div className="flex-1">
+          {/* Progress bar */}
+          <div
+            className="h-1 rounded-full cursor-pointer mb-1"
+            style={{ backgroundColor: "var(--brand-sand)" }}
+            onClick={handleSeek}>
+            <div
+              className="h-full rounded-full transition-all"
+              style={{ width: `${progress}%`, backgroundColor: "var(--brand-terracota)" }}
+            />
+          </div>
+          <div className="flex justify-between text-xs" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.6 }}>
+            <span>{fmt(currentTime)}</span>
+            <span>{duration ? fmt(duration) : "--:--"}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Artwork Detail ───────────────────────────────────────────────────────────
 function ArtworkDetail({ slug }: { slug: string }) {
   const [visible, setVisible] = useState(false);
   useEffect(() => { setTimeout(() => setVisible(true), 200); }, []);
 
-  const artwork = PLACEHOLDER_ARTWORKS.find(a => a.slug === slug) || PLACEHOLDER_ARTWORKS[0];
+  const { data: artworkData } = trpc.artworks.getBySlug.useQuery({ slug });
+  const artwork = artworkData || PLACEHOLDER_ARTWORKS.find(a => a.slug === slug) || PLACEHOLDER_ARTWORKS[0];
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--brand-bege-light)" }}>
@@ -39,11 +126,15 @@ function ArtworkDetail({ slug }: { slug: string }) {
           </Link>
 
           <div className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-start transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-            {/* Image */}
+            {/* Image + Audio */}
             <div>
               <div className="overflow-hidden" style={{ border: "1px solid var(--brand-sand)" }}>
                 <GalleryImage src={artwork.imageUrl} alt={artwork.title} className="w-full" />
               </div>
+              {/* Audio player — shown only when audioUrl exists */}
+              {(artwork as any).audioUrl && (
+                <ArtworkAudioPlayer audioUrl={(artwork as any).audioUrl} title={artwork.title} />
+              )}
             </div>
 
             {/* Info */}
@@ -101,6 +192,7 @@ function ArtworkDetail({ slug }: { slug: string }) {
   );
 }
 
+// ─── Gallery ──────────────────────────────────────────────────────────────────
 function ObrasGallery() {
   useSEO({
     title: "Obras de Arte – Série Fio",
@@ -129,7 +221,7 @@ function ObrasGallery() {
       )}
 
       <div className="pt-24 pb-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           {/* Header */}
           <div className={`mb-16 transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <span className="section-eyebrow block mb-3">Obras de Arte</span>
@@ -161,10 +253,17 @@ function ObrasGallery() {
                     <span className="text-sm font-medium" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>
                       {artwork.priceDisplay}
                     </span>
-                    <span className={`text-xs px-2 py-0.5 ${artwork.isAvailable ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-500"}`}
-                      style={{ fontFamily: "'Inter', sans-serif" }}>
-                      {artwork.isAvailable ? "Disponível" : "Vendida"}
-                    </span>
+                    <div className="flex items-center gap-1">
+                      {(artwork as any).audioUrl && (
+                        <span title="Narração disponível">
+                          <Headphones size={12} style={{ color: "var(--brand-terracota)", opacity: 0.7 }} />
+                        </span>
+                      )}
+                      <span className={`text-xs px-2 py-0.5 ${artwork.isAvailable ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-500"}`}
+                        style={{ fontFamily: "'Inter', sans-serif" }}>
+                        {artwork.isAvailable ? "Disponível" : "Vendida"}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </Link>

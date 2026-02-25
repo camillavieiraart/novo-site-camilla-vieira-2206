@@ -103,6 +103,8 @@ export const artworks = mysqlTable("artworks", {
   poeticText: text("poeticText"),
   imageUrl: text("imageUrl").notNull(),
   additionalImages: text("additionalImages"), // JSON array
+  audioUrl: text("audioUrl"), // CDN URL for audio narration
+  videoUrl: text("videoUrl"), // CDN URL for video narration
   price: decimal("price", { precision: 10, scale: 2 }),
   priceDisplay: varchar("priceDisplay", { length: 50 }),
   isAvailable: boolean("isAvailable").default(true),

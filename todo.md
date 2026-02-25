@@ -132,3 +132,34 @@
 
 ## Correção Urgente - Fotos de Capa na Home (Fev 2026)
 - [x] Corrigir seção de portfólio da home para buscar coverImageUrl do banco em vez de usar constantes hardcoded
+
+## Publicação Posts de Referência + Menu (Fev 2026)
+- [ ] Publicar "A IA não vai te salvar" no blog com SEO completo
+- [ ] Publicar "Fotografia não é registro" no blog com SEO completo
+- [ ] Publicar "Wong Kar-wai e a luz" no blog com SEO completo
+- [ ] Adicionar Família, Casamentos e Editoriais ao dropdown do menu de portfólio
+
+## Correções Adicionais (Fev 2026)
+- [ ] Corrigir título "Ensaios com Alma" quebrando na seção 4 da home
+
+## Obras de Arte - Catálogo Real (Fev 2026)
+- [ ] Atualizar obras da Série Fio no banco com dados reais do catálogo (título, técnica, dimensões, descrição, imagem — sem preço)
+
+## Melhoria Experiência de Leitura do Blog (Fev 2026)
+- [x] Melhorar tipografia, espaçamento entre parágrafos, largura de leitura e hierarquia visual da página de post
+- [x] Adicionar campos audioUrl e videoUrl ao schema das obras da Série Fio
+- [x] Implementar player de áudio com autoplay na página das obras
+
+## Admin Completo - Cerâmica e Projetos Especiais (Fev 2026)
+- [x] Criar CeramicsAdmin no painel admin com CRUD completo
+- [x] Criar SpecialProjectsAdmin no painel admin com CRUD completo
+- [x] Integrar CeramicsAdmin e SpecialProjectsAdmin no Admin.tsx
+- [x] Adicionar campos audioUrl e videoUrl ao formulário de obras no admin
+
+## Blog Imagético - Post Wong Kar-wai (Fev 2026)
+- [x] Buscar imagens reais dos filmes de Wong Kar-wai
+- [x] Gerar 4 imagens com IA para ilustrar conceitos do post
+- [x] Fazer upload de todas as imagens para o CDN
+- [x] Criar post completo de Wong Kar-wai com imagens integradas no HTML
+- [x] Melhorar CSS do blog: post-figure, post-figure--wide, post-figure--side-by-side, post-lead, post-note
+- [x] Atualizar agente de blog para gerar imagens inline em novos posts

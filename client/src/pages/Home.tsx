@@ -276,7 +276,7 @@ function EnsaiosSection({ isActive }: { isActive: boolean }) {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
         <div className={`text-center mb-8 md:mb-12 transition-all duration-800 ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
           <span className="section-eyebrow block mb-3">Portfólio</span>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium whitespace-nowrap" style={{ color: "var(--brand-marrom-deep)" }}>
+          <h2 className="font-serif text-2xl sm:text-3xl md:text-5xl font-medium" style={{ color: "var(--brand-marrom-deep)", whiteSpace: 'nowrap' }}>
             Ensaios com Alma
           </h2>
         </div>

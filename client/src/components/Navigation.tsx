@@ -59,6 +59,9 @@ export function Navigation({ transparent = false }: NavigationProps) {
                   <Link href="/portfolio/ensaios-femininos" className="dropdown-item">Ensaios Femininos</Link>
                   <Link href="/portfolio/gestante" className="dropdown-item">Gestante</Link>
                   <Link href="/portfolio/profissional" className="dropdown-item">Profissional</Link>
+                  <Link href="/portfolio/familia" className="dropdown-item">Família</Link>
+                  <Link href="/portfolio/casamentos" className="dropdown-item">Casamentos</Link>
+                  <Link href="/portfolio/editoriais" className="dropdown-item">Editoriais</Link>
                   <Link href="/fotografia" className="dropdown-item">Fotografia Autoral</Link>
                   <Link href="/ceramica" className="dropdown-item">Cerâmica</Link>
                   <Link href="/projetos" className="dropdown-item">Projetos Especiais</Link>
@@ -128,6 +131,9 @@ export function Navigation({ transparent = false }: NavigationProps) {
             <Link href="/portfolio/ensaios-femininos" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Ensaios Femininos</Link>
             <Link href="/portfolio/gestante" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Gestante</Link>
             <Link href="/portfolio/profissional" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Profissional</Link>
+            <Link href="/portfolio/familia" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Família</Link>
+            <Link href="/portfolio/casamentos" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Casamentos</Link>
+            <Link href="/portfolio/editoriais" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Editoriais</Link>
           </div>
 
           {/* Group: Fotografia Autoral */}

@@ -100,3 +100,6 @@
 - [ ] GEO: llms.txt para indexação por IAs (ChatGPT, Perplexity, Claude)
 - [ ] GEO: FAQ estruturado com Schema.org FAQPage
 - [ ] Performance: lazy loading nativo em imagens
+
+## Correção Mobile - Newsletter Popup (Fev 2026)
+- [x] Corrigir popup de newsletter no mobile: conteúdo extravasando a caixa, tamanho e padding responsivos

@@ -3,7 +3,7 @@ import { X, Mail, ArrowRight, Sparkles } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 
 const STORAGE_KEY = "camilla_newsletter_dismissed";
-const POPUP_DELAY_MS = 6000; // 6 seconds after page load
+const POPUP_DELAY_MS = 6000;
 
 export function NewsletterPopup() {
   const [isVisible, setIsVisible] = useState(false);
@@ -15,7 +15,6 @@ export function NewsletterPopup() {
   const subscribe = trpc.newsletter.subscribe.useMutation({
     onSuccess: () => {
       setSubmitted(true);
-      // Auto-close after 3 seconds on success
       setTimeout(() => {
         setIsVisible(false);
         localStorage.setItem(STORAGE_KEY, Date.now().toString());
@@ -27,17 +26,12 @@ export function NewsletterPopup() {
   });
 
   useEffect(() => {
-    // Check if user already dismissed or subscribed recently (within 30 days)
     const dismissed = localStorage.getItem(STORAGE_KEY);
     if (dismissed) {
       const daysSince = (Date.now() - parseInt(dismissed)) / (1000 * 60 * 60 * 24);
       if (daysSince < 30) return;
     }
-
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, POPUP_DELAY_MS);
-
+    const timer = setTimeout(() => setIsVisible(true), POPUP_DELAY_MS);
     return () => clearTimeout(timer);
   }, []);
 
@@ -49,10 +43,7 @@ export function NewsletterPopup() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!email) {
-      setError("Por favor, informe seu e-mail.");
-      return;
-    }
+    if (!email) { setError("Por favor, informe seu e-mail."); return; }
     subscribe.mutate({ email, name: name || undefined, source: "popup" });
   };
 
@@ -67,20 +58,23 @@ export function NewsletterPopup() {
         aria-hidden="true"
       />
 
-      {/* Popup */}
+      {/* Popup container — uses inset padding so it never touches screen edges */}
       <div
-        className="fixed z-[201] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md mx-4"
-        style={{ animation: "popupEnter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards" }}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Inscrição na newsletter"
+        className="fixed z-[201] inset-0 flex items-center justify-center p-4"
+        style={{ pointerEvents: "none" }}
       >
         <div
-          className="relative rounded-2xl overflow-hidden shadow-2xl"
+          className="w-full relative rounded-2xl overflow-hidden shadow-2xl"
           style={{
+            maxWidth: "420px",
+            pointerEvents: "auto",
             background: "linear-gradient(135deg, var(--brand-marrom-deep) 0%, #3a2010 100%)",
             border: "1px solid rgba(245,230,211,0.15)",
+            animation: "popupEnter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
           }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Inscrição na newsletter"
         >
           {/* Decorative top accent */}
           <div
@@ -91,35 +85,45 @@ export function NewsletterPopup() {
           {/* Close button */}
           <button
             onClick={handleDismiss}
-            className="absolute top-4 right-4 p-1.5 rounded-full transition-all duration-200 hover:bg-white/10 border-none cursor-pointer"
+            className="absolute top-3 right-3 p-2 rounded-full transition-all duration-200 hover:bg-white/10 border-none cursor-pointer z-10"
             style={{ color: "rgba(245,230,211,0.5)" }}
             aria-label="Fechar"
           >
             <X size={18} />
           </button>
 
-          <div className="p-8 sm:p-10">
+          {/* Content — compact padding on mobile */}
+          <div className="px-6 py-7 sm:px-8 sm:py-9">
             {!submitted ? (
               <>
                 {/* Icon */}
-                <div className="flex justify-center mb-6">
+                <div className="flex justify-center mb-4">
                   <div
-                    className="w-14 h-14 rounded-full flex items-center justify-center"
+                    className="w-12 h-12 rounded-full flex items-center justify-center"
                     style={{ background: "rgba(201,112,100,0.15)", border: "1px solid rgba(201,112,100,0.3)" }}
                   >
-                    <Sparkles size={22} style={{ color: "var(--brand-terracota)" }} />
+                    <Sparkles size={20} style={{ color: "var(--brand-terracota)" }} />
                   </div>
                 </div>
 
                 {/* Heading */}
-                <div className="text-center mb-6">
-                  <p className="text-xs tracking-[0.3em] uppercase mb-3" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>
+                <div className="text-center mb-5">
+                  <p
+                    className="text-xs tracking-[0.25em] uppercase mb-2"
+                    style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}
+                  >
                     Ateliê Digital
                   </p>
-                  <h2 className="font-serif text-3xl font-medium mb-3" style={{ color: "var(--brand-bege)" }}>
+                  <h2
+                    className="font-serif text-2xl sm:text-3xl font-medium mb-2"
+                    style={{ color: "var(--brand-bege)" }}
+                  >
                     Fique por dentro
                   </h2>
-                  <p className="text-sm leading-relaxed" style={{ color: "rgba(245,230,211,0.65)", fontFamily: "'Inter', sans-serif" }}>
+                  <p
+                    className="text-xs sm:text-sm leading-relaxed"
+                    style={{ color: "rgba(245,230,211,0.65)", fontFamily: "'Inter', sans-serif" }}
+                  >
                     Receba novidades sobre obras, ensaios, mentorias e o universo criativo da Camilla Vieira.
                   </p>
                 </div>
@@ -131,12 +135,13 @@ export function NewsletterPopup() {
                     placeholder="Seu nome (opcional)"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg text-sm outline-none transition-all duration-200"
+                    className="w-full px-3 py-2.5 rounded-lg text-sm outline-none transition-all duration-200"
                     style={{
                       background: "rgba(245,230,211,0.08)",
                       border: "1px solid rgba(245,230,211,0.15)",
                       color: "var(--brand-bege)",
                       fontFamily: "'Inter', sans-serif",
+                      boxSizing: "border-box",
                     }}
                     onFocus={(e) => { e.target.style.borderColor = "rgba(201,112,100,0.5)"; }}
                     onBlur={(e) => { e.target.style.borderColor = "rgba(245,230,211,0.15)"; }}
@@ -147,12 +152,13 @@ export function NewsletterPopup() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full px-4 py-3 rounded-lg text-sm outline-none transition-all duration-200"
+                    className="w-full px-3 py-2.5 rounded-lg text-sm outline-none transition-all duration-200"
                     style={{
                       background: "rgba(245,230,211,0.08)",
                       border: "1px solid rgba(245,230,211,0.15)",
                       color: "var(--brand-bege)",
                       fontFamily: "'Inter', sans-serif",
+                      boxSizing: "border-box",
                     }}
                     onFocus={(e) => { e.target.style.borderColor = "rgba(201,112,100,0.5)"; }}
                     onBlur={(e) => { e.target.style.borderColor = "rgba(245,230,211,0.15)"; }}
@@ -167,38 +173,37 @@ export function NewsletterPopup() {
                   <button
                     type="submit"
                     disabled={subscribe.isPending}
-                    className="w-full py-3 px-6 rounded-lg text-sm font-medium tracking-[0.1em] uppercase flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer border-none"
+                    className="w-full py-2.5 px-4 rounded-lg text-xs sm:text-sm font-medium tracking-[0.08em] uppercase flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer border-none"
                     style={{
                       background: subscribe.isPending ? "rgba(201,112,100,0.5)" : "var(--brand-terracota)",
                       color: "var(--brand-bege)",
                       fontFamily: "'Inter', sans-serif",
                     }}
-                    onMouseEnter={(e) => { if (!subscribe.isPending) (e.target as HTMLElement).style.background = "#b5604a"; }}
-                    onMouseLeave={(e) => { if (!subscribe.isPending) (e.target as HTMLElement).style.background = "var(--brand-terracota)"; }}
                   >
                     {subscribe.isPending ? "Inscrevendo..." : (
-                      <>Quero receber novidades <ArrowRight size={14} /></>
+                      <>Quero receber novidades <ArrowRight size={13} /></>
                     )}
                   </button>
                 </form>
 
-                {/* Privacy note */}
-                <p className="text-center text-xs mt-4" style={{ color: "rgba(245,230,211,0.35)", fontFamily: "'Inter', sans-serif" }}>
+                <p
+                  className="text-center text-xs mt-3"
+                  style={{ color: "rgba(245,230,211,0.35)", fontFamily: "'Inter', sans-serif" }}
+                >
                   Sem spam. Cancele quando quiser.
                 </p>
               </>
             ) : (
-              /* Success state */
-              <div className="text-center py-4">
-                <div className="flex justify-center mb-5">
+              <div className="text-center py-2">
+                <div className="flex justify-center mb-4">
                   <div
-                    className="w-16 h-16 rounded-full flex items-center justify-center"
+                    className="w-14 h-14 rounded-full flex items-center justify-center"
                     style={{ background: "rgba(201,112,100,0.15)", border: "1px solid rgba(201,112,100,0.4)" }}
                   >
-                    <Mail size={26} style={{ color: "var(--brand-terracota)" }} />
+                    <Mail size={24} style={{ color: "var(--brand-terracota)" }} />
                   </div>
                 </div>
-                <h3 className="font-serif text-2xl font-medium mb-3" style={{ color: "var(--brand-bege)" }}>
+                <h3 className="font-serif text-2xl font-medium mb-2" style={{ color: "var(--brand-bege)" }}>
                   Bem-vinda ao ateliê!
                 </h3>
                 <p className="text-sm leading-relaxed" style={{ color: "rgba(245,230,211,0.65)", fontFamily: "'Inter', sans-serif" }}>
@@ -212,8 +217,8 @@ export function NewsletterPopup() {
 
       <style>{`
         @keyframes popupEnter {
-          from { opacity: 0; transform: translate(-50%, -48%) scale(0.95); }
-          to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+          from { opacity: 0; transform: scale(0.95); }
+          to   { opacity: 1; transform: scale(1); }
         }
       `}</style>
     </>

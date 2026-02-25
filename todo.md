@@ -113,3 +113,6 @@
 ## Substituição de Fotos Placeholder na Home (Fev 2026)
 - [x] Upload das 4 fotos reais para o CDN (Fotografia Autoral, Série Fio, Maternidade, foto da mão com fio)
 - [x] Substituir imagens de placeholder na seção Fotografia Autoral da home e grade 2x2 da Série Fio
+
+## Correção Fotos de Capa das Categorias na Home (Fev 2026)
+- [x] Corrigir fotos de capa das categorias Ensaios Femininos, Gestante e Profissional — upload para CDN e atualização no banco

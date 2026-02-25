@@ -68,3 +68,8 @@
 - [x] Home mobile: hero, manifesto, triptych (1 coluna), ensaios (1 coluna), obras adaptados
 - [x] Obras de Arte mobile: grid 2 colunas, texto justificado, detalhe da obra responsivo
 - [x] Portfolio, Sobre, Mentorias, Contato: padding, font-size e layout mobile corrigidos
+
+## Correções Visuais (Fev 2026)
+- [x] Imagem 1: Título "Ensaios com Alma" quebrando no mobile — ajustar font-size e white-space
+- [x] Imagem 2: Fotos subindo por baixo da navbar — corrigir z-index e padding-top da seção de obras
+- [x] Imagem 3: Vídeo manifesto horizontal (16:9) no desktop, vertical (9:16) no mobile

@@ -158,10 +158,10 @@ function ManifestoSection({ isActive }: { isActive: boolean }) {
           </div>
         </div>
 
-        {/* Video */}
+        {/* Video — 16:9 horizontal on desktop, 9:16 vertical on mobile */}
         <div className={`relative transition-all duration-1000 delay-[800ms] ${isActive ? "opacity-100 scale-100" : "opacity-0 scale-95"} hidden lg:block`}>
-          <div className="relative aspect-[9/16] max-h-[70vh] overflow-hidden"
-            style={{ border: "1px solid var(--brand-sand)" }}>
+          <div className="relative w-full overflow-hidden"
+            style={{ border: "1px solid var(--brand-sand)", aspectRatio: "16/9" }}>
             {video.type === "native" ? (
               <video src={video.src} controls className="w-full h-full object-cover" />
             ) : video.type === "youtube" || video.type === "vimeo" ? (
@@ -198,8 +198,8 @@ function ManifestoSection({ isActive }: { isActive: boolean }) {
 // ─── Section 3: Fotografia Autoral (Triptych) ────────────────────────────────
 function FotografiaSection({ isActive }: { isActive: boolean }) {
   return (
-    <section className="snap-section relative overflow-hidden">
-      {/* Triptych */}
+    <section className="snap-section relative overflow-hidden" style={{ paddingTop: 0 }}>
+      {/* Triptych — images fill the full section, nav is z-50 so it sits on top */}
       <div className="triptych">
         {[
           { src: PHOTO1, label: "Série Fio" },
@@ -251,7 +251,7 @@ function EnsaiosSection({ isActive }: { isActive: boolean }) {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
         <div className={`text-center mb-8 md:mb-12 transition-all duration-800 ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
           <span className="section-eyebrow block mb-3">Portfólio</span>
-          <h2 className="font-serif text-4xl md:text-5xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium whitespace-nowrap" style={{ color: "var(--brand-marrom-deep)" }}>
             Ensaios com Alma
           </h2>
         </div>

@@ -95,6 +95,19 @@ export async function upsertPortfolioCategory(data: typeof portfolioCategories.$
     await db.insert(portfolioCategories).values(data);
   }
 }
+export async function getPortfolioCategoryBySlug(slug: string) {
+  const db = await getDb(); if (!db) return undefined;
+  const r = await db.select().from(portfolioCategories).where(eq(portfolioCategories.slug, slug)).limit(1);
+  return r[0];
+}
+export async function getShootsByCategorySlug(slug: string) {
+  const db = await getDb(); if (!db) return [];
+  const cat = await getPortfolioCategoryBySlug(slug);
+  if (!cat) return [];
+  return db.select().from(portfolioShoots)
+    .where(and(eq(portfolioShoots.categoryId, cat.id), eq(portfolioShoots.isActive, true)))
+    .orderBy(asc(portfolioShoots.order));
+}
 export async function deletePortfolioCategory(id: number) {
   const db = await getDb(); if (!db) return;
   await db.delete(portfolioCategories).where(eq(portfolioCategories.id, id));

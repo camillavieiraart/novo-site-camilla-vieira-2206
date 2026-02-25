@@ -1,0 +1,46 @@
+{
+  "query": "SELECT id, slug, name, coverImageUrl FROM portfolio_categories ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT id, slug, name, coverImageUrl FROM portfolio_categories ORDER BY id;",
+  "rows": [
+    {
+      "id": "1",
+      "slug": "ensaios-femininos",
+      "name": "Ensaios Femininos",
+      "coverImageUrl": "NULL"
+    },
+    {
+      "id": "2",
+      "slug": "gestante",
+      "name": "Gestante",
+      "coverImageUrl": "NULL"
+    },
+    {
+      "id": "3",
+      "slug": "profissional",
+      "name": "Profissional",
+      "coverImageUrl": "NULL"
+    },
+    {
+      "id": "4",
+      "slug": "fotografia-autoral",
+      "name": "Fotografia Autoral",
+      "coverImageUrl": "NULL"
+    },
+    {
+      "id": "5",
+      "slug": "ceramica",
+      "name": "Cerâmica",
+      "coverImageUrl": "NULL"
+    },
+    {
+      "id": "6",
+      "slug": "projetos-especiais",
+      "name": "Projetos Especiais",
+      "coverImageUrl": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tslug\tname\tcoverImageUrl\n1\tensaios-femininos\tEnsaios Femininos\tNULL\n2\tgestante\tGestante\tNULL\n3\tprofissional\tProfissional\tNULL\n4\tfotografia-autoral\tFotografia Autoral\tNULL\n5\tceramica\tCerâmica\tNULL\n6\tprojetos-especiais\tProjetos Especiais\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 159
+}

@@ -103,3 +103,9 @@
 
 ## Correção Mobile - Newsletter Popup (Fev 2026)
 - [x] Corrigir popup de newsletter no mobile: conteúdo extravasando a caixa, tamanho e padding responsivos
+
+## Fotos do Portfólio - Curadoria Final (Fev 2026)
+- [x] Inserir 6 categorias no banco (Gestantes, Femininos, Família, Casamentos, Profissional, Editoriais)
+- [x] Inserir 6 ensaios com capa e descrição
+- [x] Inserir 90 fotos (15 por categoria) nas tabelas portfolio_images
+- [x] Corrigir página de detalhe do portfólio para buscar fotos reais do banco (não mais placeholders)

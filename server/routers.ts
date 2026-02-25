@@ -8,6 +8,7 @@ import {
   getSiteSettings, upsertSiteSetting,
   getHomeSections, getAllHomeSections, upsertHomeSection, deleteHomeSection,
   getPortfolioCategories, getAllPortfolioCategories, upsertPortfolioCategory, deletePortfolioCategory,
+  getPortfolioCategoryBySlug, getShootsByCategorySlug,
   getShootsByCategory, getShootBySlug, getAllShoots, upsertShoot, deleteShoot,
   getImagesByShoot, addPortfolioImage, deletePortfolioImage,
   getArtworks, getAllArtworks, getArtworkBySlug, upsertArtwork, deleteArtwork,
@@ -76,6 +77,10 @@ export const appRouter = router({
   categories: router({
     getAll: publicProcedure.query(() => getPortfolioCategories()),
     getAllAdmin: adminProcedure.query(() => getAllPortfolioCategories()),
+    getBySlug: publicProcedure.input(z.object({ slug: z.string() }))
+      .query(({ input }) => getPortfolioCategoryBySlug(input.slug)),
+    getShootsBySlug: publicProcedure.input(z.object({ slug: z.string() }))
+      .query(({ input }) => getShootsByCategorySlug(input.slug)),
     upsert: adminProcedure.input(z.object({
       id: z.number().optional(),
       slug: z.string(),

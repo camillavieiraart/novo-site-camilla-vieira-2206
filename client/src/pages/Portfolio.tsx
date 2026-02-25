@@ -104,61 +104,73 @@ function PortfolioOverview() {
 function PortfolioCategory({ slug }: { slug: string }) {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [visible, setVisible] = useState(false);
-
   useEffect(() => { setTimeout(() => setVisible(true), 200); }, []);
 
-  // Fallback images for demo
-  const demoImages = PLACEHOLDER_IMGS.map((src, i) => ({
-    id: i + 1,
-    imageUrl: src,
-    caption: `Foto ${i + 1}`,
-    order: i,
-    shootId: 1,
-    isActive: true,
-    createdAt: new Date(),
+  // Fetch category and its shoots from the database
+  const { data: category } = trpc.categories.getBySlug.useQuery({ slug });
+  const { data: shoots, isLoading } = trpc.categories.getShootsBySlug.useQuery({ slug });
+
+  // Collect all shoot IDs to fetch images
+  const shootIds = shoots?.map(s => s.id) ?? [];
+
+  // Fetch images for each shoot individually
+  const shoot0 = trpc.portfolioImages.getByShoot.useQuery({ shootId: shootIds[0] ?? 0 }, { enabled: shootIds.length > 0 });
+  const shoot1 = trpc.portfolioImages.getByShoot.useQuery({ shootId: shootIds[1] ?? 0 }, { enabled: shootIds.length > 1 });
+  const shoot2 = trpc.portfolioImages.getByShoot.useQuery({ shootId: shootIds[2] ?? 0 }, { enabled: shootIds.length > 2 });
+
+  const allImages = [
+    ...(shoot0.data ?? []),
+    ...(shoot1.data ?? []),
+    ...(shoot2.data ?? []),
+  ];
+
+  const displayName = category?.name || slug.replace(/-/g, " ");
+  const description = category?.description || "";
+
+  // Use real images if available, otherwise placeholder
+  const images = allImages.length > 0 ? allImages : PLACEHOLDER_IMGS.map((src, i) => ({
+    id: i + 1, imageUrl: src, caption: `Foto ${i + 1}`, order: i, shootId: 1, isActive: true, createdAt: new Date(),
   }));
-
-  const categoryNames: Record<string, string> = {
-    "ensaios-femininos": "Ensaios Femininos",
-    "gestante": "Gestante",
-    "gestantes": "Gestante",
-    "profissional": "Profissional",
-  };
-
-  const name = categoryNames[slug] || slug.replace(/-/g, " ");
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--brand-bege-light)" }}>
       <Navigation />
       {lightboxSrc && <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
-
       <div className="pt-24 pb-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <Link href="/portfolio" className="inline-flex items-center gap-2 text-xs tracking-widest uppercase no-underline mb-10 transition-opacity hover:opacity-100 opacity-60"
             style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
             <ArrowLeft size={14} /> Portfólio
           </Link>
-
           <div className={`mb-12 transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <span className="section-eyebrow block mb-3">Portfólio</span>
-            <h1 className="font-serif text-5xl md:text-6xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>{name}</h1>
+            <h1 className="font-serif text-5xl md:text-6xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>{displayName}</h1>
+            {description && (
+              <p className="mt-4 text-sm leading-relaxed max-w-xl" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>{description}</p>
+            )}
             <div className="divider-terracota mt-4" />
           </div>
-
-          {/* Masonry-style grid */}
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
-            {demoImages.map((img, i) => (
-              <div key={img.id}
-                className={`break-inside-avoid cursor-pointer transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-                style={{ transitionDelay: `${i * 80}ms` }}
-                onClick={() => setLightboxSrc(img.imageUrl)}>
-                <div className="img-hover overflow-hidden" style={{ border: "1px solid var(--brand-sand)" }}>
-                  <GalleryImage src={img.imageUrl} alt={img.caption || ""} className="w-full" style={{ filter: "grayscale(15%)" }} />
-                  <div className="img-hover-overlay" />
+          {isLoading ? (
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+              {Array.from({ length: 9 }).map((_, i) => (
+                <div key={i} className="break-inside-avoid" style={{ aspectRatio: "4/5", background: "var(--brand-sand)", border: "1px solid var(--brand-sand)", opacity: 0.4 }} />
+              ))}
+            </div>
+          ) : (
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+              {images.map((img, i) => (
+                <div key={img.id}
+                  className={`break-inside-avoid cursor-pointer transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+                  style={{ transitionDelay: `${i * 60}ms` }}
+                  onClick={() => setLightboxSrc(img.imageUrl)}>
+                  <div className="img-hover overflow-hidden" style={{ border: "1px solid var(--brand-sand)" }}>
+                    <GalleryImage src={img.imageUrl} alt={img.caption || ""} className="w-full" style={{ filter: "grayscale(15%)" }} />
+                    <div className="img-hover-overlay" />
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       <Footer />

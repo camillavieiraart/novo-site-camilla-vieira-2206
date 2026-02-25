@@ -48,3 +48,9 @@
 - [x] Atualizar dropdown do Portfólio no Navigation.tsx: Ensaios Femininos, Gestante, Profissional, Fotografia Autoral, Cerâmica, Projetos Especiais
 - [x] Atualizar categorias fallback na página Portfolio.tsx (trocar Masculino por Profissional)
 - [x] Atualizar seção 4 da Home (ensaios) com a nova categoria Profissional
+
+## Upload Direto de Mídia (Fev 2026)
+- [x] Criar componente reutilizável MediaUploader (foto + vídeo) com preview, drag-and-drop e progress bar
+- [x] Integrar MediaUploader no Admin: Obras, Portfólio (categorias + ensaios), Vídeos, Configurações
+- [x] Exibir vídeo nativo (<video>) na seção Manifesto da Home quando URL for arquivo S3
+- [x] Suporte a upload de vídeo direto no Admin (até 500MB) e imagem (até 20MB)

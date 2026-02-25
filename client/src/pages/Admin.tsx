@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import MediaUploader from "@/components/MediaUploader";
 import { Link, useLocation, useRoute } from "wouter";
 import {
   LayoutDashboard, Image, Layers, Star, Video, BookOpen,
@@ -76,43 +77,7 @@ function AdminSidebar({ onClose }: { onClose?: () => void }) {
   );
 }
 
-// ─── Upload helper ────────────────────────────────────────────────────────────
-function ImageUploader({ onUpload, label = "Enviar Imagem", folder = "uploads" }: {
-  onUpload: (url: string) => void;
-  label?: string;
-  folder?: string;
-}) {
-  const [uploading, setUploading] = useState(false);
-  const uploadMutation = trpc.upload.uploadBase64.useMutation({
-    onSuccess: (data) => { onUpload(data.url); setUploading(false); toast.success("Imagem enviada!"); },
-    onError: () => { setUploading(false); toast.error("Erro ao enviar imagem."); },
-  });
-
-  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploading(true);
-    const reader = new FileReader();
-    reader.onload = () => {
-      uploadMutation.mutate({
-        base64: reader.result as string,
-        filename: file.name,
-        contentType: file.type,
-        folder,
-      });
-    };
-    reader.readAsDataURL(file);
-  };
-
-  return (
-    <label className="flex items-center gap-2 cursor-pointer px-4 py-2 text-xs border transition-colors hover:opacity-80"
-      style={{ color: "var(--brand-marrom)", borderColor: "var(--brand-sand)", fontFamily: "'Inter', sans-serif", backgroundColor: "var(--brand-bege)" }}>
-      <Upload size={12} />
-      {uploading ? "Enviando..." : label}
-      <input type="file" accept="image/*" className="hidden" onChange={handleFile} disabled={uploading} />
-    </label>
-  );
-}
+// ─── Upload helper (legacy removed — using MediaUploader component) ──────────
 
 // ─── Dashboard Overview ───────────────────────────────────────────────────────
 function AdminDashboard() {
@@ -242,12 +207,16 @@ function ArtworksAdmin() {
                 <input {...register("priceDisplay")} className="form-input" placeholder="R$ 2.800" />
               </div>
               <div>
-                <label className="form-label">Imagem Principal</label>
-                <div className="flex items-center gap-3">
-                  <input {...register("imageUrl")} className="form-input flex-1" placeholder="URL da imagem" />
-                  <ImageUploader folder="obras" onUpload={(url) => setValue("imageUrl", url)} />
-                </div>
-                {imageUrl && <img src={imageUrl} alt="" className="mt-2 h-24 object-cover" />}
+                <MediaUploader
+                  label="Imagem Principal"
+                  value={imageUrl}
+                  onChange={(url) => setValue("imageUrl", url)}
+                  onClear={() => setValue("imageUrl", "")}
+                  folder="obras"
+                  type="image"
+                  aspectRatio="square"
+                />
+                <input type="hidden" {...register("imageUrl")} />
               </div>
               <div className="flex items-center gap-6">
                 <label className="flex items-center gap-2 cursor-pointer text-sm" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
@@ -518,8 +487,17 @@ function VideosAdmin() {
                 <input {...register("title", { required: true })} className="form-input" />
               </div>
               <div>
-                <label className="form-label">URL do Vídeo (YouTube, Vimeo, etc.) *</label>
-                <input {...register("videoUrl", { required: true })} className="form-input" placeholder="https://youtube.com/watch?v=..." />
+                <label className="form-label">Vídeo</label>
+                <p className="text-xs mb-2" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.7 }}>Faça upload direto ou cole uma URL (YouTube/Vimeo)</p>
+                <MediaUploader
+                  value={watch("videoUrl")}
+                  onChange={(url) => setValue("videoUrl", url)}
+                  onClear={() => setValue("videoUrl", "")}
+                  folder="videos"
+                  type="video"
+                  aspectRatio="video"
+                />
+                <input {...register("videoUrl", { required: true })} className="form-input mt-2" placeholder="Ou cole URL: https://youtube.com/watch?v=..." />
               </div>
               <div>
                 <label className="form-label">Tipo</label>
@@ -532,12 +510,16 @@ function VideosAdmin() {
                 </select>
               </div>
               <div>
-                <label className="form-label">Thumbnail</label>
-                <div className="flex items-center gap-3">
-                  <input {...register("thumbnailUrl")} className="form-input flex-1" placeholder="URL da thumbnail" />
-                  <ImageUploader folder="videos" onUpload={(url) => setValue("thumbnailUrl", url)} label="Enviar Thumb" />
-                </div>
-                {thumbUrl && <img src={thumbUrl} alt="" className="mt-2 h-20 object-cover" />}
+                <MediaUploader
+                  label="Thumbnail"
+                  value={thumbUrl}
+                  onChange={(url) => setValue("thumbnailUrl", url)}
+                  onClear={() => setValue("thumbnailUrl", "")}
+                  folder="videos"
+                  type="image"
+                  aspectRatio="video"
+                />
+                <input type="hidden" {...register("thumbnailUrl")} />
               </div>
               <div>
                 <label className="form-label">Descrição</label>
@@ -660,12 +642,16 @@ function PortfolioAdmin() {
                 <textarea {...regCat("description")} className="form-input min-h-[60px] resize-none" />
               </div>
               <div>
-                <label className="form-label">Imagem de Capa</label>
-                <div className="flex items-center gap-3">
-                  <input {...regCat("coverImageUrl")} className="form-input flex-1" placeholder="URL da imagem" />
-                  <ImageUploader folder="portfolio" onUpload={(url) => setValCat("coverImageUrl", url)} />
-                </div>
-                {coverCat && <img src={coverCat} alt="" className="mt-2 h-20 object-cover" />}
+                <MediaUploader
+                  label="Imagem de Capa"
+                  value={coverCat}
+                  onChange={(url) => setValCat("coverImageUrl", url)}
+                  onClear={() => setValCat("coverImageUrl", "")}
+                  folder="portfolio"
+                  type="image"
+                  aspectRatio="landscape"
+                />
+                <input type="hidden" {...regCat("coverImageUrl")} />
               </div>
               <label className="flex items-center gap-2 cursor-pointer text-sm" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
                 <input type="checkbox" {...regCat("isActive")} className="w-4 h-4" /> Ativo
@@ -709,12 +695,16 @@ function PortfolioAdmin() {
                 <textarea {...regShoot("description")} className="form-input min-h-[60px] resize-none" />
               </div>
               <div>
-                <label className="form-label">Imagem de Capa</label>
-                <div className="flex items-center gap-3">
-                  <input {...regShoot("coverImageUrl")} className="form-input flex-1" placeholder="URL da imagem" />
-                  <ImageUploader folder="portfolio" onUpload={(url) => setValShoot("coverImageUrl", url)} />
-                </div>
-                {coverShoot && <img src={coverShoot} alt="" className="mt-2 h-20 object-cover" />}
+                <MediaUploader
+                  label="Imagem de Capa do Ensaio"
+                  value={coverShoot}
+                  onChange={(url) => setValShoot("coverImageUrl", url)}
+                  onClear={() => setValShoot("coverImageUrl", "")}
+                  folder="portfolio"
+                  type="image"
+                  aspectRatio="portrait"
+                />
+                <input type="hidden" {...regShoot("coverImageUrl")} />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -823,7 +813,41 @@ function SettingsAdmin() {
     <div>
       <h1 className="font-serif text-3xl font-medium mb-8" style={{ color: "var(--brand-marrom-deep)" }}>Configurações</h1>
       <div className="flex flex-col gap-4 max-w-2xl">
-        {SETTINGS.map(({ key, label, placeholder }) => (
+        {/* Vídeo Manifesto com upload direto */}
+        <div className="p-5" style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
+          <label className="form-label mb-2 block">Vídeo Manifesto</label>
+          <p className="text-xs mb-3" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.7 }}>
+            Faça upload do vídeo diretamente ou cole uma URL (YouTube/Vimeo)
+          </p>
+          <MediaUploader
+            value={values["manifesto_video_url"] || ""}
+            onChange={(url) => {
+              setValues(prev => ({ ...prev, manifesto_video_url: url }));
+              upsert.mutate({ key: "manifesto_video_url", value: url });
+              toast.success("Vídeo salvo!");
+            }}
+            onClear={() => {
+              setValues(prev => ({ ...prev, manifesto_video_url: "" }));
+              upsert.mutate({ key: "manifesto_video_url", value: "" });
+            }}
+            folder="videos"
+            type="video"
+            aspectRatio="video"
+          />
+          <div className="flex gap-3 mt-3">
+            <input
+              value={values["manifesto_video_url"] || ""}
+              onChange={e => setValues(prev => ({ ...prev, manifesto_video_url: e.target.value }))}
+              className="form-input flex-1"
+              placeholder="Ou cole URL: https://youtube.com/watch?v=..."
+            />
+            <button onClick={() => save("manifesto_video_url")} className="btn-primary shrink-0">
+              <Check size={14} /> Salvar
+            </button>
+          </div>
+        </div>
+
+        {SETTINGS.filter(s => s.key !== "manifesto_video_url").map(({ key, label, placeholder }) => (
           <div key={key} className="p-5" style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
             <label className="form-label mb-2 block">{label}</label>
             <div className="flex gap-3">

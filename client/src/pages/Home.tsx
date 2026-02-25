@@ -97,7 +97,26 @@ function HeroSection({ onScrollNext }: { onScrollNext: () => void }) {
 }
 
 // ─── Section 2: Manifesto / Video ────────────────────────────────────────────
+function getVideoEmbed(url: string): { type: "native" | "youtube" | "vimeo" | "none"; src: string } {
+  if (!url) return { type: "none", src: "" };
+  // Native video file (S3 or direct)
+  if (url.match(/\.(mp4|webm|mov)$/i)) return { type: "native", src: url };
+  // YouTube
+  const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]+)/);
+  if (ytMatch) return { type: "youtube", src: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=0&rel=0` };
+  // Vimeo
+  const vimeoMatch = url.match(/vimeo\.com\/(?:video\/)?([0-9]+)/);
+  if (vimeoMatch) return { type: "vimeo", src: `https://player.vimeo.com/video/${vimeoMatch[1]}` };
+  // Already an embed URL
+  if (url.includes("embed") || url.includes("player")) return { type: "youtube", src: url };
+  return { type: "none", src: url };
+}
+
 function ManifestoSection({ isActive }: { isActive: boolean }) {
+  const { data: settings } = trpc.settings.getAll.useQuery();
+  const videoUrl = settings?.find(s => s.key === "manifesto_video_url")?.value || "";
+  const video = getVideoEmbed(videoUrl);
+
   const manifestoLines = [
     "Acredito que fotografia é arte.",
     "Não apenas registro — é presença.",
@@ -139,24 +158,36 @@ function ManifestoSection({ isActive }: { isActive: boolean }) {
           </div>
         </div>
 
-        {/* Video placeholder */}
+        {/* Video */}
         <div className={`relative transition-all duration-1000 delay-[800ms] ${isActive ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
           <div className="relative aspect-[9/16] max-h-[70vh] overflow-hidden"
             style={{ border: "1px solid var(--brand-sand)" }}>
-            <img src={PHOTO1} alt="Manifesto Visual" className="w-full h-full object-cover" style={{ filter: "grayscale(40%)" }} />
-            <div className="absolute inset-0 flex items-center justify-center"
-              style={{ background: "rgba(76,48,34,0.3)" }}>
-              <a href="https://youtube.com/@camillavieira.art" target="_blank" rel="noopener noreferrer"
-                className="flex items-center justify-center w-16 h-16 rounded-full transition-transform hover:scale-110"
-                style={{ background: "rgba(245,230,211,0.9)" }}>
-                <Play size={22} style={{ color: "var(--brand-marrom-deep)", marginLeft: "3px" }} />
-              </a>
-            </div>
-            <div className="absolute bottom-4 left-4 right-4">
-              <p className="text-xs tracking-[0.15em] uppercase" style={{ color: "rgba(245,230,211,0.8)", fontFamily: "'Inter', sans-serif" }}>
-                Vídeo Manifesto
-              </p>
-            </div>
+            {video.type === "native" ? (
+              <video src={video.src} controls className="w-full h-full object-cover" />
+            ) : video.type === "youtube" || video.type === "vimeo" ? (
+              <iframe
+                src={video.src}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="Vídeo Manifesto"
+              />
+            ) : (
+              /* Placeholder when no video is set */
+              <>
+                <img src={PHOTO1} alt="Manifesto Visual" className="w-full h-full object-cover" style={{ filter: "grayscale(40%)" }} />
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3"
+                  style={{ background: "rgba(76,48,34,0.4)" }}>
+                  <div className="flex items-center justify-center w-16 h-16 rounded-full"
+                    style={{ background: "rgba(245,230,211,0.9)" }}>
+                    <Play size={22} style={{ color: "var(--brand-marrom-deep)", marginLeft: "3px" }} />
+                  </div>
+                  <p className="text-xs tracking-[0.15em] uppercase" style={{ color: "rgba(245,230,211,0.7)", fontFamily: "'Inter', sans-serif" }}>
+                    Vídeo em breve
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

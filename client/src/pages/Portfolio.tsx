@@ -5,6 +5,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { BrushCorner } from "@/components/BrushStroke";
 import { trpc } from "@/lib/trpc";
+import { GalleryImage } from "@/components/GalleryImage";
 
 const PLACEHOLDER_IMGS = [
   "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80&auto=format&fit=crop",
@@ -72,7 +73,7 @@ function PortfolioOverview() {
                 className={`group block no-underline transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
                 style={{ transitionDelay: `${200 + i * 120}ms` }}>
                 <div className="img-hover aspect-[4/5] mb-5" style={{ border: "1px solid var(--brand-sand)" }}>
-                  <img src={cat.coverImageUrl || PLACEHOLDER_IMGS[i % PLACEHOLDER_IMGS.length]} alt={cat.name} style={{ filter: "grayscale(20%)" }} />
+                  <GalleryImage src={cat.coverImageUrl || PLACEHOLDER_IMGS[i % PLACEHOLDER_IMGS.length]} alt={cat.name} style={{ filter: "grayscale(20%)", width: "100%", height: "100%", objectFit: "cover" }} />
                   <div className="img-hover-overlay" />
                   <div className="absolute bottom-4 left-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span className="text-xs tracking-[0.15em] uppercase" style={{ color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
@@ -145,7 +146,7 @@ function PortfolioCategory({ slug }: { slug: string }) {
                 style={{ transitionDelay: `${i * 80}ms` }}
                 onClick={() => setLightboxSrc(img.imageUrl)}>
                 <div className="img-hover overflow-hidden" style={{ border: "1px solid var(--brand-sand)" }}>
-                  <img src={img.imageUrl} alt={img.caption || ""} className="w-full" style={{ filter: "grayscale(15%)" }} />
+                  <GalleryImage src={img.imageUrl} alt={img.caption || ""} className="w-full" style={{ filter: "grayscale(15%)" }} />
                   <div className="img-hover-overlay" />
                 </div>
               </div>

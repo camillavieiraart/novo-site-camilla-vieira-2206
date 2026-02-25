@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { BrushCorner } from "@/components/BrushStroke";
+import { GalleryImage } from "@/components/GalleryImage";
 
 const PORTRAIT = "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80&auto=format&fit=crop";
 
@@ -33,7 +34,59 @@ export default function Sobre() {
             </div>
             <div className={`transition-all duration-1000 delay-300 ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`}>
               <div className="overflow-hidden" style={{ border: "1px solid rgba(217,204,180,0.2)" }}>
-                <img src={PORTRAIT} alt="Camilla Vieira" className="w-full" style={{ filter: "grayscale(20%)" }} />
+                <GalleryImage src={PORTRAIT} alt="Camilla Vieira" className="w-full" style={{ filter: "grayscale(20%)" }} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SOBRE MIM ─────────────────────────────────────────────────────── */}
+      <section className="py-20 relative overflow-hidden" style={{ backgroundColor: "var(--brand-bege-light)" }}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+          <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            {/* Photo */}
+            <div className="relative">
+              <div className="overflow-hidden" style={{ border: "1px solid var(--brand-sand)", aspectRatio: "4/5" }}>
+                <GalleryImage
+                  src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=800&q=80&auto=format&fit=crop"
+                  alt="Camilla Vieira - Sobre Mim"
+                  className="w-full h-full"
+                  style={{ objectFit: "cover", filter: "sepia(8%)" }}
+                />
+              </div>
+              {/* Decorative label */}
+              <div className="absolute -bottom-4 -right-4 px-5 py-3 hidden sm:block"
+                style={{ backgroundColor: "var(--brand-terracota-dark)", color: "var(--brand-bege-light)" }}>
+                <span className="text-xs tracking-widest uppercase" style={{ fontFamily: "'Inter', sans-serif" }}>Fotógrafa & Artista</span>
+              </div>
+            </div>
+
+            {/* Text */}
+            <div className={`transition-all duration-1000 delay-300 ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`}>
+              <span className="section-eyebrow block mb-4">Sobre Mim</span>
+              <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6" style={{ color: "var(--brand-marrom-deep)" }}>
+                Minha Jornada
+              </h2>
+              <div className="divider-terracota mb-8" />
+              <div className="space-y-5">
+                <p className="text-sm sm:text-base prose-body" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif", lineHeight: "1.9" }}>
+                  Comecei a fotografar por necessidade de guardar o que o tempo insiste em levar. A câmera chegou antes da técnica — chegou como extensão do olhar, como forma de dizer o que as palavras não alcançavam.
+                </p>
+                <p className="text-sm sm:text-base prose-body" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif", lineHeight: "1.9" }}>
+                  Ao longo dos anos, meu trabalho foi se tornando cada vez mais autoral. Os ensaios ganharam alma. A cerâmica entrou como linguagem paralela — a argila como metáfora do que a fotografia não consegue tocar. E então surgiu a série Fio: costura sobre fotografia, o visível e o invisível costurados em uma só imagem.
+                </p>
+                <p className="text-sm sm:text-base prose-body" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif", lineHeight: "1.9" }}>
+                  Hoje, o Ateliê Digital é o espaço onde tudo se encontra: fotografia, arte, cerâmica e mentoria. Um lugar construído com intenção, para quem acredita que imagem é mais do que registro — é presença.
+                </p>
+              </div>
+              <div className="mt-10 flex flex-wrap gap-3">
+                {["Fotografia Autoral", "Série Fio", "Cerâmica", "Mentorias"].map(tag => (
+                  <span key={tag} className="text-xs tracking-widest uppercase px-4 py-2"
+                    style={{ border: "1px solid var(--brand-sand)", color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+                    {tag}
+                  </span>
+                ))}
               </div>
             </div>
           </div>

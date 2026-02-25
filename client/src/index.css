@@ -666,3 +666,20 @@
     hyphens: none;
   }
 }
+
+/* ── GALLERY IMAGE LAZY FADE-IN ─────────────────────────────────────────── */
+/* Images start invisible and fade in once loaded */
+.gallery-img {
+  opacity: 0;
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: scale(1.02);
+}
+.gallery-img.loaded {
+  opacity: 1;
+  transform: scale(1);
+}
+/* Fallback: if JS is disabled or image already cached, still show */
+.gallery-img[data-loaded="true"] {
+  opacity: 1;
+  transform: scale(1);
+}

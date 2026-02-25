@@ -73,3 +73,8 @@
 - [x] Imagem 1: Título "Ensaios com Alma" quebrando no mobile — ajustar font-size e white-space
 - [x] Imagem 2: Fotos subindo por baixo da navbar — corrigir z-index e padding-top da seção de obras
 - [x] Imagem 3: Vídeo manifesto horizontal (16:9) no desktop, vertical (9:16) no mobile
+
+## Melhorias de UX (Fev 2026)
+- [x] Transição suave (fade-in) nas imagens da galeria ao carregar (componente GalleryImage aplicado em Obras e Portfolio)
+- [x] Botão flutuante "voltar ao topo" que aparece após scroll (ScrollToTop global em App.tsx)
+- [x] Seção "Sobre Mim" na página Sobre com foto e parágrafo sobre a jornada na fotografia

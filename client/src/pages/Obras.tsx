@@ -5,6 +5,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { BrushCorner } from "@/components/BrushStroke";
 import { trpc } from "@/lib/trpc";
+import { GalleryImage } from "@/components/GalleryImage";
 
 const PLACEHOLDER_ARTWORKS = [
   { id: 1, title: "Fio I — Raízes", slug: "fio-i-raizes", series: "Fio", year: "2023", technique: "Costura sobre fotografia", dimensions: "40 × 50 cm", description: "Linhas de linho natural que atravessam a imagem como raízes invisíveis, conectando o que foi ao que é.", poeticText: "O fio não costura apenas o tecido — ele costura o tempo.", imageUrl: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 2.800", isAvailable: true },
@@ -39,7 +40,7 @@ function ArtworkDetail({ slug }: { slug: string }) {
             {/* Image */}
             <div>
               <div className="overflow-hidden" style={{ border: "1px solid var(--brand-sand)" }}>
-                <img src={artwork.imageUrl} alt={artwork.title} className="w-full" />
+                <GalleryImage src={artwork.imageUrl} alt={artwork.title} className="w-full" />
               </div>
             </div>
 
@@ -139,7 +140,7 @@ function ObrasGallery() {
                 className={`group block no-underline artwork-card transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
                 style={{ transitionDelay: `${100 + i * 70}ms` }}>
                 <div className="img-hover aspect-square overflow-hidden">
-                  <img src={artwork.imageUrl} alt={artwork.title} style={{ filter: "sepia(10%)" }} />
+                  <GalleryImage src={artwork.imageUrl} alt={artwork.title} style={{ filter: "sepia(10%)", width: "100%", height: "100%", objectFit: "cover" }} />
                   <div className="img-hover-overlay" />
                 </div>
                 <div className="p-4">

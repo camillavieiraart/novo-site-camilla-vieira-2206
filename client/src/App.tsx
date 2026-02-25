@@ -14,6 +14,7 @@ import Fotografia from "./pages/Fotografia";
 import Ceramica from "./pages/Ceramica";
 import Projetos from "./pages/Projetos";
 import Admin from "./pages/Admin";
+import { ScrollToTop } from "./components/ScrollToTop";
 
 function Router() {
   return (
@@ -46,6 +47,7 @@ function App() {
         <TooltipProvider>
           <Toaster position="bottom-right" />
           <Router />
+          <ScrollToTop />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

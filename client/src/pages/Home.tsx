@@ -208,8 +208,8 @@ function FotografiaSection({ isActive }: { isActive: boolean }) {
 function EnsaiosSection({ isActive }: { isActive: boolean }) {
   const categories = [
     { label: "Ensaios Femininos", href: "/portfolio/ensaios-femininos", img: PHOTO2, desc: "Retratos que celebram a autenticidade e a beleza feminina." },
-    { label: "Gestantes", href: "/portfolio/gestantes", img: PHOTO3, desc: "Momentos íntimos que capturam a conexão entre mãe e bebê." },
-    { label: "Masculino", href: "/portfolio/masculino", img: PHOTO1, desc: "Retratos que revelam força, vulnerabilidade e autenticidade." },
+    { label: "Gestante", href: "/portfolio/gestante", img: PHOTO3, desc: "Momentos íntimos que capturam a conexão entre mãe e bebê." },
+    { label: "Profissional", href: "/portfolio/profissional", img: PHOTO1, desc: "Retratos corporativos e profissionais com olhar artístico e autoral." },
   ];
 
   return (

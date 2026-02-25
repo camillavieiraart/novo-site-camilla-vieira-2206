@@ -48,8 +48,11 @@ export function Navigation({ transparent = false }: NavigationProps) {
                 </button>
                 <div className="dropdown-menu">
                   <Link href="/portfolio/ensaios-femininos" className="dropdown-item">Ensaios Femininos</Link>
-                  <Link href="/portfolio/gestantes" className="dropdown-item">Gestantes</Link>
-                  <Link href="/portfolio/masculino" className="dropdown-item">Masculino</Link>
+                  <Link href="/portfolio/gestante" className="dropdown-item">Gestante</Link>
+                  <Link href="/portfolio/profissional" className="dropdown-item">Profissional</Link>
+                  <Link href="/fotografia" className="dropdown-item">Fotografia Autoral</Link>
+                  <Link href="/ceramica" className="dropdown-item">Cerâmica</Link>
+                  <Link href="/projetos" className="dropdown-item">Projetos Especiais</Link>
                   <Link href="/portfolio" className="dropdown-item" style={{ borderTop: "1px solid var(--brand-sand)", marginTop: "0.25rem", paddingTop: "0.75rem" }}>Ver Todos</Link>
                 </div>
               </div>
@@ -109,8 +112,8 @@ export function Navigation({ transparent = false }: NavigationProps) {
             {[
               { href: "/portfolio", label: "Portfólio" },
               { href: "/portfolio/ensaios-femininos", label: "— Ensaios Femininos" },
-              { href: "/portfolio/gestantes", label: "— Gestantes" },
-              { href: "/portfolio/masculino", label: "— Masculino" },
+              { href: "/portfolio/gestante", label: "— Gestante" },
+              { href: "/portfolio/profissional", label: "— Profissional" },
               { href: "/fotografia", label: "Fotografia Autoral" },
               { href: "/fotografia/serie-fio", label: "— Série Fio" },
               { href: "/obras", label: "Obras de Arte" },

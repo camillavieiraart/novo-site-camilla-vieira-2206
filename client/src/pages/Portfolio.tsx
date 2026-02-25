@@ -42,8 +42,8 @@ function PortfolioOverview() {
 
   const fallbackCategories = [
     { id: 1, slug: "ensaios-femininos", name: "Ensaios Femininos", description: "Retratos que celebram a autenticidade e a beleza feminina.", coverImageUrl: PLACEHOLDER_IMGS[0] },
-    { id: 2, slug: "gestantes", name: "Gestantes", description: "Momentos íntimos que capturam a conexão entre mãe e bebê.", coverImageUrl: PLACEHOLDER_IMGS[1] },
-    { id: 3, slug: "masculino", name: "Masculino", description: "Retratos que revelam força, vulnerabilidade e autenticidade.", coverImageUrl: PLACEHOLDER_IMGS[2] },
+    { id: 2, slug: "gestante", name: "Gestante", description: "Momentos íntimos que capturam a conexão entre mãe e bebê.", coverImageUrl: PLACEHOLDER_IMGS[1] },
+    { id: 3, slug: "profissional", name: "Profissional", description: "Retratos corporativos e profissionais com olhar artístico e autoral.", coverImageUrl: PLACEHOLDER_IMGS[2] },
   ];
 
   const items = (categories && categories.length > 0) ? categories : fallbackCategories;
@@ -112,8 +112,9 @@ function PortfolioCategory({ slug }: { slug: string }) {
 
   const categoryNames: Record<string, string> = {
     "ensaios-femininos": "Ensaios Femininos",
-    "gestantes": "Gestantes",
-    "masculino": "Masculino",
+    "gestante": "Gestante",
+    "gestantes": "Gestante",
+    "profissional": "Profissional",
   };
 
   const name = categoryNames[slug] || slug.replace(/-/g, " ");

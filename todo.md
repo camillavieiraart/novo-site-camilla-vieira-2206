@@ -43,3 +43,8 @@
 - [x] Configurações globais (WhatsApp, email, redes sociais, textos)
 - [x] Upload de imagens para S3 via base64
 - [x] Proteção admin (role-based access control)
+
+## Atualização de Menu (Fev 2026)
+- [x] Atualizar dropdown do Portfólio no Navigation.tsx: Ensaios Femininos, Gestante, Profissional, Fotografia Autoral, Cerâmica, Projetos Especiais
+- [x] Atualizar categorias fallback na página Portfolio.tsx (trocar Masculino por Profissional)
+- [x] Atualizar seção 4 da Home (ensaios) com a nova categoria Profissional

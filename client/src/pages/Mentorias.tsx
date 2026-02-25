@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSEO } from "@/hooks/useSEO";
 import { ArrowRight, Clock, Monitor, Users, CheckCircle } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -55,6 +56,12 @@ interface BookingForm {
 }
 
 export default function Mentorias() {
+  useSEO({
+    title: "Mentorias de Fotografia",
+    description: "Mentorias individuais e em grupo com Camilla Vieira para fotógrafos que querem desenvolver olhar autoral, técnica e identidade visual. Presencial em Belo Horizonte ou online.",
+    keywords: "mentoria fotografia, mentoria fotógrafo, fotografia autoral, Camilla Vieira, Belo Horizonte",
+    canonical: "/mentorias",
+  });
   const [visible, setVisible] = useState(false);
   const [selectedMentorship, setSelectedMentorship] = useState<number | null>(null);
   const [formOpen, setFormOpen] = useState(false);

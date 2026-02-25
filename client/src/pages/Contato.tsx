@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSEO } from "@/hooks/useSEO";
 import { Instagram, Youtube, Mail, Phone, MessageCircle } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -16,6 +17,12 @@ interface ContactForm {
 }
 
 export default function Contato() {
+  useSEO({
+    title: "Contato",
+    description: "Entre em contato com Camilla Vieira para agendamento de ensaios fotográficos, aquisição de obras de arte ou mentorias. WhatsApp, e-mail e redes sociais.",
+    keywords: "contato Camilla Vieira, agendamento ensaio, fotografia Belo Horizonte, @camillavieira.art",
+    canonical: "/contato",
+  });
   const [visible, setVisible] = useState(false);
   const [sent, setSent] = useState(false);
 

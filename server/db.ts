@@ -2,8 +2,8 @@ import { and, asc, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import {
   InsertUser, artworks, bookings, ceramics, contactMessages,
-  homeSections, mentorships, portfolioCategories, portfolioImages,
-  portfolioShoots, siteSettings, specialProjects, users, videos,
+  homeSections, mentorships, newsletterSubscribers, portfolioCategories, portfolioImages,
+  portfolioShoots, siteSettings, specialProjects, testimonials, users, videos,
 } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
@@ -283,4 +283,53 @@ export async function getAllContactMessages() {
 export async function markMessageRead(id: number) {
   const db = await getDb(); if (!db) return;
   await db.update(contactMessages).set({ isRead: true }).where(eq(contactMessages.id, id));
+}
+
+// ─── TESTIMONIALS ─────────────────────────────────────────────────────────────
+export async function getPublishedTestimonials() {
+  const db = await getDb(); if (!db) return [];
+  return db.select().from(testimonials)
+    .where(eq(testimonials.isPublished, true))
+    .orderBy(asc(testimonials.order), desc(testimonials.createdAt));
+}
+export async function getAllTestimonials() {
+  const db = await getDb(); if (!db) return [];
+  return db.select().from(testimonials).orderBy(asc(testimonials.order), desc(testimonials.createdAt));
+}
+export async function upsertTestimonial(data: typeof testimonials.$inferInsert & { id?: number }) {
+  const db = await getDb(); if (!db) return;
+  if (data.id) {
+    const { id, ...rest } = data;
+    await db.update(testimonials).set(rest).where(eq(testimonials.id, id));
+  } else {
+    await db.insert(testimonials).values(data);
+  }
+}
+export async function deleteTestimonial(id: number) {
+  const db = await getDb(); if (!db) return;
+  await db.delete(testimonials).where(eq(testimonials.id, id));
+}
+
+// ─── NEWSLETTER ───────────────────────────────────────────────────────────────
+export async function subscribeNewsletter(email: string, name?: string, source?: string) {
+  const db = await getDb(); if (!db) return { success: false, alreadyExists: false };
+  try {
+    await db.insert(newsletterSubscribers).values({ email, name: name ?? null, source: source ?? "website", isActive: true });
+    return { success: true, alreadyExists: false };
+  } catch (e: any) {
+    if (e?.code === "ER_DUP_ENTRY") return { success: true, alreadyExists: true };
+    throw e;
+  }
+}
+export async function getAllNewsletterSubscribers() {
+  const db = await getDb(); if (!db) return [];
+  return db.select().from(newsletterSubscribers).orderBy(desc(newsletterSubscribers.createdAt));
+}
+export async function unsubscribeNewsletter(email: string) {
+  const db = await getDb(); if (!db) return;
+  await db.update(newsletterSubscribers).set({ isActive: false }).where(eq(newsletterSubscribers.email, email));
+}
+export async function deleteNewsletterSubscriber(id: number) {
+  const db = await getDb(); if (!db) return;
+  await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.id, id));
 }

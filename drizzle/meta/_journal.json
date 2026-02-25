@@ -15,6 +15,13 @@
       "when": 1772026238614,
       "tag": "0001_far_payback",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1772033502458,
+      "tag": "0002_hard_spirit",
+      "breakpoints": true
     }
   ]
 }

@@ -78,3 +78,25 @@
 - [x] Transição suave (fade-in) nas imagens da galeria ao carregar (componente GalleryImage aplicado em Obras e Portfolio)
 - [x] Botão flutuante "voltar ao topo" que aparece após scroll (ScrollToTop global em App.tsx)
 - [x] Seção "Sobre Mim" na página Sobre com foto e parágrafo sobre a jornada na fotografia
+
+## Depoimentos, Contato Rápido e Newsletter (Fev 2026)
+- [x] Schema: tabelas testimonials e newsletter_subscribers
+- [x] Rotas tRPC: testimonials (CRUD admin + listagem pública) e newsletter (subscribe + unsubscribe + admin list)
+- [x] Seção Depoimentos na página Sobre com cards elegantes
+- [x] Formulário de contato rápido na página Sobre
+- [x] Widget de inscrição de Newsletter (popup com delay 6s + localStorage para não repetir por 30 dias)
+- [x] Gestão de Depoimentos no Admin (adicionar, editar, publicar/ocultar)
+- [x] Gestão de Assinantes da Newsletter no Admin (listar, remover)
+- [x] Popup de newsletter com delay de 6 segundos após entrada no site (não mostra novamente se já inscrito ou fechado na sessão)
+
+## SEO e GEO (Fev 2026)
+- [ ] Meta tags dinâmicas por página (title, description, keywords, canonical)
+- [ ] Open Graph e Twitter Cards para compartilhamento social
+- [ ] Schema.org JSON-LD: Person, LocalBusiness, ArtGallery, CreativeWork, BreadcrumbList
+- [ ] robots.txt e sitemap.xml dinâmico
+- [ ] Preconnect e preload de fontes e recursos críticos
+- [ ] Atributos alt descritivos em todas as imagens
+- [ ] Estrutura semântica HTML5 (article, section, main, aside, header, footer)
+- [ ] GEO: llms.txt para indexação por IAs (ChatGPT, Perplexity, Claude)
+- [ ] GEO: FAQ estruturado com Schema.org FAQPage
+- [ ] Performance: lazy loading nativo em imagens

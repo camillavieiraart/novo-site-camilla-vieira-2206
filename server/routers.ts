@@ -17,6 +17,8 @@ import {
   getMentorships, getAllMentorships, upsertMentorship, deleteMentorship,
   createBooking, getAllBookings,
   createContactMessage, getAllContactMessages, markMessageRead,
+  getPublishedTestimonials, getAllTestimonials, upsertTestimonial, deleteTestimonial,
+  subscribeNewsletter, getAllNewsletterSubscribers, unsubscribeNewsletter, deleteNewsletterSubscriber,
 } from "./db";
 import { storagePut } from "./storage";
 import { nanoid } from "nanoid";
@@ -273,6 +275,44 @@ export const appRouter = router({
     getAll: adminProcedure.query(() => getAllContactMessages()),
     markRead: adminProcedure.input(z.object({ id: z.number() }))
       .mutation(({ input }) => markMessageRead(input.id)),
+  }),
+
+  // ─── TESTIMONIALS ─────────────────────────────────────────────────────────
+  testimonials: router({
+    getPublished: publicProcedure.query(() => getPublishedTestimonials()),
+    getAll: adminProcedure.query(() => getAllTestimonials()),
+    upsert: adminProcedure.input(z.object({
+      id: z.number().optional(),
+      name: z.string().min(2),
+      role: z.string().optional(),
+      text: z.string().min(10),
+      avatarUrl: z.string().optional(),
+      rating: z.number().min(1).max(5).optional(),
+      isPublished: z.boolean().optional(),
+      order: z.number().optional(),
+    })).mutation(({ input }) => upsertTestimonial(input as any)),
+    delete: adminProcedure.input(z.object({ id: z.number() }))
+      .mutation(({ input }) => deleteTestimonial(input.id)),
+  }),
+
+  // ─── NEWSLETTER ─────────────────────────────────────────────────────────────
+  newsletter: router({
+    subscribe: publicProcedure.input(z.object({
+      email: z.string().email(),
+      name: z.string().optional(),
+      source: z.string().optional(),
+    })).mutation(async ({ input }) => {
+      const result = await subscribeNewsletter(input.email, input.name, input.source ?? "popup");
+      if (result && !result.alreadyExists) {
+        await notifyOwner({ title: "Nova inscrição na newsletter", content: `${input.name ?? ""} (${input.email}) se inscreveu na newsletter.` });
+      }
+      return result ?? { success: true, alreadyExists: false };
+    }),
+    getAll: adminProcedure.query(() => getAllNewsletterSubscribers()),
+    unsubscribe: publicProcedure.input(z.object({ email: z.string().email() }))
+      .mutation(({ input }) => unsubscribeNewsletter(input.email)),
+    delete: adminProcedure.input(z.object({ id: z.number() }))
+      .mutation(({ input }) => deleteNewsletterSubscriber(input.id)),
   }),
 
   // ─── FILE UPLOAD ────────────────────────────────────────────────────────────

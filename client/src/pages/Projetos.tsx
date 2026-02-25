@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSEO } from "@/hooks/useSEO";
 import { Link, useParams } from "wouter";
 import { ArrowLeft, X } from "lucide-react";
 import { Navigation } from "@/components/Navigation";

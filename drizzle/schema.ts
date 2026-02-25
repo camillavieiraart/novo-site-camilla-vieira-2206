@@ -208,6 +208,32 @@ export const contactMessages = mysqlTable("contact_messages", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+// ─── TESTIMONIALS ────────────────────────────────────────────────────────────
+export const testimonials = mysqlTable("testimonials", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 200 }).notNull(),
+  role: varchar("role", { length: 200 }), // ex: "Noiva", "Mãe", "Artista"
+  avatarUrl: text("avatarUrl"),
+  text: text("text").notNull(),
+  rating: int("rating").default(5), // 1-5
+  isPublished: boolean("isPublished").default(true),
+  isFeatured: boolean("isFeatured").default(false),
+  order: int("order").default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// ─── NEWSLETTER SUBSCRIBERS ───────────────────────────────────────────────────
+export const newsletterSubscribers = mysqlTable("newsletter_subscribers", {
+  id: int("id").autoincrement().primaryKey(),
+  email: varchar("email", { length: 320 }).notNull().unique(),
+  name: varchar("name", { length: 200 }),
+  isActive: boolean("isActive").default(true),
+  source: varchar("source", { length: 100 }).default("website"), // website, popup, footer
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
 // ─── TYPES ────────────────────────────────────────────────────────────────────
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
@@ -223,3 +249,6 @@ export type Video = typeof videos.$inferSelect;
 export type Mentorship = typeof mentorships.$inferSelect;
 export type Booking = typeof bookings.$inferSelect;
 export type ContactMessage = typeof contactMessages.$inferSelect;
+export type Testimonial = typeof testimonials.$inferSelect;
+export type InsertTestimonial = typeof testimonials.$inferInsert;
+export type NewsletterSubscriber = typeof newsletterSubscribers.$inferSelect;

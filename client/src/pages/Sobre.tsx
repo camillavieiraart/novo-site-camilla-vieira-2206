@@ -1,14 +1,289 @@
 import { useEffect, useState } from "react";
+import { useSEO } from "@/hooks/useSEO";
 import { Link } from "wouter";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Star, Send, Phone, Mail, Instagram } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { BrushCorner } from "@/components/BrushStroke";
 import { GalleryImage } from "@/components/GalleryImage";
+import { trpc } from "@/lib/trpc";
 
 const PORTRAIT = "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80&auto=format&fit=crop";
 
+// ─── Testimonials Section ─────────────────────────────────────────────────────
+function TestimonialsSection({ visible }: { visible: boolean }) {
+  const { data: testimonials, isLoading } = trpc.testimonials.getPublished.useQuery();
+
+  if (isLoading) return null;
+  if (!testimonials || testimonials.length === 0) return null;
+
+  return (
+    <section className="py-20 relative overflow-hidden" style={{ backgroundColor: "var(--brand-bege)" }}>
+      <BrushCorner position="tl" color="#8B6F47" delay={300} />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className={`text-center mb-14 transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+          <span className="section-eyebrow block mb-4">Depoimentos</span>
+          <h2 className="font-serif text-4xl md:text-5xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>
+            O que dizem sobre meu trabalho
+          </h2>
+          <div className="divider-terracota mx-auto mt-6" />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {testimonials.map((t, i) => (
+            <div
+              key={t.id}
+              className={`p-7 flex flex-col transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+              style={{
+                transitionDelay: `${300 + i * 120}ms`,
+                backgroundColor: "var(--brand-bege-light)",
+                border: "1px solid var(--brand-sand)",
+              }}
+            >
+              {/* Stars */}
+              {t.rating && (
+                <div className="flex gap-1 mb-4">
+                  {Array.from({ length: 5 }).map((_, si) => (
+                    <Star
+                      key={si}
+                      size={14}
+                      fill={si < t.rating! ? "var(--brand-terracota)" : "transparent"}
+                      style={{ color: "var(--brand-terracota)" }}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Quote */}
+              <p className="text-sm leading-relaxed flex-1 mb-6 italic"
+                style={{ color: "var(--brand-marrom)", fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", lineHeight: "1.8" }}>
+                "{t.text}"
+              </p>
+
+              {/* Author */}
+              <div className="flex items-center gap-3">
+                {t.avatarUrl ? (
+                  <img
+                    src={t.avatarUrl}
+                    alt={t.name}
+                    className="w-10 h-10 rounded-full object-cover"
+                    style={{ border: "1px solid var(--brand-sand)" }}
+                  />
+                ) : (
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium"
+                    style={{ backgroundColor: "var(--brand-sand)", color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}
+                  >
+                    {t.name.charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <div>
+                  <p className="text-sm font-medium" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}>
+                    {t.name}
+                  </p>
+                  {t.role && (
+                    <p className="text-xs" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+                      {t.role}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Quick Contact Form ───────────────────────────────────────────────────────
+function QuickContactSection({ visible }: { visible: boolean }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+
+  const sendMessage = trpc.contact.send.useMutation({
+    onSuccess: () => {
+      setSubmitted(true);
+      setName(""); setEmail(""); setMessage("");
+    },
+    onError: (err) => {
+      setError(err.message || "Erro ao enviar mensagem. Tente novamente.");
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    if (!name || !email || !message) {
+      setError("Por favor, preencha todos os campos obrigatórios.");
+      return;
+    }
+    sendMessage.mutate({ name, email, message, subject: "Contato via página Sobre" });
+  };
+
+  return (
+    <section className="py-20 relative overflow-hidden" style={{ backgroundColor: "var(--brand-marrom-deep)" }}>
+      <BrushCorner position="tr" color="#F5E6D3" delay={400} />
+      <BrushCorner position="bl" color="#F5E6D3" delay={700} />
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+          {/* Left: Info */}
+          <div className={`transition-all duration-1000 delay-200 ${visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"}`}>
+            <span className="section-eyebrow block mb-4" style={{ color: "rgba(201,112,100,0.9)" }}>Contato Rápido</span>
+            <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6" style={{ color: "var(--brand-bege)" }}>
+              Vamos conversar?
+            </h2>
+            <div className="mb-8" style={{ width: "48px", height: "1px", backgroundColor: "rgba(201,112,100,0.6)" }} />
+            <p className="text-sm leading-relaxed mb-10" style={{ color: "rgba(245,230,211,0.7)", fontFamily: "'Inter', sans-serif", lineHeight: "1.9" }}>
+              Seja para um ensaio fotográfico, uma obra da Série Fio, uma mentoria ou apenas para trocar uma ideia — estou aqui.
+            </p>
+
+            {/* Contact info */}
+            <div className="space-y-4">
+              {[
+                { icon: <Mail size={16} />, label: "contato@camillavieira.art", href: "mailto:contato@camillavieira.art" },
+                { icon: <Phone size={16} />, label: "WhatsApp", href: "https://wa.me/5531999999999" },
+                { icon: <Instagram size={16} />, label: "@camillavieira.art", href: "https://instagram.com/camillavieira.art" },
+              ].map(({ icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-sm no-underline transition-all duration-200 hover:opacity-80"
+                  style={{ color: "rgba(245,230,211,0.65)", fontFamily: "'Inter', sans-serif" }}
+                >
+                  <span style={{ color: "var(--brand-terracota)" }}>{icon}</span>
+                  {label}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: Form */}
+          <div className={`transition-all duration-1000 delay-400 ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`}>
+            {submitted ? (
+              <div className="text-center py-12">
+                <div
+                  className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
+                  style={{ background: "rgba(201,112,100,0.15)", border: "1px solid rgba(201,112,100,0.4)" }}
+                >
+                  <Send size={22} style={{ color: "var(--brand-terracota)" }} />
+                </div>
+                <h3 className="font-serif text-2xl font-medium mb-3" style={{ color: "var(--brand-bege)" }}>
+                  Mensagem enviada!
+                </h3>
+                <p className="text-sm" style={{ color: "rgba(245,230,211,0.65)", fontFamily: "'Inter', sans-serif" }}>
+                  Obrigada pelo contato. Responderei em breve.
+                </p>
+                <button
+                  onClick={() => setSubmitted(false)}
+                  className="mt-6 text-xs tracking-widest uppercase underline cursor-pointer bg-transparent border-none"
+                  style={{ color: "rgba(245,230,211,0.5)", fontFamily: "'Inter', sans-serif" }}
+                >
+                  Enviar outra mensagem
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {[
+                  { id: "name", label: "Nome *", type: "text", value: name, setter: setName, placeholder: "Seu nome" },
+                  { id: "email", label: "E-mail *", type: "email", value: email, setter: setEmail, placeholder: "seu@email.com" },
+                ].map(({ id, label, type, value, setter, placeholder }) => (
+                  <div key={id}>
+                    <label
+                      htmlFor={id}
+                      className="block text-xs tracking-widest uppercase mb-2"
+                      style={{ color: "rgba(245,230,211,0.5)", fontFamily: "'Inter', sans-serif" }}
+                    >
+                      {label}
+                    </label>
+                    <input
+                      id={id}
+                      type={type}
+                      value={value}
+                      onChange={(e) => setter(e.target.value)}
+                      placeholder={placeholder}
+                      className="w-full px-4 py-3 text-sm outline-none transition-all duration-200"
+                      style={{
+                        background: "rgba(245,230,211,0.06)",
+                        border: "1px solid rgba(245,230,211,0.15)",
+                        color: "var(--brand-bege)",
+                        fontFamily: "'Inter', sans-serif",
+                      }}
+                      onFocus={(e) => { e.target.style.borderColor = "rgba(201,112,100,0.5)"; }}
+                      onBlur={(e) => { e.target.style.borderColor = "rgba(245,230,211,0.15)"; }}
+                    />
+                  </div>
+                ))}
+
+                <div>
+                  <label
+                    htmlFor="message"
+                    className="block text-xs tracking-widest uppercase mb-2"
+                    style={{ color: "rgba(245,230,211,0.5)", fontFamily: "'Inter', sans-serif" }}
+                  >
+                    Mensagem *
+                  </label>
+                  <textarea
+                    id="message"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Como posso te ajudar?"
+                    rows={4}
+                    className="w-full px-4 py-3 text-sm outline-none transition-all duration-200 resize-none"
+                    style={{
+                      background: "rgba(245,230,211,0.06)",
+                      border: "1px solid rgba(245,230,211,0.15)",
+                      color: "var(--brand-bege)",
+                      fontFamily: "'Inter', sans-serif",
+                    }}
+                    onFocus={(e) => { e.target.style.borderColor = "rgba(201,112,100,0.5)"; }}
+                    onBlur={(e) => { e.target.style.borderColor = "rgba(245,230,211,0.15)"; }}
+                  />
+                </div>
+
+                {error && (
+                  <p className="text-xs" style={{ color: "#f87171", fontFamily: "'Inter', sans-serif" }}>
+                    {error}
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={sendMessage.isPending}
+                  className="w-full py-3 px-6 text-sm font-medium tracking-[0.1em] uppercase flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer border-none"
+                  style={{
+                    background: sendMessage.isPending ? "rgba(201,112,100,0.5)" : "var(--brand-terracota)",
+                    color: "var(--brand-bege)",
+                    fontFamily: "'Inter', sans-serif",
+                  }}
+                >
+                  {sendMessage.isPending ? "Enviando..." : (
+                    <>Enviar mensagem <Send size={14} /></>
+                  )}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 export default function Sobre() {
+  useSEO({
+    title: "Sobre Camilla Vieira",
+    description: "Conheça Camilla Vieira, fotógrafa artística e artista visual. Sua filosofia: fotografia é arte — não apenas registro, mas presença e linguagem da alma. Criadora da Série Fio e de cerâmica artística.",
+    keywords: "sobre Camilla Vieira, fotógrafa artística, artista visual, manifesto, série fio, Belo Horizonte",
+    canonical: "/sobre",
+  });
   const [visible, setVisible] = useState(false);
   useEffect(() => { setTimeout(() => setVisible(true), 200); }, []);
 
@@ -162,27 +437,28 @@ export default function Sobre() {
         </div>
       </section>
 
-      {/* Propósito */}
-      <section className="py-20 relative overflow-hidden" style={{ backgroundColor: "var(--brand-marrom-deep)" }}>
-        <BrushCorner position="bl" color="#F5E6D3" delay={400} />
+      {/* ── TESTIMONIALS ──────────────────────────────────────────────────── */}
+      <TestimonialsSection visible={visible} />
+
+      {/* ── QUICK CONTACT ─────────────────────────────────────────────────── */}
+      <QuickContactSection visible={visible} />
+
+      {/* Propósito CTA */}
+      <section className="py-16 relative overflow-hidden" style={{ backgroundColor: "var(--brand-bege-light)" }}>
         <div className="max-w-4xl mx-auto px-6 lg:px-10 text-center relative z-10">
           <div className={`transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-            <span className="section-eyebrow block mb-4" style={{ color: "rgba(201,112,100,0.9)" }}>Propósito</span>
-            <h2 className="font-serif text-4xl md:text-5xl font-medium mb-8" style={{ color: "var(--brand-bege)" }}>
-              Por que faço o que faço
+            <h2 className="font-serif text-3xl md:text-4xl font-medium mb-6" style={{ color: "var(--brand-marrom-deep)" }}>
+              Explore o Ateliê
             </h2>
-            <p className="text-base leading-loose mb-4" style={{ color: "rgba(245,230,211,0.75)", fontFamily: "'Inter', sans-serif", lineHeight: "2" }}>
-              Acredito que toda pessoa merece ser vista com beleza e verdade. Que toda história merece ser contada com arte. Que fotografia não é luxo — é necessidade humana de se reconhecer, de deixar rastro, de dizer: eu estive aqui.
-            </p>
-            <p className="text-base leading-loose mb-12" style={{ color: "rgba(245,230,211,0.75)", fontFamily: "'Inter', sans-serif", lineHeight: "2" }}>
-              Meu propósito é criar imagens que permaneçam. Que sejam olhadas daqui a 20 anos e ainda causem emoção. Que sejam arte, não apenas foto.
-            </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/portfolio" className="btn-outline-light">
+              <Link href="/portfolio" className="btn-outline-dark">
                 Ver Portfólio <ArrowRight size={14} />
               </Link>
-              <Link href="/contato" className="btn-outline-light">
-                Fale Comigo <ArrowRight size={14} />
+              <Link href="/obras" className="btn-outline-dark">
+                Obras de Arte <ArrowRight size={14} />
+              </Link>
+              <Link href="/mentorias" className="btn-outline-dark">
+                Mentorias <ArrowRight size={14} />
               </Link>
             </div>
           </div>

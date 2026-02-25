@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Disallow admin panel
+Disallow: /admin
+Disallow: /admin/*
+
+# Allow all crawlers on public pages
+Allow: /portfolio
+Allow: /obras
+Allow: /fotografia
+Allow: /ceramica
+Allow: /projetos
+Allow: /sobre
+Allow: /mentorias
+Allow: /contato
+
+# Sitemap
+Sitemap: https://camillavieira.art/sitemap.xml
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1

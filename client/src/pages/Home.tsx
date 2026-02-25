@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { useSEO } from "@/hooks/useSEO";
+import { StructuredData, FAQ_SCHEMA } from "@/components/StructuredData";
 import { Link } from "wouter";
 import { ChevronDown, ArrowRight, Play } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
@@ -289,44 +291,36 @@ function ObrasSection({ isActive }: { isActive: boolean }) {
       <BrushCorner position="tr" color="#F5E6D3" delay={400} />
       <BrushCorner position="bl" color="#F5E6D3" delay={700} />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Text */}
-          <div className={`transition-all duration-1000 delay-200 ${isActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"}`}>
-            <span className="section-eyebrow block mb-4" style={{ color: "rgba(201,112,100,0.9)" }}>Obras de Arte</span>
-            <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6" style={{ color: "var(--brand-bege)" }}>
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 items-center">
+          {/* Text column */}
+          <div className={`flex flex-col justify-center transition-all duration-1000 delay-200 ${isActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"}`}>
+            <span className="block mb-4 text-xs tracking-[0.3em] uppercase font-medium" style={{ color: "rgba(201,112,100,0.9)", fontFamily: "'Inter', sans-serif" }}>Obras de Arte</span>
+            <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl font-medium mb-6 leading-tight" style={{ color: "var(--brand-bege)" }}>
               Série <em>Fio</em>
             </h2>
-            <p className="text-sm leading-relaxed prose-body mb-4" style={{ color: "rgba(245,230,211,0.7)", fontFamily: "'Inter', sans-serif" }}>
+            <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(245,230,211,0.8)", fontFamily: "'Inter', sans-serif", maxWidth: "360px" }}>
               Costura sobre fotografia. Cada obra da série Fio é uma intervenção artística única: linhas de costura que atravessam a imagem fotográfica, criando uma nova camada de significado.
             </p>
-            <p className="text-sm leading-relaxed prose-body mb-8" style={{ color: "rgba(245,230,211,0.55)", fontFamily: "'Inter', sans-serif" }}>
+            <p className="text-sm leading-relaxed mb-8" style={{ color: "rgba(245,230,211,0.55)", fontFamily: "'Inter', sans-serif", maxWidth: "360px" }}>
               A agulha como extensão do olhar. O fio como metáfora da conexão entre o visível e o invisível.
             </p>
-            <div className="divider-sand mb-8" style={{ width: "48px", height: "1px", backgroundColor: "var(--brand-sand)" }} />
-            <Link href="/obras" className="btn-outline-light">
-              Explorar Obras <ArrowRight size={14} />
-            </Link>
+            <div className="mb-8" style={{ width: "48px", height: "1px", backgroundColor: "rgba(201,112,100,0.6)" }} />
+            <div>
+              <Link href="/obras" className="btn-outline-light inline-flex items-center gap-2">
+                Explorar Obras <ArrowRight size={14} />
+              </Link>
+            </div>
           </div>
 
-          {/* Images — hidden on mobile to avoid overflow */}
-          <div className={`hidden lg:grid grid-cols-2 gap-3 transition-all duration-1000 delay-500 ${isActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`}>
-            <div className="img-hover aspect-square" style={{ border: "1px solid rgba(217,204,180,0.2)" }}>
-              <img src={OBRA1} alt="Série Fio" style={{ filter: "sepia(20%)" }} />
-              <div className="img-hover-overlay" />
-            </div>
-            <div className="img-hover aspect-square mt-8" style={{ border: "1px solid rgba(217,204,180,0.2)" }}>
-              <img src={OBRA2} alt="Série Fio" style={{ filter: "sepia(20%)" }} />
-              <div className="img-hover-overlay" />
-            </div>
-            <div className="img-hover aspect-square" style={{ border: "1px solid rgba(217,204,180,0.2)" }}>
-              <img src={PHOTO3} alt="Série Fio" style={{ filter: "sepia(20%)" }} />
-              <div className="img-hover-overlay" />
-            </div>
-            <div className="img-hover aspect-square mt-8" style={{ border: "1px solid rgba(217,204,180,0.2)" }}>
-              <img src={PHOTO1} alt="Série Fio" style={{ filter: "sepia(20%)" }} />
-              <div className="img-hover-overlay" />
-            </div>
+          {/* Images 2x2 grid — visible from md */}
+          <div className={`hidden md:grid grid-cols-2 gap-3 lg:gap-4 transition-all duration-1000 delay-500 ${isActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`}>
+            {[OBRA1, OBRA2, PHOTO3, PHOTO1].map((src, i) => (
+              <div key={i} className="img-hover rounded-xl overflow-hidden" style={{ aspectRatio: "3/4" }}>
+                <img src={src} alt={`Série Fio — obra ${i + 1}`} className="w-full h-full object-cover" />
+                <div className="img-hover-overlay" />
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -336,6 +330,12 @@ function ObrasSection({ isActive }: { isActive: boolean }) {
 
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
 export default function Home() {
+  useSEO({
+    title: "Fotógrafa Artística e Artista Visual",
+    description: "Camilla Vieira — Fotografia é Arte. Ensaios femininos, gestante e profissionais com alma. Obras da Série Fio: costura sobre fotografia. Cerâmica artística e mentorias em Belo Horizonte, MG.",
+    keywords: "fotógrafa artística, ensaio feminino, ensaio gestante, fotografia autoral, série fio, Camilla Vieira, Belo Horizonte",
+    canonical: "/",
+  });
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeSection, setActiveSection] = useState(0);
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
@@ -364,6 +364,7 @@ export default function Home() {
 
   return (
     <div className="relative">
+      <StructuredData includeGlobal schemas={[FAQ_SCHEMA]} />
       <Navigation transparent />
 
       {/* Scroll snap container */}

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useSEO } from "@/hooks/useSEO";
 import { Link, useParams } from "wouter";
 import { ArrowLeft, X } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
@@ -36,6 +37,12 @@ function Lightbox({ src, onClose }: { src: string; onClose: () => void }) {
 
 // Portfolio overview – all categories
 function PortfolioOverview() {
+  useSEO({
+    title: "Portfólio",
+    description: "Portfólio de ensaios fotográficos de Camilla Vieira: ensaios femininos, gestante, profissionais, fotografia autoral, cerâmica e projetos especiais. Fotografia artística em Belo Horizonte, MG.",
+    keywords: "portfólio fotografia, ensaio feminino, ensaio gestante, ensaio profissional, fotografia autoral, Camilla Vieira",
+    canonical: "/portfolio",
+  });
   const { data: categories } = trpc.categories.getAll.useQuery();
   const [visible, setVisible] = useState(false);
 

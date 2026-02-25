@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useSEO } from "@/hooks/useSEO";
+import { StructuredData, SERIE_FIO_SCHEMA } from "@/components/StructuredData";
 import { Link, useParams } from "wouter";
 import { ArrowLeft, X, MessageCircle } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
@@ -100,6 +102,12 @@ function ArtworkDetail({ slug }: { slug: string }) {
 }
 
 function ObrasGallery() {
+  useSEO({
+    title: "Obras de Arte – Série Fio",
+    description: "Série Fio de Camilla Vieira: obras de arte que combinam fotografia e costura artesanal. Cada peça é uma intervenção única — linhas que atravessam a imagem fotográfica, criando nova camada de significado.",
+    keywords: "série fio, costura sobre fotografia, obras de arte, arte contemporânea, Camilla Vieira, fotografia artística",
+    canonical: "/obras",
+  });
   const [visible, setVisible] = useState(false);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const { data: artworksData } = trpc.artworks.getAll.useQuery();
@@ -109,6 +117,7 @@ function ObrasGallery() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--brand-bege-light)" }}>
+      <StructuredData schemas={[SERIE_FIO_SCHEMA]} />
       <Navigation />
       {lightboxSrc && (
         <div className="lightbox-backdrop" onClick={() => setLightboxSrc(null)}>

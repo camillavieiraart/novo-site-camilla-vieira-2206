@@ -192,7 +192,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 0.7rem;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--brand-marrom-deep);
   transition: color 0.3s ease, opacity 0.3s ease;

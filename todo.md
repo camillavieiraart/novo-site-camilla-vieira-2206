@@ -163,3 +163,6 @@
 - [x] Criar post completo de Wong Kar-wai com imagens integradas no HTML
 - [x] Melhorar CSS do blog: post-figure, post-figure--wide, post-figure--side-by-side, post-lead, post-note
 - [x] Atualizar agente de blog para gerar imagens inline em novos posts
+
+## Ajustes Visuais (Mar 2026)
+- [x] Ajustar letter-spacing do menu de navegação (reduzir respiro excessivo entre letras)

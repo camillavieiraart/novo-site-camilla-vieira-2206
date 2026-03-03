@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Eye, EyeOff, Code2, Monitor } from "lucide-react";
+import { Plus, Pencil, Trash2, Eye, EyeOff, Code2, Monitor, Send, Users, BarChart2, Mail, Camera, Palette, BookOpen, Bell, Layers } from "lucide-react";
 import { useForm } from "react-hook-form";
 import MediaUploader from "@/components/MediaUploader";
 
@@ -108,58 +108,313 @@ export function TestimonialsAdmin() {
 
 // ─── Newsletter Admin ─────────────────────────────────────────────────────────
 export function NewsletterAdmin() {
-  const { data: subscribers } = trpc.newsletter.getAll.useQuery();
+  const { data: subscribers, refetch: refetchSubs } = trpc.newsletter.getAll.useQuery();
+  const { data: campaigns, refetch: refetchCampaigns } = trpc.newsletterCampaigns.getAll.useQuery();
+  const { data: health } = trpc.newsletterCampaigns.health.useQuery();
+  const [activeTab, setActiveTab] = useState<"campanhas" | "assinantes">("campanhas");
+  const [sendTopic, setSendTopic] = useState("");
+  const [testEmail, setTestEmail] = useState("");
+  const [previewHtml, setPreviewHtml] = useState("");
+  const [showPreview, setShowPreview] = useState(false);
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+
+  const sendMutation = trpc.newsletterCampaigns.send.useMutation({
+    onSuccess: (r) => {
+      toast.success(r.testEmail ? `Email de teste enviado para ${r.testEmail}` : `Newsletter enviada para ${r.recipientCount} inscritos!`);
+      refetchCampaigns();
+    },
+    onError: (e) => toast.error(e.message),
+  });
+
+  const previewMutation = trpc.newsletterCampaigns.preview.useMutation({
+    onSuccess: (r) => { setPreviewHtml(r.html); setShowPreview(true); },
+    onError: (e) => toast.error(e.message),
+  });
+
+  const updateSub = trpc.newsletter.updateSubscriber.useMutation({
+    onSuccess: () => { toast.success("Atualizado!"); refetchSubs(); },
+  });
+
+  const deleteSub = trpc.newsletter.delete.useMutation({
+    onSuccess: () => { toast.success("Inscrito removido."); refetchSubs(); },
+  });
+
   const formatDate = (d: Date | null | undefined) =>
-    d ? new Date(d).toLocaleDateString("pt-BR") : "—";
+    d ? new Date(d).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" }) : "—";
+
+  const activeCount = subscribers?.filter(s => s.isActive).length ?? 0;
+  const totalCount = subscribers?.length ?? 0;
+  const blogAlertCount = subscribers?.filter(s => {
+    try { const p = JSON.parse(s.contentPreferences ?? '["todos"]'); return p.includes("todos") || p.includes("blog_alert"); }
+    catch { return false; }
+  }).length ?? 0;
+
+  const avgOpenRate = campaigns?.length
+    ? (campaigns.reduce((sum, c) => sum + parseFloat(String(c.openRate ?? 0)), 0) / campaigns.length).toFixed(1)
+    : "0.0";
+
+  const PREF_LABELS: Record<string, { label: string; icon: any }> = {
+    todos: { label: "Tudo", icon: Layers },
+    ensaios: { label: "Ensaios", icon: Camera },
+    arte: { label: "Arte", icon: Palette },
+    mentoria: { label: "Mentoria", icon: BookOpen },
+    blog_alert: { label: "Alerta Blog", icon: Bell },
+  };
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="font-serif text-3xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>Newsletter</h1>
           <p className="text-sm mt-1" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
-            {subscribers?.filter(s => s.isActive).length ?? 0} inscritos ativos
+            {activeCount} inscritos ativos · {campaigns?.length ?? 0} campanhas enviadas
           </p>
         </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>
-          <thead>
-            <tr style={{ borderBottom: "1px solid var(--brand-sand)" }}>
-              <th className="text-left py-3 px-2 text-xs tracking-widest uppercase" style={{ color: "var(--brand-terracota)" }}>E-mail</th>
-              <th className="text-left py-3 px-2 text-xs tracking-widest uppercase" style={{ color: "var(--brand-terracota)" }}>Nome</th>
-              <th className="text-left py-3 px-2 text-xs tracking-widest uppercase" style={{ color: "var(--brand-terracota)" }}>Data</th>
-              <th className="text-left py-3 px-2 text-xs tracking-widest uppercase" style={{ color: "var(--brand-terracota)" }}>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {subscribers?.map((s) => (
-              <tr key={s.id} style={{ borderBottom: "1px solid var(--brand-sand)" }}>
-                <td className="py-3 px-2" style={{ color: "var(--brand-marrom-deep)" }}>{s.email}</td>
-                <td className="py-3 px-2" style={{ color: "var(--brand-marrom)" }}>{s.name ?? "—"}</td>
-                <td className="py-3 px-2" style={{ color: "var(--brand-marrom)" }}>{formatDate(s.createdAt)}</td>
-                <td className="py-3 px-2">
-                  <span className="text-xs px-2 py-0.5" style={{
-                    background: s.isActive ? "rgba(100,180,100,0.15)" : "rgba(180,100,100,0.15)",
-                    color: s.isActive ? "#4a7c4a" : "var(--brand-terracota)",
-                  }}>
-                    {s.isActive ? "Ativo" : "Inativo"}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {(!subscribers || subscribers.length === 0) && (
-          <p className="text-center py-12 text-sm" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
-            Nenhum inscrito ainda.
-          </p>
-        )}
+
+      {/* KPI Cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        {[
+          { icon: Users, label: "Inscritos ativos", value: activeCount, sub: `${totalCount} total` },
+          { icon: Mail, label: "Campanhas", value: campaigns?.length ?? 0, sub: "histórico" },
+          { icon: BarChart2, label: "Abertura média", value: `${avgOpenRate}%`, sub: "todas as campanhas" },
+          { icon: Bell, label: "Alertas de blog", value: blogAlertCount, sub: "recebem publicações" },
+        ].map(({ icon: Icon, label, value, sub }) => (
+          <div key={label} className="p-4" style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
+            <div className="flex items-center gap-2 mb-1">
+              <Icon size={14} style={{ color: "var(--brand-terracota)" }} />
+              <span className="text-xs tracking-wider uppercase" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>{label}</span>
+            </div>
+            <p className="font-serif text-2xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>{value}</p>
+            <p className="text-xs mt-0.5" style={{ color: "rgba(90,60,40,0.5)", fontFamily: "'Inter', sans-serif" }}>{sub}</p>
+          </div>
+        ))}
       </div>
+
+      {/* Health status */}
+      {health && (
+        <div className="mb-6 p-4 text-sm" style={{ backgroundColor: health.alert ? "rgba(201,112,100,0.1)" : "rgba(100,180,100,0.08)", border: `1px solid ${health.alert ? "rgba(201,112,100,0.3)" : "rgba(100,180,100,0.3)"}`, fontFamily: "'Inter', sans-serif", color: "var(--brand-marrom)" }}>
+          <strong>{health.alert ? "⚠️ Atenção" : "✅ Sistema saudável"}</strong> — {health.alert ?? health.recommendation}
+          {health.bestDay && <span className="ml-2 opacity-70">Melhor dia: <strong>{health.bestDay}</strong></span>}
+        </div>
+      )}
+
+      {/* Send panel */}
+      <div className="mb-6 p-5" style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
+        <h2 className="font-serif text-lg mb-4" style={{ color: "var(--brand-marrom-deep)" }}>Enviar newsletter</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+          <div>
+            <label className="form-label block mb-1">Tópico / tema (opcional)</label>
+            <input
+              className="form-input w-full"
+              placeholder="Ex: Wong Kar-wai e a arte de fotografar o que não acontece"
+              value={sendTopic}
+              onChange={e => setSendTopic(e.target.value)}
+            />
+            <p className="text-xs mt-1" style={{ color: "rgba(90,60,40,0.5)", fontFamily: "'Inter', sans-serif" }}>Deixe vazio para o agente escolher o tema.</p>
+          </div>
+          <div>
+            <label className="form-label block mb-1">E-mail de teste (opcional)</label>
+            <input
+              className="form-input w-full"
+              type="email"
+              placeholder="camilla@camillavieira.art"
+              value={testEmail}
+              onChange={e => setTestEmail(e.target.value)}
+            />
+            <p className="text-xs mt-1" style={{ color: "rgba(90,60,40,0.5)", fontFamily: "'Inter', sans-serif" }}>Preencha para enviar só para este e-mail (teste).</p>
+          </div>
+        </div>
+        <div className="flex gap-3 flex-wrap">
+          <button
+            onClick={() => previewMutation.mutate({ topic: sendTopic || undefined })}
+            disabled={previewMutation.isPending}
+            className="btn-outline-dark flex items-center gap-2"
+          >
+            <Eye size={14} /> {previewMutation.isPending ? "Gerando..." : "Pré-visualizar"}
+          </button>
+          <button
+            onClick={() => {
+              if (!testEmail && !confirm(`Enviar newsletter para ${activeCount} inscritos ativos?`)) return;
+              sendMutation.mutate({ topic: sendTopic || undefined, testEmail: testEmail || undefined });
+            }}
+            disabled={sendMutation.isPending}
+            className="btn-primary flex items-center gap-2"
+          >
+            <Send size={14} /> {sendMutation.isPending ? "Enviando..." : testEmail ? "Enviar teste" : "Enviar para todos"}
+          </button>
+        </div>
+      </div>
+
+      {/* Preview modal */}
+      {showPreview && previewHtml && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setShowPreview(false)}>
+          <div className="bg-white rounded-xl overflow-hidden shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-4 py-3 border-b">
+              <span className="font-medium text-sm">Pré-visualização da newsletter</span>
+              <button onClick={() => setShowPreview(false)} className="text-gray-400 hover:text-gray-600 border-none bg-transparent cursor-pointer text-lg">×</button>
+            </div>
+            <div className="overflow-y-auto flex-1">
+              <iframe srcDoc={previewHtml} className="w-full" style={{ height: "600px", border: "none" }} title="Newsletter preview" />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Tabs */}
+      <div className="flex gap-0 mb-4" style={{ borderBottom: "1px solid var(--brand-sand)" }}>
+        {(["campanhas", "assinantes"] as const).map(tab => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className="px-4 py-2 text-sm font-medium border-none bg-transparent cursor-pointer capitalize"
+            style={{
+              color: activeTab === tab ? "var(--brand-terracota)" : "var(--brand-marrom)",
+              borderBottom: activeTab === tab ? "2px solid var(--brand-terracota)" : "2px solid transparent",
+              fontFamily: "'Inter', sans-serif",
+              marginBottom: "-1px",
+            }}
+          >
+            {tab === "campanhas" ? `Campanhas (${campaigns?.length ?? 0})` : `Assinantes (${totalCount})`}
+          </button>
+        ))}
+      </div>
+
+      {/* Campaigns tab */}
+      {activeTab === "campanhas" && (
+        <div className="flex flex-col gap-3">
+          {campaigns?.map(c => (
+            <div key={c.id} style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
+              <div
+                className="flex items-center gap-4 p-4 cursor-pointer"
+                onClick={() => setExpandedId(expandedId === c.id ? null : c.id)}
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="font-serif text-base font-medium truncate" style={{ color: "var(--brand-marrom-deep)" }}>{c.subject}</p>
+                  <p className="text-xs mt-0.5" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+                    {formatDate(c.sentAt)} · {c.recipientCount} destinatários · {c.scheduledDay ?? "terça"}
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 shrink-0">
+                  <div className="text-center">
+                    <p className="text-sm font-medium" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}>{parseFloat(String(c.openRate ?? 0)).toFixed(1)}%</p>
+                    <p className="text-xs" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>abertura</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm font-medium" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}>{parseFloat(String(c.clickRate ?? 0)).toFixed(1)}%</p>
+                    <p className="text-xs" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>cliques</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm font-medium" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>{parseFloat(String(c.unsubscribeRate ?? 0)).toFixed(1)}%</p>
+                    <p className="text-xs" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>unsub</p>
+                  </div>
+                </div>
+              </div>
+              {expandedId === c.id && (
+                <div className="px-4 pb-4 border-t" style={{ borderColor: "var(--brand-sand)" }}>
+                  <p className="text-xs mt-3 mb-1" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}><strong>Preview:</strong> {c.previewText}</p>
+                  <div className="grid grid-cols-4 gap-2 mt-3">
+                    {[
+                      { label: "Enviados", value: c.recipientCount },
+                      { label: "Abertos", value: c.openCount },
+                      { label: "Cliques", value: c.clickCount },
+                      { label: "Cancelaram", value: c.unsubscribeCount },
+                    ].map(({ label, value }) => (
+                      <div key={label} className="text-center p-2" style={{ background: "rgba(245,230,211,0.5)" }}>
+                        <p className="font-serif text-lg" style={{ color: "var(--brand-marrom-deep)" }}>{value ?? 0}</p>
+                        <p className="text-xs" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>{label}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+          {(!campaigns || campaigns.length === 0) && (
+            <p className="text-center py-12 text-sm" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+              Nenhuma campanha enviada ainda. Use o painel acima para enviar a primeira.
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* Subscribers tab */}
+      {activeTab === "assinantes" && (
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <thead>
+              <tr style={{ borderBottom: "1px solid var(--brand-sand)" }}>
+                <th className="text-left py-3 px-2 text-xs tracking-widest uppercase" style={{ color: "var(--brand-terracota)" }}>E-mail</th>
+                <th className="text-left py-3 px-2 text-xs tracking-widest uppercase" style={{ color: "var(--brand-terracota)" }}>Nome</th>
+                <th className="text-left py-3 px-2 text-xs tracking-widest uppercase" style={{ color: "var(--brand-terracota)" }}>Preferências</th>
+                <th className="text-left py-3 px-2 text-xs tracking-widest uppercase" style={{ color: "var(--brand-terracota)" }}>Frequência</th>
+                <th className="text-left py-3 px-2 text-xs tracking-widest uppercase" style={{ color: "var(--brand-terracota)" }}>Inscrito em</th>
+                <th className="text-left py-3 px-2 text-xs tracking-widest uppercase" style={{ color: "var(--brand-terracota)" }}>Status</th>
+                <th className="py-3 px-2"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {subscribers?.map((s) => {
+                let prefs: string[] = ["todos"];
+                try { prefs = JSON.parse(s.contentPreferences ?? '["todos"]'); } catch {}
+                return (
+                  <tr key={s.id} style={{ borderBottom: "1px solid var(--brand-sand)" }}>
+                    <td className="py-3 px-2" style={{ color: "var(--brand-marrom-deep)" }}>{s.email}</td>
+                    <td className="py-3 px-2" style={{ color: "var(--brand-marrom)" }}>{s.name ?? "—"}</td>
+                    <td className="py-3 px-2">
+                      <div className="flex flex-wrap gap-1">
+                        {prefs.map(p => {
+                          const info = PREF_LABELS[p];
+                          const Icon = info?.icon;
+                          return (
+                            <span key={p} className="inline-flex items-center gap-1 text-xs px-1.5 py-0.5" style={{ background: "rgba(201,112,100,0.1)", color: "var(--brand-terracota)" }}>
+                              {Icon && <Icon size={10} />} {info?.label ?? p}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    </td>
+                    <td className="py-3 px-2 text-xs" style={{ color: "var(--brand-marrom)" }}>
+                      {s.frequencyPreference === "quinzenal" ? "Quinzenal" : "Semanal"}
+                    </td>
+                    <td className="py-3 px-2 text-xs" style={{ color: "var(--brand-marrom)" }}>{formatDate(s.createdAt)}</td>
+                    <td className="py-3 px-2">
+                      <button
+                        onClick={() => updateSub.mutate({ id: s.id, isActive: !s.isActive })}
+                        className="text-xs px-2 py-0.5 border-none cursor-pointer"
+                        style={{
+                          background: s.isActive ? "rgba(100,180,100,0.15)" : "rgba(180,100,100,0.15)",
+                          color: s.isActive ? "#4a7c4a" : "var(--brand-terracota)",
+                        }}
+                      >
+                        {s.isActive ? "Ativo" : "Inativo"}
+                      </button>
+                    </td>
+                    <td className="py-3 px-2">
+                      <button
+                        onClick={() => { if (confirm("Remover inscrito?")) deleteSub.mutate({ id: s.id }); }}
+                        className="p-1 bg-transparent border-none cursor-pointer opacity-50 hover:opacity-100"
+                        style={{ color: "var(--brand-terracota)" }}
+                      >
+                        <Trash2 size={13} />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          {(!subscribers || subscribers.length === 0) && (
+            <p className="text-center py-12 text-sm" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+              Nenhum inscrito ainda.
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
-
 // ─── Blog Admin ───────────────────────────────────────────────────────────────
 export function BlogAdmin() {
   const { data: posts, refetch } = trpc.blog.adminGetAll.useQuery();

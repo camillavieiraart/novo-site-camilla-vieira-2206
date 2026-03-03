@@ -20,6 +20,7 @@ import {
   createContactMessage, getAllContactMessages, markMessageRead,
   getPublishedTestimonials, getAllTestimonials, upsertTestimonial, deleteTestimonial,
   subscribeNewsletter, getAllNewsletterSubscribers, unsubscribeNewsletter, deleteNewsletterSubscriber,
+  subscribeNewsletterWithPreferences, getNewsletterCampaigns, getNewsletterCampaignById, updateNewsletterSubscriber,
   getPublishedBlogPosts, getBlogPostBySlug, getAllBlogPosts, getBlogPostById, upsertBlogPost, deleteBlogPost, getBlogSitemapData,
 } from "./db";
 import { storagePut } from "./storage";
@@ -303,8 +304,9 @@ export const appRouter = router({
       .mutation(({ input }) => deleteTestimonial(input.id)),
   }),
 
-  // ─── NEWSLETTER ─────────────────────────────────────────────────────────────
+    // ─── NEWSLETTER ───────────────────────────────────────────────────────
   newsletter: router({
+    // Inscrição simples (compatível com popups existentes)
     subscribe: publicProcedure.input(z.object({
       email: z.string().email(),
       name: z.string().optional(),
@@ -316,11 +318,82 @@ export const appRouter = router({
       }
       return result ?? { success: true, alreadyExists: false };
     }),
+    // Inscrição com preferências de conteúdo e frequência
+    subscribeWithPreferences: publicProcedure.input(z.object({
+      email: z.string().email(),
+      name: z.string().optional(),
+      source: z.string().optional(),
+      frequencyPreference: z.enum(["semanal", "quinzenal"]).default("semanal"),
+      // "todos" | "ensaios" | "arte" | "mentoria" | "blog_alert"
+      contentPreferences: z.array(z.string()).default(["todos"]),
+    })).mutation(async ({ input }) => {
+      const result = await subscribeNewsletterWithPreferences(
+        input.email,
+        input.name,
+        input.source ?? "formulario",
+        input.frequencyPreference,
+        input.contentPreferences
+      );
+      if (result && !result.alreadyExists) {
+        const prefs = input.contentPreferences.includes("todos") ? "todos os conteúdos" : input.contentPreferences.join(", ");
+        await notifyOwner({
+          title: "Nova inscrição na newsletter",
+          content: `${input.name ?? ""} (${input.email}) se inscreveu. Preferências: ${prefs}. Frequência: ${input.frequencyPreference}.`,
+        });
+      }
+      return result ?? { success: true, alreadyExists: false };
+    }),
     getAll: adminProcedure.query(() => getAllNewsletterSubscribers()),
     unsubscribe: publicProcedure.input(z.object({ email: z.string().email() }))
       .mutation(({ input }) => unsubscribeNewsletter(input.email)),
     delete: adminProcedure.input(z.object({ id: z.number() }))
       .mutation(({ input }) => deleteNewsletterSubscriber(input.id)),
+    updateSubscriber: adminProcedure.input(z.object({
+      id: z.number(),
+      isActive: z.boolean().optional(),
+      frequencyPreference: z.enum(["semanal", "quinzenal"]).optional(),
+      contentPreferences: z.string().optional(),
+    })).mutation(({ input }) => updateNewsletterSubscriber(input.id, {
+      isActive: input.isActive,
+      frequencyPreference: input.frequencyPreference,
+      contentPreferences: input.contentPreferences,
+    })),
+  }),
+
+  // ─── NEWSLETTER CAMPAIGNS ───────────────────────────────────────────────────────
+  newsletterCampaigns: router({
+    getAll: adminProcedure.query(() => getNewsletterCampaigns()),
+    getById: adminProcedure.input(z.object({ id: z.number() })).query(async ({ input }) => {
+      return getNewsletterCampaignById(input.id);
+    }),
+    send: adminProcedure.input(z.object({
+      topic: z.string().optional(),
+      testEmail: z.string().email().optional(),
+    })).mutation(async ({ input }) => {
+      const { sendNewsletter } = await import("./newsletter-agent");
+      const result = await sendNewsletter(input.topic, input.testEmail);
+      if (result.success) {
+        await notifyOwner({
+          title: "Newsletter enviada",
+          content: `Newsletter enviada para ${result.recipientCount} assinantes.`,
+        });
+      }
+      return result;
+    }),
+    preview: adminProcedure.input(z.object({
+      topic: z.string().optional(),
+    })).mutation(async ({ input }) => {
+      const { generateNewsletterContent, buildEmailHTML, getNextSendDay, getOptimalSendHour } = await import("./newsletter-agent");
+      const content = await generateNewsletterContent(input.topic);
+      const sendDay = await getNextSendDay();
+      const sendHour = getOptimalSendHour();
+      const html = buildEmailHTML(content, "preview@camillavieira.art", 0, "https://camillavieira.art", "preview");
+      return { content, html, sendDay, sendHour };
+    }),
+    health: adminProcedure.query(async () => {
+      const { checkNewsletterHealth } = await import("./newsletter-agent");
+      return checkNewsletterHealth();
+    }),
   }),
 
   // ─── FILE UPLOAD ────────────────────────────────────────────────────────────

@@ -225,15 +225,66 @@ export const testimonials = mysqlTable("testimonials", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
-// ─── NEWSLETTER SUBSCRIBERS ───────────────────────────────────────────────────
+// ─── NEWSLETTER SUBSCRIBERS ───────────────────────────────────────────────────────
+// Preferências de conteúdo informadas no cadastro para personalização e redução de unsubscribes
 export const newsletterSubscribers = mysqlTable("newsletter_subscribers", {
   id: int("id").autoincrement().primaryKey(),
   email: varchar("email", { length: 320 }).notNull().unique(),
   name: varchar("name", { length: 200 }),
   isActive: boolean("isActive").default(true),
   source: varchar("source", { length: 100 }).default("website"), // website, popup, footer
+  // Frequência informada no cadastro (reduz unsubscribes - 69% cancelam por excesso)
+  frequencyPreference: mysqlEnum("frequencyPreference", ["semanal", "quinzenal"]).default("semanal"),
+  // Preferências de conteúdo (3 camadas do público + alerta de blog)
+  // JSON array com valores: "todos", "ensaios", "arte", "mentoria", "blog_alert"
+  // "todos" = recebe tudo; "blog_alert" = notificado a cada publicação
+  contentPreferences: text("contentPreferences"), // JSON array: ["todos"] | ["ensaios","arte","mentoria","blog_alert"]
+  // Token único para unsubscribe sem login
+  unsubscribeToken: varchar("unsubscribeToken", { length: 64 }),
+  // Rastreamento de engajamento por assinante
+  totalEmailsReceived: int("totalEmailsReceived").default(0),
+  totalOpens: int("totalOpens").default(0),
+  totalClicks: int("totalClicks").default(0),
+  lastOpenedAt: timestamp("lastOpenedAt"),
+  lastClickedAt: timestamp("lastClickedAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// ─── NEWSLETTERS SENT (Campanhas enviadas) ────────────────────────────────────
+export const newslettersSent = mysqlTable("newsletters_sent", {
+  id: int("id").autoincrement().primaryKey(),
+  subject: varchar("subject", { length: 300 }).notNull(),
+  previewText: varchar("previewText", { length: 200 }), // Texto de preview no cliente de email
+  topic: text("topic"), // Tópico de pesquisa usado para gerar o conteúdo
+  htmlContent: text("htmlContent").notNull(), // HTML completo do email
+  recipientCount: int("recipientCount").default(0),
+  status: varchar("status", { length: 50 }).default("sent"), // sent, failed, draft
+  resendBatchId: varchar("resendBatchId", { length: 200 }),
+  // Agendamento rotativo: terça, quarta ou quinta entre 9h-15h (pico 11h-14h)
+  scheduledDay: varchar("scheduledDay", { length: 20 }), // terca, quarta, quinta
+  scheduledHour: int("scheduledHour"), // 9-15
+  // Analytics de engajamento
+  openCount: int("openCount").default(0),
+  clickCount: int("clickCount").default(0),
+  unsubscribeCount: int("unsubscribeCount").default(0),
+  openRate: decimal("openRate", { precision: 5, scale: 2 }).default("0.00"),
+  clickRate: decimal("clickRate", { precision: 5, scale: 2 }).default("0.00"),
+  unsubscribeRate: decimal("unsubscribeRate", { precision: 5, scale: 2 }).default("0.00"),
+  sentAt: timestamp("sentAt").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// ─── EMAIL EVENTS (Abertura e cliques individuais para analytics granular) ────
+export const emailEvents = mysqlTable("email_events", {
+  id: int("id").autoincrement().primaryKey(),
+  newsletterId: int("newsletterId").notNull(),
+  subscriberEmail: varchar("subscriberEmail", { length: 320 }).notNull(),
+  eventType: varchar("eventType", { length: 50 }).notNull(), // open, click, unsubscribe
+  linkUrl: text("linkUrl"), // URL clicada (para eventos de click)
+  userAgent: text("userAgent"), // Dispositivo/cliente de email
+  ipAddress: varchar("ipAddress", { length: 50 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
 // ─── BLOG POSTS ─────────────────────────────────────────────────────────────
@@ -288,5 +339,7 @@ export type ContactMessage = typeof contactMessages.$inferSelect;
 export type Testimonial = typeof testimonials.$inferSelect;
 export type InsertTestimonial = typeof testimonials.$inferInsert;
 export type NewsletterSubscriber = typeof newsletterSubscribers.$inferSelect;
+export type NewsletterSent = typeof newslettersSent.$inferSelect;
+export type EmailEvent = typeof emailEvents.$inferSelect;
 export type BlogPost = typeof blogPosts.$inferSelect;
 export type InsertBlogPost = typeof blogPosts.$inferInsert;

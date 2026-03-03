@@ -1,0 +1,1 @@
+ALTER TABLE `newsletter_subscribers` MODIFY COLUMN `contentPreferences` text;

@@ -402,3 +402,74 @@ export async function getBlogSitemapData() {
     .where(eq(blogPosts.isPublished, true))
     .orderBy(desc(blogPosts.publishedAt));
 }
+
+// ─── NEWSLETTER CAMPAIGNS ─────────────────────────────────────────────────────
+import { newslettersSent } from "../drizzle/schema";
+
+export async function getNewsletterCampaigns() {
+  const db = await getDb(); if (!db) return [];
+  return db.select().from(newslettersSent).orderBy(desc(newslettersSent.sentAt)).limit(50);
+}
+export async function getNewsletterCampaignById(id: number) {
+  const db = await getDb(); if (!db) return null;
+  const rows = await db.select().from(newslettersSent).where(eq(newslettersSent.id, id)).limit(1);
+  return rows[0] ?? null;
+}
+export async function updateNewsletterSubscriber(id: number, data: Partial<{
+  isActive: boolean;
+  frequencyPreference: "semanal" | "quinzenal";
+  contentPreferences: string;
+}>) {
+  const db = await getDb(); if (!db) return;
+  await db.update(newsletterSubscribers).set({ ...data, updatedAt: new Date() }).where(eq(newsletterSubscribers.id, id));
+}
+export async function subscribeNewsletterWithPreferences(
+  email: string,
+  name?: string,
+  source?: string,
+  frequencyPreference?: "semanal" | "quinzenal",
+  contentPreferences?: string[]
+) {
+  const db = await getDb(); if (!db) return { success: false, alreadyExists: false };
+  const prefs = JSON.stringify(contentPreferences?.length ? contentPreferences : ["todos"]);
+  try {
+    const { randomBytes } = await import("crypto");
+    const token = randomBytes(32).toString("hex");
+    await db.insert(newsletterSubscribers).values({
+      email,
+      name: name ?? null,
+      source: source ?? "website",
+      isActive: true,
+      frequencyPreference: frequencyPreference ?? "semanal",
+      contentPreferences: prefs,
+      unsubscribeToken: token,
+    });
+    return { success: true, alreadyExists: false };
+  } catch (e: any) {
+    if (e?.code === "ER_DUP_ENTRY") {
+      await db.update(newsletterSubscribers).set({
+        frequencyPreference: frequencyPreference ?? "semanal",
+        contentPreferences: prefs,
+        isActive: true,
+        updatedAt: new Date(),
+      }).where(eq(newsletterSubscribers.email, email));
+      return { success: true, alreadyExists: true };
+    }
+    throw e;
+  }
+}
+export async function getBlogAlertSubscribers() {
+  const db = await getDb(); if (!db) return [];
+  const all = await db.select({
+    email: newsletterSubscribers.email,
+    name: newsletterSubscribers.name,
+    unsubscribeToken: newsletterSubscribers.unsubscribeToken,
+    contentPreferences: newsletterSubscribers.contentPreferences,
+  }).from(newsletterSubscribers).where(eq(newsletterSubscribers.isActive, true));
+  return all.filter(s => {
+    try {
+      const prefs: string[] = JSON.parse(s.contentPreferences ?? '["todos"]');
+      return prefs.includes("todos") || prefs.includes("blog_alert");
+    } catch { return false; }
+  });
+}

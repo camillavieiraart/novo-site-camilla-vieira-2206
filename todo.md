@@ -166,3 +166,36 @@
 
 ## Ajustes Visuais (Mar 2026)
 - [x] Ajustar letter-spacing do menu de navegação (reduzir respiro excessivo entre letras)
+
+## Agente de Newsletter (Mar 2026)
+- [ ] Integrar Resend no projeto com API Key como secret
+- [ ] Criar agente de newsletter com pesquisa profunda e geração de conteúdo HTML editorial
+- [ ] Criar tabela de newsletters enviadas no banco de dados
+- [ ] Criar painel de monitoramento de newsletters no admin
+- [ ] Configurar agendamento alternando terças e quartas entre 09h-11h
+
+## Agente de Newsletter — Implementação Completa (Mar 2026)
+- [x] Schema: tabelas newsletter_subscribers (com contentPreferences, frequencyPreference, blogAlert), newsletters_sent, email_events
+- [x] Instalar pacote Resend (pnpm add resend)
+- [x] Migrar banco de dados (pnpm db:push)
+- [x] Agente newsletter-agent.ts (641 linhas): geração de conteúdo com voz da Camilla via LLM, template HTML editorial com identidade visual terrosa
+- [x] Agendamento rotativo: terça → quarta → quinta (A/B testing de engajamento)
+- [x] Horário inteligente: entre 11h–14h (pico de abertura no Brasil)
+- [x] Rastreamento de abertura (pixel de tracking) e cliques (redirect rastreado)
+- [x] Link de descadastro one-click (padrão RFC List-Unsubscribe)
+- [x] Alerta automático se taxa de unsubscribe > 0,5%
+- [x] Formulário de inscrição com preferências de conteúdo (Tudo / Ensaios / Arte / Mentoria) + alerta de novas publicações no blog
+- [x] Rotas tRPC: send, preview, health, getAll, updateSubscriber, subscribeWithPreferences
+- [x] Painel admin completo: campanhas enviadas (abertura, cliques, unsub), assinantes com preferências, analytics por dia da semana, pré-visualização de email
+- [ ] PENDENTE: Configurar RESEND_API_KEY (chave completa re_... do Resend Dashboard → API Keys → Create API Key)
+
+## Sistema de Compras (A implementar)
+- [ ] Criar conta no Stripe (stripe.com/br)
+- [ ] Definir modelo de entrega por produto (ensaios, obras, cerâmicas, prints, mentorias)
+- [ ] Instalar Stripe no projeto (webdev_add_feature stripe)
+- [ ] Schema: tabelas products, orders, order_items
+- [ ] Página de loja com listagem de produtos por categoria
+- [ ] Checkout com Stripe (pagamento seguro)
+- [ ] Página de confirmação de pedido
+- [ ] Painel admin: gestão de produtos, pedidos e status de entrega
+- [ ] Notificação por email ao comprador e à Camilla a cada pedido

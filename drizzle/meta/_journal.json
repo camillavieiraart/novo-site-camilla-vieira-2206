@@ -71,6 +71,13 @@
       "when": 1772649678531,
       "tag": "0009_familiar_lady_deathstrike",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1772655852152,
+      "tag": "0010_happy_deadpool",
+      "breakpoints": true
     }
   ]
 }

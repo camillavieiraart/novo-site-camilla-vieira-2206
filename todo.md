@@ -211,3 +211,11 @@
 - [ ] Página de confirmação de pedido
 - [ ] Painel admin: gestão de produtos, pedidos e status de entrega
 - [ ] Notificação por email ao comprador e à Camilla a cada pedido
+
+## Formulários Públicos de CRM (Mar 2026)
+- [ ] Tabela lead_forms no banco (token único, tipo: onboarding | satisfacao, lead_id, status: pending | filled, respostas JSON)
+- [ ] Rotas tRPC: generateFormLink, getFormByToken, submitOnboarding, submitSatisfacao
+- [ ] Página pública /onboarding/:token — formulário de dados do cliente (leads negociando/quentes)
+- [ ] Página pública /satisfacao/:token — pesquisa de satisfação NPS (clientes fechados)
+- [ ] Painel admin: visualizar respostas dos formulários por lead
+- [ ] Gerar links para os 27 leads importados (9 negociando/quentes → onboarding, 15 fechados → satisfação)

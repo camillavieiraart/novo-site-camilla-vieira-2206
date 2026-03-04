@@ -1,6 +1,8 @@
 import {
   boolean,
+  bigint,
   int,
+  json,
   mysqlEnum,
   mysqlTable,
   text,
@@ -524,7 +526,43 @@ export const crmNotes = mysqlTable("crmNotes", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+// ─── LEADS (CRM Pipeline) ────────────────────────────────────────────────────
+export const leads = mysqlTable("leads", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  phone: varchar("phone", { length: 30 }),
+  email: varchar("email", { length: 320 }),
+  city: varchar("city", { length: 100 }),
+  instagram: varchar("instagram", { length: 100 }),
+  serviceInterest: varchar("service_interest", { length: 50 }).default("ensaio").notNull(),
+  stage: mysqlEnum("stage", ["lead_frio", "lead_quente", "negociando", "fechado", "perdido"]).default("lead_frio").notNull(),
+  source: varchar("source", { length: 50 }).default("manual").notNull(),
+  notes: text("notes"),
+  lastContact: bigint("last_contact", { mode: "number" }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+// ─── LEAD FORMS (Onboarding + Satisfação) ────────────────────────────────────
+export const leadForms = mysqlTable("lead_forms", {
+  id: int("id").autoincrement().primaryKey(),
+  token: varchar("token", { length: 64 }).notNull().unique(),
+  leadId: int("lead_id").notNull(),
+  leadName: varchar("lead_name", { length: 255 }).notNull(),
+  formType: mysqlEnum("form_type", ["onboarding", "satisfacao"]).notNull(),
+  status: mysqlEnum("status", ["pending", "filled"]).default("pending").notNull(),
+  responses: json("responses"),
+  openedAt: bigint("opened_at", { mode: "number" }),
+  filledAt: bigint("filled_at", { mode: "number" }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
 // ─── TYPES ────────────────────────────────────────────────────────────────────
+export type Lead = typeof leads.$inferSelect;
+export type InsertLead = typeof leads.$inferInsert;
+export type LeadForm = typeof leadForms.$inferSelect;
+export type InsertLeadForm = typeof leadForms.$inferInsert;
 export type Client = typeof clients.$inferSelect;
 export type InsertClient = typeof clients.$inferInsert;
 export type ProfessionalOrder = typeof professionalOrders.$inferSelect;

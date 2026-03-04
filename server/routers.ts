@@ -2,6 +2,7 @@ import { z } from "zod";
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
+import { formsRouter } from "./forms-router";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { TRPCError } from "@trpc/server";
 import {
@@ -483,5 +484,6 @@ export const appRouter = router({
       return { success: true };
     }),
   }),
+  forms: formsRouter,
 });
 export type AppRouter = typeof appRouter;

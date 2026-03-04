@@ -287,6 +287,41 @@ export default function Sobre() {
   const [visible, setVisible] = useState(false);
   useEffect(() => { setTimeout(() => setVisible(true), 200); }, []);
 
+  // Schema Person (JSON-LD) para rich snippets
+  useEffect(() => {
+    const siteUrl = window.location.origin;
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Camilla Vieira",
+      "url": siteUrl,
+      "description": "Fot\u00f3grafa art\u00edstica, artista visual e ceramista. Criadora da S\u00e9rie Fio. Baseada em Bras\u00edlia, Brasil.",
+      "jobTitle": "Fot\u00f3grafa Art\u00edstica e Artista Visual",
+      "email": "contato@camillavieira.art",
+      "telephone": "+55-61-99108-7909",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Camilla Vieira \u2014 Ateli\u00ea Digital",
+        "url": siteUrl
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Bras\u00edlia",
+        "addressRegion": "DF",
+        "addressCountry": "BR"
+      },
+      "sameAs": [
+        "https://www.instagram.com/camillavieira.art",
+        "https://camillavieira.art"
+      ],
+      "knowsAbout": ["Fotografia Art\u00edstica", "Arte Visual", "Cer\u00e2mica", "Bordado", "Mentoria Criativa", "Marca Pessoal"]
+    };
+    let el = document.getElementById("schema-person");
+    if (!el) { el = document.createElement("script"); el.id = "schema-person"; (el as HTMLScriptElement).type = "application/ld+json"; document.head.appendChild(el); }
+    el.textContent = JSON.stringify(schema);
+    return () => { document.getElementById("schema-person")?.remove(); };
+  }, []);
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--brand-bege-light)" }}>
       <Navigation />

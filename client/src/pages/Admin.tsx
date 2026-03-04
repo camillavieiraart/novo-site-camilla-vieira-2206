@@ -12,6 +12,8 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { TestimonialsAdmin, NewsletterAdmin, BlogAdmin, CeramicsAdmin, SpecialProjectsAdmin } from "./AdminExtras";
+import { CRMAdmin } from "./AdminCRM";
+import { AdminShop } from "./AdminShop";
 
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
@@ -28,6 +30,8 @@ const NAV_ITEMS = [
   { href: "/admin/blog", label: "Blog", icon: BookOpen },
   { href: "/admin/depoimentos", label: "Depoimentos", icon: Star },
   { href: "/admin/newsletter", label: "Newsletter", icon: Users },
+  { href: "/admin/crm", label: "CRM / Leads", icon: Users },
+  { href: "/admin/loja", label: "Loja", icon: Package },
   { href: "/admin/configuracoes", label: "Configurações", icon: Settings },
 ];
 
@@ -899,6 +903,8 @@ function AdminContent() {
   if (location === "/admin/ceramica") return <CeramicsAdmin />;
   if (location === "/admin/projetos") return <SpecialProjectsAdmin />;
   if (location === "/admin/configuracoes") return <SettingsAdmin />;
+  if (location === "/admin/crm") return <CRMAdmin />;
+  if (location === "/admin/loja") return <AdminShop />;
 
   return (
     <div className="text-center py-20">

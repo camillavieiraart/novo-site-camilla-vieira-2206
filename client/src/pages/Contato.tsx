@@ -34,6 +34,45 @@ export default function Contato() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<ContactForm>();
   useEffect(() => { setTimeout(() => setVisible(true), 200); }, []);
 
+  // Schema LocalBusiness (JSON-LD) para rich snippets
+  useEffect(() => {
+    const siteUrl = window.location.origin;
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Camilla Vieira — Ateliê Digital",
+      "description": "Fotógrafa artística, artista visual e mentora criativa. Ensaios fotográficos, obras de arte, cerâmica artesanal e mentorias de marca pessoal.",
+      "url": siteUrl,
+      "telephone": "+55-61-99108-7909",
+      "email": "contato@camillavieira.art",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Brasília",
+        "addressRegion": "DF",
+        "postalCode": "70680-350",
+        "addressCountry": "BR"
+      },
+      "geo": { "@type": "GeoCoordinates", "latitude": "-15.7801", "longitude": "-47.9292" },
+      "openingHours": "Mo-Fr 09:00-18:00",
+      "priceRange": "$$",
+      "sameAs": ["https://www.instagram.com/camillavieira.art"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Serviços e Obras",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ensaios Fotográficos" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Mentoria de Marca Pessoal" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Obras de Arte Original" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Cerâmica Artesanal" } }
+        ]
+      }
+    };
+    let el = document.getElementById("schema-localbusiness");
+    if (!el) { el = document.createElement("script"); el.id = "schema-localbusiness"; (el as HTMLScriptElement).type = "application/ld+json"; document.head.appendChild(el); }
+    el.textContent = JSON.stringify(schema);
+    return () => { document.getElementById("schema-localbusiness")?.remove(); };
+  }, []);
+
   const onSubmit = (data: ContactForm) => sendMessage.mutate(data);
 
   return (
@@ -71,7 +110,7 @@ export default function Contato() {
 
               <div className="flex flex-col gap-6 mb-12">
                 {[
-                  { icon: <MessageCircle size={18} />, label: "WhatsApp", value: "(11) 99999-9999", href: "https://wa.me/5511999999999" },
+                  { icon: <MessageCircle size={18} />, label: "WhatsApp", value: "(61) 99108-7909", href: "https://wa.me/5561991087909" },
                   { icon: <Mail size={18} />, label: "E-mail", value: "contato@camillavieira.art", href: "mailto:contato@camillavieira.art" },
                   { icon: <Instagram size={18} />, label: "Instagram", value: "@camillavieira.art", href: "https://instagram.com/camillavieira.art" },
                   { icon: <Youtube size={18} />, label: "YouTube", value: "@camillavieira.art", href: "https://youtube.com/@camillavieira.art" },

@@ -196,21 +196,22 @@
 - [ ] Rotas tRPC para checkout de marca pessoal (createSession, webhook Stripe)
 - [ ] Rotas tRPC para CRM admin (listOrders, getOrder, updateStage, updateDates, addNote, updateDeliverable)
 - [ ] Página pública /mentorias/profissionais com pacotes, serviços avulsos e CheckoutModal
-- [ ] CRM Kanban unificado no admin (todos os clientes: ensaios, obras, cerâmicas, prints, mentorias, marca pessoal)
+- [x] CRM Kanban no admin (/admin/crm) com drag-and-drop, estágios, detalhes de lead
 - [ ] Ficha completa do cliente: dados, produto, prazos automáticos, histórico de atividades
-- [ ] Webhook Stripe para marcar pedido como pago automaticamente
-- [ ] Notificação para Camilla a cada novo pedido confirmado
+- [x] Webhook Stripe para marcar pedido como pago automaticamente
+- [x] Notificação para Camilla a cada novo pedido confirmado
 
 ## Sistema de Compras (A implementar)
-- [ ] Criar conta no Stripe (stripe.com/br)
-- [ ] Definir modelo de entrega por produto (ensaios, obras, cerâmicas, prints, mentorias)
-- [ ] Instalar Stripe no projeto (webdev_add_feature stripe)
-- [ ] Schema: tabelas products, orders, order_items
-- [ ] Página de loja com listagem de produtos por categoria
-- [ ] Checkout com Stripe (pagamento seguro)
-- [ ] Página de confirmação de pedido
-- [ ] Painel admin: gestão de produtos, pedidos e status de entrega
-- [ ] Notificação por email ao comprador e à Camilla a cada pedido
+- [x] Stripe integrado (STRIPE_SECRET_KEY + VITE_STRIPE_PUBLISHABLE_KEY configurados)
+- [x] Schema: tabelas products, orders (já existiam no banco)
+- [x] shop-router.ts: listProducts, getProduct, createCheckoutSession, getOrderStatus, adminListProducts, upsertProduct, deleteProduct, adminListOrders, updateOrderStatus, getOrderStats
+- [x] Webhook Stripe /api/stripe/webhook com verificação de assinatura
+- [x] Página /loja — listagem de produtos por categoria com filtros
+- [x] Página /loja/:slug — detalhe do produto com checkout modal
+- [x] Página /loja/sucesso — confirmação de pedido com status em tempo real
+- [x] Painel admin /admin/loja — gestão de produtos (CRUD + sync Stripe) e pedidos (status, rastreio, notas)
+- [x] Link "Loja" adicionado ao menu de navegação (desktop + mobile)
+- [x] Notificação para Camilla a cada pedido confirmado via webhook
 
 ## Formulários Públicos de CRM (Mar 2026)
 - [ ] Tabela lead_forms no banco (token único, tipo: onboarding | satisfacao, lead_id, status: pending | filled, respostas JSON)
@@ -228,3 +229,8 @@
 
 ## Skill Reutilizável (Mar 2026)
 - [ ] Criar skill marca-pessoal-digital com scripts de importação de leads, base de conhecimento e SKILL.md
+
+## SEO — Schema Markup (CRÍTICO — Mar 2026)
+- [x] Schema BlogPosting JSON-LD em cada post do blog (author, datePublished, dateModified, image, description, keywords, breadcrumb, publisher) — JA IMPLEMENTADO
+- [x] Schema Person na página /sobre
+- [x] Schema LocalBusiness na página /contato

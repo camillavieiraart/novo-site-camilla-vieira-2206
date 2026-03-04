@@ -21,6 +21,9 @@ import FormOnboarding from "./pages/FormOnboarding";
 import FormSatisfacao from "./pages/FormSatisfacao";
 import Privacidade from "./pages/Privacidade";
 import Termos from "./pages/Termos";
+import Loja from "./pages/Loja";
+import ProdutoDetalhe from "./pages/ProdutoDetalhe";
+import PedidoSucesso from "./pages/PedidoSucesso";
 
 function Router() {
   return (
@@ -46,6 +49,9 @@ function Router() {
       <Route path="/satisfacao/:token" component={FormSatisfacao} />
       <Route path="/privacidade" component={Privacidade} />
       <Route path="/termos" component={Termos} />
+      <Route path="/loja" component={Loja} />
+      <Route path="/loja/sucesso" component={PedidoSucesso} />
+      <Route path="/loja/:slug" component={ProdutoDetalhe} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

@@ -187,7 +187,7 @@
 - [x] Formulário de inscrição com preferências de conteúdo (Tudo / Ensaios / Arte / Mentoria) + alerta de novas publicações no blog
 - [x] Rotas tRPC: send, preview, health, getAll, updateSubscriber, subscribeWithPreferences
 - [x] Painel admin completo: campanhas enviadas (abertura, cliques, unsub), assinantes com preferências, analytics por dia da semana, pré-visualização de email
-- [ ] PENDENTE: Configurar RESEND_API_KEY (chave completa re_... do Resend Dashboard → API Keys → Create API Key)
+- [x] RESEND_API_KEY configurada e validada (re_Y2k37... — domínio camillavieira.art verificado, envio testado com sucesso)
 
 ## Sistema de Compras (A implementar)
 - [ ] Criar conta no Stripe (stripe.com/br)

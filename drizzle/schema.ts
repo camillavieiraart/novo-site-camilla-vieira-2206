@@ -343,3 +343,191 @@ export type NewsletterSent = typeof newslettersSent.$inferSelect;
 export type EmailEvent = typeof emailEvents.$inferSelect;
 export type BlogPost = typeof blogPosts.$inferSelect;
 export type InsertBlogPost = typeof blogPosts.$inferInsert;
+
+// ─── SHOP — PRODUCTS ─────────────────────────────────────────────────────────
+export const products = mysqlTable("products", {
+  id: int("id").autoincrement().primaryKey(),
+  slug: varchar("slug", { length: 100 }).notNull().unique(),
+  name: varchar("name", { length: 200 }).notNull(),
+  description: text("description"),
+  shortDescription: varchar("shortDescription", { length: 300 }),
+  category: mysqlEnum("category", [
+    "ensaio",
+    "obra_arte",
+    "ceramica",
+    "print",
+    "mentoria",
+  ]).notNull(),
+  priceInCents: int("priceInCents").notNull(), // preço em centavos (BRL)
+  compareAtPriceInCents: int("compareAtPriceInCents"), // preço original (riscado)
+  imageUrl: text("imageUrl"),
+  images: text("images"), // JSON array de URLs adicionais
+  stripePriceId: varchar("stripePriceId", { length: 100 }), // Stripe Price ID
+  stripeProductId: varchar("stripeProductId", { length: 100 }), // Stripe Product ID
+  deliveryType: mysqlEnum("deliveryType", [
+    "agendamento",   // ensaios e mentorias — cliente agenda após compra
+    "envio_fisico",  // obras, cerâmicas — enviado pelos Correios
+    "download",      // prints digitais
+    "acesso_online", // mentorias gravadas
+  ]).notNull().default("agendamento"),
+  stock: int("stock"), // null = ilimitado (para serviços)
+  isActive: boolean("isActive").default(true).notNull(),
+  isFeatured: boolean("isFeatured").default(false).notNull(),
+  order: int("order").default(0).notNull(),
+  metadata: text("metadata"), // JSON com dados extras (dimensões, técnica, etc.)
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// ─── SHOP — ORDERS ────────────────────────────────────────────────────────────
+export const orders = mysqlTable("orders", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identificadores Stripe
+  stripePaymentIntentId: varchar("stripePaymentIntentId", { length: 100 }).unique(),
+  stripeCheckoutSessionId: varchar("stripeCheckoutSessionId", { length: 100 }).unique(),
+  // Cliente
+  customerEmail: varchar("customerEmail", { length: 320 }).notNull(),
+  customerName: varchar("customerName", { length: 200 }),
+  userId: int("userId"), // null se compra sem conta
+  // Produto
+  productId: int("productId").notNull(),
+  productName: varchar("productName", { length: 200 }).notNull(),
+  productCategory: varchar("productCategory", { length: 50 }).notNull(),
+  amountInCents: int("amountInCents").notNull(),
+  // Status
+  status: mysqlEnum("status", [
+    "pending",    // aguardando pagamento
+    "paid",       // pago
+    "processing", // em processamento/produção
+    "shipped",    // enviado (físicos)
+    "delivered",  // entregue
+    "cancelled",  // cancelado
+    "refunded",   // reembolsado
+  ]).default("pending").notNull(),
+  // Entrega
+  deliveryType: varchar("deliveryType", { length: 50 }),
+  shippingAddress: text("shippingAddress"), // JSON com endereço
+  trackingCode: varchar("trackingCode", { length: 100 }),
+  scheduledAt: timestamp("scheduledAt"), // para ensaios e mentorias agendadas
+  // Notas
+  adminNotes: text("adminNotes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// ─── TYPES ────────────────────────────────────────────────────────────────────
+export type Product = typeof products.$inferSelect;
+export type InsertProduct = typeof products.$inferInsert;
+export type Order = typeof orders.$inferSelect;
+export type InsertOrder = typeof orders.$inferInsert;
+
+// ─── MARCA PESSOAL — CLIENTS ──────────────────────────────────────────────────
+export const clients = mysqlTable("clients", {
+  id: int("id").autoincrement().primaryKey(),
+  // Dados pessoais
+  name: varchar("name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 320 }).notNull(),
+  whatsapp: varchar("whatsapp", { length: 30 }).notNull(),
+  city: varchar("city", { length: 100 }),
+  // Dados profissionais
+  profession: varchar("profession", { length: 255 }),
+  niche: varchar("niche", { length: 255 }),
+  instagram: varchar("instagram", { length: 100 }),
+  linkedin: varchar("linkedin", { length: 255 }),
+  // Contexto
+  shootingObjective: text("shootingObjective"),
+  numberOfPeople: int("numberOfPeople").default(1).notNull(),
+  howDidYouFindUs: varchar("howDidYouFindUs", { length: 100 }),
+  notes: text("notes"),
+  // Stripe
+  stripeCustomerId: varchar("stripeCustomerId", { length: 255 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// ─── MARCA PESSOAL — PROFESSIONAL ORDERS (CRM) ───────────────────────────────
+export const professionalOrders = mysqlTable("professional_orders", {
+  id: int("id").autoincrement().primaryKey(),
+  clientId: int("clientId").notNull(),
+  // Produto
+  productType: varchar("productType", { length: 50 }).notNull(),
+  productName: varchar("productName", { length: 255 }).notNull(),
+  // Valores
+  basePrice: int("basePrice").notNull(),
+  numberOfPeople: int("numberOfPeople").default(1).notNull(),
+  discountAmount: int("discountAmount").default(0).notNull(),
+  totalPrice: int("totalPrice").notNull(),
+  // Pagamento
+  paymentStatus: mysqlEnum("paymentStatus", ["pending", "paid", "failed", "refunded"]).default("pending").notNull(),
+  paymentMethod: mysqlEnum("paymentMethod", ["card", "pix"]),
+  stripePaymentIntentId: varchar("stripePaymentIntentId", { length: 255 }),
+  stripeCheckoutSessionId: varchar("stripeCheckoutSessionId", { length: 255 }).unique(),
+  paidAt: timestamp("paidAt"),
+  // CRM Pipeline
+  crmStage: mysqlEnum("crmStage", [
+    "novo_lead",
+    "contato_feito",
+    "briefing_enviado",
+    "ensaio_agendado",
+    "ensaio_realizado",
+    "em_edicao",
+    "entrega_feita",
+    "concluido",
+    "cancelado",
+  ]).default("novo_lead").notNull(),
+  // Datas
+  shootingDate: timestamp("shootingDate"),
+  consultationDate: timestamp("consultationDate"),
+  googleCalendarEventId: varchar("googleCalendarEventId", { length: 255 }),
+  googleMeetLink: varchar("googleMeetLink", { length: 500 }),
+  // Notas internas
+  internalNotes: text("internalNotes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// ─── MARCA PESSOAL — DELIVERABLES ─────────────────────────────────────────────
+export const deliverables = mysqlTable("deliverables", {
+  id: int("id").autoincrement().primaryKey(),
+  orderId: int("orderId").notNull(),
+  itemName: varchar("itemName", { length: 255 }).notNull(),
+  itemType: mysqlEnum("itemType", [
+    "fotos",
+    "video_40s",
+    "videos_audio",
+    "filmagem",
+    "analise_instagram",
+    "ideias_posts",
+    "calendario",
+    "guia_pdf",
+    "mentoria",
+    "consultoria",
+    "roteiro_video",
+    "suporte_whatsapp",
+  ]).notNull(),
+  deadlineDays: int("deadlineDays"),
+  dueDate: timestamp("dueDate"),
+  status: mysqlEnum("status", ["pending", "in_progress", "completed", "delivered"]).default("pending").notNull(),
+  completedAt: timestamp("completedAt"),
+  deliveredAt: timestamp("deliveredAt"),
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// ─── MARCA PESSOAL — CRM NOTES ────────────────────────────────────────────────
+export const crmNotes = mysqlTable("crmNotes", {
+  id: int("id").autoincrement().primaryKey(),
+  orderId: int("orderId").notNull(),
+  content: text("content").notNull(),
+  noteType: mysqlEnum("noteType", ["note", "call", "email", "whatsapp", "meeting", "stage_change"]).default("note").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// ─── TYPES ────────────────────────────────────────────────────────────────────
+export type Client = typeof clients.$inferSelect;
+export type InsertClient = typeof clients.$inferInsert;
+export type ProfessionalOrder = typeof professionalOrders.$inferSelect;
+export type InsertProfessionalOrder = typeof professionalOrders.$inferInsert;
+export type Deliverable = typeof deliverables.$inferSelect;
+export type CrmNote = typeof crmNotes.$inferSelect;

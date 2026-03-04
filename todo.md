@@ -189,6 +189,18 @@
 - [x] Painel admin completo: campanhas enviadas (abertura, cliques, unsub), assinantes com preferências, analytics por dia da semana, pré-visualização de email
 - [x] RESEND_API_KEY configurada e validada (re_Y2k37... — domínio camillavieira.art verificado, envio testado com sucesso)
 
+## Sistema de Compras + CRM Unificado (Mar 2026)
+- [x] Tabelas clients, professional_orders, deliverables, crmNotes adicionadas ao schema e migradas
+- [x] products-marca-pessoal.ts: catálogo completo de pacotes e serviços avulsos
+- [x] crm-db.ts: helpers de banco para CRM unificado (todos os clientes)
+- [ ] Rotas tRPC para checkout de marca pessoal (createSession, webhook Stripe)
+- [ ] Rotas tRPC para CRM admin (listOrders, getOrder, updateStage, updateDates, addNote, updateDeliverable)
+- [ ] Página pública /mentorias/profissionais com pacotes, serviços avulsos e CheckoutModal
+- [ ] CRM Kanban unificado no admin (todos os clientes: ensaios, obras, cerâmicas, prints, mentorias, marca pessoal)
+- [ ] Ficha completa do cliente: dados, produto, prazos automáticos, histórico de atividades
+- [ ] Webhook Stripe para marcar pedido como pago automaticamente
+- [ ] Notificação para Camilla a cada novo pedido confirmado
+
 ## Sistema de Compras (A implementar)
 - [ ] Criar conta no Stripe (stripe.com/br)
 - [ ] Definir modelo de entrega por produto (ensaios, obras, cerâmicas, prints, mentorias)

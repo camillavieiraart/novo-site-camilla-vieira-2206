@@ -234,3 +234,12 @@
 - [x] Schema BlogPosting JSON-LD em cada post do blog (author, datePublished, dateModified, image, description, keywords, breadcrumb, publisher) — JA IMPLEMENTADO
 - [x] Schema Person na página /sobre
 - [x] Schema LocalBusiness na página /contato
+
+## Ativação da Conta Stripe (PENDENTE)
+- [ ] Acessar dashboard.stripe.com com camillavieirafotografia@gmail.com e completar o cadastro KYC (nome, CPF, endereço, dados bancários) para ativar charges_enabled e payouts_enabled — sem isso pagamentos reais não são processados
+
+## Estratégia de Clusters de Blog — 8 Posts (Mar 2026)
+- [x] Definir clusters SEO e palavras-chave para cada post
+- [x] Redigir 8 posts completos com voz da Camilla e HTML editorial
+- [x] Gerar imagens de capa para cada post via IA
+- [x] Publicar todos os posts no banco de dados

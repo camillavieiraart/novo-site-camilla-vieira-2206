@@ -19,6 +19,8 @@ import { ScrollToTop } from "./components/ScrollToTop";
 import { NewsletterPopup } from "./components/NewsletterPopup";
 import FormOnboarding from "./pages/FormOnboarding";
 import FormSatisfacao from "./pages/FormSatisfacao";
+import Privacidade from "./pages/Privacidade";
+import Termos from "./pages/Termos";
 
 function Router() {
   return (
@@ -42,6 +44,8 @@ function Router() {
       <Route path="/admin/:section" component={Admin} />
       <Route path="/onboarding/:token" component={FormOnboarding} />
       <Route path="/satisfacao/:token" component={FormSatisfacao} />
+      <Route path="/privacidade" component={Privacidade} />
+      <Route path="/termos" component={Termos} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

@@ -62,7 +62,7 @@ export function Footer() {
                 <Mail size={14} />
                 contato@camillavieira.art
               </a>
-              <a href="https://wa.me/5511999999999"
+              <a href="https://wa.me/5561991087909"
                 className="flex items-center gap-2.5 text-xs no-underline transition-opacity hover:opacity-100 opacity-65"
                 style={{ color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
                 <Phone size={14} />
@@ -83,10 +83,20 @@ export function Footer() {
           <p className="text-xs" style={{ color: "rgba(245,230,211,0.4)", fontFamily: "'Inter', sans-serif" }}>
             © {new Date().getFullYear()} Camilla Vieira. Todos os direitos reservados.
           </p>
-          <Link href="/contato" className="text-xs no-underline transition-opacity hover:opacity-100 opacity-50"
-            style={{ color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
-            Fale Comigo
-          </Link>
+          <div className="flex items-center gap-5">
+            <Link href="/privacidade" className="text-xs no-underline transition-opacity hover:opacity-100 opacity-50"
+              style={{ color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
+              Política de Privacidade
+            </Link>
+            <Link href="/termos" className="text-xs no-underline transition-opacity hover:opacity-100 opacity-50"
+              style={{ color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
+              Termos de Uso
+            </Link>
+            <Link href="/contato" className="text-xs no-underline transition-opacity hover:opacity-100 opacity-50"
+              style={{ color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
+              Fale Comigo
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

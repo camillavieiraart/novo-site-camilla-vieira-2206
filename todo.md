@@ -219,3 +219,12 @@
 - [ ] Página pública /satisfacao/:token — pesquisa de satisfação NPS (clientes fechados)
 - [ ] Painel admin: visualizar respostas dos formulários por lead
 - [ ] Gerar links para os 27 leads importados (9 negociando/quentes → onboarding, 15 fechados → satisfação)
+
+## Conformidade Legal LGPD (CRÍTICO — Mar 2026)
+- [x] Página /privacidade — Política de Privacidade completa (LGPD/GDPR)
+- [x] Página /termos — Termos de Uso completos
+- [x] Links no rodapé do site apontando para /privacidade e /termos
+- [x] WhatsApp no rodapé corrigido para (61) 99108-7909
+
+## Skill Reutilizável (Mar 2026)
+- [ ] Criar skill marca-pessoal-digital com scripts de importação de leads, base de conhecimento e SKILL.md

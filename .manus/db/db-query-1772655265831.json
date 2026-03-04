@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS `leads` (\n  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,\n  `name` varchar(255) NOT NULL,\n  `phone` varchar(30),\n  `email` varchar(320),\n  `city` varchar(100),\n  `service_interest` varchar(50) DEFAULT 'outro',\n  `stage` enum('lead_frio','lead_quente','negociando','fechado','perdido') DEFAULT 'lead_frio' NOT NULL,\n  `source` varchar(50) DEFAULT 'importado',\n  `notes` text,\n  `last_contact` bigint,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute CREATE TABLE IF NOT EXISTS `leads` (\n  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,\n  `name` varchar(255) NOT NULL,\n  `phone` varchar(30),\n  `email` varchar(320),\n  `city` varchar(100),\n  `service_interest` varchar(50) DEFAULT 'outro',\n  `stage` enum('lead_frio','lead_quente','negociando','fechado','perdido') DEFAULT 'lead_frio' NOT NULL,\n  `source` varchar(50) DEFAULT 'importado',\n  `notes` text,\n  `last_contact` bigint,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 158
+}

@@ -57,6 +57,12 @@ async function startServer() {
     createExpressMiddleware({
       router: appRouter,
       createContext,
+      onError({ error, path }) {
+        // Log unexpected server-side errors (skip auth/permission/not-found noise)
+        if (error.code !== "UNAUTHORIZED" && error.code !== "FORBIDDEN" && error.code !== "NOT_FOUND") {
+          console.error(`[tRPC Error] ${path ?? "unknown"}: ${error.message}`);
+        }
+      },
     })
   );
   // Dynamic sitemap.xml — includes all published blog posts from the database

@@ -354,3 +354,6 @@
 ## SEO Blog — Links Internos e CTAs (Mar 2026)
 - [x] Adicionar 2-3 links internos contextuais em cada um dos 17 posts do blog (para /mentorias, /portfolio, /contato, posts relacionados)
 - [x] Adicionar bloco de CTA visualmente distinto no final de cada post (botão para ação relevante: agendar mentoria, ver portfólio, entrar em contato)
+
+## Bug — Erro JSON na Home (Mar 2026)
+- [x] Corrigir erro "Unexpected token '<' is not valid JSON" na página inicial — era erro transiente de restart do servidor; adicionado onError handler no tRPC para melhor diagnóstico futuro

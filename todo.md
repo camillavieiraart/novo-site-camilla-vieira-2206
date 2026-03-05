@@ -295,3 +295,11 @@
 - [x] Conectar /home ao banco: hero (título, subtítulo, eyebrow, CTAs, imagem de fundo), manifesto (linhas 1/2/3, vídeo), ensaios (título, subtítulo, CTA), obras (título, subtítulo, CTA)
 - [x] Garantir que alterações no /admin/sobre aparecem imediatamente na página pública /sobre
 - [x] Garantir que alterações no /admin/home aparecem imediatamente na página pública /home
+
+## Correção Crítica — Formulário de Contato (Mar 2026)
+- [x] Corrigir formulário de contato: adicionar tag <form> real com onSubmit
+- [x] Validação de campos obrigatórios (nome, email, mensagem) com feedback visual
+- [x] Envio via tRPC (mutation contact.send) com loading state e toast de confirmação
+- [x] Backend: salvar mensagem no banco de dados (tabela contact_messages)
+- [x] Backend: notificar Camilla via notifyOwner ao receber nova mensagem
+- [x] Testar fluxo completo: preenchimento → envio → confirmação → mensagem no admin

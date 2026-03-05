@@ -1,0 +1,19 @@
+{
+  "query": "SELECT id, name, email, subject, LEFT(message, 80) as message, isRead, createdAt FROM contact_messages ORDER BY createdAt DESC LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT id, name, email, subject, LEFT(message, 80) as message, isRead, createdAt FROM contact_messages ORDER BY createdAt DESC LIMIT 5;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Teste",
+      "email": "teste@teste.com",
+      "subject": "NULL",
+      "message": "Mensagem de teste com mais de 10 caracteres",
+      "isRead": "0",
+      "createdAt": "2026-03-05 17:12:23"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\tsubject\tmessage\tisRead\tcreatedAt\n1\tTeste\tteste@teste.com\tNULL\tMensagem de teste com mais de 10 caracteres\t0\t2026-03-05 17:12:23\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

@@ -1,21 +1,223 @@
 import { useEffect, useState } from "react";
 import { useSEO } from "@/hooks/useSEO";
-import { Instagram, Youtube, Mail, Phone, MessageCircle } from "lucide-react";
+import { Instagram, Youtube, Mail, MessageCircle, Send, CheckCircle2 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { BrushCorner } from "@/components/BrushStroke";
 import { trpc } from "@/lib/trpc";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-interface ContactForm {
-  name: string;
-  email: string;
-  phone: string;
-  subject: string;
-  message: string;
+// ─── Validation helpers ───────────────────────────────────────────────────────
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 }
 
+// ─── Field component ──────────────────────────────────────────────────────────
+function Field({
+  id, label, required, error, children,
+}: {
+  id: string; label: string; required?: boolean; error?: string; children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <label htmlFor={id} className="form-label">
+        {label}{required && <span style={{ color: "var(--brand-terracota)" }}> *</span>}
+      </label>
+      {children}
+      {error && (
+        <p role="alert" className="text-xs mt-1" style={{ color: "#c0392b", fontFamily: "'Inter', sans-serif" }}>
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ─── CONTACT FORM ─────────────────────────────────────────────────────────────
+function ContactForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [sent, setSent] = useState(false);
+
+  const sendMessage = trpc.contact.send.useMutation({
+    onSuccess: () => {
+      setSent(true);
+      toast.success("Mensagem enviada! Camilla responderá em breve.");
+    },
+    onError: (err) => {
+      toast.error("Erro ao enviar mensagem. Tente novamente.");
+      console.error("[contact.send error]", err);
+    },
+  });
+
+  function validate() {
+    const e: Record<string, string> = {};
+    if (!name.trim()) e.name = "Por favor, informe seu nome.";
+    if (!email.trim()) e.email = "Por favor, informe seu e-mail.";
+    else if (!isValidEmail(email)) e.email = "E-mail inválido.";
+    if (!message.trim()) e.message = "Por favor, escreva uma mensagem.";
+    else if (message.trim().length < 10) e.message = "Mensagem muito curta (mínimo 10 caracteres).";
+    return e;
+  }
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    setErrors({});
+    sendMessage.mutate({
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim() || undefined,
+      subject: subject.trim() || undefined,
+      message: message.trim(),
+    });
+  }
+
+  if (sent) {
+    return (
+      <div className="p-10 text-center" style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
+        <CheckCircle2 size={40} className="mx-auto mb-4" style={{ color: "var(--brand-terracota)" }} />
+        <h3 className="font-serif text-2xl font-medium mb-3" style={{ color: "var(--brand-marrom-deep)" }}>
+          Mensagem Enviada!
+        </h3>
+        <p className="text-sm mb-6" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+          Obrigada pelo contato. Camilla responderá em até 24 horas úteis.
+        </p>
+        <button
+          type="button"
+          onClick={() => {
+            setSent(false);
+            setName(""); setEmail(""); setPhone(""); setSubject(""); setMessage("");
+          }}
+          className="btn-outline-dark"
+        >
+          Enviar outra mensagem
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      aria-label="Formulário de contato"
+      className="flex flex-col gap-5"
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Field id="contact-name" label="Nome" required error={errors.name}>
+          <input
+            id="contact-name"
+            name="name"
+            type="text"
+            autoComplete="name"
+            className="form-input"
+            placeholder="Seu nome completo"
+            value={name}
+            onChange={(e) => { setName(e.target.value); if (errors.name) setErrors(p => ({ ...p, name: "" })); }}
+            aria-required="true"
+            aria-invalid={!!errors.name}
+            aria-describedby={errors.name ? "contact-name-error" : undefined}
+          />
+        </Field>
+
+        <Field id="contact-email" label="E-mail" required error={errors.email}>
+          <input
+            id="contact-email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            className="form-input"
+            placeholder="seu@email.com"
+            value={email}
+            onChange={(e) => { setEmail(e.target.value); if (errors.email) setErrors(p => ({ ...p, email: "" })); }}
+            aria-required="true"
+            aria-invalid={!!errors.email}
+          />
+        </Field>
+      </div>
+
+      <Field id="contact-phone" label="Telefone / WhatsApp">
+        <input
+          id="contact-phone"
+          name="phone"
+          type="tel"
+          autoComplete="tel"
+          className="form-input"
+          placeholder="(61) 99999-9999"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+      </Field>
+
+      <Field id="contact-subject" label="Assunto">
+        <input
+          id="contact-subject"
+          name="subject"
+          type="text"
+          className="form-input"
+          placeholder="Ensaio, obra de arte, mentoria..."
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+        />
+      </Field>
+
+      <Field id="contact-message" label="Mensagem" required error={errors.message}>
+        <textarea
+          id="contact-message"
+          name="message"
+          rows={6}
+          className="form-input resize-none"
+          placeholder="Conte o que você tem em mente — um ensaio, uma obra, uma mentoria ou apenas um olá..."
+          value={message}
+          onChange={(e) => { setMessage(e.target.value); if (errors.message) setErrors(p => ({ ...p, message: "" })); }}
+          aria-required="true"
+          aria-invalid={!!errors.message}
+        />
+      </Field>
+
+      {/* Global error summary */}
+      {Object.keys(errors).filter(k => errors[k]).length > 0 && (
+        <p role="alert" className="text-xs px-3 py-2" style={{ backgroundColor: "#fff0f0", border: "1px solid #f5c6c6", color: "#c0392b", fontFamily: "'Inter', sans-serif" }}>
+          Por favor, corrija os campos marcados acima antes de enviar.
+        </p>
+      )}
+
+      <button
+        type="submit"
+        disabled={sendMessage.isPending}
+        className="btn-primary justify-center gap-2"
+        aria-busy={sendMessage.isPending}
+      >
+        {sendMessage.isPending ? (
+          <>
+            <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            Enviando...
+          </>
+        ) : (
+          <>
+            <Send size={15} />
+            Enviar Mensagem
+          </>
+        )}
+      </button>
+
+      <p className="text-xs text-center" style={{ color: "var(--brand-marrom)", opacity: 0.6, fontFamily: "'Inter', sans-serif" }}>
+        Seus dados são usados apenas para responder ao seu contato. Não compartilhamos com terceiros.
+      </p>
+    </form>
+  );
+}
+
+// ─── PAGE ─────────────────────────────────────────────────────────────────────
 export default function Contato() {
   useSEO({
     title: "Contato",
@@ -23,18 +225,11 @@ export default function Contato() {
     keywords: "contato Camilla Vieira, agendamento ensaio, fotógrafa Brasília, fotógrafa São Paulo, ensaio feminino Brasília, ensaio feminino SP, @camillavieira.art",
     canonical: "/contato",
   });
+
   const [visible, setVisible] = useState(false);
-  const [sent, setSent] = useState(false);
-
-  const sendMessage = trpc.contact.send.useMutation({
-    onSuccess: () => { setSent(true); toast.success("Mensagem enviada! Camilla responderá em breve."); reset(); },
-    onError: () => toast.error("Erro ao enviar. Tente novamente."),
-  });
-
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<ContactForm>();
   useEffect(() => { setTimeout(() => setVisible(true), 200); }, []);
 
-  // Schema LocalBusiness (JSON-LD) para rich snippets
+  // Schema LocalBusiness (JSON-LD)
   useEffect(() => {
     const siteUrl = window.location.origin;
     const schema = {
@@ -50,15 +245,15 @@ export default function Contato() {
         "addressLocality": "Brasília",
         "addressRegion": "DF",
         "postalCode": "70680-350",
-        "addressCountry": "BR"
+        "addressCountry": "BR",
       },
       "geo": { "@type": "GeoCoordinates", "latitude": "-15.7801", "longitude": "-47.9292" },
       "openingHours": "Mo-Fr 09:00-18:00",
       "priceRange": "$$",
       "areaServed": [
-        {"@type": "City", "name": "Brasília"},
-        {"@type": "City", "name": "São Paulo"},
-        {"@type": "Country", "name": "Brasil"}
+        { "@type": "City", "name": "Brasília" },
+        { "@type": "City", "name": "São Paulo" },
+        { "@type": "Country", "name": "Brasil" },
       ],
       "sameAs": ["https://www.instagram.com/camillavieira.art"],
       "hasOfferCatalog": {
@@ -68,17 +263,20 @@ export default function Contato() {
           { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ensaios Fotográficos" } },
           { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Mentoria de Marca Pessoal" } },
           { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Obras de Arte Original" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Cerâmica Artesanal" } }
-        ]
-      }
+          { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Cerâmica Artesanal" } },
+        ],
+      },
     };
     let el = document.getElementById("schema-localbusiness");
-    if (!el) { el = document.createElement("script"); el.id = "schema-localbusiness"; (el as HTMLScriptElement).type = "application/ld+json"; document.head.appendChild(el); }
+    if (!el) {
+      el = document.createElement("script");
+      el.id = "schema-localbusiness";
+      (el as HTMLScriptElement).type = "application/ld+json";
+      document.head.appendChild(el);
+    }
     el.textContent = JSON.stringify(schema);
     return () => { document.getElementById("schema-localbusiness")?.remove(); };
   }, []);
-
-  const onSubmit = (data: ContactForm) => sendMessage.mutate(data);
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--brand-bege-light)" }}>
@@ -106,6 +304,7 @@ export default function Contato() {
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+
             {/* Contact info */}
             <div className={`transition-all duration-800 ${visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"}`}>
               <span className="section-eyebrow block mb-6">Fale Comigo</span>
@@ -113,9 +312,9 @@ export default function Contato() {
                 Canais de Contato
               </h2>
 
-              <div className="flex flex-col gap-6 mb-12">
+              <div className="flex flex-col gap-4 mb-12">
                 {[
-                  { icon: <MessageCircle size={18} />, label: "WhatsApp", value: "(61) 99108-7909", href: "https://wa.me/5561991087909" },
+                  { icon: <MessageCircle size={18} />, label: "WhatsApp", value: "(61) 99108-7909", href: "https://wa.me/5561991087909?text=Olá%20Camilla!%20Vim%20pelo%20site%20e%20gostaria%20de%20saber%20mais." },
                   { icon: <Mail size={18} />, label: "E-mail", value: "contato@camillavieira.art", href: "mailto:contato@camillavieira.art" },
                   { icon: <Instagram size={18} />, label: "Instagram", value: "@camillavieira.art", href: "https://instagram.com/camillavieira.art" },
                   { icon: <Youtube size={18} />, label: "YouTube", value: "@camillavieira.art", href: "https://youtube.com/@camillavieira.art" },
@@ -123,7 +322,7 @@ export default function Contato() {
                   <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-4 p-5 no-underline transition-all hover:translate-x-1"
                     style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
-                    <div className="flex items-center justify-center w-10 h-10 rounded-full"
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full flex-shrink-0"
                       style={{ backgroundColor: "var(--brand-bege-light)", color: "var(--brand-terracota)" }}>
                       {icon}
                     </div>
@@ -144,7 +343,7 @@ export default function Contato() {
                     { cidade: "Outros estados", detalhe: "Mediante interesse e agendamento prévio" },
                   ].map(({ cidade, detalhe }) => (
                     <div key={cidade} className="flex items-start gap-3">
-                      <span className="mt-0.5" style={{ color: "var(--brand-terracota)", fontSize: "0.75rem" }}>✦</span>
+                      <span className="mt-0.5 flex-shrink-0" style={{ color: "var(--brand-terracota)", fontSize: "0.75rem" }}>✦</span>
                       <div>
                         <p className="text-sm font-medium" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}>{cidade}</p>
                         <p className="text-xs" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>{detalhe}</p>
@@ -153,9 +352,10 @@ export default function Contato() {
                   ))}
                 </div>
               </div>
+
               <div className="p-6" style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
                 <h3 className="font-serif text-lg font-medium mb-3" style={{ color: "var(--brand-marrom-deep)" }}>Horário de Atendimento</h3>
-                <p className="text-sm" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
                   Segunda a Sexta: 9h às 18h<br />
                   Respondo mensagens em até 24 horas úteis.
                 </p>
@@ -168,52 +368,9 @@ export default function Contato() {
               <h2 className="font-serif text-3xl font-medium mb-8" style={{ color: "var(--brand-marrom-deep)" }}>
                 Envie uma Mensagem
               </h2>
-
-              {sent ? (
-                <div className="p-8 text-center" style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
-                  <div className="text-3xl mb-4">✦</div>
-                  <h3 className="font-serif text-2xl font-medium mb-3" style={{ color: "var(--brand-marrom-deep)" }}>Mensagem Enviada!</h3>
-                  <p className="text-sm" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
-                    Obrigada pelo contato. Camilla responderá em breve.
-                  </p>
-                  <button onClick={() => setSent(false)} className="btn-outline-dark mt-6">
-                    Enviar outra mensagem
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="form-label">Nome *</label>
-                      <input {...register("name", { required: true })} className="form-input" placeholder="Seu nome" />
-                      {errors.name && <p className="text-xs text-red-500 mt-1">Obrigatório</p>}
-                    </div>
-                    <div>
-                      <label className="form-label">E-mail *</label>
-                      <input {...register("email", { required: true })} type="email" className="form-input" placeholder="seu@email.com" />
-                      {errors.email && <p className="text-xs text-red-500 mt-1">Obrigatório</p>}
-                    </div>
-                  </div>
-                  <div>
-                    <label className="form-label">Telefone / WhatsApp</label>
-                    <input {...register("phone")} className="form-input" placeholder="(11) 99999-9999" />
-                  </div>
-                  <div>
-                    <label className="form-label">Assunto</label>
-                    <input {...register("subject")} className="form-input" placeholder="Ensaio, obra de arte, mentoria..." />
-                  </div>
-                  <div>
-                    <label className="form-label">Mensagem *</label>
-                    <textarea {...register("message", { required: true, minLength: 10 })} className="form-input min-h-[140px] resize-none"
-                      placeholder="Conte o que você tem em mente..." />
-                    {errors.message && <p className="text-xs text-red-500 mt-1">Mensagem muito curta</p>}
-                  </div>
-                  <button type="submit" disabled={sendMessage.isPending} className="btn-primary justify-center">
-                    {sendMessage.isPending ? "Enviando..." : "Enviar Mensagem"}
-                  </button>
-                </form>
-              )}
+              <ContactForm />
             </div>
+
           </div>
         </div>
       </section>

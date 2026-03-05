@@ -2,7 +2,7 @@ import { z } from "zod";
 import { router, adminProcedure } from "./_core/trpc";
 import { eq, desc, asc, and, or, like, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { leads, leadForms } from "../drizzle/schema";
+import { leads, leadForms, crmTags, leadTags } from "../drizzle/schema";
 
 let _db: ReturnType<typeof drizzle> | null = null;
 function getDb() {
@@ -60,7 +60,7 @@ const listLeads = adminProcedure
     return filtered;
   });
 
-// ─── Get leads grouped by stage (for Kanban) ──────────────────────────────────
+// ─── Get leads grouped by stage (for Kanban) ──────────────────────────────────────────────
 const getKanban = adminProcedure.query(async () => {
   const db = getDb();
   const rows = await db
@@ -84,7 +84,32 @@ const getKanban = adminProcedure.query(async () => {
     formsByLead[f.leadId].push(f);
   }
 
-  const grouped: Record<string, Array<typeof rows[0] & { forms: typeof formRows }>> = {
+  // Attach tags
+  type TagRow = { leadId: number; tagId: number; name: string; color: string };
+  let tagRows: TagRow[] = [];
+  try {
+    tagRows = await db
+      .select({
+        leadId: leadTags.leadId,
+        tagId: crmTags.id,
+        name: crmTags.name,
+        color: crmTags.color,
+      })
+      .from(leadTags)
+      .innerJoin(crmTags, eq(leadTags.tagId, crmTags.id));
+  } catch (_e) { /* tags table may not exist yet */ }
+
+  const tagsByLead: Record<number, { id: number; name: string; color: string }[]> = {};
+  for (const t of tagRows) {
+    if (!tagsByLead[t.leadId]) tagsByLead[t.leadId] = [];
+    tagsByLead[t.leadId].push({ id: t.tagId, name: t.name, color: t.color });
+  }
+
+  type LeadWithExtras = typeof rows[0] & {
+    forms: typeof formRows;
+    tags: { id: number; name: string; color: string }[];
+  };
+  const grouped: Record<string, LeadWithExtras[]> = {
     lead_frio: [],
     lead_quente: [],
     negociando: [],
@@ -95,7 +120,7 @@ const getKanban = adminProcedure.query(async () => {
   for (const lead of rows) {
     const stage = lead.stage as string;
     if (grouped[stage]) {
-      grouped[stage].push({ ...lead, forms: formsByLead[lead.id] || [] });
+      grouped[stage].push({ ...lead, forms: formsByLead[lead.id] || [], tags: tagsByLead[lead.id] || [] });
     }
   }
 

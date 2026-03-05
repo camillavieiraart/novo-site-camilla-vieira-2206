@@ -558,6 +558,19 @@ export const leadForms = mysqlTable("lead_forms", {
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });
 
+// ─── CRM TAGS ────────────────────────────────────────────────────────────────
+export const crmTags = mysqlTable("crm_tags", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 50 }).notNull(),
+  color: varchar("color", { length: 20 }).notNull().default("#8B6F47"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const leadTags = mysqlTable("lead_tags", {
+  leadId: int("lead_id").notNull(),
+  tagId: int("tag_id").notNull(),
+});
+
 // ─── TYPES ────────────────────────────────────────────────────────────────────
 export type Lead = typeof leads.$inferSelect;
 export type InsertLead = typeof leads.$inferInsert;
@@ -569,3 +582,5 @@ export type ProfessionalOrder = typeof professionalOrders.$inferSelect;
 export type InsertProfessionalOrder = typeof professionalOrders.$inferInsert;
 export type Deliverable = typeof deliverables.$inferSelect;
 export type CrmNote = typeof crmNotes.$inferSelect;
+export type CrmTag = typeof crmTags.$inferSelect;
+export type LeadTag = typeof leadTags.$inferSelect;

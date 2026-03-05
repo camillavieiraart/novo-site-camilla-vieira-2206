@@ -34,6 +34,12 @@ interface LeadForm {
   status: "pending" | "filled";
 }
 
+interface LeadTag {
+  id: number;
+  name: string;
+  color: string;
+}
+
 interface Lead {
   id: number;
   name: string;
@@ -49,6 +55,7 @@ interface Lead {
   createdAt: Date;
   updatedAt: Date;
   forms: LeadForm[];
+  tags: LeadTag[];
 }
 
 // ─── Stage Config ─────────────────────────────────────────────────────────────
@@ -158,6 +165,21 @@ function LeadCard({ lead, onClick, isDragging }: { lead: Lead; onClick: () => vo
           </div>
         )}
 
+        {/* Tags */}
+        {lead.tags && lead.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1 mt-2">
+            {lead.tags.map(tag => (
+              <span
+                key={tag.id}
+                className="text-xs px-1.5 py-0.5 rounded-sm font-medium"
+                style={{ backgroundColor: tag.color + "22", color: tag.color, fontFamily: "'Inter', sans-serif", border: `1px solid ${tag.color}44` }}
+              >
+                {tag.name}
+              </span>
+            ))}
+          </div>
+        )}
+
         {/* Source */}
         <div className="mt-2 pt-2 border-t" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
           <span className="text-xs" style={{ color: "rgba(92,64,51,0.4)", fontFamily: "'Inter', sans-serif" }}>
@@ -242,6 +264,27 @@ function LeadDetailPanel({
   });
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
   const [generatingForm, setGeneratingForm] = useState<"onboarding" | "satisfacao" | null>(null);
+  const [showTagPicker, setShowTagPicker] = useState(false);
+
+  const { data: allTags = [] } = trpc.tags.getAll.useQuery();
+  const { data: leadTagsData = [], refetch: refetchTags } = trpc.tags.getForLead.useQuery({ leadId: lead.id });
+
+  const assignTagMutation = trpc.tags.assignToLead.useMutation({
+    onSuccess: () => { refetchTags(); },
+    onError: (e) => toast.error(e.message),
+  });
+
+  const removeTagMutation = trpc.tags.removeFromLead.useMutation({
+    onSuccess: () => { refetchTags(); },
+    onError: (e) => toast.error(e.message),
+  });
+
+  const createTagMutation = trpc.tags.create.useMutation({
+    onSuccess: (tag) => {
+      assignTagMutation.mutate({ leadId: lead.id, tagId: tag.id });
+    },
+    onError: (e) => toast.error(e.message),
+  });
 
   const generateFormMutation = trpc.forms.generateFormLinks.useMutation({
     onSuccess: (results) => {
@@ -455,6 +498,69 @@ function LeadDetailPanel({
                 </div>
               )}
 
+              {/* Tags */}
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-serif text-base font-medium" style={{ color: "var(--brand-marrom-deep)" }}>Tags</h3>
+                  <button
+                    onClick={() => setShowTagPicker(!showTagPicker)}
+                    className="flex items-center gap-1 px-2 py-1 text-xs border transition-colors"
+                    style={{ borderColor: "var(--brand-sand)", color: "var(--brand-marrom)", backgroundColor: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
+                    <Tag size={10} />
+                    {showTagPicker ? "Fechar" : "Gerenciar"}
+                  </button>
+                </div>
+
+                {/* Current tags */}
+                <div className="flex flex-wrap gap-1.5 mb-2">
+                  {leadTagsData.length === 0 && !showTagPicker && (
+                    <p className="text-xs" style={{ color: "rgba(92,64,51,0.4)", fontFamily: "'Inter', sans-serif" }}>Nenhuma tag atribuída</p>
+                  )}
+                  {leadTagsData.map(tag => (
+                    <span
+                      key={tag.id}
+                      className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-sm"
+                      style={{ backgroundColor: tag.color + "22", color: tag.color, border: `1px solid ${tag.color}44`, fontFamily: "'Inter', sans-serif" }}>
+                      {tag.name}
+                      <button
+                        onClick={() => removeTagMutation.mutate({ leadId: lead.id, tagId: tag.id })}
+                        className="ml-0.5 hover:opacity-70"
+                        style={{ color: tag.color }}>
+                        <X size={10} />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+
+                {/* Tag picker */}
+                {showTagPicker && (
+                  <div className="p-3" style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
+                    <p className="text-xs tracking-widest uppercase mb-2" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>Adicionar tag</p>
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {allTags
+                        .filter(t => !leadTagsData.some(lt => lt.id === t.id))
+                        .map(tag => (
+                          <button
+                            key={tag.id}
+                            onClick={() => assignTagMutation.mutate({ leadId: lead.id, tagId: tag.id })}
+                            className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-sm transition-opacity hover:opacity-80"
+                            style={{ backgroundColor: tag.color + "22", color: tag.color, border: `1px solid ${tag.color}44`, fontFamily: "'Inter', sans-serif" }}>
+                            <Plus size={9} />
+                            {tag.name}
+                          </button>
+                        ))}
+                      {allTags.filter(t => !leadTagsData.some(lt => lt.id === t.id)).length === 0 && (
+                        <p className="text-xs" style={{ color: "rgba(92,64,51,0.4)", fontFamily: "'Inter', sans-serif" }}>Todas as tags já foram atribuídas</p>
+                      )}
+                    </div>
+                    <div className="border-t pt-3" style={{ borderColor: "var(--brand-sand)" }}>
+                      <p className="text-xs tracking-widest uppercase mb-2" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>Criar nova tag</p>
+                      <NewTagForm onCreated={(tag) => assignTagMutation.mutate({ leadId: lead.id, tagId: tag.id })} />
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {/* Form links */}
               <div>
                 <h3 className="font-serif text-base font-medium mb-3" style={{ color: "var(--brand-marrom-deep)" }}>Formulários</h3>
@@ -539,6 +645,66 @@ function LeadDetailPanel({
             </>
           )}
         </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── New Tag Form ────────────────────────────────────────────────────────────
+const TAG_COLORS = [
+  "#C97064", // terracota
+  "#8B6F47", // marrom
+  "#5C8A6E", // verde
+  "#6B7FA3", // azul
+  "#9B7DB5", // roxo
+  "#C4924A", // âmbar
+  "#D4736A", // rosa
+  "#4A8A8A", // teal
+];
+
+function NewTagForm({ onCreated }: { onCreated: (tag: { id: number; name: string; color: string }) => void }) {
+  const [name, setName] = useState("");
+  const [color, setColor] = useState(TAG_COLORS[0]);
+
+  const createMutation = trpc.tags.create.useMutation({
+    onSuccess: (tag) => { onCreated(tag); setName(""); },
+    onError: (e) => toast.error(e.message),
+  });
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex gap-1.5 flex-wrap">
+        {TAG_COLORS.map(c => (
+          <button
+            key={c}
+            type="button"
+            onClick={() => setColor(c)}
+            className="w-5 h-5 rounded-full border-2 transition-transform hover:scale-110"
+            style={{
+              backgroundColor: c,
+              borderColor: color === c ? "var(--brand-marrom-deep)" : "transparent",
+            }}
+          />
+        ))}
+      </div>
+      <div className="flex gap-2">
+        <input
+          type="text"
+          placeholder="Nome da tag..."
+          value={name}
+          onChange={e => setName(e.target.value)}
+          onKeyDown={e => { if (e.key === "Enter" && name.trim()) createMutation.mutate({ name: name.trim(), color }); }}
+          className="flex-1 px-2 py-1.5 text-xs border outline-none"
+          style={{ borderColor: "var(--brand-sand)", backgroundColor: "white", color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}
+        />
+        <button
+          type="button"
+          onClick={() => { if (name.trim()) createMutation.mutate({ name: name.trim(), color }); }}
+          disabled={!name.trim() || createMutation.isPending}
+          className="px-3 py-1.5 text-xs"
+          style={{ backgroundColor: color, color: "white", fontFamily: "'Inter', sans-serif", opacity: name.trim() ? 1 : 0.5 }}>
+          {createMutation.isPending ? "..." : "Criar"}
+        </button>
       </div>
     </div>
   );
@@ -647,10 +813,12 @@ export function CRMAdmin() {
   const [showNewLead, setShowNewLead] = useState(false);
   const [search, setSearch] = useState("");
   const [activeId, setActiveId] = useState<number | null>(null);
+  const [activeTagFilter, setActiveTagFilter] = useState<number | null>(null);
 
   const utils = trpc.useUtils();
   const { data: kanban, isLoading, refetch } = trpc.leads.getKanban.useQuery();
   const { data: stats } = trpc.leads.getStats.useQuery();
+  const { data: allTags } = trpc.tags.getAll.useQuery();
 
   const moveStageMutation = trpc.leads.moveStage.useMutation({
     onSuccess: () => { utils.leads.getKanban.invalidate(); utils.leads.getStats.invalidate(); },
@@ -705,18 +873,20 @@ export function CRMAdmin() {
     }
   };
 
-  // Filter leads by search
+  // Filter leads by search and tag
   const filteredKanban = kanban
     ? Object.fromEntries(
         Object.entries(kanban).map(([stage, leads]) => [
           stage,
-          search
-            ? (leads as Lead[]).filter(l =>
-                l.name.toLowerCase().includes(search.toLowerCase()) ||
-                (l.phone && l.phone.includes(search)) ||
-                (l.city && l.city.toLowerCase().includes(search.toLowerCase()))
-              )
-            : leads,
+          (leads as Lead[]).filter(l => {
+            const matchSearch = !search ||
+              l.name.toLowerCase().includes(search.toLowerCase()) ||
+              (l.phone && l.phone.includes(search)) ||
+              (l.city && l.city.toLowerCase().includes(search.toLowerCase()));
+            const matchTag = !activeTagFilter ||
+              (l.tags && l.tags.some(t => t.id === activeTagFilter));
+            return matchSearch && matchTag;
+          }),
         ])
       )
     : null;
@@ -770,7 +940,7 @@ export function CRMAdmin() {
       )}
 
       {/* Search */}
-      <div className="relative mb-6">
+      <div className="relative mb-3">
         <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "var(--brand-marrom)" }} />
         <input
           type="text"
@@ -786,6 +956,39 @@ export function CRMAdmin() {
           }}
         />
       </div>
+
+      {/* Tag filter bar */}
+      {allTags && allTags.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-6">
+          <button
+            onClick={() => setActiveTagFilter(null)}
+            className="text-xs px-3 py-1 rounded-sm font-medium transition-all"
+            style={{
+              backgroundColor: activeTagFilter === null ? "var(--brand-terracota)" : "transparent",
+              color: activeTagFilter === null ? "var(--brand-bege)" : "var(--brand-marrom)",
+              border: `1px solid ${activeTagFilter === null ? "var(--brand-terracota)" : "var(--brand-sand)"}`,
+              fontFamily: "'Inter', sans-serif",
+            }}
+          >
+            Todos
+          </button>
+          {allTags.map((tag: LeadTag) => (
+            <button
+              key={tag.id}
+              onClick={() => setActiveTagFilter(activeTagFilter === tag.id ? null : tag.id)}
+              className="text-xs px-3 py-1 rounded-sm font-medium transition-all"
+              style={{
+                backgroundColor: activeTagFilter === tag.id ? tag.color : tag.color + "15",
+                color: activeTagFilter === tag.id ? "#fff" : tag.color,
+                border: `1px solid ${tag.color}44`,
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
+              {tag.name}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Kanban board */}
       <div className="overflow-x-auto pb-4">

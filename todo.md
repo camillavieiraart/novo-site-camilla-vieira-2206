@@ -328,3 +328,18 @@
 - [x] Painel admin: visualizar respostas dos formulários por lead + botões Gerar link Onboarding / NPS
 - [x] Corrigir URL dos links copiados (/onboarding/:token e /satisfacao/:token)
 - [ ] Gerar links para os 27 leads importados (fazer via botão no admin)
+
+## Sistema de Tags no CRM (Mar 2026)
+- [x] Tabelas: crm_tags (id, name, color, createdAt) e lead_tags (leadId, tagId)
+- [x] Migrar banco com SQL direto (db:push falhou em tabelas existentes)
+- [x] Rotas tRPC: tags.getAll, tags.create, tags.update, tags.delete, tags.assignToLead, tags.removeFromLead, tags.getForLead
+- [x] UI: exibir tags nos cards do Kanban (chips coloridos)
+- [x] UI: painel de detalhes do lead — adicionar/remover tags com dropdown
+- [x] UI: componente NewTagForm (criar nova tag inline com nome + seletor de cor)
+- [x] UI: filtro por tag no Kanban (barra de filtros acima do board)
+- [x] Tags padrão pré-criadas: Gestante, Feminino, Família, Profissional, Cerâmica, Mentoria, VIP, Urgente
+
+## Sitemap.xml — Correção Urgente SEO (Mar 2026)
+- [x] Sitemap.xml já inclui todos os 15 posts publicados do blog dinamicamente (2 estão como rascunho)
+- [x] Novos posts aparecem automaticamente no sitemap ao serem publicados
+- [x] /obras/:slug e /loja/:slug incluídos no sitemap

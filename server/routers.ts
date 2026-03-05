@@ -5,6 +5,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { formsRouter } from "./forms-router";
 import { leadsRouter } from "./leads-router";
 import { shopRouter } from "./shop-router";
+import { tagsRouter } from "./tags-router";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { TRPCError } from "@trpc/server";
 import {
@@ -489,5 +490,6 @@ export const appRouter = router({
   forms: formsRouter,
   leads: leadsRouter,
   shop: shopRouter,
+  tags: tagsRouter,
 });
 export type AppRouter = typeof appRouter;

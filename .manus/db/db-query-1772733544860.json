@@ -1,0 +1,9 @@
+{
+  "query": "\nINSERT INTO crm_tags (name, color) VALUES\n  ('Gestante', '#C97064'),\n  ('Feminino', '#D4A0A0'),\n  ('Família', '#8B9E7A'),\n  ('Profissional', '#6B8CAE'),\n  ('Cerâmica', '#B8956A'),\n  ('Mentoria', '#7B6B9E'),\n  ('VIP', '#C4A832'),\n  ('Urgente', '#C0392B')\nON DUPLICATE KEY UPDATE name = name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute \nINSERT INTO crm_tags (name, color) VALUES\n  ('Gestante', '#C97064'),\n  ('Feminino', '#D4A0A0'),\n  ('Família', '#8B9E7A'),\n  ('Profissional', '#6B8CAE'),\n  ('Cerâmica', '#B8956A'),\n  ('Mentoria', '#7B6B9E'),\n  ('VIP', '#C4A832'),\n  ('Urgente', '#C0392B')\nON DUPLICATE KEY UPDATE name = name;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 126
+}

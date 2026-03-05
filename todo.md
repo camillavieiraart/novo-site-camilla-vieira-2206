@@ -277,3 +277,10 @@
 - [x] Criar endpoint /feed.xml no Express com os 20 posts mais recentes (15 posts retornados)
 - [x] Adicionar link de descoberta automática RSS no <head> do HTML
 - [x] Adicionar botão RSS visível na página /blog (hero section, estilo dourado)
+
+## Localização e Atendimento Nacional (Mar 2026)
+- [x] Atualizar metadados SEO: Brasília (DF) como base, SP mensalmente, outros estados sob interesse
+- [x] Atualizar Schema.org LocalBusiness: areaServed [Brasília, São Paulo, Brasil]
+- [ ] Atualizar página /sobre com informação de atendimento em outros estados
+- [x] Atualizar página /contato com bloco "Onde Atendo" (Brasília, SP, outros estados)
+- [x] Adicionar badges de localização na seção "Ensaios com Alma" da home

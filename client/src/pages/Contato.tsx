@@ -20,7 +20,7 @@ export default function Contato() {
   useSEO({
     title: "Contato",
     description: "Entre em contato com Camilla Vieira para agendamento de ensaios fotográficos, aquisição de obras de arte ou mentorias. WhatsApp, e-mail e redes sociais.",
-    keywords: "contato Camilla Vieira, agendamento ensaio, fotografia Belo Horizonte, @camillavieira.art",
+    keywords: "contato Camilla Vieira, agendamento ensaio, fotógrafa Brasília, fotógrafa São Paulo, ensaio feminino Brasília, ensaio feminino SP, @camillavieira.art",
     canonical: "/contato",
   });
   const [visible, setVisible] = useState(false);
@@ -55,6 +55,11 @@ export default function Contato() {
       "geo": { "@type": "GeoCoordinates", "latitude": "-15.7801", "longitude": "-47.9292" },
       "openingHours": "Mo-Fr 09:00-18:00",
       "priceRange": "$$",
+      "areaServed": [
+        {"@type": "City", "name": "Brasília"},
+        {"@type": "City", "name": "São Paulo"},
+        {"@type": "Country", "name": "Brasil"}
+      ],
       "sameAs": ["https://www.instagram.com/camillavieira.art"],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
@@ -130,6 +135,24 @@ export default function Contato() {
                 ))}
               </div>
 
+              <div className="p-6 mb-6" style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
+                <h3 className="font-serif text-lg font-medium mb-4" style={{ color: "var(--brand-marrom-deep)" }}>Onde Atendo</h3>
+                <div className="space-y-4">
+                  {[
+                    { cidade: "Brasília, DF", detalhe: "Base principal — atendimento contínuo" },
+                    { cidade: "São Paulo, SP", detalhe: "Agenda mensal — quase todo mês" },
+                    { cidade: "Outros estados", detalhe: "Mediante interesse e agendamento prévio" },
+                  ].map(({ cidade, detalhe }) => (
+                    <div key={cidade} className="flex items-start gap-3">
+                      <span className="mt-0.5" style={{ color: "var(--brand-terracota)", fontSize: "0.75rem" }}>✦</span>
+                      <div>
+                        <p className="text-sm font-medium" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}>{cidade}</p>
+                        <p className="text-xs" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>{detalhe}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
               <div className="p-6" style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
                 <h3 className="font-serif text-lg font-medium mb-3" style={{ color: "var(--brand-marrom-deep)" }}>Horário de Atendimento</h3>
                 <p className="text-sm" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>

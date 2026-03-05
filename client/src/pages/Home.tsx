@@ -279,6 +279,14 @@ function EnsaiosSection({ isActive }: { isActive: boolean }) {
           <h2 className="font-serif text-2xl sm:text-3xl md:text-5xl font-medium" style={{ color: "var(--brand-marrom-deep)", whiteSpace: 'nowrap' }}>
             Ensaios com Alma
           </h2>
+          <div className="flex flex-wrap justify-center gap-2 mt-4">
+            {["Brasília, DF", "São Paulo, SP", "Todo o Brasil"].map(loc => (
+              <span key={loc} className="text-xs tracking-widest uppercase px-3 py-1"
+                style={{ border: "1px solid var(--brand-sand)", color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+                {loc}
+              </span>
+            ))}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">

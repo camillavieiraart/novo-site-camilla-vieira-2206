@@ -137,7 +137,7 @@
 - [x] Publicar "A IA não vai te salvar" no blog com SEO completo
 - [x] Publicar "Fotografia não é registro" no blog com SEO completo
 - [x] Publicar "Wong Kar-wai e a luz" no blog com SEO completo
-- [ ] Adicionar Família, Casamentos e Editoriais ao dropdown do menu de portfólio
+- [x] Adicionar Família, Casamentos e Editoriais ao dropdown do menu de portfólio (já implementado)
 
 ## Correções Adicionais (Fev 2026)
 - [ ] Corrigir título "Ensaios com Alma" quebrando na seção 4 da home
@@ -249,3 +249,7 @@
 - [x] Adicionar links internos: "Fotógrafa em Brasília" → posts de ensaio feminino
 - [x] Criar post pilar "Cerâmica artesanal em Brasília: o atelê da Camilla Vieira""
 - [x] Publicar 3 posts pendentes: "A IA não vai te salvar", "Fotografia não é registro", "Wong Kar-wai e a luz" (já estavam publicados)
+
+## Menu Portfólio — Categorias Faltantes (Mar 2026)
+- [x] Adicionar Família, Casamentos e Editoriais ao dropdown do menu de portfólio (já estavam implementados)
+- [x] Garantir que Portfolio.tsx reconhece as 3 novas categorias (busca do banco via trpc.categories.getAll)

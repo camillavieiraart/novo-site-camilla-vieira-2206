@@ -268,3 +268,7 @@
 - [x] Gerar e adicionar imagem de capa ao post pilar de cerâmica (id=90001)
 - [x] Corrigir wordCount=0 nos posts originais (ids 1, 2, 3) — contagem real: 787, 950, 1006 palavras
 - [x] Corrigir typo "atelê" → "ateliê" no título do post pilar de cerâmica
+
+## Sitemap.xml — Correção Crítica de SEO (Mar 2026)
+- [x] Corrigir sitemap para incluir todos os posts do blog dinamicamente (endpoint dinâmico no Express)
+- [x] Garantir que novos posts apareçam automaticamente no sitemap após publicação (busca do banco em tempo real)

@@ -262,3 +262,9 @@
 - [x] Identificar posts com {{IMAGE_PLACEHOLDER}} no banco (1 post encontrado: Vivian Maier, id=120001)
 - [x] Gerar 4 imagens reais para o post Vivian Maier (street photography P&B anos 1950)
 - [x] Atualizar conteúdo do post no banco com URLs CDN reais — 0 placeholders restantes em 15 posts publicados
+
+## Auditoria Editorial do Blog (Mar 2026)
+- [x] Auditar todos os 15 posts publicados (título, capa, excerpt, categoria, metadados SEO, wordCount)
+- [x] Gerar e adicionar imagem de capa ao post pilar de cerâmica (id=90001)
+- [x] Corrigir wordCount=0 nos posts originais (ids 1, 2, 3) — contagem real: 787, 950, 1006 palavras
+- [x] Corrigir typo "atelê" → "ateliê" no título do post pilar de cerâmica

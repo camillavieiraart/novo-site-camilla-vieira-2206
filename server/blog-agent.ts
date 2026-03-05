@@ -312,6 +312,60 @@ async function generateCoverImage(prompt: string, slug: string): Promise<string 
   }
 }
 
+// ─── Geração de imagens inline ──────────────────────────────────────────────
+
+/**
+ * Extrai todos os data-prompt dos {{IMAGE_PLACEHOLDER}} no HTML do post,
+ * gera cada imagem via IA, faz upload para S3 e substitui os placeholders
+ * pelas URLs permanentes.
+ */
+async function resolveInlineImages(html: string, slug: string): Promise<string> {
+  // Regex para capturar cada tag <img> com src={{IMAGE_PLACEHOLDER}} e seu data-prompt
+  const imgRegex = /<img\s[^>]*src="{{IMAGE_PLACEHOLDER}}"[^>]*>/g;
+  const promptRegex = /data-prompt="([^"]+)"/;
+
+  const matches = Array.from(html.matchAll(imgRegex));
+  if (matches.length === 0) return html;
+
+  console.log(`[BlogAgent] Gerando ${matches.length} imagens inline...`);
+
+  let result = html;
+  let imageIndex = 0;
+
+  for (const match of matches) {
+    const imgTag = match[0];
+    const promptMatch = imgTag.match(promptRegex);
+    const prompt = promptMatch
+      ? `${promptMatch[1]}. Style: moody analog photography, warm golden light, textural, film grain, intimate mood. NO text, NO watermarks.`
+      : `Artistic photography, warm golden light, textural, film grain, moody and intimate. NO text, NO watermarks.`;
+
+    try {
+      const { url } = await generateImage({ prompt });
+      if (!url) throw new Error("generateImage retornou URL vazia");
+
+      const response = await fetch(url);
+      const buffer = Buffer.from(await response.arrayBuffer());
+      const key = `blog-inline/${slug}-img${imageIndex}-${Date.now()}.jpg`;
+      const { url: s3Url } = await storagePut(key, buffer, "image/jpeg");
+
+      // Replace {{IMAGE_PLACEHOLDER}} with the real URL in this specific tag
+      const updatedTag = imgTag.replace('src="{{IMAGE_PLACEHOLDER}}"', `src="${s3Url}"`);
+      result = result.replace(imgTag, updatedTag);
+
+      console.log(`[BlogAgent] Imagem inline ${imageIndex + 1}/${matches.length} gerada: ${s3Url.substring(0, 60)}...`);
+    } catch (err) {
+      console.error(`[BlogAgent] Falha ao gerar imagem inline ${imageIndex}:`, err);
+      // Remove placeholder gracefully — replace with empty string so no broken img tag
+      const updatedTag = imgTag.replace('src="{{IMAGE_PLACEHOLDER}}"', 'src="" style="display:none"');
+      result = result.replace(imgTag, updatedTag);
+    }
+
+    imageIndex++;
+  }
+
+  return result;
+}
+
 // ─── Publicação ───────────────────────────────────────────────────────────────
 
 async function publishPost(draft: BlogPostDraft, coverImageUrl: string | null, category: string): Promise<void> {
@@ -370,6 +424,11 @@ export async function runBlogAgent(): Promise<void> {
     console.log("[BlogAgent] Etapa 4: Gerando imagem de capa...");
     const coverImageUrl = await generateCoverImage(draft.coverImagePrompt, draft.slug);
     console.log("[BlogAgent] Imagem de capa:", coverImageUrl ? "gerada com sucesso" : "falhou (publicando sem imagem)");
+
+    // 4b. Geração e substituição das imagens inline ({{IMAGE_PLACEHOLDER}})
+    console.log("[BlogAgent] Etapa 4b: Gerando imagens inline do post...");
+    draft.content = await resolveInlineImages(draft.content, draft.slug);
+    console.log("[BlogAgent] Imagens inline resolvidas.");
 
     // 5. Publicação
     console.log("[BlogAgent] Etapa 5: Publicando post...");

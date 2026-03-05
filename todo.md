@@ -253,3 +253,7 @@
 ## Menu Portfólio — Categorias Faltantes (Mar 2026)
 - [x] Adicionar Família, Casamentos e Editoriais ao dropdown do menu de portfólio (já estavam implementados)
 - [x] Garantir que Portfolio.tsx reconhece as 3 novas categorias (busca do banco via trpc.categories.getAll)
+
+## Correção Agente de Blog — Imagens Inline (Mar 2026)
+- [x] Publicar post "Fio e Algoritmo" que falhou (5 imagens geradas + inserido no banco)
+- [x] Corrigir agente de blog para substituir {{IMAGE_PLACEHOLDER}} por imagens geradas via IA antes de salvar no banco (função resolveInlineImages adicionada na etapa 4b)

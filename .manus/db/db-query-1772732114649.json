@@ -1,0 +1,46 @@
+{
+  "query": "SELECT COUNT(*) as total FROM leads; SELECT id, name, email, phone, service_interest, stage FROM leads LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT COUNT(*) as total FROM leads; SELECT id, name, email, phone, service_interest, stage FROM leads LIMIT 10;",
+  "rows": [
+    {
+      "total": "27"
+    },
+    {
+      "total": "id\tname\temail\tphone\tservice_interest\tstage"
+    },
+    {
+      "total": "1\tIsa - Formatura - Cliente\tNULL\tNULL\tensaio\tnegociando"
+    },
+    {
+      "total": "2\tMilena - Casamento - SP Costa\tNULL\tNULL\tensaio\tnegociando"
+    },
+    {
+      "total": "3\tNaila Crossfit Selva\tNULL\tNULL\tensaio\tnegociando"
+    },
+    {
+      "total": "4\tAna Paula - Cliente Ensaio 40 Anos\tNULL\tNULL\tensaio\tnegociando"
+    },
+    {
+      "total": "5\tGabi Cliente selva\tgabi_florestal@yahoo.com.br\tNULL\tensaio\tnegociando"
+    },
+    {
+      "total": "6\tGal SELVA\tNULL\tNULL\tobra_arte\tnegociando"
+    },
+    {
+      "total": "7\tLarissa - Ensaio Feminino\tNULL\tNULL\tensaio\tlead_quente"
+    },
+    {
+      "total": "8\tLCBeatriz Galdino Lunguinho\tNULL\tNULL\tobra_arte\tnegociando"
+    },
+    {
+      "total": "9\t~Juliana de Paula\tNULL\tNULL\tensaio\tnegociando"
+    },
+    {
+      "total": "10\tJacira - Ensaio Feminino Siqueira\tNULL\tNULL\tensaio\tfechado"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\n27\nid\tname\temail\tphone\tservice_interest\tstage\n1\tIsa - Formatura - Cliente\tNULL\tNULL\tensaio\tnegociando\n2\tMilena - Casamento - SP Costa\tNULL\tNULL\tensaio\tnegociando\n3\tNaila Crossfit Selva\tNULL\tNULL\tensaio\tnegociando\n4\tAna Paula - Cliente Ensaio 40 Anos\tNULL\tNULL\tensaio\tnegociando\n5\tGabi Cliente selva\tgabi_florestal@yahoo.com.br\tNULL\tensaio\tnegociando\n6\tGal SELVA\tNULL\tNULL\tobra_arte\tnegociando\n7\tLarissa - Ensaio Feminino\tNULL\tNULL\tensaio\tlead_quente\n8\tLCBeatriz Galdino Lunguinho\tNULL\tNULL\tobra_arte\tnegociando\n9\t~Juliana de Paula\tNULL\tNULL\tensaio\tnegociando\n10\tJacira - Ensaio Feminino Siqueira\tNULL\tNULL\tensaio\tfechado\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

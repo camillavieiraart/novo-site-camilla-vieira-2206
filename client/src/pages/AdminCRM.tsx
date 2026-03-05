@@ -241,6 +241,20 @@ function LeadDetailPanel({
     notes: lead.notes || "",
   });
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
+  const [generatingForm, setGeneratingForm] = useState<"onboarding" | "satisfacao" | null>(null);
+
+  const generateFormMutation = trpc.forms.generateFormLinks.useMutation({
+    onSuccess: (results) => {
+      if (results[0]) {
+        const url = results[0].url;
+        navigator.clipboard.writeText(url).catch(() => {});
+        toast.success("Link gerado e copiado!");
+      }
+      setGeneratingForm(null);
+      onUpdate();
+    },
+    onError: (e) => { toast.error(e.message); setGeneratingForm(null); },
+  });
 
   const updateMutation = trpc.leads.updateLead.useMutation({
     onSuccess: () => { toast.success("Lead atualizado!"); setEditing(false); onUpdate(); },
@@ -262,8 +276,9 @@ function LeadDetailPanel({
     }
   };
 
-  const copyLink = async (token: string) => {
-    const url = `${window.location.origin}/form/${token}`;
+  const copyLink = async (token: string, formType: string) => {
+    const path = formType === "onboarding" ? "onboarding" : "satisfacao";
+    const url = `${window.location.origin}/${path}/${token}`;
     await navigator.clipboard.writeText(url);
     setCopiedToken(token);
     setTimeout(() => setCopiedToken(null), 2000);
@@ -441,41 +456,66 @@ function LeadDetailPanel({
               )}
 
               {/* Form links */}
-              {lead.forms && lead.forms.length > 0 && (
-                <div>
-                  <h3 className="font-serif text-base font-medium mb-3" style={{ color: "var(--brand-marrom-deep)" }}>Formulários</h3>
-                  <div className="flex flex-col gap-2">
-                    {lead.forms.map(f => (
-                      <div key={f.token} className="p-3 flex items-center justify-between"
-                        style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
-                        <div>
-                          <p className="text-xs font-medium" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}>
-                            {f.formType === "onboarding" ? "📋 Onboarding" : "⭐ Satisfação/NPS"}
-                          </p>
-                          <span className="text-xs px-1.5 py-0.5 rounded-sm"
-                            style={{
-                              backgroundColor: f.status === "filled" ? "#D1FAE5" : "#FEF3C7",
-                              color: f.status === "filled" ? "#065F46" : "#92400E",
-                              fontFamily: "'Inter', sans-serif",
-                            }}>
-                            {f.status === "filled" ? "✓ Preenchido" : "⏳ Pendente"}
-                          </span>
-                        </div>
-                        <button onClick={() => copyLink(f.token)}
-                          className="flex items-center gap-1.5 px-3 py-1.5 text-xs transition-colors"
+              <div>
+                <h3 className="font-serif text-base font-medium mb-3" style={{ color: "var(--brand-marrom-deep)" }}>Formulários</h3>
+                <div className="flex flex-col gap-2">
+                  {lead.forms && lead.forms.map(f => (
+                    <div key={f.token} className="p-3 flex items-center justify-between"
+                      style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
+                      <div>
+                        <p className="text-xs font-medium" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}>
+                          {f.formType === "onboarding" ? "📋 Onboarding" : "⭐ Satisfação/NPS"}
+                        </p>
+                        <span className="text-xs px-1.5 py-0.5 rounded-sm"
                           style={{
-                            backgroundColor: copiedToken === f.token ? "#D1FAE5" : "var(--brand-terracota)",
-                            color: copiedToken === f.token ? "#065F46" : "var(--brand-bege)",
+                            backgroundColor: f.status === "filled" ? "#D1FAE5" : "#FEF3C7",
+                            color: f.status === "filled" ? "#065F46" : "#92400E",
                             fontFamily: "'Inter', sans-serif",
                           }}>
-                          {copiedToken === f.token ? <Check size={12} /> : <Copy size={12} />}
-                          {copiedToken === f.token ? "Copiado!" : "Copiar link"}
-                        </button>
+                          {f.status === "filled" ? "✓ Preenchido" : "⏳ Pendente"}
+                        </span>
                       </div>
-                    ))}
-                  </div>
+                      <button onClick={() => copyLink(f.token, f.formType)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs transition-colors"
+                        style={{
+                          backgroundColor: copiedToken === f.token ? "#D1FAE5" : "var(--brand-terracota)",
+                          color: copiedToken === f.token ? "#065F46" : "var(--brand-bege)",
+                          fontFamily: "'Inter', sans-serif",
+                        }}>
+                        {copiedToken === f.token ? <Check size={12} /> : <Copy size={12} />}
+                        {copiedToken === f.token ? "Copiado!" : "Copiar link"}
+                      </button>
+                    </div>
+                  ))}
+                  {/* Generate new form buttons */}
+                  {(() => {
+                    const hasOnboarding = lead.forms?.some(f => f.formType === "onboarding");
+                    const hasSatisfacao = lead.forms?.some(f => f.formType === "satisfacao");
+                    return (
+                      <div className="flex gap-2 mt-1">
+                        {!hasOnboarding && (
+                          <button
+                            onClick={() => { setGeneratingForm("onboarding"); generateFormMutation.mutate({ leadIds: [lead.id], formType: "onboarding" }); }}
+                            disabled={generatingForm === "onboarding"}
+                            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-xs border transition-colors"
+                            style={{ borderColor: "var(--brand-sand)", color: "var(--brand-marrom)", backgroundColor: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
+                            {generatingForm === "onboarding" ? "Gerando..." : "+ Gerar link Onboarding"}
+                          </button>
+                        )}
+                        {!hasSatisfacao && (
+                          <button
+                            onClick={() => { setGeneratingForm("satisfacao"); generateFormMutation.mutate({ leadIds: [lead.id], formType: "satisfacao" }); }}
+                            disabled={generatingForm === "satisfacao"}
+                            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-xs border transition-colors"
+                            style={{ borderColor: "var(--brand-sand)", color: "var(--brand-marrom)", backgroundColor: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
+                            {generatingForm === "satisfacao" ? "Gerando..." : "+ Gerar link NPS"}
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </div>
-              )}
+              </div>
 
               {/* Metadata */}
               <div className="pt-4 border-t" style={{ borderColor: "var(--brand-sand)" }}>

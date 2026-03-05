@@ -318,3 +318,13 @@
 - [x] Schema BreadcrumbList em todas as páginas internas (/sobre, /contato, /blog, /loja, /obras, /portfolio, /mentorias)
 - [x] Schema FAQPage na home (perguntas frequentes sobre ensaios e serviços)
 - [x] Schema ImageObject nas fotos principais do portfólio
+
+## Validação Schema.org + Formulários CRM (Mar 2026)
+- [x] Validar schemas no Google Rich Results Test — LocalBusiness e Organization válidos; FAQPage duplicado removido do index.html
+- [x] Criar tabela lead_forms no banco (token único, tipo: onboarding | satisfacao, lead_id, status: pending | filled, respostas JSON)
+- [x] Rotas tRPC: generateFormLinks, getFormByToken, submitOnboarding, submitSatisfacao
+- [x] Página pública /onboarding/:token — formulário de dados do cliente
+- [x] Página pública /satisfacao/:token — pesquisa de satisfação NPS
+- [x] Painel admin: visualizar respostas dos formulários por lead + botões Gerar link Onboarding / NPS
+- [x] Corrigir URL dos links copiados (/onboarding/:token e /satisfacao/:token)
+- [ ] Gerar links para os 27 leads importados (fazer via botão no admin)

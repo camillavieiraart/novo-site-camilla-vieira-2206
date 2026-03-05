@@ -56,7 +56,7 @@ const generateFormLinks = protectedProcedure
 
       const path = input.formType === "onboarding" ? "onboarding" : "satisfacao";
       const baseUrl = process.env.VITE_APP_URL || "https://camillavieira.art";
-      results.push({ leadId, name: lead.name, token, url: `${baseUrl}/formulario/${path}/${token}` });
+      results.push({ leadId, name: lead.name, token, url: `${baseUrl}/${path}/${token}` });
     }
     return results;
   });

@@ -257,3 +257,8 @@
 ## Correção Agente de Blog — Imagens Inline (Mar 2026)
 - [x] Publicar post "Fio e Algoritmo" que falhou (5 imagens geradas + inserido no banco)
 - [x] Corrigir agente de blog para substituir {{IMAGE_PLACEHOLDER}} por imagens geradas via IA antes de salvar no banco (função resolveInlineImages adicionada na etapa 4b)
+
+## Correção Retroativa — Imagens Inline em Todos os Posts (Mar 2026)
+- [x] Identificar posts com {{IMAGE_PLACEHOLDER}} no banco (1 post encontrado: Vivian Maier, id=120001)
+- [x] Gerar 4 imagens reais para o post Vivian Maier (street photography P&B anos 1950)
+- [x] Atualizar conteúdo do post no banco com URLs CDN reais — 0 placeholders restantes em 15 posts publicados

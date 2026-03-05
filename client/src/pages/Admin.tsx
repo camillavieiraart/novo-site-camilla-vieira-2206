@@ -5,7 +5,7 @@ import {
   LayoutDashboard, Image, Layers, Star, Video, BookOpen,
   MessageSquare, Settings, LogOut, ChevronRight, Upload,
   Plus, Pencil, Trash2, Eye, EyeOff, GripVertical, X, Check,
-  Package, Palette, Users, Mail
+  Package, Palette, Users, Mail, Home, FileText
 } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { TestimonialsAdmin, NewsletterAdmin, BlogAdmin, CeramicsAdmin, SpecialProjectsAdmin } from "./AdminExtras";
 import { CRMAdmin } from "./AdminCRM";
 import { AdminShop } from "./AdminShop";
+import { FotografiaAdmin, SobreAdmin, HomeAdmin } from "./AdminContent2";
 
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
@@ -32,6 +33,8 @@ const NAV_ITEMS = [
   { href: "/admin/newsletter", label: "Newsletter", icon: Users },
   { href: "/admin/crm", label: "CRM / Leads", icon: Users },
   { href: "/admin/loja", label: "Loja", icon: Package },
+  { href: "/admin/home", label: "Editar Home", icon: Home },
+  { href: "/admin/sobre", label: "Editar /sobre", icon: FileText },
   { href: "/admin/configuracoes", label: "Configurações", icon: Settings },
 ];
 
@@ -905,6 +908,9 @@ function AdminContent() {
   if (location === "/admin/configuracoes") return <SettingsAdmin />;
   if (location === "/admin/crm") return <CRMAdmin />;
   if (location === "/admin/loja") return <AdminShop />;
+  if (location === "/admin/fotografia") return <FotografiaAdmin />;
+  if (location === "/admin/sobre") return <SobreAdmin />;
+  if (location === "/admin/home") return <HomeAdmin />;
 
   return (
     <div className="text-center py-20">

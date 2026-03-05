@@ -284,3 +284,8 @@
 - [ ] Atualizar página /sobre com informação de atendimento em outros estados
 - [x] Atualizar página /contato com bloco "Onde Atendo" (Brasília, SP, outros estados)
 - [x] Adicionar badges de localização na seção "Ensaios com Alma" da home
+
+## Admin Completo — 3 Seções Faltantes (Mar 2026)
+- [x] Admin Fotografia Autoral (/admin/fotografia): CRUD de séries artísticas + upload de fotos
+- [x] Admin Página /sobre (/admin/sobre): editar biografia, foto, valores, propósito
+- [x] Admin Home (/admin/home): editar textos do manifesto, CTAs e seções editáveis

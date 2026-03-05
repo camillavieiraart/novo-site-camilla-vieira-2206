@@ -289,3 +289,9 @@
 - [x] Admin Fotografia Autoral (/admin/fotografia): CRUD de séries artísticas + upload de fotos
 - [x] Admin Página /sobre (/admin/sobre): editar biografia, foto, valores, propósito
 - [x] Admin Home (/admin/home): editar textos do manifesto, CTAs e seções editáveis
+
+## Conexão Admin → Páginas Públicas (Mar 2026)
+- [x] Conectar /sobre ao banco: foto de perfil, foto secundária, bio p1/p2/p3, manifesto 1/2/3, título hero, CTA
+- [x] Conectar /home ao banco: hero (título, subtítulo, eyebrow, CTAs, imagem de fundo), manifesto (linhas 1/2/3, vídeo), ensaios (título, subtítulo, CTA), obras (título, subtítulo, CTA)
+- [x] Garantir que alterações no /admin/sobre aparecem imediatamente na página pública /sobre
+- [x] Garantir que alterações no /admin/home aparecem imediatamente na página pública /home

@@ -1,0 +1,30 @@
+{
+  "query": "SELECT `key`, LEFT(`value`, 100) as value_preview FROM site_settings WHERE `key` LIKE '%sobre%' ORDER BY `key` LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT `key`, LEFT(`value`, 100) as value_preview FROM site_settings WHERE `key` LIKE '%sobre%' ORDER BY `key` LIMIT 30;",
+  "rows": [
+    {
+      "key": "sobre_bio_p1",
+      "value_preview": "Comecei a fotografar por necessidade de guardar o que o tempo insiste em levar. Mas logo entendi que"
+    },
+    {
+      "key": "sobre_bio_p2",
+      "value_preview": "Hoje eu fotografo principalmente ensaios de gestante e feminino, com direção sensível e estética aut"
+    },
+    {
+      "key": "sobre_bio_p3",
+      "value_preview": "Este Ateliê Digital é o lugar onde tudo se encontra: portfólio, ensaios, textos e obras. Se você che"
+    },
+    {
+      "key": "sobre_foto_perfil",
+      "value_preview": "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/sobre/GFYde-XJdNzL-m"
+    },
+    {
+      "key": "sobre_foto_secundaria",
+      "value_preview": "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/sobre/FHqHhzPFCe7Cfl"
+    }
+  ],
+  "messages": [],
+  "stdout": "key\tvalue_preview\nsobre_bio_p1\tComecei a fotografar por necessidade de guardar o que o tempo insiste em levar. Mas logo entendi que\nsobre_bio_p2\tHoje eu fotografo principalmente ensaios de gestante e feminino, com direção sensível e estética aut\nsobre_bio_p3\tEste Ateliê Digital é o lugar onde tudo se encontra: portfólio, ensaios, textos e obras. Se você che\nsobre_foto_perfil\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/sobre/GFYde-XJdNzL-m\nsobre_foto_secundaria\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/sobre/FHqHhzPFCe7Cfl\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

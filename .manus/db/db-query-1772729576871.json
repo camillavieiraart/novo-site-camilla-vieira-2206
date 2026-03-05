@@ -1,0 +1,91 @@
+{
+  "query": "SHOW TABLES;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SHOW TABLES;",
+  "rows": [
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "__drizzle_migrations"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "artworks"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "blog_posts"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "bookings"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "ceramics"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "clients"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "contact_messages"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "crmNotes"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "deliverables"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "email_events"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "home_sections"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "lead_forms"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "leads"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "mentorships"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "newsletter_subscribers"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "newsletters_sent"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "orders"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "portfolio_categories"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "portfolio_images"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "portfolio_shoots"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "products"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "professional_orders"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "site_settings"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "special_projects"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "testimonials"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "users"
+    },
+    {
+      "Tables_in_ej2TpcbaYKYkYBzWSZou7r": "videos"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_ej2TpcbaYKYkYBzWSZou7r\n__drizzle_migrations\nartworks\nblog_posts\nbookings\nceramics\nclients\ncontact_messages\ncrmNotes\ndeliverables\nemail_events\nhome_sections\nlead_forms\nleads\nmentorships\nnewsletter_subscribers\nnewsletters_sent\norders\nportfolio_categories\nportfolio_images\nportfolio_shoots\nproducts\nprofessional_orders\nsite_settings\nspecial_projects\ntestimonials\nusers\nvideos\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

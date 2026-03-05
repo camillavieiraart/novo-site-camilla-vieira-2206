@@ -1,0 +1,91 @@
+{
+  "query": "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() ORDER BY TABLE_NAME;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() ORDER BY TABLE_NAME;",
+  "rows": [
+    {
+      "TABLE_NAME": "__drizzle_migrations"
+    },
+    {
+      "TABLE_NAME": "artworks"
+    },
+    {
+      "TABLE_NAME": "blog_posts"
+    },
+    {
+      "TABLE_NAME": "bookings"
+    },
+    {
+      "TABLE_NAME": "ceramics"
+    },
+    {
+      "TABLE_NAME": "clients"
+    },
+    {
+      "TABLE_NAME": "contact_messages"
+    },
+    {
+      "TABLE_NAME": "crmNotes"
+    },
+    {
+      "TABLE_NAME": "deliverables"
+    },
+    {
+      "TABLE_NAME": "email_events"
+    },
+    {
+      "TABLE_NAME": "home_sections"
+    },
+    {
+      "TABLE_NAME": "lead_forms"
+    },
+    {
+      "TABLE_NAME": "leads"
+    },
+    {
+      "TABLE_NAME": "mentorships"
+    },
+    {
+      "TABLE_NAME": "newsletter_subscribers"
+    },
+    {
+      "TABLE_NAME": "newsletters_sent"
+    },
+    {
+      "TABLE_NAME": "orders"
+    },
+    {
+      "TABLE_NAME": "portfolio_categories"
+    },
+    {
+      "TABLE_NAME": "portfolio_images"
+    },
+    {
+      "TABLE_NAME": "portfolio_shoots"
+    },
+    {
+      "TABLE_NAME": "products"
+    },
+    {
+      "TABLE_NAME": "professional_orders"
+    },
+    {
+      "TABLE_NAME": "site_settings"
+    },
+    {
+      "TABLE_NAME": "special_projects"
+    },
+    {
+      "TABLE_NAME": "testimonials"
+    },
+    {
+      "TABLE_NAME": "users"
+    },
+    {
+      "TABLE_NAME": "videos"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\n__drizzle_migrations\nartworks\nblog_posts\nbookings\nceramics\nclients\ncontact_messages\ncrmNotes\ndeliverables\nemail_events\nhome_sections\nlead_forms\nleads\nmentorships\nnewsletter_subscribers\nnewsletters_sent\norders\nportfolio_categories\nportfolio_images\nportfolio_shoots\nproducts\nprofessional_orders\nsite_settings\nspecial_projects\ntestimonials\nusers\nvideos\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

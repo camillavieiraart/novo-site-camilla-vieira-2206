@@ -10,19 +10,42 @@ import { Footer } from "@/components/Footer";
 import { trpc } from "@/lib/trpc";
 
 // ─── Placeholder images (Unsplash – art/photography theme) ──────────────────
-const HERO_BG = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80&auto=format&fit=crop";
+const HERO_BG_FALLBACK = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80&auto=format&fit=crop";
 const PHOTO1   = "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80&auto=format&fit=crop";
 const PHOTO2   = "https://images.unsplash.com/photo-1509460913899-515f1df34fea?w=800&q=80&auto=format&fit=crop";
 const PHOTO3   = "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=800&q=80&auto=format&fit=crop";
 // Real photos from Camilla Vieira
-const IMG_FOTOGRAFIA_AUTORAL = "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/sqgNkHdivjNiLvQr.jpeg"; // DSC06210 — Fotografia Autoral
-const IMG_SERIE_FIO          = "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/DCqRWOnaNWyKlrIU.jpeg"; // IMG_0750 — Série Fio
-const IMG_MATERNIDADE        = "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/JWHULTsUbykXomLg.jpeg"; // DSC08627 — Maternidade
+const IMG_FOTOGRAFIA_AUTORAL = "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/sqgNkHdivjNiLvQr.jpeg";
+const IMG_SERIE_FIO          = "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/DCqRWOnaNWyKlrIU.jpeg";
+const IMG_MATERNIDADE        = "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/JWHULTsUbykXomLg.jpeg";
 const OBRA1    = IMG_SERIE_FIO;
 const OBRA2    = IMG_MATERNIDADE;
 
+// ─── Hook: load all site settings into a lookup map ──────────────────────────
+function useSettings() {
+  const { data: settings } = trpc.settings.getAll.useQuery();
+  const s = (key: string, fallback = "") => {
+    if (!settings) return fallback;
+    return settings.find((x: { key: string; value: string | null }) => x.key === key)?.value || fallback;
+  };
+  return { s, ready: !!settings };
+}
+
+// ─── Video embed helper ───────────────────────────────────────────────────────
+function getVideoEmbed(url: string): { type: "native" | "youtube" | "vimeo" | "none"; src: string } {
+  if (!url) return { type: "none", src: "" };
+  if (url.match(/\.(mp4|webm|mov)$/i)) return { type: "native", src: url };
+  const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]+)/);
+  if (ytMatch) return { type: "youtube", src: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=0&rel=0` };
+  const vimeoMatch = url.match(/vimeo\.com\/(?:video\/)?([0-9]+)/);
+  if (vimeoMatch) return { type: "vimeo", src: `https://player.vimeo.com/video/${vimeoMatch[1]}` };
+  if (url.includes("embed") || url.includes("player")) return { type: "youtube", src: url };
+  return { type: "none", src: url };
+}
+
 // ─── Section 1: Hero ─────────────────────────────────────────────────────────
 function HeroSection({ onScrollNext }: { onScrollNext: () => void }) {
+  const { s } = useSettings();
   const [phase, setPhase] = useState(0);
 
   useEffect(() => {
@@ -32,25 +55,32 @@ function HeroSection({ onScrollNext }: { onScrollNext: () => void }) {
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, []);
 
+  const heroBg    = s("hero_bg_image", HERO_BG_FALLBACK);
+  const eyebrow   = s("hero_eyebrow", "Ateliê Digital");
+  const title     = s("hero_title", "Fotografia é Arte");
+  const subtitle  = s("hero_subtitle", "Cada imagem carrega alma, intenção e beleza autoral");
+  const cta1Text  = s("hero_cta1_text", "Explorar Portfólio");
+  const cta1Link  = s("hero_cta1_link", "/portfolio");
+  const cta2Text  = s("hero_cta2_text", "Obras de Arte");
+  const cta2Link  = s("hero_cta2_link", "/obras");
+
   return (
     <section className="snap-section relative flex flex-col items-center justify-center overflow-hidden"
       style={{ backgroundColor: "var(--brand-marrom-deep)" }}>
       {/* Background image with overlay */}
       <div className="absolute inset-0">
-        <img src={HERO_BG} alt="" className="w-full h-full object-cover opacity-30" style={{ filter: "grayscale(60%)" }} />
+        <img src={heroBg} alt="" className="w-full h-full object-cover opacity-30" style={{ filter: "grayscale(60%)" }} />
         <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(76,48,34,0.5) 0%, rgba(76,48,34,0.75) 100%)" }} />
       </div>
 
-      {/* Brush decorations */}
       <BrushCorner position="tl" color="#F5E6D3" delay={1200} />
       <BrushCorner position="br" color="#F5E6D3" delay={1600} />
 
-      {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 max-w-4xl w-full">
         {/* Eyebrow */}
         <div className={`mb-6 transition-all duration-700 ${phase >= 1 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
           <span className="section-eyebrow" style={{ color: "rgba(245,230,211,0.7)" }}>
-            Ateliê Digital
+            {eyebrow}
           </span>
         </div>
 
@@ -59,7 +89,7 @@ function HeroSection({ onScrollNext }: { onScrollNext: () => void }) {
           style={{ color: "var(--brand-bege)" }}>
           {phase >= 1 && (
             <Typewriter
-              text="Fotografia é Arte"
+              text={title}
               delay={600}
               charDelay={110}
               className="block"
@@ -71,17 +101,17 @@ function HeroSection({ onScrollNext }: { onScrollNext: () => void }) {
         <div className={`transition-all duration-1000 delay-[2200ms] ${phase >= 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
           <p className="font-display text-xl md:text-2xl font-light italic mb-10"
             style={{ color: "rgba(245,230,211,0.75)", fontFamily: "'Cormorant Garamond', serif" }}>
-            Cada imagem carrega alma, intenção e beleza autoral
+            {subtitle}
           </p>
         </div>
 
         {/* CTA buttons */}
         <div className={`flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 transition-all duration-1000 delay-[3500ms] ${phase >= 3 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          <Link href="/portfolio" className="btn-outline-light w-full sm:w-auto">
-            Explorar Portfólio <ArrowRight size={14} />
+          <Link href={cta1Link} className="btn-outline-light w-full sm:w-auto">
+            {cta1Text} <ArrowRight size={14} />
           </Link>
-          <Link href="/obras" className="btn-outline-light w-full sm:w-auto">
-            Obras de Arte <ArrowRight size={14} />
+          <Link href={cta2Link} className="btn-outline-light w-full sm:w-auto">
+            {cta2Text} <ArrowRight size={14} />
           </Link>
         </div>
       </div>
@@ -103,33 +133,23 @@ function HeroSection({ onScrollNext }: { onScrollNext: () => void }) {
 }
 
 // ─── Section 2: Manifesto / Video ────────────────────────────────────────────
-function getVideoEmbed(url: string): { type: "native" | "youtube" | "vimeo" | "none"; src: string } {
-  if (!url) return { type: "none", src: "" };
-  // Native video file (S3 or direct)
-  if (url.match(/\.(mp4|webm|mov)$/i)) return { type: "native", src: url };
-  // YouTube
-  const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]+)/);
-  if (ytMatch) return { type: "youtube", src: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=0&rel=0` };
-  // Vimeo
-  const vimeoMatch = url.match(/vimeo\.com\/(?:video\/)?([0-9]+)/);
-  if (vimeoMatch) return { type: "vimeo", src: `https://player.vimeo.com/video/${vimeoMatch[1]}` };
-  // Already an embed URL
-  if (url.includes("embed") || url.includes("player")) return { type: "youtube", src: url };
-  return { type: "none", src: url };
-}
-
 function ManifestoSection({ isActive }: { isActive: boolean }) {
-  const { data: settings } = trpc.settings.getAll.useQuery();
-  const videoUrl = settings?.find(s => s.key === "manifesto_video_url")?.value || "";
+  const { s } = useSettings();
+
+  const videoUrl = s("manifesto_video_url", "");
   const video = getVideoEmbed(videoUrl);
 
+  const line1 = s("manifesto_line_1", "Acredito que fotografia é arte.");
+  const line2 = s("manifesto_line_2", "Não apenas registro — é presença.");
+  const line3 = s("manifesto_line_3", "É o instante que se recusa a desaparecer.");
+
   const manifestoLines = [
-    "Acredito que fotografia é arte.",
-    "Não apenas registro — é presença.",
-    "É o instante que se recusa a desaparecer.",
+    line1,
+    line2,
+    line3,
     "Cada imagem nasce de um olhar que sente",
     "antes de apertar o obturador.",
-  ];
+  ].filter(Boolean);
 
   return (
     <section className="snap-section relative flex items-center justify-center overflow-hidden"
@@ -164,7 +184,7 @@ function ManifestoSection({ isActive }: { isActive: boolean }) {
           </div>
         </div>
 
-        {/* Video — 16:9 horizontal on desktop, 9:16 vertical on mobile */}
+        {/* Video */}
         <div className={`relative transition-all duration-1000 delay-[800ms] ${isActive ? "opacity-100 scale-100" : "opacity-0 scale-95"} hidden lg:block`}>
           <div className="relative w-full overflow-hidden"
             style={{ border: "1px solid var(--brand-sand)", aspectRatio: "16/9" }}>
@@ -179,7 +199,6 @@ function ManifestoSection({ isActive }: { isActive: boolean }) {
                 title="Vídeo Manifesto"
               />
             ) : (
-              /* Placeholder when no video is set */
               <>
                 <img src={IMG_FOTOGRAFIA_AUTORAL} alt="Manifesto Visual" className="w-full h-full object-cover" style={{ filter: "grayscale(20%)" }} />
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-3"
@@ -205,7 +224,6 @@ function ManifestoSection({ isActive }: { isActive: boolean }) {
 function FotografiaSection({ isActive }: { isActive: boolean }) {
   return (
     <section className="snap-section relative overflow-hidden" style={{ paddingTop: 0 }}>
-      {/* Triptych — images fill the full section, nav is z-50 so it sits on top */}
       <div className="triptych">
         {[
           { src: IMG_SERIE_FIO, label: "Série Fio" },
@@ -255,8 +273,16 @@ const SLUG_DESCS: Record<string, string> = {
   "casamentos": "O dia mais especial registrado com sensibilidade e arte.",
   "editoriais": "Imagens conceituais que unem moda, arte e narrativa visual.",
 };
+
 function EnsaiosSection({ isActive }: { isActive: boolean }) {
+  const { s } = useSettings();
   const { data: dbCats } = trpc.categories.getAll.useQuery();
+
+  const sectionTitle = s("ensaios_title", "Ensaios com Alma");
+  const sectionSubtitle = s("ensaios_subtitle", "");
+  const ctaText = s("ensaios_cta_text", "Ver Todo o Portfólio");
+  const ctaLink = s("ensaios_cta_link", "/portfolio");
+
   const categories = dbCats && dbCats.length > 0
     ? dbCats
         .filter(c => ["ensaios-femininos", "gestante", "profissional"].includes(c.slug))
@@ -277,8 +303,13 @@ function EnsaiosSection({ isActive }: { isActive: boolean }) {
         <div className={`text-center mb-8 md:mb-12 transition-all duration-800 ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
           <span className="section-eyebrow block mb-3">Portfólio</span>
           <h2 className="font-serif text-2xl sm:text-3xl md:text-5xl font-medium" style={{ color: "var(--brand-marrom-deep)", whiteSpace: 'nowrap' }}>
-            Ensaios com Alma
+            {sectionTitle}
           </h2>
+          {sectionSubtitle && (
+            <p className="mt-3 text-sm" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+              {sectionSubtitle}
+            </p>
+          )}
           <div className="flex flex-wrap justify-center gap-2 mt-4">
             {["Brasília, DF", "São Paulo, SP", "Todo o Brasil"].map(loc => (
               <span key={loc} className="text-xs tracking-widest uppercase px-3 py-1"
@@ -305,8 +336,8 @@ function EnsaiosSection({ isActive }: { isActive: boolean }) {
         </div>
 
         <div className={`text-center mt-10 transition-all duration-800 delay-700 ${isActive ? "opacity-100" : "opacity-0"}`}>
-          <Link href="/portfolio" className="btn-outline-dark">
-            Ver Todo o Portfólio <ArrowRight size={14} />
+          <Link href={ctaLink} className="btn-outline-dark">
+            {ctaText} <ArrowRight size={14} />
           </Link>
         </div>
       </div>
@@ -316,6 +347,13 @@ function EnsaiosSection({ isActive }: { isActive: boolean }) {
 
 // ─── Section 5: Obras de Arte ─────────────────────────────────────────────────
 function ObrasSection({ isActive }: { isActive: boolean }) {
+  const { s } = useSettings();
+
+  const obrasTitle    = s("obras_title", "Série Fio");
+  const obrasSubtitle = s("obras_subtitle", "Costura sobre fotografia. Cada obra da série Fio é uma intervenção artística única: linhas de costura que atravessam a imagem fotográfica, criando uma nova camada de significado.");
+  const obrasCta      = s("obras_cta_text", "Explorar Obras");
+  const obrasLink     = s("obras_cta_link", "/obras");
+
   return (
     <section className="snap-section relative flex flex-col items-center justify-center overflow-hidden"
       style={{ backgroundColor: "var(--brand-marrom-deep)" }}>
@@ -328,23 +366,23 @@ function ObrasSection({ isActive }: { isActive: boolean }) {
           <div className={`flex flex-col justify-center transition-all duration-1000 delay-200 ${isActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"}`}>
             <span className="block mb-4 text-xs tracking-[0.3em] uppercase font-medium" style={{ color: "rgba(201,112,100,0.9)", fontFamily: "'Inter', sans-serif" }}>Obras de Arte</span>
             <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl font-medium mb-6 leading-tight" style={{ color: "var(--brand-bege)" }}>
-              Série <em>Fio</em>
+              {obrasTitle}
             </h2>
             <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(245,230,211,0.8)", fontFamily: "'Inter', sans-serif", maxWidth: "360px" }}>
-              Costura sobre fotografia. Cada obra da série Fio é uma intervenção artística única: linhas de costura que atravessam a imagem fotográfica, criando uma nova camada de significado.
+              {obrasSubtitle}
             </p>
             <p className="text-sm leading-relaxed mb-8" style={{ color: "rgba(245,230,211,0.55)", fontFamily: "'Inter', sans-serif", maxWidth: "360px" }}>
               A agulha como extensão do olhar. O fio como metáfora da conexão entre o visível e o invisível.
             </p>
             <div className="mb-8" style={{ width: "48px", height: "1px", backgroundColor: "rgba(201,112,100,0.6)" }} />
             <div>
-              <Link href="/obras" className="btn-outline-light inline-flex items-center gap-2">
-                Explorar Obras <ArrowRight size={14} />
+              <Link href={obrasLink} className="btn-outline-light inline-flex items-center gap-2">
+                {obrasCta} <ArrowRight size={14} />
               </Link>
             </div>
           </div>
 
-          {/* Images 2x2 grid — visible from md */}
+          {/* Images 2x2 grid */}
           <div className={`hidden md:grid grid-cols-2 gap-3 lg:gap-4 transition-all duration-1000 delay-500 ${isActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`}>
             {[OBRA1, OBRA2, IMG_FOTOGRAFIA_AUTORAL, IMG_MATERNIDADE].map((src, i) => (
               <div key={i} className="img-hover rounded-xl overflow-hidden" style={{ aspectRatio: "3/4" }}>
@@ -363,26 +401,23 @@ function ObrasSection({ isActive }: { isActive: boolean }) {
 export default function Home() {
   useSEO({
     title: "Fotógrafa Artística e Artista Visual",
-    description: "Camilla Vieira — Fotografia é Arte. Ensaios femininos, gestante e profissionais com alma. Obras da Série Fio: costura sobre fotografia. Cerâmica artística e mentorias em Belo Horizonte, MG.",
-    keywords: "fotógrafa artística, ensaio feminino, ensaio gestante, fotografia autoral, série fio, Camilla Vieira, Belo Horizonte",
+    description: "Camilla Vieira — Fotografia é Arte. Ensaios femininos, gestante e profissionais com alma. Obras da Série Fio: costura sobre fotografia. Cerâmica artística e mentorias em Brasília, DF.",
+    keywords: "fotógrafa artística, ensaio feminino, ensaio gestante, fotografia autoral, série fio, Camilla Vieira, Brasília",
     canonical: "/",
   });
+
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeSection, setActiveSection] = useState(0);
-  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
 
-  // Track which section is visible
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-
     const handleScroll = () => {
       const scrollTop = container.scrollTop;
       const height = container.clientHeight;
       const idx = Math.round(scrollTop / height);
       setActiveSection(idx);
     };
-
     container.addEventListener("scroll", handleScroll, { passive: true });
     return () => container.removeEventListener("scroll", handleScroll);
   }, []);
@@ -398,7 +433,6 @@ export default function Home() {
       <StructuredData includeGlobal schemas={[FAQ_SCHEMA]} />
       <Navigation transparent />
 
-      {/* Scroll snap container */}
       <div ref={containerRef} className="snap-container">
         <HeroSection onScrollNext={() => scrollToSection(1)} />
         <ManifestoSection isActive={activeSection === 1} />
@@ -406,13 +440,12 @@ export default function Home() {
         <EnsaiosSection isActive={activeSection === 3} />
         <ObrasSection isActive={activeSection === 4} />
 
-        {/* Footer section */}
         <section className="snap-section overflow-y-auto" style={{ height: "auto", minHeight: "100dvh" }}>
           <Footer />
         </section>
       </div>
 
-      {/* Section dots navigation — hidden on small mobile */}
+      {/* Section dots navigation */}
       <div className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-50 hidden sm:flex flex-col gap-2.5">
         {[0, 1, 2, 3, 4].map((i) => (
           <button

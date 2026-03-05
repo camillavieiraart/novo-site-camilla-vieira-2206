@@ -272,3 +272,8 @@
 ## Sitemap.xml — Correção Crítica de SEO (Mar 2026)
 - [x] Corrigir sitemap para incluir todos os posts do blog dinamicamente (endpoint dinâmico no Express)
 - [x] Garantir que novos posts apareçam automaticamente no sitemap após publicação (busca do banco em tempo real)
+
+## Feed RSS do Blog (Mar 2026)
+- [x] Criar endpoint /feed.xml no Express com os 20 posts mais recentes (15 posts retornados)
+- [x] Adicionar link de descoberta automática RSS no <head> do HTML
+- [x] Adicionar botão RSS visível na página /blog (hero section, estilo dourado)

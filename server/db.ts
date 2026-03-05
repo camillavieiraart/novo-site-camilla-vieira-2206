@@ -403,6 +403,23 @@ export async function getBlogSitemapData() {
     .orderBy(desc(blogPosts.publishedAt));
 }
 
+export async function getRssFeedData(limit: number = 20) {
+  const db = await getDb(); if (!db) return [];
+  return db.select({
+    slug: blogPosts.slug,
+    title: blogPosts.title,
+    excerpt: blogPosts.excerpt,
+    author: blogPosts.author,
+    category: blogPosts.category,
+    coverImageUrl: blogPosts.coverImageUrl,
+    publishedAt: blogPosts.publishedAt,
+    updatedAt: blogPosts.updatedAt,
+  }).from(blogPosts)
+    .where(eq(blogPosts.isPublished, true))
+    .orderBy(desc(blogPosts.publishedAt))
+    .limit(limit);
+}
+
 // ─── NEWSLETTER CAMPAIGNS ─────────────────────────────────────────────────────
 import { newslettersSent } from "../drizzle/schema";
 

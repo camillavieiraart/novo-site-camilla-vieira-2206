@@ -119,9 +119,24 @@ export default function Blog() {
         <div className="relative z-10 flex flex-col justify-end h-full px-6 md:px-12 lg:px-20 pb-14 pt-32">
           <p className="text-xs tracking-[0.35em] uppercase mb-4" style={{ color: "#C9A96E" }}>Reflexões & Processo</p>
           <h1 className="font-serif mb-4" style={{ color: "#FAF7F2", fontSize: "clamp(3rem, 8vw, 6rem)", lineHeight: 1.05 }}>Blog</h1>
-          <p className="text-base max-w-lg leading-relaxed" style={{ color: "rgba(250,247,242,0.65)" }}>
-            Fotografia como linguagem. Bordado como resistência. Cinema como luz. Maternidade como processo.
-          </p>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <p className="text-base max-w-lg leading-relaxed" style={{ color: "rgba(250,247,242,0.65)" }}>
+              Fotografia como linguagem. Bordado como resistência. Cinema como luz. Maternidade como processo.
+            </p>
+            <a
+              href="/feed.xml"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 rounded-full text-xs tracking-widest uppercase font-medium transition-all duration-300 hover:opacity-80 shrink-0"
+              style={{ backgroundColor: "rgba(201,169,110,0.15)", border: "1px solid rgba(201,169,110,0.4)", color: "#C9A96E" }}
+              title="Assinar feed RSS do blog"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19.01 7.38 20 6.18 20C4.98 20 4 19.01 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z" />
+              </svg>
+              RSS
+            </a>
+          </div>
         </div>
       </section>
 

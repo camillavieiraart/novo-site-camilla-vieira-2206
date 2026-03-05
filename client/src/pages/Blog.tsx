@@ -257,6 +257,115 @@ export default function Blog() {
   );
 }
 
+// ─── CTA block: shown at the end of every post ──────────────────────────────
+function PostCTA({ category, slug }: { category: string | null; slug: string }) {
+  type CTAConfig = { headline: string; body: string; label: string; href: string; secondary?: { label: string; href: string } };
+
+  const ctaMap: Record<string, CTAConfig> = {
+    "Ensaio Feminino": {
+      headline: "Pronta para o seu ensaio feminino?",
+      body: "Cada ensaio é único — construído a partir de quem você é, não de um roteiro pronto. Vamos conversar sobre o que você quer sentir.",
+      label: "Quero agendar meu ensaio",
+      href: "/contato",
+      secondary: { label: "Ver portfólio feminino", href: "/portfolio" },
+    },
+    "Ensaio Gestante": {
+      headline: "Registre este momento que não volta.",
+      body: "O ensaio gestante da Camilla Vieira é feito com luz natural, intenção e cuidado. Um presente para você e para quem está chegando.",
+      label: "Agendar ensaio gestante",
+      href: "/contato",
+      secondary: { label: "Ver portfólio de gestantes", href: "/portfolio" },
+    },
+    "Mentoria": {
+      headline: "Quer evoluir como fotógrafa?",
+      body: "A mentoria individual da Camilla é para quem quer parar de fotografar no automático e começar a criar com intenção. Presencial em Brasília ou online.",
+      label: "Conhecer as mentorias",
+      href: "/mentorias",
+    },
+    "Marca Pessoal": {
+      headline: "Sua marca precisa de imagens que te representam.",
+      body: "Fotos de marca pessoal que comunicam quem você é antes mesmo de você falar. Para profissionais, empreendedoras e criadoras de conteúdo.",
+      label: "Falar sobre minha marca",
+      href: "/contato",
+      secondary: { label: "Ver portfólio profissional", href: "/portfolio" },
+    },
+    "Cerâmica": {
+      headline: "Conheça as peças do ateliê.",
+      body: "Cerâmica feita à mão em Brasília — peças únicas que carregam a marca do processo. Cada obra é irrepetível.",
+      label: "Ver obras de cerâmica",
+      href: "/ceramica",
+      secondary: { label: "Entrar em contato", href: "/contato" },
+    },
+    "Processo Criativo": {
+      headline: "Arte que nasce do processo.",
+      body: "Fotografia autoral, cerâmica e obras de intervenção — um ateliê onde cada peça conta uma história de criação.",
+      label: "Ver portfólio completo",
+      href: "/portfolio",
+      secondary: { label: "Conhecer as mentorias", href: "/mentorias" },
+    },
+    "Arte e Fotografia": {
+      headline: "Fotografia como linguagem, não como registro.",
+      body: "Se este texto ressoou com você, talvez a mentoria seja o próximo passo. Trabalhar a fotografia como arte, com intenção e voz própria.",
+      label: "Conhecer as mentorias",
+      href: "/mentorias",
+      secondary: { label: "Ver portfólio autoral", href: "/portfolio" },
+    },
+    "Guias": {
+      headline: "Encontrou a fotógrafa certa?",
+      body: "Baseada em Brasília, com atendimento em São Paulo e outros estados. Vamos conversar sobre o que você precisa.",
+      label: "Entrar em contato",
+      href: "/contato",
+      secondary: { label: "Ver portfólio", href: "/portfolio" },
+    },
+  };
+
+  const defaultCTA: CTAConfig = {
+    headline: "Gostou do que leu?",
+    body: "Explore o portfólio, conheça as mentorias ou entre em contato. A Camilla atende em Brasília e online.",
+    label: "Ver portfólio",
+    href: "/portfolio",
+    secondary: { label: "Conhecer as mentorias", href: "/mentorias" },
+  };
+
+  const cta = (category && ctaMap[category]) ? ctaMap[category] : defaultCTA;
+
+  return (
+    <div
+      className="my-16 rounded-2xl px-8 py-10 md:px-12 md:py-12"
+      style={{
+        background: "linear-gradient(135deg, #2C1810 0%, #3D2415 100%)",
+        border: "1px solid rgba(201,169,110,0.2)",
+      }}
+    >
+      <p className="text-xs tracking-[0.35em] uppercase mb-3" style={{ color: "#C9A96E" }}>Próximo passo</p>
+      <h3 className="font-serif mb-3 leading-tight" style={{ color: "#FAF7F2", fontSize: "clamp(1.4rem, 3vw, 2rem)" }}>
+        {cta.headline}
+      </h3>
+      <p className="leading-relaxed mb-8 max-w-xl" style={{ color: "rgba(250,247,242,0.65)", fontSize: "0.9375rem" }}>
+        {cta.body}
+      </p>
+      <div className="flex flex-wrap gap-4">
+        <a
+          href={cta.href}
+          className="inline-block px-7 py-3 text-xs tracking-[0.12em] uppercase font-medium transition-all duration-300 hover:opacity-85"
+          style={{ backgroundColor: "#C9A96E", color: "#1A1410" }}
+        >
+          {cta.label}
+        </a>
+        {cta.secondary && (
+          <a
+            href={cta.secondary.href}
+            className="inline-block px-7 py-3 text-xs tracking-[0.12em] uppercase font-medium transition-all duration-300 hover:opacity-85"
+            style={{ border: "1px solid rgba(201,169,110,0.5)", color: "#C9A96E", backgroundColor: "transparent" }}
+          >
+            {cta.secondary.label}
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── Blog post detail page ────────────────────────────────────────────────────
 export function BlogPost({ slug }: { slug: string }) {
   const { data: post, isLoading, error } = trpc.blog.getBySlug.useQuery({ slug });
@@ -455,6 +564,11 @@ export function BlogPost({ slug }: { slug: string }) {
         style={{ maxWidth: "720px", margin: "0 auto" }}
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
+
+      {/* ── CTA block ── */}
+      <div className="px-6 md:px-0" style={{ maxWidth: "720px", margin: "0 auto" }}>
+        <PostCTA category={post.category} slug={post.slug} />
+      </div>
 
       {/* Footer nav */}
       <div className="px-6 pb-28 border-t pt-10" style={{ borderColor: "#E8E0D5", maxWidth: "720px", margin: "0 auto" }}>

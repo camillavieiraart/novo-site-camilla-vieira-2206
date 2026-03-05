@@ -350,3 +350,7 @@
 - [x] Configurar envio de e-mail via Resend para contato@camillavieira.art ao receber nova mensagem
 - [x] Tela de sucesso já presente após envio
 - [x] Corrigir erro de caractere Unicode U+2500 no leads-router.ts que causava crash do esbuild
+
+## SEO Blog — Links Internos e CTAs (Mar 2026)
+- [x] Adicionar 2-3 links internos contextuais em cada um dos 17 posts do blog (para /mentorias, /portfolio, /contato, posts relacionados)
+- [x] Adicionar bloco de CTA visualmente distinto no final de cada post (botão para ação relevante: agendar mentoria, ver portfólio, entrar em contato)

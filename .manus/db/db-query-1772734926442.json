@@ -1,0 +1,40 @@
+{
+  "query": "SELECT * FROM contact_messages ORDER BY id DESC LIMIT 3;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT * FROM contact_messages ORDER BY id DESC LIMIT 3;",
+  "rows": [
+    {
+      "id": "3",
+      "name": "Teste Manus",
+      "email": "teste@manus.im",
+      "phone": "(61) 99999-0001",
+      "subject": "Ensaio Feminino",
+      "message": "Olá Camilla! Estou interessada em fazer um ensaio feminino. Gostaria de saber mais sobre os pacotes disponíveis e como funciona o processo. Muito obrigada!",
+      "isRead": "0",
+      "createdAt": "2026-03-05 18:21:30"
+    },
+    {
+      "id": "2",
+      "name": "Maria Teste",
+      "email": "maria@teste.com",
+      "phone": "(61) 99999-9999",
+      "subject": "Ensaio gestante",
+      "message": "Olá, gostaria de saber mais sobre ensaios de gestante em Brasília. Estou com 6 meses de gestação.",
+      "isRead": "0",
+      "createdAt": "2026-03-05 17:15:28"
+    },
+    {
+      "id": "1",
+      "name": "Teste",
+      "email": "teste@teste.com",
+      "phone": "NULL",
+      "subject": "NULL",
+      "message": "Mensagem de teste com mais de 10 caracteres",
+      "isRead": "0",
+      "createdAt": "2026-03-05 17:12:23"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\tphone\tsubject\tmessage\tisRead\tcreatedAt\n3\tTeste Manus\tteste@manus.im\t(61) 99999-0001\tEnsaio Feminino\tOlá Camilla! Estou interessada em fazer um ensaio feminino. Gostaria de saber mais sobre os pacotes disponíveis e como funciona o processo. Muito obrigada!\t0\t2026-03-05 18:21:30\n2\tMaria Teste\tmaria@teste.com\t(61) 99999-9999\tEnsaio gestante\tOlá, gostaria de saber mais sobre ensaios de gestante em Brasília. Estou com 6 meses de gestação.\t0\t2026-03-05 17:15:28\n1\tTeste\tteste@teste.com\tNULL\tNULL\tMensagem de teste com mais de 10 caracteres\t0\t2026-03-05 17:12:23\n",
+  "stderr": "",
+  "execution_time_ms": 61
+}

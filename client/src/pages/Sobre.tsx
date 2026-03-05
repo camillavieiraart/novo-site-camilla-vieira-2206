@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSEO } from "@/hooks/useSEO";
+import { StructuredData, buildBreadcrumb, CAMILLA_PERSON_SCHEMA } from "@/components/StructuredData";
 import { Link } from "wouter";
 import { ArrowRight, Star, Send, Phone, Mail, Instagram } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
@@ -475,6 +476,10 @@ export default function Sobre() {
         </div>
       </section>
 
+      <StructuredData schemas={[
+        buildBreadcrumb([{ name: "Sobre", url: "/sobre" }]),
+        CAMILLA_PERSON_SCHEMA,
+      ]} />
       <Footer />
     </div>
   );

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSEO } from "@/hooks/useSEO";
+import { StructuredData, buildBreadcrumb, buildItemList, SERIE_FIO_SCHEMA, BASE_URL } from "@/components/StructuredData";
 import { Link, useParams } from "wouter";
 import { ArrowLeft, X } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
@@ -102,6 +103,15 @@ function FotografiaOverview() {
           </div>
         </div>
       </div>
+      <StructuredData schemas={[
+        buildBreadcrumb([{ name: "Fotografia Autoral", url: "/fotografia" }]),
+        SERIE_FIO_SCHEMA,
+        buildItemList(
+          "Séries Fotográficas Autorais — Camilla Vieira",
+          "/fotografia",
+          SERIES.map(s => ({ name: s.name, url: `/fotografia/${s.slug}`, image: s.coverUrl }))
+        ),
+      ]} />
       <Footer />
     </div>
   );
@@ -151,6 +161,19 @@ function SeriesDetail({ slug }: { slug: string }) {
           </div>
         </div>
       </div>
+      <StructuredData schemas={[
+        buildBreadcrumb([{ name: "Fotografia Autoral", url: "/fotografia" }, { name: series.name, url: `/fotografia/${series.slug}` }]),
+        {
+          "@context": "https://schema.org",
+          "@type": "CreativeWorkSeries",
+          name: series.name,
+          description: series.description,
+          url: `${BASE_URL}/fotografia/${series.slug}`,
+          creator: { "@id": `${BASE_URL}/#person` },
+          genre: "Fotografia Artística",
+          inLanguage: "pt-BR",
+        },
+      ]} />
       <Footer />
     </div>
   );

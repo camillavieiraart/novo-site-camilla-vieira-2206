@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSEO } from "@/hooks/useSEO";
+import { StructuredData, buildBreadcrumb, buildItemList, BASE_URL } from "@/components/StructuredData";
 import { Link, useParams } from "wouter";
 import { ArrowLeft, X } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
@@ -95,6 +96,23 @@ function PortfolioOverview() {
           </div>
         </div>
       </div>
+      <StructuredData schemas={[
+        buildBreadcrumb([{ name: "Portfólio", url: "/portfolio" }]),
+        buildItemList(
+          "Portfólio de Ensaios Fotográficos — Camilla Vieira",
+          "/portfolio",
+          (categories || []).map(c => ({ name: c.name, url: `/portfolio/${c.slug}`, image: c.coverImageUrl ?? undefined }))
+        ),
+        {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          name: "Ensaios Fotográficos — Camilla Vieira",
+          description: "Ensaios fotográficos artísticos com direção sensível e estética autoral. Ensaios femininos, gestante e profissionais em Brasília e São Paulo.",
+          url: `${BASE_URL}/portfolio`,
+          provider: { "@id": `${BASE_URL}/#person` },
+          areaServed: [{ "@type": "City", name: "Brasília" }, { "@type": "City", name: "São Paulo" }],
+        },
+      ]} />
       <Footer />
     </div>
   );
@@ -173,6 +191,18 @@ function PortfolioCategory({ slug }: { slug: string }) {
           )}
         </div>
       </div>
+      <StructuredData schemas={[
+        buildBreadcrumb([{ name: "Portfólio", url: "/portfolio" }, { name: displayName, url: `/portfolio/${slug}` }]),
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageGallery",
+          name: `${displayName} — Portfólio Camilla Vieira`,
+          description: description || `Ensaios fotográficos de ${displayName} por Camilla Vieira.`,
+          url: `${BASE_URL}/portfolio/${slug}`,
+          creator: { "@id": `${BASE_URL}/#person` },
+          numberOfItems: allImages.length,
+        },
+      ]} />
       <Footer />
     </div>
   );

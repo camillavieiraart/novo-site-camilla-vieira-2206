@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSEO } from "@/hooks/useSEO";
+import { StructuredData, buildService, buildBreadcrumb, buildItemList, BASE_URL } from "@/components/StructuredData";
 import { ArrowRight, Clock, Monitor, Users, CheckCircle } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -225,6 +226,21 @@ export default function Mentorias() {
         </section>
       )}
 
+      <StructuredData schemas={useMemo(() => [
+        buildBreadcrumb([{ name: "Mentorias", url: "/mentorias" }]),
+        buildItemList(
+          "Mentorias de Fotografia — Camilla Vieira",
+          "/mentorias",
+          mentorships.map(m => ({ name: m.title, url: `/mentorias#${m.title.toLowerCase().replace(/\s+/g, "-")}` }))
+        ),
+        ...mentorships.map(m => buildService({
+          title: m.title,
+          description: m.description,
+          priceDisplay: m.priceDisplay,
+          slug: m.title.toLowerCase().replace(/\s+/g, "-"),
+        })),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      ], [JSON.stringify(mentorships)])} />
       <Footer />
     </div>
   );

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSEO } from "@/hooks/useSEO";
+import { StructuredData, buildBreadcrumb, buildArtwork, BASE_URL } from "@/components/StructuredData";
 import { X, MessageCircle } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -78,6 +79,23 @@ export default function Ceramica() {
           </div>
         </div>
       </div>
+      <StructuredData schemas={[
+        buildBreadcrumb([{ name: "Cerâmica", url: "/ceramica" }]),
+        {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          name: "Cerâmica Artística — Camilla Vieira",
+          description: "Peças de cerâmica artística criadas por Camilla Vieira. Cada peça é única, modelada à mão com argila e queimada em forno.",
+          url: `${BASE_URL}/ceramica`,
+          provider: { "@id": `${BASE_URL}/#person` },
+          areaServed: { "@type": "Country", name: "Brasil" },
+        },
+        ...ceramics.map(c => buildArtwork({
+          name: c.title,
+          imageUrl: c.imageUrl,
+          artMedium: c.technique,
+        })),
+      ]} />
       <Footer />
     </div>
   );

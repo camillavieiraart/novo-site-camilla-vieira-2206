@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSEO } from "@/hooks/useSEO";
+import { StructuredData, buildBreadcrumb, ATELIER_BUSINESS_SCHEMA } from "@/components/StructuredData";
 import { Instagram, Youtube, Mail, MessageCircle, Send, CheckCircle2 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -375,6 +376,10 @@ export default function Contato() {
         </div>
       </section>
 
+      <StructuredData schemas={[
+        buildBreadcrumb([{ name: "Contato", url: "/contato" }]),
+        ATELIER_BUSINESS_SCHEMA,
+      ]} />
       <Footer />
     </div>
   );

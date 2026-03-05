@@ -303,3 +303,18 @@
 - [x] Backend: salvar mensagem no banco de dados (tabela contact_messages)
 - [x] Backend: notificar Camilla via notifyOwner ao receber nova mensagem
 - [x] Testar fluxo completo: preenchimento → envio → confirmação → mensagem no admin
+
+## Schema.org Completo — Rich Snippets (Mar 2026)
+- [x] Criar componente SchemaScript reutilizável para injetar JSON-LD no head
+- [x] Schema Person na /sobre (nome, foto, jobTitle, sameAs redes sociais, knowsAbout)
+- [x] Schema LocalBusiness na /contato (já existe, revisar e completar)
+- [x] Schema WebSite global com SearchAction (sitelinks search box)
+- [x] Schema BlogPosting em /blog/:slug (author, datePublished, dateModified, image, headline, keywords, wordCount)
+- [x] Schema ItemList em /blog (lista de posts recentes)
+- [x] Schema Product em /loja/:slug (name, description, image, offers, brand)
+- [x] Schema ItemList em /loja (lista de produtos)
+- [x] Schema Service em /mentorias (name, description, provider, areaServed, offers)
+- [x] Schema ArtGallery + CreativeWork em /obras (artworks com name, creator, artMedium, artworkSurface, image)
+- [x] Schema BreadcrumbList em todas as páginas internas (/sobre, /contato, /blog, /loja, /obras, /portfolio, /mentorias)
+- [x] Schema FAQPage na home (perguntas frequentes sobre ensaios e serviços)
+- [x] Schema ImageObject nas fotos principais do portfólio

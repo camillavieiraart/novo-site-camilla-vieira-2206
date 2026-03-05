@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSEO } from "@/hooks/useSEO";
+import { StructuredData, buildProduct, buildBreadcrumb, buildItemList } from "@/components/StructuredData";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { BrushCorner } from "@/components/BrushStroke";
@@ -302,6 +303,16 @@ export default function Loja() {
         </div>
       </section>
 
+      <StructuredData schemas={useMemo(() => [
+        buildBreadcrumb([{ name: "Loja", url: "/loja" }]),
+        buildItemList(
+          "Loja — Camilla Vieira",
+          "/loja",
+          (products || []).map(p => ({ name: p.name, url: `/loja/${p.slug}`, image: p.imageUrl ?? undefined }))
+        ),
+        ...(products || []).map(p => buildProduct(p)),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      ], [JSON.stringify(products)])} />
       <Footer />
     </div>
   );

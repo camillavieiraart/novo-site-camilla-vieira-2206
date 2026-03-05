@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRoute, Link } from "wouter";
 import { useSEO } from "@/hooks/useSEO";
+import { StructuredData, buildProduct, buildBreadcrumb } from "@/components/StructuredData";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { trpc } from "@/lib/trpc";
@@ -402,6 +403,11 @@ export default function ProdutoDetalhe() {
         />
       )}
 
+      {product && <StructuredData schemas={useMemo(() => [
+        buildBreadcrumb([{ name: "Loja", url: "/loja" }, { name: product.name, url: `/loja/${product.slug}` }]),
+        buildProduct(product),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      ], [product.id])} />}
       <Footer />
     </div>
   );

@@ -283,6 +283,42 @@ export const appRouter = router({
     })).mutation(async ({ input }) => {
       await createContactMessage(input as any);
       await notifyOwner({ title: "Nova mensagem de contato", content: `${input.name} (${input.email}): ${input.message.slice(0, 200)}` });
+      // Send email notification via Resend to contato@camillavieira.art
+      try {
+        const { Resend } = await import("resend");
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        const subjectLine = input.subject
+          ? `[Contato] ${input.subject}`
+          : `[Contato] Nova mensagem de ${input.name}`;
+        await resend.emails.send({
+          from: "Site Camilla Vieira <ola@camillavieira.art>",
+          to: "contato@camillavieira.art",
+          replyTo: input.email,
+          subject: subjectLine,
+          html: `<!DOCTYPE html><html lang="pt-BR"><body style="font-family:Georgia,serif;background:#f5e6d3;margin:0;padding:0">
+<div style="max-width:600px;margin:40px auto;background:#fff;border:1px solid #e8d5c0;padding:40px">
+  <h1 style="font-family:Georgia,serif;color:#5c3d2e;font-size:22px;margin:0 0 8px">Nova mensagem de contato</h1>
+  <p style="color:#8b6f47;font-size:13px;margin:0 0 32px;font-family:Inter,sans-serif">Recebida pelo formul\u00e1rio em camillavieira.art/contato</p>
+  <table style="width:100%;border-collapse:collapse;font-family:Inter,sans-serif;font-size:14px">
+    <tr><td style="padding:10px 0;border-bottom:1px solid #f0e0d0;color:#8b6f47;width:120px">Nome</td><td style="padding:10px 0;border-bottom:1px solid #f0e0d0;color:#3d2b1f">${input.name}</td></tr>
+    <tr><td style="padding:10px 0;border-bottom:1px solid #f0e0d0;color:#8b6f47">E-mail</td><td style="padding:10px 0;border-bottom:1px solid #f0e0d0"><a href="mailto:${input.email}" style="color:#c97064">${input.email}</a></td></tr>
+    ${input.phone ? `<tr><td style="padding:10px 0;border-bottom:1px solid #f0e0d0;color:#8b6f47">Telefone</td><td style="padding:10px 0;border-bottom:1px solid #f0e0d0;color:#3d2b1f">${input.phone}</td></tr>` : ""}
+    ${input.subject ? `<tr><td style="padding:10px 0;border-bottom:1px solid #f0e0d0;color:#8b6f47">Assunto</td><td style="padding:10px 0;border-bottom:1px solid #f0e0d0;color:#3d2b1f">${input.subject}</td></tr>` : ""}
+  </table>
+  <div style="margin-top:24px">
+    <p style="color:#8b6f47;font-family:Inter,sans-serif;font-size:13px;margin:0 0 8px">Mensagem</p>
+    <div style="background:#faf5ef;border-left:3px solid #c97064;padding:16px 20px;color:#3d2b1f;font-size:15px;line-height:1.7;white-space:pre-wrap">${input.message}</div>
+  </div>
+  <div style="margin-top:32px;padding-top:24px;border-top:1px solid #f0e0d0;text-align:center">
+    <a href="mailto:${input.email}" style="display:inline-block;background:#c97064;color:#fff;padding:12px 28px;font-family:Inter,sans-serif;font-size:13px;letter-spacing:0.08em;text-decoration:none">RESPONDER</a>
+  </div>
+  <p style="margin-top:32px;font-size:11px;color:#b8a090;text-align:center;font-family:Inter,sans-serif">camillavieira.art</p>
+</div></body></html>`,
+        });
+      } catch (emailErr) {
+        console.error("[contact.send] Resend email failed:", emailErr);
+        // Don't throw — message was saved to DB, email is best-effort
+      }
       return { success: true };
     }),
     getAll: adminProcedure.query(() => getAllContactMessages()),

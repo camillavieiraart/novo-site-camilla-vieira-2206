@@ -16,7 +16,7 @@ function getDb() {
 
 const STAGES = ["lead_frio", "lead_quente", "negociando", "fechado", "perdido"] as const;
 
-// ─── List all leads with optional filters ─────────────────────────────────────
+// ----------------------------------------------------------------------------
 const listLeads = adminProcedure
   .input(z.object({
     stage: z.enum(STAGES).optional(),
@@ -60,7 +60,7 @@ const listLeads = adminProcedure
     return filtered;
   });
 
-// ─── Get leads grouped by stage (for Kanban) ──────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 const getKanban = adminProcedure.query(async () => {
   const db = getDb();
   const rows = await db
@@ -127,7 +127,7 @@ const getKanban = adminProcedure.query(async () => {
   return grouped;
 });
 
-// ─── Get single lead ──────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 const getLead = adminProcedure
   .input(z.object({ id: z.number() }))
   .query(async ({ input }) => {
@@ -139,7 +139,7 @@ const getLead = adminProcedure
     return { ...lead, forms };
   });
 
-// ─── Create lead ──────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 const createLead = adminProcedure
   .input(z.object({
     name: z.string().min(1),
@@ -168,7 +168,7 @@ const createLead = adminProcedure
     return { success: true, id: Number((result as any).insertId) };
   });
 
-// ─── Update lead ──────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 const updateLead = adminProcedure
   .input(z.object({
     id: z.number(),
@@ -194,7 +194,7 @@ const updateLead = adminProcedure
     return { success: true };
   });
 
-// ─── Move lead stage (Kanban drag) ────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 const moveStage = adminProcedure
   .input(z.object({
     id: z.number(),
@@ -208,7 +208,7 @@ const moveStage = adminProcedure
     return { success: true };
   });
 
-// ─── Delete lead ──────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 const deleteLead = adminProcedure
   .input(z.object({ id: z.number() }))
   .mutation(async ({ input }) => {
@@ -218,7 +218,7 @@ const deleteLead = adminProcedure
     return { success: true };
   });
 
-// ─── Stats ────────────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 const getStats = adminProcedure.query(async () => {
   const db = getDb();
   const rows = await db

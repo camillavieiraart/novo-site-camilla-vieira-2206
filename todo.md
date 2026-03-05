@@ -343,3 +343,10 @@
 - [x] Sitemap.xml já inclui todos os 15 posts publicados do blog dinamicamente (2 estão como rascunho)
 - [x] Novos posts aparecem automaticamente no sitemap ao serem publicados
 - [x] /obras/:slug e /loja/:slug incluídos no sitemap
+
+## Correção Formulário de Contato — Envio Real por E-mail (Mar 2026)
+- [x] Investigar: formulário usa onSubmit React com e.preventDefault() — não há method="get"
+- [x] Formulário usa estado controlado React sem react-hook-form — robusto e sem dependência
+- [x] Configurar envio de e-mail via Resend para contato@camillavieira.art ao receber nova mensagem
+- [x] Tela de sucesso já presente após envio
+- [x] Corrigir erro de caractere Unicode U+2500 no leads-router.ts que causava crash do esbuild

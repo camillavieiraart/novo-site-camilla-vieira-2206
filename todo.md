@@ -376,3 +376,10 @@
 
 ## Bug — Imagens de Capa Quebradas no Blog (Mar 2026)
 - [ ] Corrigir imagens de capa quebradas: "A IA não vai te salvar", "Fotografia não é registro", "Wong Kar-wai" e outros posts sem coverImageUrl válida
+
+## Páginas de Venda de Serviços (Mar 2026)
+- [x] Criar página de venda /ensaio-gestante: hero, sobre o ensaio, galeria, processo em 4 etapas, detalhes práticos, 3 pacotes com preços, FAQ com accordion, formulário de agendamento, Schema.org Service
+- [x] Criar página de venda /ensaio-feminino: hero, para quem é, galeria, processo em 4 etapas, detalhes práticos, 3 pacotes com preços, depoimentos, FAQ com accordion, formulário de agendamento, Schema.org Service
+- [x] Adicionar links ✦ Ensaio Feminino e ✦ Ensaio Gestante ao dropdown do menu desktop e menu mobile
+- [x] Corrigir sitemap.xml: remover arquivo estático client/public/sitemap.xml que sobrescrevia endpoint dinâmico em produção
+- [x] Corrigir imagens de capa dos posts IDs 1, 2, 3 com URLs CDN válidas

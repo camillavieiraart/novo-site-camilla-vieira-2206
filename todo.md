@@ -357,3 +357,22 @@
 
 ## Bug — Erro JSON na Home (Mar 2026)
 - [x] Corrigir erro "Unexpected token '<' is not valid JSON" na página inicial — era erro transiente de restart do servidor; adicionado onError handler no tRPC para melhor diagnóstico futuro
+
+## Infraestrutura — GitHub (Mar 2026)
+- [x] GitHub conectado: github.com/camillavieiraart/Camillavieira.art (648 arquivos, branch main)
+  - Remote Manus (origin): checkpoints e deploy interno
+  - Remote GitHub (github): repositório pessoal da Camilla
+- [ ] Sincronizar GitHub automaticamente a cada checkpoint
+
+## E-mail Profissional (Mar 2026)
+- [x] Caixa contato@camillavieira.art criada no GoDaddy (plano ativo até 11/03/2026)
+- [x] Gmail configurado para enviar como contato@camillavieira.art (SMTP smtp.gmail.com, porta 587 TLS)
+- [ ] Configurar POP3 no Gmail para receber cópias da caixa GoDaddy
+- [ ] Agente de IA para responder e-mails automaticamente (Google Apps Script + Gemini) — pausado aguardando chave Gemini API e número WhatsApp
+
+## Pendências Gerais (Mar 2026)
+- [ ] Ativar Stripe KYC (dashboard.stripe.com — CPF, endereço, dados bancários)
+- [ ] Configurar IA no WhatsApp (ManyChat, Typebot + Z-API, ou Wati)
+
+## Bug — Imagens de Capa Quebradas no Blog (Mar 2026)
+- [ ] Corrigir imagens de capa quebradas: "A IA não vai te salvar", "Fotografia não é registro", "Wong Kar-wai" e outros posts sem coverImageUrl válida

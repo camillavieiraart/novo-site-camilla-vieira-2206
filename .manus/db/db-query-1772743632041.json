@@ -1,0 +1,40 @@
+{
+  "query": "SELECT * FROM site_settings LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT * FROM site_settings LIMIT 5;",
+  "rows": [
+    {
+      "id": "1",
+      "key": "sobre_foto_perfil",
+      "value": "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/sobre/GFYde-XJdNzL-mUlAwMLg.JPG",
+      "updatedAt": "2026-03-05 16:39:36"
+    },
+    {
+      "id": "2",
+      "key": "sobre_foto_secundaria",
+      "value": "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/sobre/FHqHhzPFCe7Cfl53Ap7BB.JPG",
+      "updatedAt": "2026-03-05 16:46:03"
+    },
+    {
+      "id": "3",
+      "key": "sobre_bio_p1",
+      "value": "Comecei a fotografar por necessidade de guardar o que o tempo insiste em levar. Mas logo entendi que a fotografia, pra mim, nunca foi só registro — é linguagem. É luz com intenção. É um jeito de transformar sensação em imagem e de devolver presença para quem se perdeu de si.",
+      "updatedAt": "2026-03-05 16:48:01"
+    },
+    {
+      "id": "4",
+      "key": "sobre_bio_p2",
+      "value": "Hoje eu fotografo principalmente ensaios de gestante e feminino, com direção sensível e estética autoral. Cada sessão é pensada para que você se sinta segura, conduzida e linda — não por um ideal, mas por verdade. A minha fotografia não pede performance: ela pede coragem com delicadeza.",
+      "updatedAt": "2026-03-05 16:48:15"
+    },
+    {
+      "id": "6",
+      "key": "sobre_bio_p3",
+      "value": "Este Ateliê Digital é o lugar onde tudo se encontra: portfólio, ensaios, textos e obras. Se você chegou para viver um ensaio comigo, aqui começa o caminho — do primeiro contato até a entrega com cuidado. E se você chegou para colecionar arte, eu te apresento as obras que nascem da fotografia e seguem além dela: imagens que não foram feitas para passar… foram feitas para ficar.",
+      "updatedAt": "2026-03-05 16:48:29"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tkey\tvalue\tupdatedAt\n1\tsobre_foto_perfil\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/sobre/GFYde-XJdNzL-mUlAwMLg.JPG\t2026-03-05 16:39:36\n2\tsobre_foto_secundaria\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/sobre/FHqHhzPFCe7Cfl53Ap7BB.JPG\t2026-03-05 16:46:03\n3\tsobre_bio_p1\tComecei a fotografar por necessidade de guardar o que o tempo insiste em levar. Mas logo entendi que a fotografia, pra mim, nunca foi só registro — é linguagem. É luz com intenção. É um jeito de transformar sensação em imagem e de devolver presença para quem se perdeu de si.\t2026-03-05 16:48:01\n4\tsobre_bio_p2\tHoje eu fotografo principalmente ensaios de gestante e feminino, com direção sensível e estética autoral. Cada sessão é pensada para que você se sinta segura, conduzida e linda — não por um ideal, mas por verdade. A minha fotografia não pede performance: ela pede coragem com delicadeza.\t2026-03-05 16:48:15\n6\tsobre_bio_p3\tEste Ateliê Digital é o lugar onde tudo se encontra: portfólio, ensaios, textos e obras. Se você chegou para viver um ensaio comigo, aqui começa o caminho — do primeiro contato até a entrega com cuidado. E se você chegou para colecionar arte, eu te apresento as obras que nascem da fotografia e seguem além dela: imagens que não foram feitas para passar… foram feitas para ficar.\t2026-03-05 16:48:29\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

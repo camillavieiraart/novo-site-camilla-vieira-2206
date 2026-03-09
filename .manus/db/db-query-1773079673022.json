@@ -1,0 +1,9 @@
+{
+  "query": "\nUPDATE blog_posts SET coverImageUrl = 'https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-ia-nao-vai-salvar_f0baea4a.png' WHERE id = 1;\nUPDATE blog_posts SET coverImageUrl = 'https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-fotografia-linguagem_4ad5d13d.png' WHERE id = 2;\nUPDATE blog_posts SET coverImageUrl = 'https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-wong-kar-wai_2053d8a0.png' WHERE id = 3;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute \nUPDATE blog_posts SET coverImageUrl = 'https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-ia-nao-vai-salvar_f0baea4a.png' WHERE id = 1;\nUPDATE blog_posts SET coverImageUrl = 'https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-fotografia-linguagem_4ad5d13d.png' WHERE id = 2;\nUPDATE blog_posts SET coverImageUrl = 'https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-wong-kar-wai_2053d8a0.png' WHERE id = 3;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 75
+}

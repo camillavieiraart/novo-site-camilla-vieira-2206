@@ -1,0 +1,115 @@
+{
+  "query": "SELECT id, title, slug, coverImageUrl, isPublished FROM blog_posts ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT id, title, slug, coverImageUrl, isPublished FROM blog_posts ORDER BY id;",
+  "rows": [
+    {
+      "id": "1",
+      "title": "A IA não vai te salvar (se você não sabe o que quer dizer)",
+      "slug": "ia-nao-vai-te-salvar",
+      "coverImageUrl": "https://drive.google.com/uc?export=view&id=1X9XmKzqFzQ2vQxY3Z4W5A6B7C8D9E0F",
+      "isPublished": "1"
+    },
+    {
+      "id": "2",
+      "title": "Fotografia não é registro. É linguagem.",
+      "slug": "fotografia-nao-e-registro-e-linguagem",
+      "coverImageUrl": "https://drive.google.com/uc?export=view&id=1A2B3C4D5E6F7G8H9I0J1K2L3M4N5O6P",
+      "isPublished": "1"
+    },
+    {
+      "id": "3",
+      "title": "Wong Kar-wai e a luz que conta mais que o roteiro",
+      "slug": "wong-kar-wai-luz-conta-mais-que-roteiro",
+      "coverImageUrl": "https://drive.google.com/uc?export=view&id=1Q2R3S4T5U6V7W8X9Y0Z1A2B3C4D5E6F",
+      "isPublished": "1"
+    },
+    {
+      "id": "30001",
+      "title": "O que Wong Kar-wai ensina sobre fotografar o desejo",
+      "slug": "o-que-wong-kar-wai-ensina-sobre-fotografar-o-desejo",
+      "coverImageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/iOaBrsKLhSkSpQNX.jpg",
+      "isPublished": "1"
+    },
+    {
+      "id": "60001",
+      "title": "O que é um ensaio feminino de verdade (e por que ele não é sobre beleza)",
+      "slug": "o-que-e-um-ensaio-feminino-de-verdade",
+      "coverImageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-ensaio-feminino-cv9hbZmsT8R4o5nnQbuqH8.webp",
+      "isPublished": "1"
+    },
+    {
+      "id": "60002",
+      "title": "Como se preparar para seu primeiro ensaio feminino (sem entrar em pânico)",
+      "slug": "como-se-preparar-para-seu-primeiro-ensaio-feminino",
+      "coverImageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-preparacao-ensaio-LXjsqsuEJwq5zzKCSJgwDY.webp",
+      "isPublished": "1"
+    },
+    {
+      "id": "60003",
+      "title": "Fotografia autoral: o que é, por que importa e como ela transforma quem olha",
+      "slug": "fotografia-autoral-o-que-e-e-por-que-importa",
+      "coverImageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-fotografia-autoral-etMwTahZVBmrQVzbe9YTvp.webp",
+      "isPublished": "1"
+    },
+    {
+      "id": "60004",
+      "title": "Ensaio gestante: por que é muito mais do que um registro de gravidez",
+      "slug": "ensaio-gestante-mais-que-um-registro",
+      "coverImageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-ensaio-gestante-hBGJWkTeTWCEsB6UeoPmCC.webp",
+      "isPublished": "1"
+    },
+    {
+      "id": "60005",
+      "title": "Cerâmica e fotografia: o que o barro me ensinou sobre a imagem",
+      "slug": "ceramica-e-fotografia-o-que-o-barro-me-ensinou-sobre-imagem",
+      "coverImageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-ceramica-UzDjaVrQMZAd9YA65ws9yE.webp",
+      "isPublished": "1"
+    },
+    {
+      "id": "60006",
+      "title": "Quando você está pronta para uma mentoria de fotografia (e quando não está)",
+      "slug": "quando-voce-esta-pronta-para-uma-mentoria-de-fotografia",
+      "coverImageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-mentoria-UJt5L5sncrGNT5zZAnHsQ6.webp",
+      "isPublished": "1"
+    },
+    {
+      "id": "60007",
+      "title": "Por que sua marca pessoal precisa de imagens que realmente te representam",
+      "slug": "por-que-sua-marca-pessoal-precisa-de-imagens-que-te-representam",
+      "coverImageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-marca-pessoal-ELXUkgeY9pPkMAxnisLq4d.webp",
+      "isPublished": "1"
+    },
+    {
+      "id": "60008",
+      "title": "Fotógrafa em Brasília: o que considerar antes de escolher a sua",
+      "slug": "fotografa-em-brasilia-o-que-considerar-antes-de-escolher",
+      "coverImageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-brasilia-NRPoGx69AGaRgPrvZMMUPt.webp",
+      "isPublished": "1"
+    },
+    {
+      "id": "90001",
+      "title": "Cerâmica artesanal em Brasília: o ateliê da Camilla Vieira",
+      "slug": "ceramica-artesanal-em-brasilia-o-atelie-da-camilla-vieira",
+      "coverImageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-ceramica-artesanal-brasilia-QxeBjA6hdd9GL9C7VVMHgB.webp",
+      "isPublished": "1"
+    },
+    {
+      "id": "120001",
+      "title": "O Fio Invisível: Vivian Maier e a Retrospectiva que Desvenda o Olhar Anônimo",
+      "slug": "vivian-maier-retrospectiva-moma-olhar-anonimo",
+      "coverImageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-covers/vivian-maier-retrospectiva-moma-olhar-anonimo-1772722852801.jpg",
+      "isPublished": "1"
+    },
+    {
+      "id": "150001",
+      "title": "Fio e Algoritmo: A Permanência Têxtil na Era da Inteligência Artificial",
+      "slug": "fio-e-algoritmo-permanencia-textil-ia-arte-masp",
+      "coverImageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-covers/fio-e-algoritmo-permanencia-textil-ia-arte-masp-1772722927921.jpg",
+      "isPublished": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tslug\tcoverImageUrl\tisPublished\n1\tA IA não vai te salvar (se você não sabe o que quer dizer)\tia-nao-vai-te-salvar\thttps://drive.google.com/uc?export=view&id=1X9XmKzqFzQ2vQxY3Z4W5A6B7C8D9E0F\t1\n2\tFotografia não é registro. É linguagem.\tfotografia-nao-e-registro-e-linguagem\thttps://drive.google.com/uc?export=view&id=1A2B3C4D5E6F7G8H9I0J1K2L3M4N5O6P\t1\n3\tWong Kar-wai e a luz que conta mais que o roteiro\twong-kar-wai-luz-conta-mais-que-roteiro\thttps://drive.google.com/uc?export=view&id=1Q2R3S4T5U6V7W8X9Y0Z1A2B3C4D5E6F\t1\n30001\tO que Wong Kar-wai ensina sobre fotografar o desejo\to-que-wong-kar-wai-ensina-sobre-fotografar-o-desejo\thttps://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/iOaBrsKLhSkSpQNX.jpg\t1\n60001\tO que é um ensaio feminino de verdade (e por que ele não é sobre beleza)\to-que-e-um-ensaio-feminino-de-verdade\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-ensaio-feminino-cv9hbZmsT8R4o5nnQbuqH8.webp\t1\n60002\tComo se preparar para seu primeiro ensaio feminino (sem entrar em pânico)\tcomo-se-preparar-para-seu-primeiro-ensaio-feminino\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-preparacao-ensaio-LXjsqsuEJwq5zzKCSJgwDY.webp\t1\n60003\tFotografia autoral: o que é, por que importa e como ela transforma quem olha\tfotografia-autoral-o-que-e-e-por-que-importa\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-fotografia-autoral-etMwTahZVBmrQVzbe9YTvp.webp\t1\n60004\tEnsaio gestante: por que é muito mais do que um registro de gravidez\tensaio-gestante-mais-que-um-registro\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-ensaio-gestante-hBGJWkTeTWCEsB6UeoPmCC.webp\t1\n60005\tCerâmica e fotografia: o que o barro me ensinou sobre a imagem\tceramica-e-fotografia-o-que-o-barro-me-ensinou-sobre-imagem\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-ceramica-UzDjaVrQMZAd9YA65ws9yE.webp\t1\n60006\tQuando você está pronta para uma mentoria de fotografia (e quando não está)\tquando-voce-esta-pronta-para-uma-mentoria-de-fotografia\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-mentoria-UJt5L5sncrGNT5zZAnHsQ6.webp\t1\n60007\tPor que sua marca pessoal precisa de imagens que realmente te representam\tpor-que-sua-marca-pessoal-precisa-de-imagens-que-te-representam\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-marca-pessoal-ELXUkgeY9pPkMAxnisLq4d.webp\t1\n60008\tFotógrafa em Brasília: o que considerar antes de escolher a sua\tfotografa-em-brasilia-o-que-considerar-antes-de-escolher\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-brasilia-NRPoGx69AGaRgPrvZMMUPt.webp\t1\n90001\tCerâmica artesanal em Brasília: o ateliê da Camilla Vieira\tceramica-artesanal-em-brasilia-o-atelie-da-camilla-vieira\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-cover-ceramica-artesanal-brasilia-QxeBjA6hdd9GL9C7VVMHgB.webp\t1\n120001\tO Fio Invisível: Vivian Maier e a Retrospectiva que Desvenda o Olhar Anônimo\tvivian-maier-retrospectiva-moma-olhar-anonimo\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-covers/vivian-maier-retrospectiva-moma-olhar-anonimo-1772722852801.jpg\t1\n150001\tFio e Algoritmo: A Permanência Têxtil na Era da Inteligência Artificial\tfio-e-algoritmo-permanencia-textil-ia-arte-masp\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/blog-covers/fio-e-algoritmo-permanencia-textil-ia-arte-masp-1772722927921.jpg\t1\n",
+  "stderr": "",
+  "execution_time_ms": 65
+}

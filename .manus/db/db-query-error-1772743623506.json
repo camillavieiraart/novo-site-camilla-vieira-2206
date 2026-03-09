@@ -1,0 +1,8 @@
+{
+  "query": "SELECT key_name, LEFT(value, 300) as value FROM site_settings WHERE key_name IN ('whatsapp', 'instagram', 'sobre_bio_p1', 'sobre_bio_p2', 'sobre_bio_p3', 'hero_subtitle', 'hero_title', 'contato_email') LIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT key_name, LEFT(value, 300) as value FROM site_settings WHERE key_name IN ('whatsapp', 'instagram', 'sobre_bio_p1', 'sobre_bio_p2', 'sobre_bio_p3', 'hero_subtitle', 'hero_title', 'contato_email') LIMIT 15;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'key_name' in 'where clause'"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "query": "SELECT id, title, slug, SUBSTRING(content, 1, 400) as content_preview FROM blog_posts WHERE isPublished = 1 ORDER BY id DESC LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT id, title, slug, SUBSTRING(content, 1, 400) as content_preview FROM blog_posts WHERE isPublished = 1 ORDER BY id DESC LIMIT 5;",
+  "rows": [
+    {
+      "id": "150001",
+      "title": "Fio e Algoritmo: A Permanência Têxtil na Era da Inteligência Artificial",
+      "slug": "fio-e-algoritmo-permanencia-textil-ia-arte-masp",
+      "content_preview": "<p class=\"post-lead\">Em um mundo cada vez mais digital, a exposição no MASP sobre futuros têxteis provoca: como o bordado, uma arte ancestral, dialoga com a inteligência artificial, e o que isso revela sobre a essência da criação humana?</p>"
+    },
+    {
+      "id": "120001",
+      "title": "O Fio Invisível: Vivian Maier e a Retrospectiva que Desvenda o Olhar Anônimo",
+      "slug": "vivian-maier-retrospectiva-moma-olhar-anonimo",
+      "content_preview": "<p class=\"post-lead\">Em meio à efervescência de Nova York, o MoMA abriu suas portas para uma narrativa visual que por muito tempo permaneceu oculta, quase um segredo sussurrado entre as sombras da metrópole. A retrospectiva dedicada a Vivian Maier, a enigmática babá que se revelou uma das mais importantes fotógrafas de rua do século XX, é um convite à redescoberta de um olhar visceral, capturado c"
+    },
+    {
+      "id": "90001",
+      "title": "Cerâmica artesanal em Brasília: o ateliê da Camilla Vieira",
+      "slug": "ceramica-artesanal-em-brasilia-o-atelie-da-camilla-vieira",
+      "content_preview": "<p class=\"post-lead\">Existe uma pergunta que me fazem com frequência: por que uma fotógrafa faz cerâmica? A resposta curta é que não consigo separar as duas coisas. A resposta longa é este post.</p>"
+    },
+    {
+      "id": "60008",
+      "title": "Fotógrafa em Brasília: o que considerar antes de escolher a sua",
+      "slug": "fotografa-em-brasilia-o-que-considerar-antes-de-escolher",
+      "content_preview": "<p class=\"post-lead\">O preço é o último critério que deveria entrar na sua decisão. Antes dele, existem perguntas muito mais importantes — e quase ninguém as faz.</p>"
+    },
+    {
+      "id": "60007",
+      "title": "Por que sua marca pessoal precisa de imagens que realmente te representam",
+      "slug": "por-que-sua-marca-pessoal-precisa-de-imagens-que-te-representam",
+      "content_preview": "<p class=\"post-lead\">Existe um tipo de foto que diz: <em>sou profissional</em>. E existe um tipo de foto que diz: <em>sou eu</em>. A diferença entre as duas é o que constrói — ou destrói — uma marca pessoal.</p>"
+    }
+  ],
+  "messages": [
+    "<p>Um ponto, então outro, e mais um. A agulha perfura o tecido, um gesto repetido por milênios, tecendo narrativas, memórias, identidades. Este ritual, tão v",
+    "<p>O ateliê fica em Brasília, num espaço que divide luz com a câmera, com as obras da Série Fio e com o silêncio necessário para qualquer trabalho que exige presença. A cerâmica chegou como uma extens",
+    "<p>Brasília tem um mercado fotográfico rico e diverso. Existem profissionais excelentes em todos os estilos e faixas de preço. Mas a quantidade de opções também significa que a escolha errada é fácil de fazer — especialmente quando ",
+    "<p>Nos últimos anos, acompanhei uma mudança significativa no mercado. Profissionais de todas as áreas — advogadas, coaches, médicas, arquitetas, empreendedoras — começaram a entender que "
+  ],
+  "stdout": "id\ttitle\tslug\tcontent_preview\n150001\tFio e Algoritmo: A Permanência Têxtil na Era da Inteligência Artificial\tfio-e-algoritmo-permanencia-textil-ia-arte-masp\t<p class=\"post-lead\">Em um mundo cada vez mais digital, a exposição no MASP sobre futuros têxteis provoca: como o bordado, uma arte ancestral, dialoga com a inteligência artificial, e o que isso revela sobre a essência da criação humana?</p>\n\n<p>Um ponto, então outro, e mais um. A agulha perfura o tecido, um gesto repetido por milênios, tecendo narrativas, memórias, identidades. Este ritual, tão v\n120001\tO Fio Invisível: Vivian Maier e a Retrospectiva que Desvenda o Olhar Anônimo\tvivian-maier-retrospectiva-moma-olhar-anonimo\t<p class=\"post-lead\">Em meio à efervescência de Nova York, o MoMA abriu suas portas para uma narrativa visual que por muito tempo permaneceu oculta, quase um segredo sussurrado entre as sombras da metrópole. A retrospectiva dedicada a Vivian Maier, a enigmática babá que se revelou uma das mais importantes fotógrafas de rua do século XX, é um convite à redescoberta de um olhar visceral, capturado c\n90001\tCerâmica artesanal em Brasília: o ateliê da Camilla Vieira\tceramica-artesanal-em-brasilia-o-atelie-da-camilla-vieira\t<p class=\"post-lead\">Existe uma pergunta que me fazem com frequência: por que uma fotógrafa faz cerâmica? A resposta curta é que não consigo separar as duas coisas. A resposta longa é este post.</p>\n\n<p>O ateliê fica em Brasília, num espaço que divide luz com a câmera, com as obras da Série Fio e com o silêncio necessário para qualquer trabalho que exige presença. A cerâmica chegou como uma extens\n60008\tFotógrafa em Brasília: o que considerar antes de escolher a sua\tfotografa-em-brasilia-o-que-considerar-antes-de-escolher\t<p class=\"post-lead\">O preço é o último critério que deveria entrar na sua decisão. Antes dele, existem perguntas muito mais importantes — e quase ninguém as faz.</p>\n\n<p>Brasília tem um mercado fotográfico rico e diverso. Existem profissionais excelentes em todos os estilos e faixas de preço. Mas a quantidade de opções também significa que a escolha errada é fácil de fazer — especialmente quando \n60007\tPor que sua marca pessoal precisa de imagens que realmente te representam\tpor-que-sua-marca-pessoal-precisa-de-imagens-que-te-representam\t<p class=\"post-lead\">Existe um tipo de foto que diz: <em>sou profissional</em>. E existe um tipo de foto que diz: <em>sou eu</em>. A diferença entre as duas é o que constrói — ou destrói — uma marca pessoal.</p>\n\n<p>Nos últimos anos, acompanhei uma mudança significativa no mercado. Profissionais de todas as áreas — advogadas, coaches, médicas, arquitetas, empreendedoras — começaram a entender que \n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

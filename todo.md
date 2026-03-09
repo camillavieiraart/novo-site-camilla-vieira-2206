@@ -383,3 +383,38 @@
 - [x] Adicionar links ✦ Ensaio Feminino e ✦ Ensaio Gestante ao dropdown do menu desktop e menu mobile
 - [x] Corrigir sitemap.xml: remover arquivo estático client/public/sitemap.xml que sobrescrevia endpoint dinâmico em produção
 - [x] Corrigir imagens de capa dos posts IDs 1, 2, 3 com URLs CDN válidas
+
+## CTAs Estratégicos no Portfólio (Mar 2026)
+- [ ] CTAs em 3 pontos (topo/meio/final) nas páginas de categoria do portfólio com textos específicos por tipo de ensaio
+- [ ] Criar página de venda /ensaio-bebe: Ensaio de Bebê Lifestyle (não newborn) — 1º ensaio ~15 dias, estilo lifestyle, com pacote de acompanhamento anual
+
+## Pagamentos e IA WhatsApp (Mar 2026)
+- [ ] Configurar Stripe para receber pagamentos (ensaios, mentorias, produtos da loja)
+- [ ] Definir e integrar solução de IA para WhatsApp
+
+## Pagamentos Stripe (Mar 2026)
+- [ ] Criar produtos e preços no Stripe (ensaios, mentorias, produtos digitais)
+- [ ] Implementar checkout Stripe nas páginas de serviço (Ensaio Gestante, Feminino, Mentorias)
+- [ ] Webhook Stripe para confirmar pagamentos e notificar admin
+- [ ] Página de confirmação de pagamento (/pagamento-confirmado)
+- [ ] Histórico de pedidos no admin
+
+## Agendamento - Google Calendar e Calendly (Mar 2026)
+- [ ] Configurar Google Calendar Appointment Scheduling: Call de Alinhamento 30min-1h, seg-sex 10h-17h, qua até 18h
+- [ ] Testar Calendly amanhã como alternativa com integração Stripe nativa
+- [ ] Agente de fechamento: capturar nome, e-mail e telefone do visitante logo na entrada para alimentar o CRM mesmo que não feche
+- [ ] Agente de fechamento: enviar lead capturado automaticamente para o CRM do site
+- [ ] Agente de fechamento: fluxo de follow-up automático por e-mail para leads que não fecharam
+
+## Para Amanhã (10/Mar/2026)
+- [ ] Testar e configurar Calendly com integração Stripe nativa para agendamento automático
+- [ ] Conectar IA do WhatsApp via Wati (criar conta, migrar número para WhatsApp Business API, treinar IA com serviços)
+- [ ] Conectar agente de fechamento ao Calendly (trocar placeholder do Google Calendar)
+
+## Página de Obras - CTAs e Como Comprar (Mar 2026)
+- [ ] Adicionar botão "Tenho Interesse" em cada obra com link para WhatsApp/formulário
+- [ ] Criar seção "Como Comprar" com prazo, frete, certificado, pagamento, devolução
+- [ ] Adicionar CTA final "Fale Comigo sobre Obras" no rodapé da página
+
+## Blog - Links Internos Estratégicos (Mar 2026)
+- [ ] Editar os 5 posts mais importantes para incluir 2-3 links internos contextuais para páginas de serviço (/ensaio-gestante, /ensaio-feminino, /mentorias) e posts relacionados

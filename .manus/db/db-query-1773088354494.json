@@ -1,0 +1,85 @@
+{
+  "query": "SELECT id, title, slug FROM blog_posts WHERE isPublished = 1 ORDER BY id ASC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT id, title, slug FROM blog_posts WHERE isPublished = 1 ORDER BY id ASC;",
+  "rows": [
+    {
+      "id": "1",
+      "title": "A IA não vai te salvar (se você não sabe o que quer dizer)",
+      "slug": "ia-nao-vai-te-salvar"
+    },
+    {
+      "id": "2",
+      "title": "Fotografia não é registro. É linguagem.",
+      "slug": "fotografia-nao-e-registro-e-linguagem"
+    },
+    {
+      "id": "3",
+      "title": "Wong Kar-wai e a luz que conta mais que o roteiro",
+      "slug": "wong-kar-wai-luz-conta-mais-que-roteiro"
+    },
+    {
+      "id": "30001",
+      "title": "O que Wong Kar-wai ensina sobre fotografar o desejo",
+      "slug": "o-que-wong-kar-wai-ensina-sobre-fotografar-o-desejo"
+    },
+    {
+      "id": "60001",
+      "title": "O que é um ensaio feminino de verdade (e por que ele não é sobre beleza)",
+      "slug": "o-que-e-um-ensaio-feminino-de-verdade"
+    },
+    {
+      "id": "60002",
+      "title": "Como se preparar para seu primeiro ensaio feminino (sem entrar em pânico)",
+      "slug": "como-se-preparar-para-seu-primeiro-ensaio-feminino"
+    },
+    {
+      "id": "60003",
+      "title": "Fotografia autoral: o que é, por que importa e como ela transforma quem olha",
+      "slug": "fotografia-autoral-o-que-e-e-por-que-importa"
+    },
+    {
+      "id": "60004",
+      "title": "Ensaio gestante: por que é muito mais do que um registro de gravidez",
+      "slug": "ensaio-gestante-mais-que-um-registro"
+    },
+    {
+      "id": "60005",
+      "title": "Cerâmica e fotografia: o que o barro me ensinou sobre a imagem",
+      "slug": "ceramica-e-fotografia-o-que-o-barro-me-ensinou-sobre-imagem"
+    },
+    {
+      "id": "60006",
+      "title": "Quando você está pronta para uma mentoria de fotografia (e quando não está)",
+      "slug": "quando-voce-esta-pronta-para-uma-mentoria-de-fotografia"
+    },
+    {
+      "id": "60007",
+      "title": "Por que sua marca pessoal precisa de imagens que realmente te representam",
+      "slug": "por-que-sua-marca-pessoal-precisa-de-imagens-que-te-representam"
+    },
+    {
+      "id": "60008",
+      "title": "Fotógrafa em Brasília: o que considerar antes de escolher a sua",
+      "slug": "fotografa-em-brasilia-o-que-considerar-antes-de-escolher"
+    },
+    {
+      "id": "90001",
+      "title": "Cerâmica artesanal em Brasília: o ateliê da Camilla Vieira",
+      "slug": "ceramica-artesanal-em-brasilia-o-atelie-da-camilla-vieira"
+    },
+    {
+      "id": "120001",
+      "title": "O Fio Invisível: Vivian Maier e a Retrospectiva que Desvenda o Olhar Anônimo",
+      "slug": "vivian-maier-retrospectiva-moma-olhar-anonimo"
+    },
+    {
+      "id": "150001",
+      "title": "Fio e Algoritmo: A Permanência Têxtil na Era da Inteligência Artificial",
+      "slug": "fio-e-algoritmo-permanencia-textil-ia-arte-masp"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tslug\n1\tA IA não vai te salvar (se você não sabe o que quer dizer)\tia-nao-vai-te-salvar\n2\tFotografia não é registro. É linguagem.\tfotografia-nao-e-registro-e-linguagem\n3\tWong Kar-wai e a luz que conta mais que o roteiro\twong-kar-wai-luz-conta-mais-que-roteiro\n30001\tO que Wong Kar-wai ensina sobre fotografar o desejo\to-que-wong-kar-wai-ensina-sobre-fotografar-o-desejo\n60001\tO que é um ensaio feminino de verdade (e por que ele não é sobre beleza)\to-que-e-um-ensaio-feminino-de-verdade\n60002\tComo se preparar para seu primeiro ensaio feminino (sem entrar em pânico)\tcomo-se-preparar-para-seu-primeiro-ensaio-feminino\n60003\tFotografia autoral: o que é, por que importa e como ela transforma quem olha\tfotografia-autoral-o-que-e-e-por-que-importa\n60004\tEnsaio gestante: por que é muito mais do que um registro de gravidez\tensaio-gestante-mais-que-um-registro\n60005\tCerâmica e fotografia: o que o barro me ensinou sobre a imagem\tceramica-e-fotografia-o-que-o-barro-me-ensinou-sobre-imagem\n60006\tQuando você está pronta para uma mentoria de fotografia (e quando não está)\tquando-voce-esta-pronta-para-uma-mentoria-de-fotografia\n60007\tPor que sua marca pessoal precisa de imagens que realmente te representam\tpor-que-sua-marca-pessoal-precisa-de-imagens-que-te-representam\n60008\tFotógrafa em Brasília: o que considerar antes de escolher a sua\tfotografa-em-brasilia-o-que-considerar-antes-de-escolher\n90001\tCerâmica artesanal em Brasília: o ateliê da Camilla Vieira\tceramica-artesanal-em-brasilia-o-atelie-da-camilla-vieira\n120001\tO Fio Invisível: Vivian Maier e a Retrospectiva que Desvenda o Olhar Anônimo\tvivian-maier-retrospectiva-moma-olhar-anonimo\n150001\tFio e Algoritmo: A Permanência Têxtil na Era da Inteligência Artificial\tfio-e-algoritmo-permanencia-textil-ia-arte-masp\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

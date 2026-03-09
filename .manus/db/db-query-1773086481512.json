@@ -1,0 +1,410 @@
+{
+  "query": "\nSELECT pi.id, pi.imageUrl as url, pi.caption as alt, pc.slug as cat_slug, pc.name as cat_name, ps.title as shoot_title\nFROM portfolio_images pi \nJOIN portfolio_shoots ps ON pi.shootId = ps.id\nJOIN portfolio_categories pc ON ps.categoryId = pc.id \nWHERE pi.imageUrl IS NOT NULL AND ps.isActive = 1\nORDER BY pc.id, ps.id, pi.order \nLIMIT 50;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute \nSELECT pi.id, pi.imageUrl as url, pi.caption as alt, pc.slug as cat_slug, pc.name as cat_name, ps.title as shoot_title\nFROM portfolio_images pi \nJOIN portfolio_shoots ps ON pi.shootId = ps.id\nJOIN portfolio_categories pc ON ps.categoryId = pc.id \nWHERE pi.imageUrl IS NOT NULL AND ps.isActive = 1\nORDER BY pc.id, ps.id, pi.order \nLIMIT 50;\n",
+  "rows": [
+    {
+      "id": "16",
+      "url": "https://drive.google.com/uc?export=view&id=1r_DJSPXPLe4ZpQOxdYzXh9VNfsqP8Xt8",
+      "alt": "NULL",
+      "cat_slug": "ensaios-femininos",
+      "cat_name": "Ensaios Femininos",
+      "shoot_title": "Ensaio Feminino"
+    },
+    {
+      "id": "17",
+      "url": "https://drive.google.com/uc?export=view&id=1v4oETacx8J7p5TUhjwx15WuPbLXSxfhx",
+      "alt": "NULL",
+      "cat_slug": "ensaios-femininos",
+      "cat_name": "Ensaios Femininos",
+      "shoot_title": "Ensaio Feminino"
+    },
+    {
+      "id": "18",
+      "url": "https://drive.google.com/uc?export=view&id=1oCq-md1Ha7w33DEbG9W2HVNC8Pk2gFga",
+      "alt": "NULL",
+      "cat_slug": "ensaios-femininos",
+      "cat_name": "Ensaios Femininos",
+      "shoot_title": "Ensaio Feminino"
+    },
+    {
+      "id": "19",
+      "url": "https://drive.google.com/uc?export=view&id=1KhrJ2tsNor5bE5jAHf8oFaruQQ-eXP44",
+      "alt": "NULL",
+      "cat_slug": "ensaios-femininos",
+      "cat_name": "Ensaios Femininos",
+      "shoot_title": "Ensaio Feminino"
+    },
+    {
+      "id": "20",
+      "url": "https://drive.google.com/uc?export=view&id=16T2Ektn2Kb4-5J3DGeGfcrsUsEaI7r0f",
+      "alt": "NULL",
+      "cat_slug": "ensaios-femininos",
+      "cat_name": "Ensaios Femininos",
+      "shoot_title": "Ensaio Feminino"
+    },
+    {
+      "id": "21",
+      "url": "https://drive.google.com/uc?export=view&id=18volj5r0TiZJmvrjew1yq8_ZEbegDMb4",
+      "alt": "NULL",
+      "cat_slug": "ensaios-femininos",
+      "cat_name": "Ensaios Femininos",
+      "shoot_title": "Ensaio Feminino"
+    },
+    {
+      "id": "22",
+      "url": "https://drive.google.com/uc?export=view&id=1FZbleC4q_WVgAE0uLqDpbRTelQO2Sp2d",
+      "alt": "NULL",
+      "cat_slug": "ensaios-femininos",
+      "cat_name": "Ensaios Femininos",
+      "shoot_title": "Ensaio Feminino"
+    },
+    {
+      "id": "23",
+      "url": "https://drive.google.com/uc?export=view&id=141mtAI4Za_07MTLTX1_5wB0ofkBTiMGY",
+      "alt": "NULL",
+      "cat_slug": "ensaios-femininos",
+      "cat_name": "Ensaios Femininos",
+      "shoot_title": "Ensaio Feminino"
+    },
+    {
+      "id": "24",
+      "url": "https://drive.google.com/uc?export=view&id=1nxGj7nAM_dcFtU-KM8uMxfWwotl4-B90",
+      "alt": "NULL",
+      "cat_slug": "ensaios-femininos",
+      "cat_name": "Ensaios Femininos",
+      "shoot_title": "Ensaio Feminino"
+    },
+    {
+      "id": "25",
+      "url": "https://drive.google.com/uc?export=view&id=1gr-s1umQlH-O6c5DfyhOZWbJOpgn2fYX",
+      "alt": "NULL",
+      "cat_slug": "ensaios-femininos",
+      "cat_name": "Ensaios Femininos",
+      "shoot_title": "Ensaio Feminino"
+    },
+    {
+      "id": "26",
+      "url": "https://drive.google.com/uc?export=view&id=1M3hJXUuq_Spp98JtMz5fkVHwu3DOGG2z",
+      "alt": "NULL",
+      "cat_slug": "ensaios-femininos",
+      "cat_name": "Ensaios Femininos",
+      "shoot_title": "Ensaio Feminino"
+    },
+    {
+      "id": "27",
+      "url": "https://drive.google.com/uc?export=view&id=18weE5s3F3mIbnoZIZWWegaRzGrA-jE0i",
+      "alt": "NULL",
+      "cat_slug": "ensaios-femininos",
+      "cat_name": "Ensaios Femininos",
+      "shoot_title": "Ensaio Feminino"
+    },
+    {
+      "id": "28",
+      "url": "https://drive.google.com/uc?export=view&id=1H7RUvMt1zAcV_sy3vVcrvCSpS8GiDMoo",
+      "alt": "NULL",
+      "cat_slug": "ensaios-femininos",
+      "cat_name": "Ensaios Femininos",
+      "shoot_title": "Ensaio Feminino"
+    },
+    {
+      "id": "29",
+      "url": "https://drive.google.com/uc?export=view&id=1yb7k7fNhuh7MvBEouWnUSVlor7aFY9U6",
+      "alt": "NULL",
+      "cat_slug": "ensaios-femininos",
+      "cat_name": "Ensaios Femininos",
+      "shoot_title": "Ensaio Feminino"
+    },
+    {
+      "id": "30",
+      "url": "https://drive.google.com/uc?export=view&id=1yt76JKtJoefR_karsdEjEwPIDYlIsXVc",
+      "alt": "NULL",
+      "cat_slug": "ensaios-femininos",
+      "cat_name": "Ensaios Femininos",
+      "shoot_title": "Ensaio Feminino"
+    },
+    {
+      "id": "1",
+      "url": "https://drive.google.com/uc?export=view&id=1AijtKMekO-CBMrL5lEx3l96XkyxFVaBQ",
+      "alt": "NULL",
+      "cat_slug": "gestante",
+      "cat_name": "Gestante",
+      "shoot_title": "Ensaio Gestante"
+    },
+    {
+      "id": "2",
+      "url": "https://drive.google.com/uc?export=view&id=1sMblVYCun32mVr7JXHEMgB5TSypdHrAg",
+      "alt": "NULL",
+      "cat_slug": "gestante",
+      "cat_name": "Gestante",
+      "shoot_title": "Ensaio Gestante"
+    },
+    {
+      "id": "3",
+      "url": "https://drive.google.com/uc?export=view&id=1jSmDi5y9al3RnHpTovfa8ELquHPk6ZWV",
+      "alt": "NULL",
+      "cat_slug": "gestante",
+      "cat_name": "Gestante",
+      "shoot_title": "Ensaio Gestante"
+    },
+    {
+      "id": "4",
+      "url": "https://drive.google.com/uc?export=view&id=1z6UjtJEsC75VR_2s4SjEf40c6NiGiqaS",
+      "alt": "NULL",
+      "cat_slug": "gestante",
+      "cat_name": "Gestante",
+      "shoot_title": "Ensaio Gestante"
+    },
+    {
+      "id": "5",
+      "url": "https://drive.google.com/uc?export=view&id=1piUbTynZPnBkhGfBIOv4lQzN7z4AS1Lg",
+      "alt": "NULL",
+      "cat_slug": "gestante",
+      "cat_name": "Gestante",
+      "shoot_title": "Ensaio Gestante"
+    },
+    {
+      "id": "6",
+      "url": "https://drive.google.com/uc?export=view&id=17c4aBI_-MoVD1iGOU9U5l6oGUOhWsxUH",
+      "alt": "NULL",
+      "cat_slug": "gestante",
+      "cat_name": "Gestante",
+      "shoot_title": "Ensaio Gestante"
+    },
+    {
+      "id": "7",
+      "url": "https://drive.google.com/uc?export=view&id=13RVKixCZMgGzVACk2QRk0OuH-DS4xdgn",
+      "alt": "NULL",
+      "cat_slug": "gestante",
+      "cat_name": "Gestante",
+      "shoot_title": "Ensaio Gestante"
+    },
+    {
+      "id": "8",
+      "url": "https://drive.google.com/uc?export=view&id=1xn14j75jVylmTfgHVdDWlg5Oaxl3NRtL",
+      "alt": "NULL",
+      "cat_slug": "gestante",
+      "cat_name": "Gestante",
+      "shoot_title": "Ensaio Gestante"
+    },
+    {
+      "id": "9",
+      "url": "https://drive.google.com/uc?export=view&id=1CUANMBNZwIjNB1fJq3p_7ME5f28md1-l",
+      "alt": "NULL",
+      "cat_slug": "gestante",
+      "cat_name": "Gestante",
+      "shoot_title": "Ensaio Gestante"
+    },
+    {
+      "id": "10",
+      "url": "https://drive.google.com/uc?export=view&id=1W7JPAYvCZXo4GY2yANmswJkWcgWlnMzG",
+      "alt": "NULL",
+      "cat_slug": "gestante",
+      "cat_name": "Gestante",
+      "shoot_title": "Ensaio Gestante"
+    },
+    {
+      "id": "11",
+      "url": "https://drive.google.com/uc?export=view&id=1P8XLuQciE3VjsvRmgYLzt4aoCpU7LVrF",
+      "alt": "NULL",
+      "cat_slug": "gestante",
+      "cat_name": "Gestante",
+      "shoot_title": "Ensaio Gestante"
+    },
+    {
+      "id": "12",
+      "url": "https://drive.google.com/uc?export=view&id=18I7Jd0Yavq2-sVB5VMpyhvozD9JTGgRG",
+      "alt": "NULL",
+      "cat_slug": "gestante",
+      "cat_name": "Gestante",
+      "shoot_title": "Ensaio Gestante"
+    },
+    {
+      "id": "13",
+      "url": "https://drive.google.com/uc?export=view&id=1eoH4-EHbRiaCPi-8VGuvD2SM3wGqnbNy",
+      "alt": "NULL",
+      "cat_slug": "gestante",
+      "cat_name": "Gestante",
+      "shoot_title": "Ensaio Gestante"
+    },
+    {
+      "id": "14",
+      "url": "https://drive.google.com/uc?export=view&id=1Iwb3EptE7nMUOrD3zOtA-cWy0lmML5s6",
+      "alt": "NULL",
+      "cat_slug": "gestante",
+      "cat_name": "Gestante",
+      "shoot_title": "Ensaio Gestante"
+    },
+    {
+      "id": "15",
+      "url": "https://drive.google.com/uc?export=view&id=18wrCbztuMEL-HR7yUyEa0BOBOAnBj9XX",
+      "alt": "NULL",
+      "cat_slug": "gestante",
+      "cat_name": "Gestante",
+      "shoot_title": "Ensaio Gestante"
+    },
+    {
+      "id": "61",
+      "url": "https://drive.google.com/uc?export=view&id=1eJu501dRUcDVUHGN1v4lpWoPPdAIlfUD",
+      "alt": "NULL",
+      "cat_slug": "profissional",
+      "cat_name": "Profissional",
+      "shoot_title": "Ensaio Profissional"
+    },
+    {
+      "id": "62",
+      "url": "https://drive.google.com/uc?export=view&id=1Rg_nEmzrznGvj7NRmCK9CT9mKzpMUTm-",
+      "alt": "NULL",
+      "cat_slug": "profissional",
+      "cat_name": "Profissional",
+      "shoot_title": "Ensaio Profissional"
+    },
+    {
+      "id": "63",
+      "url": "https://drive.google.com/uc?export=view&id=1D7Fd55zFbjUxmSovZtwB9g9tBrtsZTwZ",
+      "alt": "NULL",
+      "cat_slug": "profissional",
+      "cat_name": "Profissional",
+      "shoot_title": "Ensaio Profissional"
+    },
+    {
+      "id": "64",
+      "url": "https://drive.google.com/uc?export=view&id=1A6KKooJyWR3BujexIiFRpX6aApjG7qnR",
+      "alt": "NULL",
+      "cat_slug": "profissional",
+      "cat_name": "Profissional",
+      "shoot_title": "Ensaio Profissional"
+    },
+    {
+      "id": "65",
+      "url": "https://drive.google.com/uc?export=view&id=1T71PJs5mDeyL6yx09qa89sChd77YnIty",
+      "alt": "NULL",
+      "cat_slug": "profissional",
+      "cat_name": "Profissional",
+      "shoot_title": "Ensaio Profissional"
+    },
+    {
+      "id": "66",
+      "url": "https://drive.google.com/uc?export=view&id=19cOuAslIJnO39AlvbapSVoOjZAt0BqQ0",
+      "alt": "NULL",
+      "cat_slug": "profissional",
+      "cat_name": "Profissional",
+      "shoot_title": "Ensaio Profissional"
+    },
+    {
+      "id": "67",
+      "url": "https://drive.google.com/uc?export=view&id=1sQkZLQxfXq-xyekYTLNZrNZg-VkB6Uvy",
+      "alt": "NULL",
+      "cat_slug": "profissional",
+      "cat_name": "Profissional",
+      "shoot_title": "Ensaio Profissional"
+    },
+    {
+      "id": "68",
+      "url": "https://drive.google.com/uc?export=view&id=1ErCS4A3d6s4YrEJzPxQUGEeB2m01zpIQ",
+      "alt": "NULL",
+      "cat_slug": "profissional",
+      "cat_name": "Profissional",
+      "shoot_title": "Ensaio Profissional"
+    },
+    {
+      "id": "69",
+      "url": "https://drive.google.com/uc?export=view&id=1Clgxek74F1uuu3BrteEhhjJv9TOilN1u",
+      "alt": "NULL",
+      "cat_slug": "profissional",
+      "cat_name": "Profissional",
+      "shoot_title": "Ensaio Profissional"
+    },
+    {
+      "id": "70",
+      "url": "https://drive.google.com/uc?export=view&id=1SYv3Zrh9Zh9kTTZksGtjKVE6BxQ3aS27",
+      "alt": "NULL",
+      "cat_slug": "profissional",
+      "cat_name": "Profissional",
+      "shoot_title": "Ensaio Profissional"
+    },
+    {
+      "id": "71",
+      "url": "https://drive.google.com/uc?export=view&id=1P43L-qM4Hw1AVekrsrpMs13hQuGi23hR",
+      "alt": "NULL",
+      "cat_slug": "profissional",
+      "cat_name": "Profissional",
+      "shoot_title": "Ensaio Profissional"
+    },
+    {
+      "id": "72",
+      "url": "https://drive.google.com/uc?export=view&id=1D4Nwhs1fY-dt9t3clB7NHcFKqhuKlL05",
+      "alt": "NULL",
+      "cat_slug": "profissional",
+      "cat_name": "Profissional",
+      "shoot_title": "Ensaio Profissional"
+    },
+    {
+      "id": "73",
+      "url": "https://drive.google.com/uc?export=view&id=1dUUcSEtV6C1-ILzsEjQ34fA_QThoLrl3",
+      "alt": "NULL",
+      "cat_slug": "profissional",
+      "cat_name": "Profissional",
+      "shoot_title": "Ensaio Profissional"
+    },
+    {
+      "id": "74",
+      "url": "https://drive.google.com/uc?export=view&id=1eCHWYrSgqq8toa1j8vNsjOkc6ImjmrII",
+      "alt": "NULL",
+      "cat_slug": "profissional",
+      "cat_name": "Profissional",
+      "shoot_title": "Ensaio Profissional"
+    },
+    {
+      "id": "75",
+      "url": "https://drive.google.com/uc?export=view&id=1d9NxNfTqRLQiJ-v4EzyayIP9haoZNJR6",
+      "alt": "NULL",
+      "cat_slug": "profissional",
+      "cat_name": "Profissional",
+      "shoot_title": "Ensaio Profissional"
+    },
+    {
+      "id": "31",
+      "url": "https://drive.google.com/uc?export=view&id=1SUM8iEsCwP6Juea0zLITqWl_XrPumpzB",
+      "alt": "NULL",
+      "cat_slug": "familia",
+      "cat_name": "Família",
+      "shoot_title": "Ensaio de Família"
+    },
+    {
+      "id": "32",
+      "url": "https://drive.google.com/uc?export=view&id=1wiOJ9bz3iqcG59IqUK0SV1BNqGL49FkR",
+      "alt": "NULL",
+      "cat_slug": "familia",
+      "cat_name": "Família",
+      "shoot_title": "Ensaio de Família"
+    },
+    {
+      "id": "33",
+      "url": "https://drive.google.com/uc?export=view&id=1w46KUdhUyPBxKUzlcDxqsBPTt6FNgg7S",
+      "alt": "NULL",
+      "cat_slug": "familia",
+      "cat_name": "Família",
+      "shoot_title": "Ensaio de Família"
+    },
+    {
+      "id": "34",
+      "url": "https://drive.google.com/uc?export=view&id=1FK8NwWxtxGLdOmZpDAH_TcT9H76vJ0rQ",
+      "alt": "NULL",
+      "cat_slug": "familia",
+      "cat_name": "Família",
+      "shoot_title": "Ensaio de Família"
+    },
+    {
+      "id": "35",
+      "url": "https://drive.google.com/uc?export=view&id=1GYtjHjL177Zvp1M5IWVVPOzZ0oBeg_yk",
+      "alt": "NULL",
+      "cat_slug": "familia",
+      "cat_name": "Família",
+      "shoot_title": "Ensaio de Família"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\turl\talt\tcat_slug\tcat_name\tshoot_title\n16\thttps://drive.google.com/uc?export=view&id=1r_DJSPXPLe4ZpQOxdYzXh9VNfsqP8Xt8\tNULL\tensaios-femininos\tEnsaios Femininos\tEnsaio Feminino\n17\thttps://drive.google.com/uc?export=view&id=1v4oETacx8J7p5TUhjwx15WuPbLXSxfhx\tNULL\tensaios-femininos\tEnsaios Femininos\tEnsaio Feminino\n18\thttps://drive.google.com/uc?export=view&id=1oCq-md1Ha7w33DEbG9W2HVNC8Pk2gFga\tNULL\tensaios-femininos\tEnsaios Femininos\tEnsaio Feminino\n19\thttps://drive.google.com/uc?export=view&id=1KhrJ2tsNor5bE5jAHf8oFaruQQ-eXP44\tNULL\tensaios-femininos\tEnsaios Femininos\tEnsaio Feminino\n20\thttps://drive.google.com/uc?export=view&id=16T2Ektn2Kb4-5J3DGeGfcrsUsEaI7r0f\tNULL\tensaios-femininos\tEnsaios Femininos\tEnsaio Feminino\n21\thttps://drive.google.com/uc?export=view&id=18volj5r0TiZJmvrjew1yq8_ZEbegDMb4\tNULL\tensaios-femininos\tEnsaios Femininos\tEnsaio Feminino\n22\thttps://drive.google.com/uc?export=view&id=1FZbleC4q_WVgAE0uLqDpbRTelQO2Sp2d\tNULL\tensaios-femininos\tEnsaios Femininos\tEnsaio Feminino\n23\thttps://drive.google.com/uc?export=view&id=141mtAI4Za_07MTLTX1_5wB0ofkBTiMGY\tNULL\tensaios-femininos\tEnsaios Femininos\tEnsaio Feminino\n24\thttps://drive.google.com/uc?export=view&id=1nxGj7nAM_dcFtU-KM8uMxfWwotl4-B90\tNULL\tensaios-femininos\tEnsaios Femininos\tEnsaio Feminino\n25\thttps://drive.google.com/uc?export=view&id=1gr-s1umQlH-O6c5DfyhOZWbJOpgn2fYX\tNULL\tensaios-femininos\tEnsaios Femininos\tEnsaio Feminino\n26\thttps://drive.google.com/uc?export=view&id=1M3hJXUuq_Spp98JtMz5fkVHwu3DOGG2z\tNULL\tensaios-femininos\tEnsaios Femininos\tEnsaio Feminino\n27\thttps://drive.google.com/uc?export=view&id=18weE5s3F3mIbnoZIZWWegaRzGrA-jE0i\tNULL\tensaios-femininos\tEnsaios Femininos\tEnsaio Feminino\n28\thttps://drive.google.com/uc?export=view&id=1H7RUvMt1zAcV_sy3vVcrvCSpS8GiDMoo\tNULL\tensaios-femininos\tEnsaios Femininos\tEnsaio Feminino\n29\thttps://drive.google.com/uc?export=view&id=1yb7k7fNhuh7MvBEouWnUSVlor7aFY9U6\tNULL\tensaios-femininos\tEnsaios Femininos\tEnsaio Feminino\n30\thttps://drive.google.com/uc?export=view&id=1yt76JKtJoefR_karsdEjEwPIDYlIsXVc\tNULL\tensaios-femininos\tEnsaios Femininos\tEnsaio Feminino\n1\thttps://drive.google.com/uc?export=view&id=1AijtKMekO-CBMrL5lEx3l96XkyxFVaBQ\tNULL\tgestante\tGestante\tEnsaio Gestante\n2\thttps://drive.google.com/uc?export=view&id=1sMblVYCun32mVr7JXHEMgB5TSypdHrAg\tNULL\tgestante\tGestante\tEnsaio Gestante\n3\thttps://drive.google.com/uc?export=view&id=1jSmDi5y9al3RnHpTovfa8ELquHPk6ZWV\tNULL\tgestante\tGestante\tEnsaio Gestante\n4\thttps://drive.google.com/uc?export=view&id=1z6UjtJEsC75VR_2s4SjEf40c6NiGiqaS\tNULL\tgestante\tGestante\tEnsaio Gestante\n5\thttps://drive.google.com/uc?export=view&id=1piUbTynZPnBkhGfBIOv4lQzN7z4AS1Lg\tNULL\tgestante\tGestante\tEnsaio Gestante\n6\thttps://drive.google.com/uc?export=view&id=17c4aBI_-MoVD1iGOU9U5l6oGUOhWsxUH\tNULL\tgestante\tGestante\tEnsaio Gestante\n7\thttps://drive.google.com/uc?export=view&id=13RVKixCZMgGzVACk2QRk0OuH-DS4xdgn\tNULL\tgestante\tGestante\tEnsaio Gestante\n8\thttps://drive.google.com/uc?export=view&id=1xn14j75jVylmTfgHVdDWlg5Oaxl3NRtL\tNULL\tgestante\tGestante\tEnsaio Gestante\n9\thttps://drive.google.com/uc?export=view&id=1CUANMBNZwIjNB1fJq3p_7ME5f28md1-l\tNULL\tgestante\tGestante\tEnsaio Gestante\n10\thttps://drive.google.com/uc?export=view&id=1W7JPAYvCZXo4GY2yANmswJkWcgWlnMzG\tNULL\tgestante\tGestante\tEnsaio Gestante\n11\thttps://drive.google.com/uc?export=view&id=1P8XLuQciE3VjsvRmgYLzt4aoCpU7LVrF\tNULL\tgestante\tGestante\tEnsaio Gestante\n12\thttps://drive.google.com/uc?export=view&id=18I7Jd0Yavq2-sVB5VMpyhvozD9JTGgRG\tNULL\tgestante\tGestante\tEnsaio Gestante\n13\thttps://drive.google.com/uc?export=view&id=1eoH4-EHbRiaCPi-8VGuvD2SM3wGqnbNy\tNULL\tgestante\tGestante\tEnsaio Gestante\n14\thttps://drive.google.com/uc?export=view&id=1Iwb3EptE7nMUOrD3zOtA-cWy0lmML5s6\tNULL\tgestante\tGestante\tEnsaio Gestante\n15\thttps://drive.google.com/uc?export=view&id=18wrCbztuMEL-HR7yUyEa0BOBOAnBj9XX\tNULL\tgestante\tGestante\tEnsaio Gestante\n61\thttps://drive.google.com/uc?export=view&id=1eJu501dRUcDVUHGN1v4lpWoPPdAIlfUD\tNULL\tprofissional\tProfissional\tEnsaio Profissional\n62\thttps://drive.google.com/uc?export=view&id=1Rg_nEmzrznGvj7NRmCK9CT9mKzpMUTm-\tNULL\tprofissional\tProfissional\tEnsaio Profissional\n63\thttps://drive.google.com/uc?export=view&id=1D7Fd55zFbjUxmSovZtwB9g9tBrtsZTwZ\tNULL\tprofissional\tProfissional\tEnsaio Profissional\n64\thttps://drive.google.com/uc?export=view&id=1A6KKooJyWR3BujexIiFRpX6aApjG7qnR\tNULL\tprofissional\tProfissional\tEnsaio Profissional\n65\thttps://drive.google.com/uc?export=view&id=1T71PJs5mDeyL6yx09qa89sChd77YnIty\tNULL\tprofissional\tProfissional\tEnsaio Profissional\n66\thttps://drive.google.com/uc?export=view&id=19cOuAslIJnO39AlvbapSVoOjZAt0BqQ0\tNULL\tprofissional\tProfissional\tEnsaio Profissional\n67\thttps://drive.google.com/uc?export=view&id=1sQkZLQxfXq-xyekYTLNZrNZg-VkB6Uvy\tNULL\tprofissional\tProfissional\tEnsaio Profissional\n68\thttps://drive.google.com/uc?export=view&id=1ErCS4A3d6s4YrEJzPxQUGEeB2m01zpIQ\tNULL\tprofissional\tProfissional\tEnsaio Profissional\n69\thttps://drive.google.com/uc?export=view&id=1Clgxek74F1uuu3BrteEhhjJv9TOilN1u\tNULL\tprofissional\tProfissional\tEnsaio Profissional\n70\thttps://drive.google.com/uc?export=view&id=1SYv3Zrh9Zh9kTTZksGtjKVE6BxQ3aS27\tNULL\tprofissional\tProfissional\tEnsaio Profissional\n71\thttps://drive.google.com/uc?export=view&id=1P43L-qM4Hw1AVekrsrpMs13hQuGi23hR\tNULL\tprofissional\tProfissional\tEnsaio Profissional\n72\thttps://drive.google.com/uc?export=view&id=1D4Nwhs1fY-dt9t3clB7NHcFKqhuKlL05\tNULL\tprofissional\tProfissional\tEnsaio Profissional\n73\thttps://drive.google.com/uc?export=view&id=1dUUcSEtV6C1-ILzsEjQ34fA_QThoLrl3\tNULL\tprofissional\tProfissional\tEnsaio Profissional\n74\thttps://drive.google.com/uc?export=view&id=1eCHWYrSgqq8toa1j8vNsjOkc6ImjmrII\tNULL\tprofissional\tProfissional\tEnsaio Profissional\n75\thttps://drive.google.com/uc?export=view&id=1d9NxNfTqRLQiJ-v4EzyayIP9haoZNJR6\tNULL\tprofissional\tProfissional\tEnsaio Profissional\n31\thttps://drive.google.com/uc?export=view&id=1SUM8iEsCwP6Juea0zLITqWl_XrPumpzB\tNULL\tfamilia\tFamília\tEnsaio de Família\n32\thttps://drive.google.com/uc?export=view&id=1wiOJ9bz3iqcG59IqUK0SV1BNqGL49FkR\tNULL\tfamilia\tFamília\tEnsaio de Família\n33\thttps://drive.google.com/uc?export=view&id=1w46KUdhUyPBxKUzlcDxqsBPTt6FNgg7S\tNULL\tfamilia\tFamília\tEnsaio de Família\n34\thttps://drive.google.com/uc?export=view&id=1FK8NwWxtxGLdOmZpDAH_TcT9H76vJ0rQ\tNULL\tfamilia\tFamília\tEnsaio de Família\n35\thttps://drive.google.com/uc?export=view&id=1GYtjHjL177Zvp1M5IWVVPOzZ0oBeg_yk\tNULL\tfamilia\tFamília\tEnsaio de Família\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

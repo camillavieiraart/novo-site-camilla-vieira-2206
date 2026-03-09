@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, title, slug, SUBSTRING(content, 1, 300) as content_preview FROM blog_posts WHERE published = 1 ORDER BY id DESC LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT id, title, slug, SUBSTRING(content, 1, 300) as content_preview FROM blog_posts WHERE published = 1 ORDER BY id DESC LIMIT 5;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'published' in 'where clause'"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT pi.id, pi.url, pi.alt, pc.slug as cat_slug, pc.name as cat_name \nFROM portfolio_images pi \nJOIN portfolio_categories pc ON pi.category_id = pc.id \nWHERE pi.url IS NOT NULL \nORDER BY pc.id, pi.sort_order \nLIMIT 60;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute \nSELECT pi.id, pi.url, pi.alt, pc.slug as cat_slug, pc.name as cat_name \nFROM portfolio_images pi \nJOIN portfolio_categories pc ON pi.category_id = pc.id \nWHERE pi.url IS NOT NULL \nORDER BY pc.id, pi.sort_order \nLIMIT 60;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'pi.category_id' in 'on clause'"
+  ]
+}

@@ -284,6 +284,7 @@ export const appRouter = router({
       await createContactMessage(input as any);
       await notifyOwner({ title: "Nova mensagem de contato", content: `${input.name} (${input.email}): ${input.message.slice(0, 200)}` });
       // Send email notification via Resend to contato@camillavieira.art
+      let emailSent = false;
       try {
         const { Resend } = await import("resend");
         const resend = new Resend(process.env.RESEND_API_KEY);
@@ -315,13 +316,19 @@ export const appRouter = router({
   <p style="margin-top:32px;font-size:11px;color:#b8a090;text-align:center;font-family:Inter,sans-serif">camillavieira.art</p>
 </div></body></html>`,
         });
-      } catch (emailErr) {
-        console.error("[contact.send] Resend email failed:", emailErr);
+        console.log(`[contact.send] Email sent to contato@camillavieira.art (reply-to: ${input.email})`);
+        emailSent = true;
+      } catch (emailErr: any) {
+        console.error("[contact.send] Resend email failed:", emailErr?.message || emailErr);
         // Don't throw — message was saved to DB, email is best-effort
       }
-      return { success: true };
+      return { success: true, emailSent };
     }),
     getAll: adminProcedure.query(() => getAllContactMessages()),
+    getUnreadCount: adminProcedure.query(async () => {
+      const msgs = await getAllContactMessages();
+      return { count: (msgs ?? []).filter((m: any) => !m.isRead).length };
+    }),
     markRead: adminProcedure.input(z.object({ id: z.number() }))
       .mutation(({ input }) => markMessageRead(input.id)),
   }),

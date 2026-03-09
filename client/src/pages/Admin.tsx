@@ -95,23 +95,39 @@ function AdminDashboard() {
   const { data: artworks } = trpc.artworks.getAllAdmin.useQuery();
   const { data: bookings } = trpc.bookings.getAll.useQuery();
   const { data: messages } = trpc.contact.getAll.useQuery();
+  const { data: unreadData } = trpc.contact.getUnreadCount.useQuery();
   const { data: categories } = trpc.categories.getAllAdmin.useQuery();
+  const unreadCount = unreadData?.count || 0;
 
   const stats = [
-    { label: "Categorias de Portfólio", value: categories?.length || 0, icon: Layers, href: "/admin/portfolio" },
-    { label: "Obras de Arte", value: artworks?.length || 0, icon: Star, href: "/admin/obras" },
-    { label: "Agendamentos", value: bookings?.length || 0, icon: Users, href: "/admin/agendamentos" },
-    { label: "Mensagens", value: messages?.length || 0, icon: Mail, href: "/admin/mensagens" },
+    { label: "Categorias de Portfólio", value: categories?.length || 0, icon: Layers, href: "/admin/portfolio", badge: 0 },
+    { label: "Obras de Arte", value: artworks?.length || 0, icon: Star, href: "/admin/obras", badge: 0 },
+    { label: "Agendamentos", value: bookings?.length || 0, icon: Users, href: "/admin/agendamentos", badge: 0 },
+    { label: "Mensagens", value: messages?.length || 0, icon: Mail, href: "/admin/mensagens", badge: unreadCount },
   ];
 
   return (
     <div>
       <h1 className="font-serif text-3xl font-medium mb-8" style={{ color: "var(--brand-marrom-deep)" }}>Dashboard</h1>
 
+      {unreadCount > 0 && (
+        <div className="flex items-center gap-3 p-4 mb-6" style={{ backgroundColor: "rgba(201,112,100,0.1)", border: "1px solid var(--brand-terracota)" }}>
+          <Mail size={16} style={{ color: "var(--brand-terracota)", flexShrink: 0 }} />
+          <p className="text-sm" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}>
+            <strong>{unreadCount} {unreadCount === 1 ? "mensagem nova" : "mensagens novas"}</strong> aguardando resposta.
+          </p>
+          <Link href="/admin/mensagens" className="ml-auto text-xs tracking-widest uppercase no-underline" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>Ver agora →</Link>
+        </div>
+      )}
+
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-        {stats.map(({ label, value, icon: Icon, href }) => (
-          <Link key={label} href={href} className="p-6 no-underline transition-all hover:shadow-md"
-            style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
+        {stats.map(({ label, value, icon: Icon, href, badge }) => (
+          <Link key={label} href={href} className="relative p-6 no-underline transition-all hover:shadow-md"
+            style={{ backgroundColor: "var(--brand-bege)", border: badge > 0 ? "1px solid var(--brand-terracota)" : "1px solid var(--brand-sand)" }}>
+            {badge > 0 && (
+              <span className="absolute top-3 right-3 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold"
+                style={{ backgroundColor: "var(--brand-terracota)", color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>{badge}</span>
+            )}
             <div className="flex items-center gap-3 mb-3">
               <Icon size={16} style={{ color: "var(--brand-terracota)" }} />
               <span className="text-xs tracking-widest uppercase" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>{label}</span>

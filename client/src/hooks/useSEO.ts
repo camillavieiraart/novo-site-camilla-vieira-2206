@@ -2,6 +2,8 @@ import { useEffect } from "react";
 
 interface SEOProps {
   title?: string;
+  /** Quando definido, usa este texto exato como document.title (sem concatenar o site name) */
+  fullTitle?: string;
   description?: string;
   keywords?: string;
   canonical?: string;
@@ -14,7 +16,7 @@ const SITE_NAME = "Camilla Vieira – Ateliê Digital";
 const BASE_URL = "https://camillavieira.art";
 const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.jpg`;
 const DEFAULT_DESCRIPTION =
-  "Camilla Vieira é fotógrafa artística e artista visual. Ensaios femininos, gestante e profissionais com alma. Obras da Série Fio: costura sobre fotografia. Cerâmica artística e mentorias em Brasília, DF.";
+  "Ensaios femininos, gestante e fotografia autoral com alma. Obras da Série Fio, cerâmica artística e mentorias em Brasília, DF.";
 
 function setMeta(name: string, content: string, property = false) {
   const attr = property ? "property" : "name";
@@ -39,6 +41,7 @@ function setCanonical(url: string) {
 
 export function useSEO({
   title,
+  fullTitle: fullTitleOverride,
   description = DEFAULT_DESCRIPTION,
   keywords,
   canonical,
@@ -47,8 +50,12 @@ export function useSEO({
   noIndex = false,
 }: SEOProps = {}) {
   useEffect(() => {
-    // Title
-    const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} | Fotógrafa Artística e Artista Visual`;
+    // Title: fullTitle override > title + site name > fallback
+    const fullTitle = fullTitleOverride
+      ? fullTitleOverride
+      : title
+        ? `${title} | ${SITE_NAME}`
+        : `Camilla Vieira | Fotógrafa Artística`;
     document.title = fullTitle;
 
     // Primary SEO

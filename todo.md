@@ -444,3 +444,4 @@
 
 ## Correções de SEO
 - [x] Corrigir H1 ausente na página inicial: adicionado span estático com sr-only para crawlers, mantendo efeito typewriter visual
+- [x] Otimizar meta description da página inicial com foco em intenção de busca e proposta de valor

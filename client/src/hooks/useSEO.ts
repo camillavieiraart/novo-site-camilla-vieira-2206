@@ -16,7 +16,7 @@ const SITE_NAME = "Camilla Vieira – Ateliê Digital";
 const BASE_URL = "https://camillavieira.art";
 const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.jpg`;
 const DEFAULT_DESCRIPTION =
-  "Ensaios femininos, gestante e fotografia autoral com alma. Obras da Série Fio, cerâmica artística e mentorias em Brasília, DF.";
+  "Fotógrafa artística em Brasília. Ensaios femininos, gestante e fotografia autoral com alma. Obras da Série Fio e mentorias. Agende seu ensaio.";
 
 function setMeta(name: string, content: string, property = false) {
   const attr = property ? "property" : "name";

@@ -407,11 +407,12 @@ function ObrasSection({ isActive }: { isActive: boolean }) {
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
 export default function Home() {
   // Título: 36 chars (dentro do limite 30–60) ✔
-  // Descrição: 124 chars (dentro do limite 50–160) ✔
+  // Descrição: 155 chars (dentro do limite 50–160) ✔
+  // Otimizada para: intenção de busca local (Brasília/SP), serviços principais, proposta de valor emocional
   useSEO({
     fullTitle: "Camilla Vieira | Fotógrafa Artística",
-    description: "Ensaios femininos, gestante e fotografia autoral com alma. Obras da Série Fio, cerâmica artística e mentorias em Brasília, DF.",
-    keywords: "fotógrafa artística, ensaio feminino, ensaio gestante, fotografia autoral, série fio, Camilla Vieira, Brasília",
+    description: "Fotógrafa artística em Brasília. Ensaios femininos, gestante e fotografia autoral com alma. Obras da Série Fio e mentorias. Agende seu ensaio.",
+    keywords: "fotógrafa Brasília, ensaio feminino Brasília, ensaio gestante Brasília, fotografia autoral, série fio, Camilla Vieira, fotógrafa artística",
     canonical: "/",
   });
 

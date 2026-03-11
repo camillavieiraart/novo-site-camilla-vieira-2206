@@ -84,9 +84,16 @@ function HeroSection({ onScrollNext }: { onScrollNext: () => void }) {
           </span>
         </div>
 
-        {/* Main title – typewriter */}
+        {/* Main title – typewriter (H1 com conteúdo estático para SEO) */}
         <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-medium leading-tight mb-6"
           style={{ color: "var(--brand-bege)" }}>
+          {/* Texto estático para crawlers de SEO — visualmente oculto enquanto o typewriter anima */}
+          <span
+            aria-hidden={phase >= 1}
+            className={phase >= 1 ? "sr-only" : "block"}
+          >
+            {title}
+          </span>
           {phase >= 1 && (
             <Typewriter
               text={title}

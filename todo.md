@@ -441,3 +441,6 @@
 - [x] Criar endpoint público /api/funnel-event para receber eventos do agente de vendas
 - [x] Adicionar aba "Funil do Agente" no CRM (AdminCRM.tsx) com visualização por etapa
 - [x] Criar vendasdemo-v3-final.zip com Home.tsx atualizado para tracking do funil
+
+## Correções de SEO
+- [x] Corrigir H1 ausente na página inicial: adicionado span estático com sr-only para crawlers, mantendo efeito typewriter visual

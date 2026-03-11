@@ -465,3 +465,10 @@
 - [x] Implementar alt text semântico e legendas SEO nas galerias (Portfólio, Obras, Cerâmica)
 - [x] Adicionar Schema.org ImageGallery e ImageObject em todas as páginas de galeria
 - [x] Garantir lazy loading, atributo loading="lazy" e dimensões explícitas nas imagens
+
+## Novas Funcionalidades (Mar 2026)
+- [x] Seção de depoimentos na Home com formulário de envio de feedback
+- [x] Tabela testimonials no banco de dados com moderação admin
+- [x] Página Sobre Mim detalhada: biografia, prêmios e exposições
+- [x] Blog com suporte multilíngue PT/EN/FR e seletor de idioma
+- [x] Campo language na tabela blog_posts para suporte multilíngue

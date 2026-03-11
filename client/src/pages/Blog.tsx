@@ -1,11 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { useSEO } from "@/hooks/useSEO";
+const LANG_OPTIONS = [
+  { value: undefined, label: "Todos", flag: "🇳🇺" },
+  { value: "pt", label: "Português", flag: "🇧🇷" },
+  { value: "en", label: "English", flag: "🇺🇸" },
+  { value: "fr", label: "Français", flag: "🇫🇷" },
+];
 
-// ─── Blog listing page ────────────────────────────────────────────────────────
 export default function Blog() {
-  const { data: posts, isLoading } = trpc.blog.getAll.useQuery({ limit: 20, offset: 0 });
+  const [selectedLang, setSelectedLang] = useState<string | undefined>(undefined);
+  const { data: posts, isLoading } = trpc.blog.getAll.useQuery({ limit: 20, offset: 0, language: selectedLang });
 
   const siteUrl = window.location.origin;
   useSEO({
@@ -104,8 +110,30 @@ export default function Blog() {
         </div>
       </section>
 
+      {/* ── LANGUAGE FILTER ── */}
+      <div className="px-6 md:px-12 lg:px-20 pt-10 pb-2 max-w-7xl mx-auto">
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className="text-xs tracking-widest uppercase" style={{ color: "#8B7355", fontFamily: "'Inter', sans-serif" }}>Idioma:</span>
+          {LANG_OPTIONS.map(opt => (
+            <button
+              key={String(opt.value)}
+              onClick={() => setSelectedLang(opt.value)}
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs tracking-wide font-medium transition-all duration-200 cursor-pointer border"
+              style={{
+                backgroundColor: selectedLang === opt.value ? "#8B7355" : "transparent",
+                borderColor: selectedLang === opt.value ? "#8B7355" : "rgba(139,115,85,0.3)",
+                color: selectedLang === opt.value ? "#FAF7F2" : "#8B7355",
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
+              <span>{opt.flag}</span> {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* ── POSTS ── */}
-      <section className="px-6 md:px-12 lg:px-20 py-20 max-w-7xl mx-auto">
+      <section className="px-6 md:px-12 lg:px-20 py-12 max-w-7xl mx-auto">
         {isLoading && (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3, 4, 5, 6].map(i => (

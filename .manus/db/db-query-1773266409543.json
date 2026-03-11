@@ -1,0 +1,9 @@
+{
+  "query": "\nALTER TABLE testimonials \n  ADD COLUMN IF NOT EXISTS isPending BOOLEAN DEFAULT FALSE,\n  ADD COLUMN IF NOT EXISTS sourceType VARCHAR(50) DEFAULT 'admin',\n  ADD COLUMN IF NOT EXISTS email VARCHAR(320),\n  ADD COLUMN IF NOT EXISTS sessionType VARCHAR(200);\n\nALTER TABLE blog_posts\n  ADD COLUMN IF NOT EXISTS language VARCHAR(10) DEFAULT 'pt',\n  ADD COLUMN IF NOT EXISTS translationGroupId VARCHAR(100);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute \nALTER TABLE testimonials \n  ADD COLUMN IF NOT EXISTS isPending BOOLEAN DEFAULT FALSE,\n  ADD COLUMN IF NOT EXISTS sourceType VARCHAR(50) DEFAULT 'admin',\n  ADD COLUMN IF NOT EXISTS email VARCHAR(320),\n  ADD COLUMN IF NOT EXISTS sessionType VARCHAR(200);\n\nALTER TABLE blog_posts\n  ADD COLUMN IF NOT EXISTS language VARCHAR(10) DEFAULT 'pt',\n  ADD COLUMN IF NOT EXISTS translationGroupId VARCHAR(100);\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1732
+}

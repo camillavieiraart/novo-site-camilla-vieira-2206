@@ -98,6 +98,59 @@ function TestimonialsSection({ visible }: { visible: boolean }) {
   );
 }
 
+// ─── Awards & Exhibitions Section ────────────────────────────────────────────────────
+const AWARDS = [
+  { year: "2024", category: "Exposição", title: "Série Fio — Exposição Individual", location: "Brasília, DF" },
+  { year: "2023", category: "Exposição", title: "Arte Contemporânea Brasileira", location: "São Paulo, SP" },
+  { year: "2022", category: "Reconhecimento", title: "Fotografia Autoral — Destaque Nacional", location: "Brasil" },
+  { year: "2021", category: "Exposição", title: "Cerâmica & Fotografia — Mostra Coletiva", location: "Brasília, DF" },
+  { year: "2020", category: "Publicação", title: "Ensaio Feminino — Revista de Arte", location: "Brasil" },
+  { year: "2019", category: "Exposição", title: "Primeira Exposição Individual", location: "Brasília, DF" },
+];
+
+function AwardsSection({ visible }: { visible: boolean }) {
+  return (
+    <section className="py-20 relative overflow-hidden" style={{ backgroundColor: "var(--brand-marrom-deep)" }}>
+      <BrushCorner position="tl" color="#F5E6D3" delay={300} />
+      <BrushCorner position="br" color="#F5E6D3" delay={600} />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+        <div className={`text-center mb-16 transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+          <span className="section-eyebrow block mb-4" style={{ color: "rgba(201,112,100,0.9)" }}>Trajetória</span>
+          <h2 className="font-serif text-4xl md:text-5xl font-medium" style={{ color: "var(--brand-bege)" }}>
+            Prêmios & Exposições
+          </h2>
+          <div className="divider-terracota mx-auto mt-6" />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {AWARDS.map((item, i) => (
+            <div
+              key={i}
+              className={`flex items-start gap-5 p-6 transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+              style={{ transitionDelay: `${200 + i * 100}ms`, borderBottom: "1px solid rgba(245,230,211,0.1)" }}
+            >
+              <div className="flex-shrink-0 text-center" style={{ minWidth: "52px" }}>
+                <span className="block text-xs tracking-widest font-medium" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>{item.year}</span>
+              </div>
+              <div>
+                <span className="block text-xs tracking-widest uppercase mb-1" style={{ color: "rgba(245,230,211,0.4)", fontFamily: "'Inter', sans-serif" }}>{item.category}</span>
+                <p className="font-serif text-lg font-medium mb-1" style={{ color: "var(--brand-bege)" }}>{item.title}</p>
+                <p className="text-xs" style={{ color: "rgba(245,230,211,0.5)", fontFamily: "'Inter', sans-serif" }}>{item.location}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className={`mt-12 text-center transition-all duration-800 delay-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+          <p className="text-sm italic" style={{ color: "rgba(245,230,211,0.5)", fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem" }}>
+            Atualizado regularmente com novas exposições e reconhecimentos.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── Quick Contact Form ───────────────────────────────────────────────────────
 function QuickContactSection({ visible }: { visible: boolean }) {
   const [name, setName] = useState("");
@@ -447,10 +500,11 @@ export default function Sobre() {
           </div>
         </div>
       </section>
+      {/* ── PRÊM IOS & EXPOSIÇÕES ──────────────────────────────────────────── */}
+      <AwardsSection visible={visible} />
 
-      {/* ── TESTIMONIALS ──────────────────────────────────────────────────── */}
+      {/* ── TESTIMONIALS ────────────────────────────────────────────────────── */}
       <TestimonialsSection visible={visible} />
-
       {/* ── QUICK CONTACT ─────────────────────────────────────────────────── */}
       <QuickContactSection visible={visible} />
 

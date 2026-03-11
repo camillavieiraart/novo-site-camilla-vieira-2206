@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { useSEO } from "@/hooks/useSEO";
 import { StructuredData, FAQ_SCHEMA } from "@/components/StructuredData";
 import { Link } from "wouter";
-import { ChevronDown, ArrowRight, Play } from "lucide-react";
+import { ChevronDown, ArrowRight, Play, Star, Quote, Send, CheckCircle } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { BrushCorner, BrushStroke } from "@/components/BrushStroke";
 import { Typewriter, TypewriterLines } from "@/components/Typewriter";
 import { Footer } from "@/components/Footer";
 import { trpc } from "@/lib/trpc";
+import { useState as useFormState } from "react";
 
 // ─── Placeholder images (Unsplash – art/photography theme) ──────────────────
 const HERO_BG_FALLBACK = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80&auto=format&fit=crop";
@@ -404,6 +405,128 @@ function ObrasSection({ isActive }: { isActive: boolean }) {
   );
 }
 
+// ─── TESTIMONIALS SECTION ────────────────────────────────────────────────────
+function TestimonialsSection() {
+  const { data: testimonials = [] } = trpc.testimonials.getPublished.useQuery();
+  const submitMutation = trpc.testimonials.submit.useMutation();
+  const [form, setForm] = useFormState({ name: "", role: "", sessionType: "", text: "", rating: 5 });
+  const [submitted, setSubmitted] = useFormState(false);
+  const [error, setError] = useFormState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    try {
+      await submitMutation.mutateAsync({
+        name: form.name,
+        role: form.role || undefined,
+        sessionType: form.sessionType || undefined,
+        text: form.text,
+        rating: form.rating,
+      });
+      setSubmitted(true);
+    } catch {
+      setError("Erro ao enviar. Por favor, tente novamente.");
+    }
+  };
+
+  return (
+    <section className="py-20 px-4 sm:px-6 lg:px-10" style={{ backgroundColor: "var(--brand-creme)" }}>
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-14">
+          <span className="block mb-3 text-xs tracking-[0.3em] uppercase font-medium" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>Depoimentos</span>
+          <h2 className="font-serif text-4xl md:text-5xl font-medium mb-4" style={{ color: "var(--brand-marrom-deep)" }}>O que dizem as clientes</h2>
+          <div style={{ width: "48px", height: "1px", backgroundColor: "var(--brand-terracota)", margin: "0 auto" }} />
+        </div>
+
+        {/* Testimonials grid */}
+        {testimonials.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            {testimonials.map((t: any) => (
+              <article key={t.id} className="rounded-2xl p-6 flex flex-col gap-4 shadow-sm" style={{ backgroundColor: "white" }}>
+                <Quote size={20} style={{ color: "var(--brand-terracota)", opacity: 0.6 }} />
+                <p className="text-sm leading-relaxed flex-1" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+                  {t.text}
+                </p>
+                <div className="flex items-center gap-1 mb-1">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={12} fill={i < (t.rating ?? 5) ? "var(--brand-terracota)" : "none"} stroke="var(--brand-terracota)" />
+                  ))}
+                </div>
+                <div className="flex items-center gap-3">
+                  {t.avatarUrl ? (
+                    <img src={t.avatarUrl} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold" style={{ backgroundColor: "var(--brand-terracota)", color: "white" }}>
+                      {t.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-sm font-semibold" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}>{t.name}</p>
+                    {(t.role || t.sessionType) && (
+                      <p className="text-xs" style={{ color: "var(--brand-marrom)", opacity: 0.7, fontFamily: "'Inter', sans-serif" }}>
+                        {t.sessionType || t.role}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+
+        {/* Submit form */}
+        <div className="max-w-xl mx-auto">
+          <div className="rounded-2xl p-8" style={{ backgroundColor: "white", boxShadow: "0 2px 20px rgba(139,111,71,0.08)" }}>
+            <h3 className="font-serif text-2xl font-medium mb-2 text-center" style={{ color: "var(--brand-marrom-deep)" }}>Compartilhe sua experiência</h3>
+            <p className="text-sm text-center mb-6" style={{ color: "var(--brand-marrom)", opacity: 0.7, fontFamily: "'Inter', sans-serif" }}>Seu depoimento será revisado antes de ser publicado.</p>
+
+            {submitted ? (
+              <div className="flex flex-col items-center gap-3 py-6">
+                <CheckCircle size={40} style={{ color: "var(--brand-terracota)" }} />
+                <p className="text-base font-medium text-center" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}>Obrigada pelo seu depoimento!</p>
+                <p className="text-sm text-center" style={{ color: "var(--brand-marrom)", opacity: 0.7, fontFamily: "'Inter', sans-serif" }}>Ele será publicado após revisão.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-medium" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>Seu nome *</label>
+                    <input required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="rounded-lg border px-3 py-2 text-sm outline-none focus:ring-1" style={{ borderColor: "rgba(139,111,71,0.25)", fontFamily: "'Inter', sans-serif", color: "var(--brand-marrom-deep)" }} placeholder="Maria Silva" />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-medium" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>Tipo de ensaio</label>
+                    <input value={form.sessionType} onChange={e => setForm(f => ({ ...f, sessionType: e.target.value }))} className="rounded-lg border px-3 py-2 text-sm outline-none focus:ring-1" style={{ borderColor: "rgba(139,111,71,0.25)", fontFamily: "'Inter', sans-serif", color: "var(--brand-marrom-deep)" }} placeholder="Ensaio Feminino" />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-medium" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>Avaliação</label>
+                  <div className="flex gap-2">
+                    {[1,2,3,4,5].map(n => (
+                      <button key={n} type="button" onClick={() => setForm(f => ({ ...f, rating: n }))} className="p-0 border-none bg-transparent cursor-pointer">
+                        <Star size={22} fill={n <= form.rating ? "var(--brand-terracota)" : "none"} stroke="var(--brand-terracota)" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-medium" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>Seu depoimento *</label>
+                  <textarea required rows={4} value={form.text} onChange={e => setForm(f => ({ ...f, text: e.target.value }))} className="rounded-lg border px-3 py-2 text-sm outline-none focus:ring-1 resize-none" style={{ borderColor: "rgba(139,111,71,0.25)", fontFamily: "'Inter', sans-serif", color: "var(--brand-marrom-deep)" }} placeholder="Conte como foi sua experiência com a Camilla..." />
+                </div>
+                {error && <p className="text-xs" style={{ color: "#c0392b" }}>{error}</p>}
+                <button type="submit" disabled={submitMutation.isPending} className="flex items-center justify-center gap-2 rounded-lg py-3 px-6 text-sm font-medium transition-opacity" style={{ backgroundColor: "var(--brand-terracota)", color: "white", fontFamily: "'Inter', sans-serif", opacity: submitMutation.isPending ? 0.7 : 1 }}>
+                  <Send size={14} /> {submitMutation.isPending ? "Enviando..." : "Enviar depoimento"}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
 export default function Home() {
   // Título: 36 chars (dentro do limite 30–60) ✔
@@ -472,6 +595,7 @@ export default function Home() {
         <ObrasSection isActive={activeSection === 4} />
 
         <section className="snap-section overflow-y-auto" style={{ height: "auto", minHeight: "100dvh" }}>
+          <TestimonialsSection />
           <Footer />
         </section>
       </div>

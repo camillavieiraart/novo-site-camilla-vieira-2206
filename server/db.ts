@@ -322,6 +322,34 @@ export async function deleteTestimonial(id: number) {
   const db = await getDb(); if (!db) return;
   await db.delete(testimonials).where(eq(testimonials.id, id));
 }
+export async function getPendingTestimonials() {
+  const db = await getDb(); if (!db) return [];
+  return db.select().from(testimonials)
+    .where(eq(testimonials.isPending, true))
+    .orderBy(desc(testimonials.createdAt));
+}
+export async function submitTestimonialForm(data: {
+  name: string; role?: string; sessionType?: string; email?: string; text: string; rating?: number;
+}) {
+  const db = await getDb(); if (!db) return;
+  await db.insert(testimonials).values({
+    name: data.name,
+    role: data.role ?? null,
+    sessionType: data.sessionType ?? null,
+    email: data.email ?? null,
+    text: data.text,
+    rating: data.rating ?? 5,
+    isPending: true,
+    isPublished: false,
+    sourceType: "form",
+  });
+}
+export async function approveTestimonial(id: number) {
+  const db = await getDb(); if (!db) return;
+  await db.update(testimonials)
+    .set({ isPending: false, isPublished: true, updatedAt: new Date() })
+    .where(eq(testimonials.id, id));
+}
 
 // ─── NEWSLETTER ───────────────────────────────────────────────────────────────
 export async function subscribeNewsletter(email: string, name?: string, source?: string) {
@@ -348,10 +376,13 @@ export async function deleteNewsletterSubscriber(id: number) {
 }
 
 // ─── BLOG POSTS ───────────────────────────────────────────────────────────────
-export async function getPublishedBlogPosts(limit = 20, offset = 0) {
+export async function getPublishedBlogPosts(limit = 20, offset = 0, language?: string) {
   const db = await getDb(); if (!db) return [];
+  const conditions = language
+    ? and(eq(blogPosts.isPublished, true), eq(blogPosts.language, language))
+    : eq(blogPosts.isPublished, true);
   return db.select().from(blogPosts)
-    .where(eq(blogPosts.isPublished, true))
+    .where(conditions)
     .orderBy(desc(blogPosts.publishedAt))
     .limit(limit).offset(offset);
 }

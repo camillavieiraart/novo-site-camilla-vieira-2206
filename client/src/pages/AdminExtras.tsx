@@ -531,6 +531,14 @@ export function BlogAdmin() {
                     {categoryOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                   </select>
                 </div>
+                <div>
+                  <label className="form-label">Idioma</label>
+                  <select {...register("language")} className="form-input">
+                    <option value="pt">🇧🇷 Português (PT)</option>
+                    <option value="en">🇺🇸 English (EN)</option>
+                    <option value="fr">🇫🇷 Français (FR)</option>
+                  </select>
+                </div>
               </div>
 
               {/* Excerpt */}

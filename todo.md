@@ -445,3 +445,17 @@
 ## Correções de SEO
 - [x] Corrigir H1 ausente na página inicial: adicionado span estático com sr-only para crawlers, mantendo efeito typewriter visual
 - [x] Otimizar meta description da página inicial com foco em intenção de busca e proposta de valor
+
+## SEO Global (3 camadas)
+- [ ] useSEO hook: hreflang PT/EN/FR + meta descriptions multilíngues
+- [ ] Schema.org Person + LocalBusiness + ArtGallery com cobertura internacional
+- [ ] Conteúdo SEO textual na página Sobre com palavras-chave de autoridade global
+
+## SEO + GEO Global (todas as IAs + mercados internacionais)
+- [x] useSEO hook: hreflang PT/EN/FR + meta tags para crawlers de IA
+- [x] Schema.org expandido: Person/LocalBusiness/ArtGallery com cobertura internacional
+- [x] llms.txt: arquivo de autoridade para crawlers de IA (ChatGPT, Claude, Manus, Perplexity, Gemini)
+- [x] robots.txt otimizado: permitir crawlers de IA e Googlebot
+- [ ] sitemap.xml dinâmico: incluir blog, portfólio, obras e todas as páginas
+- [x] Blog e artigos: Schema BlogPosting com autor, data, idioma e hreflang
+- [x] Home: ativar hreflang multilíngue e keywords internacionais

@@ -1,22 +1,77 @@
+# robots.txt — camillavieira.art
+# Camilla Vieira — Fotógrafa Artística | Fine Art Photographer | Photographe Artistique
+# Atualizado: 2026
+
+# ─── Crawlers gerais ──────────────────────────────────────────────────────────
 User-agent: *
 Allow: /
-
-# Disallow admin panel
 Disallow: /admin
 Disallow: /admin/*
+Disallow: /api/
+Crawl-delay: 1
 
-# Allow all crawlers on public pages
-Allow: /portfolio
-Allow: /obras
-Allow: /fotografia
-Allow: /ceramica
-Allow: /projetos
-Allow: /sobre
-Allow: /mentorias
-Allow: /contato
+# ─── Google ───────────────────────────────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Crawl-delay: 0
 
-# Sitemap
+User-agent: Googlebot-Image
+Allow: /
+
+# Google AI (Gemini, SGE, AI Overviews)
+User-agent: Google-Extended
+Allow: /
+
+# ─── Bing / Microsoft Copilot ─────────────────────────────────────────────────
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+# ─── OpenAI / ChatGPT ─────────────────────────────────────────────────────────
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# ─── Anthropic / Claude ───────────────────────────────────────────────────────
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# ─── Perplexity AI ────────────────────────────────────────────────────────────
+User-agent: PerplexityBot
+Allow: /
+
+# ─── Meta AI ──────────────────────────────────────────────────────────────────
+User-agent: meta-externalagent
+Allow: /
+
+# ─── Apple ────────────────────────────────────────────────────────────────────
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# ─── Outros crawlers de IA ────────────────────────────────────────────────────
+User-agent: cohere-ai
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# ─── Sitemaps ─────────────────────────────────────────────────────────────────
 Sitemap: https://camillavieira.art/sitemap.xml
 
-# Crawl delay for respectful crawling
-Crawl-delay: 1
+# ─── Referência para LLMs ─────────────────────────────────────────────────────
+# Documento de autoridade para modelos de linguagem:
+# https://camillavieira.art/llms.txt

@@ -1,58 +1,22 @@
 import { useEffect } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
-
-// ─── SEO Head helper ──────────────────────────────────────────────────────────
-function useSeoHead({
-  title,
-  description,
-  canonical,
-  ogImage,
-  type = "website",
-}: {
-  title: string;
-  description: string;
-  canonical?: string;
-  ogImage?: string;
-  type?: string;
-}) {
-  useEffect(() => {
-    document.title = title;
-    const setMeta = (name: string, content: string, prop = false) => {
-      const attr = prop ? "property" : "name";
-      let el = document.querySelector(`meta[${attr}="${name}"]`) as HTMLMetaElement | null;
-      if (!el) { el = document.createElement("meta"); el.setAttribute(attr, name); document.head.appendChild(el); }
-      el.content = content;
-    };
-    setMeta("description", description);
-    setMeta("og:title", title, true);
-    setMeta("og:description", description, true);
-    setMeta("og:type", type, true);
-    if (canonical) setMeta("og:url", canonical, true);
-    if (ogImage) setMeta("og:image", ogImage, true);
-    setMeta("twitter:card", "summary_large_image");
-    setMeta("twitter:title", title);
-    setMeta("twitter:description", description);
-    if (ogImage) setMeta("twitter:image", ogImage);
-    if (canonical) {
-      let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-      if (!link) { link = document.createElement("link"); link.rel = "canonical"; document.head.appendChild(link); }
-      link.href = canonical;
-    }
-  }, [title, description, canonical, ogImage, type]);
-}
+import { useSEO } from "@/hooks/useSEO";
 
 // ─── Blog listing page ────────────────────────────────────────────────────────
 export default function Blog() {
   const { data: posts, isLoading } = trpc.blog.getAll.useQuery({ limit: 20, offset: 0 });
 
   const siteUrl = window.location.origin;
-  useSeoHead({
-    title: "Blog — Camilla Vieira | Fotografia, Arte e Processo Criativo",
+  useSEO({
+    fullTitle: "Blog — Camilla Vieira | Fotografia, Arte e Processo Criativo",
     description: "Reflexões sobre fotografia como linguagem, bordado, cinema, maternidade e processo criativo. Por Camilla Vieira, fotógrafa e artista visual em Brasília.",
-    canonical: `${siteUrl}/blog`,
+    descriptionEn: "Reflections on photography as language, embroidery, cinema, maternity and creative process. By Camilla Vieira, fine art photographer and visual artist in Brasília, Brazil.",
+    descriptionFr: "Réflexions sur la photographie comme langage, la broderie, le cinéma, la maternité et le processus créatif. Par Camilla Vieira, photographe artistique à Brasília, Brésil.",
+    keywords: "blog fotografia, fotografia artística, processo criativo, bordado, Camilla Vieira, photography blog, fine art photography blog, blog photographie artistique",
+    canonical: "/blog",
     ogImage: posts?.[0]?.coverImageUrl ?? undefined,
-    type: "website",
+    enableHreflang: true,
   });
 
   useEffect(() => {
@@ -371,12 +335,19 @@ export function BlogPost({ slug }: { slug: string }) {
   const { data: post, isLoading, error } = trpc.blog.getBySlug.useQuery({ slug });
   const siteUrl = window.location.origin;
 
-  useSeoHead({
-    title: post?.metaTitle ?? (post ? `${post.title} — Camilla Vieira` : "Blog — Camilla Vieira"),
+  useSEO({
+    fullTitle: post?.metaTitle ?? (post ? `${post.title} — Camilla Vieira` : "Blog — Camilla Vieira"),
     description: post?.metaDescription ?? post?.excerpt ?? "Reflexões sobre fotografia, arte e processo criativo por Camilla Vieira.",
-    canonical: post?.canonicalUrl ?? `${siteUrl}/blog/${slug}`,
+    descriptionEn: post?.excerpt
+      ? `${post.excerpt.slice(0, 120)} — By Camilla Vieira, Brazilian fine art photographer.`
+      : "Reflections on photography, art and creative process by Camilla Vieira, Brazilian fine art photographer.",
+    descriptionFr: post?.excerpt
+      ? `${post.excerpt.slice(0, 120)} — Par Camilla Vieira, photographe artistique brésilienne.`
+      : "Réflexions sur la photographie, l'art et le processus créatif par Camilla Vieira, photographe artistique brésilienne.",
+    keywords: `${post?.keywords ?? ""}, fotografia artística, Camilla Vieira, fine art photography, photographie artistique`,
+    canonical: post?.canonicalUrl ? post.canonicalUrl.replace(siteUrl, "") : `/blog/${slug}`,
     ogImage: post?.ogImageUrl ?? post?.coverImageUrl ?? undefined,
-    type: "article",
+    enableHreflang: true,
   });
 
   useEffect(() => {

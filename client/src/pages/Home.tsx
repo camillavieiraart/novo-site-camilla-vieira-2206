@@ -69,7 +69,7 @@ function HeroSection({ onScrollNext }: { onScrollNext: () => void }) {
       style={{ backgroundColor: "var(--brand-marrom-deep)" }}>
       {/* Background image with overlay */}
       <div className="absolute inset-0">
-        <img src={heroBg} alt="" className="w-full h-full object-cover opacity-30" style={{ filter: "grayscale(60%)" }} />
+        <img src={heroBg} alt="Fotografia artística de Camilla Vieira" className="w-full h-full object-cover opacity-30" style={{ filter: "grayscale(60%)" }} />
         <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(76,48,34,0.5) 0%, rgba(76,48,34,0.75) 100%)" }} />
       </div>
 

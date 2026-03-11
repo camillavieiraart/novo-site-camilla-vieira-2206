@@ -1,0 +1,9 @@
+{
+  "query": "\nALTER TABLE leads\n  ADD COLUMN instagram VARCHAR(100),\n  ADD COLUMN funnel_step ENUM('visualizou_pacote','preencheu_dados','escolheu_datas','iniciou_pagamento','pagou','agendou_call'),\n  ADD COLUMN funnel_package VARCHAR(100),\n  ADD COLUMN funnel_package_type VARCHAR(50),\n  ADD COLUMN funnel_package_price INT,\n  ADD COLUMN funnel_preferred_dates TEXT,\n  ADD COLUMN funnel_period VARCHAR(50),\n  ADD COLUMN funnel_expectations TEXT,\n  ADD COLUMN funnel_stripe_pi VARCHAR(100),\n  ADD COLUMN funnel_paid_at TIMESTAMP NULL,\n  ADD COLUMN funnel_call_scheduled_at TIMESTAMP NULL,\n  ADD COLUMN funnel_last_event_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute \nALTER TABLE leads\n  ADD COLUMN instagram VARCHAR(100),\n  ADD COLUMN funnel_step ENUM('visualizou_pacote','preencheu_dados','escolheu_datas','iniciou_pagamento','pagou','agendou_call'),\n  ADD COLUMN funnel_package VARCHAR(100),\n  ADD COLUMN funnel_package_type VARCHAR(50),\n  ADD COLUMN funnel_package_price INT,\n  ADD COLUMN funnel_preferred_dates TEXT,\n  ADD COLUMN funnel_period VARCHAR(50),\n  ADD COLUMN funnel_expectations TEXT,\n  ADD COLUMN funnel_stripe_pi VARCHAR(100),\n  ADD COLUMN funnel_paid_at TIMESTAMP NULL,\n  ADD COLUMN funnel_call_scheduled_at TIMESTAMP NULL,\n  ADD COLUMN funnel_last_event_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 4137
+}

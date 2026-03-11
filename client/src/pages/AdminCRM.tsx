@@ -21,7 +21,8 @@ import { CSS } from "@dnd-kit/utilities";
 import {
   Phone, Mail, Instagram, MapPin, MessageCircle, Plus, X, Edit2,
   ChevronDown, ChevronUp, ExternalLink, User, Copy, Check,
-  Search, Filter, Trash2, Calendar, Tag
+  Search, Filter, Trash2, Calendar, Tag, TrendingUp, DollarSign,
+  AlertCircle, CheckCircle2, Clock, BarChart3
 } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -807,8 +808,262 @@ function NewLeadModal({ onClose, onCreated }: { onClose: () => void; onCreated: 
   );
 }
 
+// ─── Funnel Types ────────────────────────────────────────────────────────────
+type FunnelStep = 'visualizou_pacote' | 'preencheu_dados' | 'escolheu_datas' | 'iniciou_pagamento' | 'pagou' | 'agendou_call';
+
+interface FunnelLead {
+  id: number;
+  name: string;
+  email: string | null;
+  phone: string | null;
+  city: string | null;
+  funnelStep: FunnelStep | null;
+  funnelPackage: string | null;
+  funnelPackagePrice: number | null;
+  funnelPreferredDates: string | null;
+  funnelPeriod: string | null;
+  funnelExpectations: string | null;
+  funnelPaidAt: Date | null;
+  funnelCallScheduledAt: Date | null;
+  funnelLastEventAt: Date | null;
+  createdAt: Date;
+}
+
+const FUNNEL_STEPS: { id: FunnelStep; label: string; icon: React.ReactNode; color: string; bg: string }[] = [
+  { id: 'visualizou_pacote',  label: 'Viu o pacote',      icon: <BarChart3 size={16} />,    color: '#6B7280', bg: '#F9FAFB' },
+  { id: 'preencheu_dados',    label: 'Preencheu dados',   icon: <User size={16} />,         color: '#7C3AED', bg: '#F5F3FF' },
+  { id: 'escolheu_datas',     label: 'Escolheu datas',    icon: <Calendar size={16} />,     color: '#2563EB', bg: '#EFF6FF' },
+  { id: 'iniciou_pagamento',  label: 'Iniciou pagamento', icon: <Clock size={16} />,        color: '#D97706', bg: '#FFFBEB' },
+  { id: 'pagou',              label: 'Pagou o sinal',     icon: <DollarSign size={16} />,   color: '#059669', bg: '#ECFDF5' },
+  { id: 'agendou_call',       label: 'Agendou a call',    icon: <CheckCircle2 size={16} />, color: '#C97064', bg: '#FFF5F3' },
+];
+
+function FunnelView() {
+  const { data: kanban, isLoading } = trpc.leads.getKanban.useQuery();
+  const [selectedLead, setSelectedLead] = useState<FunnelLead | null>(null);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: 'var(--brand-terracota)' }} />
+      </div>
+    );
+  }
+
+  // Flatten all leads and filter those from agente_vendas or with funnel data
+  const allLeads: FunnelLead[] = kanban
+    ? (Object.values(kanban).flat() as any[]).filter(
+        (l: any) => l.source === 'agente_vendas' || l.funnelStep
+      )
+    : [];
+
+  // Group by funnel step
+  const byStep: Record<string, FunnelLead[]> = {};
+  for (const step of FUNNEL_STEPS) byStep[step.id] = [];
+  byStep['sem_dados'] = [];
+
+  for (const lead of allLeads) {
+    const step = lead.funnelStep || 'sem_dados';
+    if (byStep[step]) byStep[step].push(lead);
+    else byStep['sem_dados'].push(lead);
+  }
+
+  const total = allLeads.length;
+  const pagaram = byStep['pagou'].length + byStep['agendou_call'].length;
+  const abandonaram = allLeads.filter(l => l.funnelStep && !['pagou', 'agendou_call'].includes(l.funnelStep)).length;
+  const taxaConversao = total > 0 ? Math.round((pagaram / total) * 100) : 0;
+
+  const formatPrice = (cents: number | null) => {
+    if (!cents) return '—';
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cents / 100);
+  };
+
+  return (
+    <div className="flex flex-col gap-6">
+      {/* Header */}
+      <div>
+        <h2 className="font-serif text-2xl font-medium" style={{ color: 'var(--brand-marrom-deep)' }}>Funil do Agente de Vendas</h2>
+        <p className="text-sm mt-1" style={{ color: 'var(--brand-marrom)', fontFamily: "'Inter', sans-serif" }}>
+          Rastreamento de leads vindos do agente de vendas externo
+        </p>
+      </div>
+
+      {/* KPIs */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {[
+          { label: 'Total de leads', value: total, color: '#6B7280', bg: '#F9FAFB' },
+          { label: 'Pagaram o sinal', value: pagaram, color: '#059669', bg: '#ECFDF5' },
+          { label: 'Abandonaram', value: abandonaram, color: '#D97706', bg: '#FFFBEB' },
+          { label: 'Taxa de conversão', value: `${taxaConversao}%`, color: '#C97064', bg: '#FFF5F3' },
+        ].map(kpi => (
+          <div key={kpi.label} className="p-4 text-center" style={{ backgroundColor: kpi.bg, border: `1px solid ${kpi.color}22` }}>
+            <p className="text-2xl font-bold" style={{ color: kpi.color, fontFamily: "'Inter', sans-serif" }}>{kpi.value}</p>
+            <p className="text-xs mt-0.5" style={{ color: kpi.color, fontFamily: "'Inter', sans-serif" }}>{kpi.label}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Funnel visualization */}
+      <div className="flex flex-col gap-2">
+        <h3 className="text-xs tracking-widest uppercase font-medium" style={{ color: 'var(--brand-marrom)', fontFamily: "'Inter', sans-serif" }}>Etapas do Funil</h3>
+        {FUNNEL_STEPS.map((step, idx) => {
+          const count = byStep[step.id].length;
+          const maxCount = Math.max(...FUNNEL_STEPS.map(s => byStep[s.id].length), 1);
+          const width = Math.max((count / maxCount) * 100, count > 0 ? 8 : 2);
+          return (
+            <div key={step.id} className="flex items-center gap-3">
+              <div className="w-36 text-right">
+                <span className="text-xs" style={{ color: step.color, fontFamily: "'Inter', sans-serif" }}>{step.label}</span>
+              </div>
+              <div className="flex-1 h-8 relative" style={{ backgroundColor: '#F3F4F6' }}>
+                <div
+                  className="h-full flex items-center px-3 transition-all duration-500"
+                  style={{ width: `${width}%`, backgroundColor: step.bg, borderLeft: `3px solid ${step.color}` }}
+                >
+                  <span className="text-xs font-bold" style={{ color: step.color, fontFamily: "'Inter', sans-serif" }}>{count}</span>
+                </div>
+              </div>
+              <div className="w-8 text-center">
+                <span className="text-xs" style={{ color: '#9CA3AF', fontFamily: "'Inter', sans-serif" }}>
+                  {total > 0 ? `${Math.round((count / total) * 100)}%` : '0%'}
+                </span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Leads list grouped by step */}
+      {total === 0 ? (
+        <div className="text-center py-16 border" style={{ borderColor: 'var(--brand-sand)', backgroundColor: 'var(--brand-bege)' }}>
+          <TrendingUp size={32} className="mx-auto mb-3" style={{ color: 'var(--brand-sand)' }} />
+          <p className="font-serif text-lg" style={{ color: 'var(--brand-marrom-deep)' }}>Nenhum lead do agente ainda</p>
+          <p className="text-sm mt-1" style={{ color: 'var(--brand-marrom)', fontFamily: "'Inter', sans-serif" }}>
+            Quando clientes acessarem o agente de vendas, aparecerão aqui.
+          </p>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-4">
+          {FUNNEL_STEPS.filter(s => byStep[s.id].length > 0).map(step => (
+            <div key={step.id}>
+              <div className="flex items-center gap-2 mb-2">
+                <span style={{ color: step.color }}>{step.icon}</span>
+                <h4 className="text-xs tracking-widest uppercase font-medium" style={{ color: step.color, fontFamily: "'Inter', sans-serif" }}>
+                  {step.label} ({byStep[step.id].length})
+                </h4>
+              </div>
+              <div className="flex flex-col gap-2">
+                {byStep[step.id].map(lead => (
+                  <button
+                    key={lead.id}
+                    onClick={() => setSelectedLead(selectedLead?.id === lead.id ? null : lead)}
+                    className="w-full text-left p-4 border transition-all"
+                    style={{
+                      backgroundColor: selectedLead?.id === lead.id ? step.bg : 'white',
+                      borderColor: selectedLead?.id === lead.id ? step.color : 'var(--brand-sand)',
+                    }}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm truncate" style={{ color: 'var(--brand-marrom-deep)', fontFamily: "'Inter', sans-serif" }}>
+                          {lead.name}
+                        </p>
+                        <div className="flex flex-wrap gap-3 mt-1">
+                          {lead.email && (
+                            <span className="text-xs" style={{ color: 'var(--brand-marrom)', fontFamily: "'Inter', sans-serif" }}>
+                              {lead.email}
+                            </span>
+                          )}
+                          {lead.phone && (
+                            <a href={`https://wa.me/${lead.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer"
+                              onClick={e => e.stopPropagation()}
+                              className="text-xs flex items-center gap-1 hover:underline"
+                              style={{ color: '#25D366', fontFamily: "'Inter', sans-serif" }}>
+                              <MessageCircle size={11} /> {lead.phone}
+                            </a>
+                          )}
+                          {lead.funnelPackage && (
+                            <span className="text-xs px-2 py-0.5" style={{ backgroundColor: step.bg, color: step.color, border: `1px solid ${step.color}33`, fontFamily: "'Inter', sans-serif" }}>
+                              {lead.funnelPackage}
+                            </span>
+                          )}
+                          {lead.funnelPackagePrice && (
+                            <span className="text-xs font-medium" style={{ color: '#059669', fontFamily: "'Inter', sans-serif" }}>
+                              Sinal: {formatPrice(Math.round(lead.funnelPackagePrice / 2))}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="text-xs" style={{ color: '#9CA3AF', fontFamily: "'Inter', sans-serif" }}>
+                          {lead.funnelLastEventAt ? new Date(lead.funnelLastEventAt).toLocaleDateString('pt-BR') : new Date(lead.createdAt).toLocaleDateString('pt-BR')}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Expanded details */}
+                    {selectedLead?.id === lead.id && (
+                      <div className="mt-3 pt-3 border-t flex flex-col gap-2" style={{ borderColor: `${step.color}33` }}>
+                        {lead.funnelPreferredDates && (
+                          <div>
+                            <span className="text-xs font-medium" style={{ color: 'var(--brand-marrom)', fontFamily: "'Inter', sans-serif" }}>Datas preferidas: </span>
+                            <span className="text-xs" style={{ color: 'var(--brand-marrom-deep)', fontFamily: "'Inter', sans-serif" }}>{lead.funnelPreferredDates}</span>
+                          </div>
+                        )}
+                        {lead.funnelPeriod && (
+                          <div>
+                            <span className="text-xs font-medium" style={{ color: 'var(--brand-marrom)', fontFamily: "'Inter', sans-serif" }}>Período: </span>
+                            <span className="text-xs" style={{ color: 'var(--brand-marrom-deep)', fontFamily: "'Inter', sans-serif" }}>{lead.funnelPeriod}</span>
+                          </div>
+                        )}
+                        {lead.funnelExpectations && (
+                          <div>
+                            <span className="text-xs font-medium" style={{ color: 'var(--brand-marrom)', fontFamily: "'Inter', sans-serif" }}>Expectativas: </span>
+                            <span className="text-xs" style={{ color: 'var(--brand-marrom-deep)', fontFamily: "'Inter', sans-serif" }}>{lead.funnelExpectations}</span>
+                          </div>
+                        )}
+                        {lead.funnelPaidAt && (
+                          <div className="flex items-center gap-1.5">
+                            <CheckCircle2 size={12} style={{ color: '#059669' }} />
+                            <span className="text-xs" style={{ color: '#059669', fontFamily: "'Inter', sans-serif" }}>
+                              Pagou em {new Date(lead.funnelPaidAt).toLocaleDateString('pt-BR')}
+                            </span>
+                          </div>
+                        )}
+                        {lead.funnelCallScheduledAt && (
+                          <div className="flex items-center gap-1.5">
+                            <Calendar size={12} style={{ color: '#C97064' }} />
+                            <span className="text-xs" style={{ color: '#C97064', fontFamily: "'Inter', sans-serif" }}>
+                              Call agendada para {new Date(lead.funnelCallScheduledAt).toLocaleDateString('pt-BR')}
+                            </span>
+                          </div>
+                        )}
+                        {lead.phone && (
+                          <a
+                            href={`https://wa.me/${lead.phone.replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${lead.name}! Vi que você se interessou pelo pacote ${lead.funnelPackage || 'de ensaio'}. Posso te ajudar com alguma dúvida?`)}`}
+                            target="_blank" rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium mt-1"
+                            style={{ backgroundColor: '#25D366', color: 'white', fontFamily: "'Inter', sans-serif" }}
+                          >
+                            <MessageCircle size={12} /> Enviar WhatsApp de follow-up
+                          </a>
+                        )}
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Main CRM Kanban ──────────────────────────────────────────────────────────
 export function CRMAdmin() {
+  const [activeTab, setActiveTab] = useState<'kanban' | 'funil'>('kanban');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showNewLead, setShowNewLead] = useState(false);
   const [search, setSearch] = useState("");
@@ -905,25 +1160,52 @@ export function CRMAdmin() {
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
         <div>
           <h2 className="font-serif text-2xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>
-            Pipeline de Leads
+            CRM / Leads
           </h2>
           <p className="text-sm mt-1" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
             {totalLeads} leads no pipeline
           </p>
         </div>
-        <button onClick={() => setShowNewLead(true)}
-          className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium"
-          style={{ backgroundColor: "var(--brand-terracota)", color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
-          <Plus size={16} />
-          Novo Lead
-        </button>
+        {activeTab === 'kanban' && (
+          <button onClick={() => setShowNewLead(true)}
+            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium"
+            style={{ backgroundColor: "var(--brand-terracota)", color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
+            <Plus size={16} />
+            Novo Lead
+          </button>
+        )}
       </div>
 
-      {/* Stats bar */}
-      {stats && (
+      {/* Tabs */}
+      <div className="flex gap-1 mb-6 border-b" style={{ borderColor: 'var(--brand-sand)' }}>
+        {[
+          { id: 'kanban' as const, label: 'Pipeline Kanban', icon: <User size={14} /> },
+          { id: 'funil' as const, label: 'Funil do Agente', icon: <TrendingUp size={14} /> },
+        ].map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium -mb-px transition-colors"
+            style={{
+              color: activeTab === tab.id ? 'var(--brand-terracota)' : 'var(--brand-marrom)',
+              borderBottom: activeTab === tab.id ? '2px solid var(--brand-terracota)' : '2px solid transparent',
+              fontFamily: "'Inter', sans-serif",
+            }}
+          >
+            {tab.icon}
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Funil tab */}
+      {activeTab === 'funil' && <FunnelView />}
+
+      {/* Kanban content - only shown when kanban tab is active */}
+      {activeTab === 'kanban' && stats && (
         <div className="grid grid-cols-5 gap-2 mb-6">
           {STAGES.map(s => (
             <div key={s.id} className="p-3 text-center"
@@ -939,26 +1221,28 @@ export function CRMAdmin() {
         </div>
       )}
 
-      {/* Search */}
-      <div className="relative mb-3">
-        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "var(--brand-marrom)" }} />
-        <input
-          type="text"
-          placeholder="Buscar por nome, telefone ou cidade..."
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          className="w-full pl-10 pr-4 py-2.5 text-sm border outline-none"
-          style={{
-            borderColor: "var(--brand-sand)",
-            backgroundColor: "var(--brand-bege)",
-            color: "var(--brand-marrom-deep)",
-            fontFamily: "'Inter', sans-serif",
-          }}
-        />
-      </div>
+      {/* Search - only when kanban tab */}
+      {activeTab === 'kanban' && (
+        <div className="relative mb-3">
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "var(--brand-marrom)" }} />
+          <input
+            type="text"
+            placeholder="Buscar por nome, telefone ou cidade..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 text-sm border outline-none"
+            style={{
+              borderColor: "var(--brand-sand)",
+              backgroundColor: "var(--brand-bege)",
+              color: "var(--brand-marrom-deep)",
+              fontFamily: "'Inter', sans-serif",
+            }}
+          />
+        </div>
+      )}
 
       {/* Tag filter bar */}
-      {allTags && allTags.length > 0 && (
+      {activeTab === 'kanban' && allTags && allTags.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-6">
           <button
             onClick={() => setActiveTagFilter(null)}
@@ -991,7 +1275,8 @@ export function CRMAdmin() {
       )}
 
       {/* Kanban board */}
-      <div className="overflow-x-auto pb-4">
+      {activeTab === 'kanban' && (
+        <div className="overflow-x-auto pb-4">
         <DndContext
           sensors={sensors}
           collisionDetection={closestCorners}
@@ -1031,7 +1316,8 @@ export function CRMAdmin() {
             })()}
           </DragOverlay>
         </DndContext>
-      </div>
+        </div>
+      )}
 
       {/* Lead detail panel */}
       {selectedLead && (

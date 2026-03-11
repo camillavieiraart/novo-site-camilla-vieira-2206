@@ -10,6 +10,7 @@ import { serveStatic, setupVite } from "./vite";
 import { startScheduler } from "../scheduler";
 import { handleStripeWebhook } from "../shop-router";
 import { getBlogSitemapData, getRssFeedData } from "../db";
+import { notifyOwner } from "./notification";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -75,6 +76,116 @@ async function startServer() {
       },
     })
   );
+  // ── Endpoint público: recebe eventos do funil do agente de vendas externo ──
+  app.post("/api/funnel-event", async (req, res) => {
+    try {
+      // CORS — permite o domínio do agente de vendas
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+      res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+      const {
+        step,          // 'visualizou_pacote' | 'preencheu_dados' | 'escolheu_datas' | 'iniciou_pagamento' | 'pagou' | 'agendou_call'
+        name,
+        email,
+        phone,
+        city,
+        packageName,
+        packageType,
+        packagePrice,   // valor em centavos
+        preferredDates,
+        period,
+        expectations,
+        stripePaymentIntentId,
+      } = req.body;
+
+      if (!step || !email) {
+        return res.status(400).json({ error: "step and email are required" });
+      }
+
+      const { drizzle } = await import("drizzle-orm/mysql2");
+      const { leads } = await import("../../drizzle/schema");
+      const { eq } = await import("drizzle-orm");
+      const db = drizzle(process.env.DATABASE_URL!);
+
+      // Upsert: se já existe lead com esse email, atualiza; senão cria
+      const existing = await db.select({ id: leads.id, funnelStep: leads.funnelStep })
+        .from(leads)
+        .where(eq(leads.email, email))
+        .limit(1);
+
+      const now = new Date();
+      const stepOrder = [
+        'visualizou_pacote', 'preencheu_dados', 'escolheu_datas',
+        'iniciou_pagamento', 'pagou', 'agendou_call'
+      ];
+      const newStepIdx = stepOrder.indexOf(step);
+
+      const updatePayload: Record<string, unknown> = {
+        funnelStep: step,
+        funnelLastEventAt: now,
+      };
+      if (packageName)  updatePayload.funnelPackage = packageName;
+      if (packageType)  updatePayload.funnelPackageType = packageType;
+      if (packagePrice) updatePayload.funnelPackagePrice = packagePrice;
+      if (preferredDates) updatePayload.funnelPreferredDates = preferredDates;
+      if (period)       updatePayload.funnelPeriod = period;
+      if (expectations) updatePayload.funnelExpectations = expectations;
+      if (stripePaymentIntentId) updatePayload.funnelStripePaymentIntentId = stripePaymentIntentId;
+      if (step === 'pagou') updatePayload.funnelPaidAt = now;
+      if (step === 'agendou_call') updatePayload.funnelCallScheduledAt = now;
+
+      // Avança o stage do CRM automaticamente
+      if (step === 'pagou' || step === 'agendou_call') {
+        updatePayload.stage = 'lead_quente';
+      }
+
+      if (existing.length > 0) {
+        // Só atualiza se o novo step for igual ou mais avançado
+        const existingIdx = stepOrder.indexOf(existing[0].funnelStep || '');
+        if (newStepIdx >= existingIdx) {
+          await db.update(leads).set(updatePayload).where(eq(leads.id, existing[0].id));
+        }
+        return res.json({ success: true, leadId: existing[0].id, action: 'updated' });
+      } else {
+        // Cria novo lead
+        const insertPayload: Record<string, unknown> = {
+          name: name || email.split('@')[0],
+          email,
+          phone: phone || null,
+          city: city || null,
+          serviceInterest: packageType || 'ensaio',
+          stage: (step === 'pagou' || step === 'agendou_call') ? 'lead_quente' : 'lead_frio',
+          source: 'agente_vendas',
+          ...updatePayload,
+        };
+        const result = await db.insert(leads).values(insertPayload as any);
+        const leadId = Number((result as any).insertId);
+
+        // Notifica a Camilla quando o cliente paga
+        if (step === 'pagou') {
+          await notifyOwner({
+            title: `💰 Novo pagamento: ${name || email}`,
+            content: `Pacote: ${packageName} | Datas: ${preferredDates} | WhatsApp: ${phone} | Email: ${email}`,
+          }).catch(() => {});
+        }
+
+        return res.json({ success: true, leadId, action: 'created' });
+      }
+    } catch (err: any) {
+      console.error("[Funnel Event] Error:", err.message);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // CORS preflight para o endpoint do funil
+  app.options("/api/funnel-event", (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    res.sendStatus(204);
+  });
+
   // Dynamic sitemap.xml — includes all published blog posts from the database
   app.get("/sitemap.xml", async (_req, res) => {
     try {

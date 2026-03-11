@@ -539,6 +539,26 @@ export const leads = mysqlTable("leads", {
   source: varchar("source", { length: 50 }).default("manual").notNull(),
   notes: text("notes"),
   lastContact: bigint("last_contact", { mode: "number" }),
+  // ── Funil do Agente de Vendas ──────────────────────────────────────────────
+  // Rastreia até onde o cliente chegou no agente de vendas externo
+  funnelStep: mysqlEnum("funnel_step", [
+    "visualizou_pacote",   // clicou em Reservar
+    "preencheu_dados",     // completou etapa 1 (nome, email, whatsapp)
+    "escolheu_datas",      // completou etapa 2 (datas preferidas)
+    "iniciou_pagamento",   // chegou na etapa 3 (Stripe abriu)
+    "pagou",               // pagamento confirmado
+    "agendou_call",        // agendou a call no Calendly
+  ]),
+  funnelPackage: varchar("funnel_package", { length: 100 }),   // ex: "Essência II"
+  funnelPackageType: varchar("funnel_package_type", { length: 50 }), // ex: "essencia"
+  funnelPackagePrice: int("funnel_package_price"),              // valor em centavos
+  funnelPreferredDates: text("funnel_preferred_dates"),         // datas preferidas (texto)
+  funnelPeriod: varchar("funnel_period", { length: 50 }),       // período do dia
+  funnelExpectations: text("funnel_expectations"),              // o que espera do ensaio
+  funnelStripePaymentIntentId: varchar("funnel_stripe_pi", { length: 100 }),
+  funnelPaidAt: timestamp("funnel_paid_at"),
+  funnelCallScheduledAt: timestamp("funnel_call_scheduled_at"),
+  funnelLastEventAt: timestamp("funnel_last_event_at").defaultNow(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });

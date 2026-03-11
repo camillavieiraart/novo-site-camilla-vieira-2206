@@ -377,6 +377,14 @@ export async function handleStripeWebhook(rawBody: Buffer, signature: string): P
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!webhookSecret) { console.warn("[Stripe] No webhook secret configured"); return; }
 
+  // Handle test events from Stripe dashboard
+  let parsedBody: any;
+  try { parsedBody = JSON.parse(rawBody.toString()); } catch { parsedBody = {}; }
+  if (parsedBody?.id?.startsWith('evt_test_')) {
+    console.log("[Webhook] Test event detected, returning verification response");
+    return;
+  }
+
   let event: Stripe.Event;
   try {
     event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
@@ -417,11 +425,67 @@ export async function handleStripeWebhook(rawBody: Buffer, signature: string): P
     }
   }
 
+  // ─── Pagamento falhou (payment_intent.payment_failed) ────────────────────────
   if (event.type === "payment_intent.payment_failed") {
     const intent = event.data.object as Stripe.PaymentIntent;
+
+    // Atualizar status do pedido
     await db.update(orders)
       .set({ status: "cancelled" })
       .where(eq(orders.stripePaymentIntentId, intent.id));
+
+    // Buscar pedido para detalhes do alerta
+    const [failedOrder] = await db.select().from(orders)
+      .where(eq(orders.stripePaymentIntentId, intent.id))
+      .limit(1);
+
+    const failureReason = intent.last_payment_error?.message || "Motivo não informado";
+    const failureCode = intent.last_payment_error?.code || "unknown";
+    const customerEmail = intent.receipt_email || failedOrder?.customerEmail || "Desconhecido";
+    const customerName = failedOrder?.customerName || "Desconhecido";
+    const productName = failedOrder?.productName || "Produto desconhecido";
+    const amountBRL = failedOrder ? `R$ ${(failedOrder.amountInCents / 100).toFixed(2)}` : `R$ ${((intent.amount || 0) / 100).toFixed(2)}`;
+
+    console.warn(`[Stripe] Pagamento falhou — Cliente: ${customerEmail} | Produto: ${productName} | Motivo: ${failureReason}`);
+
+    await notifyOwner({
+      title: `⚠️ Pagamento falhou: ${productName}`,
+      content: `Um pagamento não foi concluído.\n\nCliente: ${customerName}\nE-mail: ${customerEmail}\nProduto: ${productName}\nValor: ${amountBRL}\nMotivo: ${failureReason}\nCódigo: ${failureCode}\n\nVerifique o painel Stripe para mais detalhes.`,
+    }).catch(() => {});
+  }
+
+  // ─── Checkout abandonado / expirado (checkout.session.expired) ───────────────
+  if (event.type === "checkout.session.expired") {
+    const session = event.data.object as Stripe.Checkout.Session;
+
+    // Marcar pedido como cancelado
+    await db.update(orders)
+      .set({ status: "cancelled" })
+      .where(eq(orders.stripeCheckoutSessionId, session.id));
+
+    const customerEmail = session.customer_details?.email || session.customer_email || "Desconhecido";
+    const amountBRL = `R$ ${((session.amount_total || 0) / 100).toFixed(2)}`;
+
+    console.warn(`[Stripe] Checkout expirado — Cliente: ${customerEmail} | Valor: ${amountBRL}`);
+
+    await notifyOwner({
+      title: `🕐 Checkout abandonado`,
+      content: `Um cliente iniciou o checkout mas não concluiu o pagamento.\n\nE-mail: ${customerEmail}\nValor: ${amountBRL}\n\nConsidere entrar em contato para recuperar esta venda.`,
+    }).catch(() => {});
+  }
+
+  // ─── Disputa / chargeback aberto (charge.dispute.created) ────────────────────
+  if (event.type === "charge.dispute.created") {
+    const dispute = event.data.object as Stripe.Dispute;
+    const amountBRL = `R$ ${((dispute.amount || 0) / 100).toFixed(2)}`;
+    const reason = dispute.reason || "Motivo não informado";
+
+    console.error(`[Stripe] Disputa aberta — Valor: ${amountBRL} | Motivo: ${reason}`);
+
+    await notifyOwner({
+      title: `🚨 Disputa aberta no Stripe`,
+      content: `Uma disputa (chargeback) foi aberta contra um pagamento.\n\nValor em disputa: ${amountBRL}\nMotivo: ${reason}\nID da disputa: ${dispute.id}\n\nAcesse o painel Stripe imediatamente para responder dentro do prazo.`,
+    }).catch(() => {});
   }
 }
 

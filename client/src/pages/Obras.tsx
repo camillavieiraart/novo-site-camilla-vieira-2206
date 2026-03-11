@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import AdminFloatingButton from "@/components/AdminFloatingButton";
 import { useSEO } from "@/hooks/useSEO";
 import { StructuredData, SERIE_FIO_SCHEMA } from "@/components/StructuredData";
 import { Link, useParams } from "wouter";
@@ -186,6 +187,7 @@ function ArtworkDetail({ slug }: { slug: string }) {
           </div>
         </div>
       </div>
+      <AdminFloatingButton href="/admin/obras" label="Gerenciar Obras" />
       <Footer />
     </div>
   );
@@ -348,6 +350,7 @@ function ObrasGallery() {
           </div>
         </div>
       </div>
+      <AdminFloatingButton href="/admin/obras" label="Gerenciar Obras" />
       <Footer />
     </div>
   );

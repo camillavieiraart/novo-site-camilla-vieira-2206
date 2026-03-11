@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AdminFloatingButton from "@/components/AdminFloatingButton";
 import { useSEO } from "@/hooks/useSEO";
 import { Link, useParams } from "wouter";
 import { ArrowLeft, X } from "lucide-react";
@@ -111,6 +112,7 @@ export default function Projetos() {
           </div>
         </div>
       </div>
+      <AdminFloatingButton href="/admin/projetos" label="Gerenciar Projetos" />
       <Footer />
     </div>
   );

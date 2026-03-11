@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSEO } from "@/hooks/useSEO";
+import AdminFloatingButton from "@/components/AdminFloatingButton";
 import { StructuredData, buildBreadcrumb, buildItemList, BASE_URL } from "@/components/StructuredData";
 import { Link, useParams } from "wouter";
 import { ArrowLeft, X } from "lucide-react";
@@ -113,6 +114,7 @@ function PortfolioOverview() {
           areaServed: [{ "@type": "City", name: "Brasília" }, { "@type": "City", name: "São Paulo" }],
         },
       ]} />
+      <AdminFloatingButton href="/admin/portfolio" label="Gerenciar Portfólio" />
       <Footer />
     </div>
   );
@@ -203,6 +205,7 @@ function PortfolioCategory({ slug }: { slug: string }) {
           numberOfItems: allImages.length,
         },
       ]} />
+      <AdminFloatingButton href="/admin/portfolio" label="Gerenciar Portfólio" />
       <Footer />
     </div>
   );

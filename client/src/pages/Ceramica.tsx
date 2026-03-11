@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSEO } from "@/hooks/useSEO";
+import AdminFloatingButton from "@/components/AdminFloatingButton";
 import { StructuredData, buildBreadcrumb, buildArtwork, BASE_URL } from "@/components/StructuredData";
 import { X, MessageCircle } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
@@ -96,6 +97,7 @@ export default function Ceramica() {
           artMedium: c.technique,
         })),
       ]} />
+      <AdminFloatingButton href="/admin/ceramica" label="Gerenciar Cerâmica" />
       <Footer />
     </div>
   );

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AdminFloatingButton from "@/components/AdminFloatingButton";
 import { useSEO } from "@/hooks/useSEO";
 import { StructuredData, buildBreadcrumb, buildItemList, SERIE_FIO_SCHEMA, BASE_URL } from "@/components/StructuredData";
 import { Link, useParams } from "wouter";
@@ -112,6 +113,7 @@ function FotografiaOverview() {
           SERIES.map(s => ({ name: s.name, url: `/fotografia/${s.slug}`, image: s.coverUrl }))
         ),
       ]} />
+      <AdminFloatingButton href="/admin/fotografia" label="Gerenciar Fotografia" />
       <Footer />
     </div>
   );
@@ -174,6 +176,7 @@ function SeriesDetail({ slug }: { slug: string }) {
           inLanguage: "pt-BR",
         },
       ]} />
+      <AdminFloatingButton href="/admin/fotografia" label="Gerenciar Fotografia" />
       <Footer />
     </div>
   );

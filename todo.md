@@ -427,3 +427,17 @@
 - [x] Ajustar títulos das páginas /ensaio-feminino e /ensaio-gestante para ≤60 chars
 - [x] Adicionar /ensaio-feminino e /ensaio-gestante ao sitemap dinâmico do servidor
 - [x] Sitemap dinâmico agora tem 37 URLs: 22 páginas estáticas + 15 posts do blog
+
+## Admin — Botão Flutuante de Edição (Mar 2026)
+- [x] Criar componente AdminFloatingButton (visível apenas para admin)
+- [x] Adicionar botão em Portfolio.tsx → /admin/portfolio
+- [x] Adicionar botão em Ceramica.tsx → /admin/ceramica
+- [x] Adicionar botão em Obras.tsx → /admin/obras
+- [x] Adicionar botão em Projetos.tsx → /admin/projetos
+- [x] Adicionar botão em Fotografia.tsx → /admin/fotografia
+
+## CRM — Funil do Agente de Vendas (Mar 2026)
+- [x] Adicionar colunas de rastreamento na tabela leads (funnel_step, package_interest, preferred_dates, payment_status, etc.)
+- [x] Criar endpoint público /api/funnel-event para receber eventos do agente de vendas
+- [x] Adicionar aba "Funil do Agente" no CRM (AdminCRM.tsx) com visualização por etapa
+- [x] Criar vendasdemo-v3-final.zip com Home.tsx atualizado para tracking do funil

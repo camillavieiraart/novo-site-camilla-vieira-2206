@@ -472,3 +472,9 @@
 - [x] Página Sobre Mim detalhada: biografia, prêmios e exposições
 - [x] Blog com suporte multilíngue PT/EN/FR e seletor de idioma
 - [x] Campo language na tabela blog_posts para suporte multilíngue
+
+## Dados Reais — Prêmios, Exposições e Palestras (Mar 2026)
+- [ ] Pesquisar detalhes dos 6 podcasts (título, canal, data, descrição)
+- [ ] Pesquisar detalhes da exposição Fio (Metrópoles)
+- [ ] Pesquisar detalhes das palestras (Instagram posts)
+- [ ] Atualizar página Sobre com dados reais de podcasts, exposição e palestras

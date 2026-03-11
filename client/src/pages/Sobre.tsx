@@ -99,13 +99,81 @@ function TestimonialsSection({ visible }: { visible: boolean }) {
 }
 
 // ─── Awards & Exhibitions Section ────────────────────────────────────────────────────
-const AWARDS = [
-  { year: "2024", category: "Exposição", title: "Série Fio — Exposição Individual", location: "Brasília, DF" },
-  { year: "2023", category: "Exposição", title: "Arte Contemporânea Brasileira", location: "São Paulo, SP" },
-  { year: "2022", category: "Reconhecimento", title: "Fotografia Autoral — Destaque Nacional", location: "Brasil" },
-  { year: "2021", category: "Exposição", title: "Cerâmica & Fotografia — Mostra Coletiva", location: "Brasília, DF" },
-  { year: "2020", category: "Publicação", title: "Ensaio Feminino — Revista de Arte", location: "Brasil" },
-  { year: "2019", category: "Exposição", title: "Primeira Exposição Individual", location: "Brasília, DF" },
+const EXPOSICOES = [
+  {
+    year: "2023",
+    category: "Exposição Coletiva",
+    title: "Série Fio — com Bruna Zanatta",
+    location: "Galeria Esfera, Arena Mané Garrincha, Brasília, DF",
+    url: "https://www.metropoles.com/colunas/claudia-meireles/camilla-vieira-e-bruna-zanatta-apresentam-a-exposicao-fio",
+    description: "Exposição na Galeria Esfera da Arena Mané Garrincha, unindo fotografia e tufting em diálogo entre imagem e matéria.",
+  },
+];
+
+const PODCASTS = [
+  {
+    year: "2024",
+    category: "Podcast",
+    title: "Papo de Fotógrafo #307 — Fotografia é arte?",
+    location: "Canal Papo de Fotógrafo",
+    url: "https://www.youtube.com/watch?v=-9hH-rq0hgo",
+    description: "Debate sobre fotografia como forma de arte, olhar artístico, referências no cinema e pintura, e a transição do direito para a fotografia.",
+  },
+  {
+    year: "2024",
+    category: "Co-host · PodFlash 2ª Temporada",
+    title: "PodFlash #014 — Apresentação da Co-host",
+    location: "Me Estúdio, Brasília, DF",
+    url: "https://www.youtube.com/watch?v=VXr7FtQN9Xg",
+    description: "Início da 2ª temporada do PodFlash como co-apresentadora, unindo o lado artístico ao de negócios do mercado fotográfico.",
+  },
+  {
+    year: "2024",
+    category: "Co-host · PodFlash 2ª Temporada",
+    title: "PodFlash #015 — Caroline Castro",
+    location: "Me Estúdio, Brasília, DF",
+    url: "https://www.youtube.com/watch?v=PMc-p4gRKnE",
+    description: "Conversa com Caroline Castro, líder da Comunidade BMQM e mentora com mais de 10 mil alunos, sobre marketing e fotografia.",
+  },
+  {
+    year: "2024",
+    category: "Co-host · PodFlash 2ª Temporada",
+    title: "PodFlash #016 — Diogo Perez — O Exercício de Ser Único",
+    location: "Me Estúdio, Brasília, DF",
+    url: "https://www.youtube.com/watch?v=dXxgI10EJt8",
+    description: "Papo sobre criatividade, mentalidade e o exercício de ser único com o fotógrafo Diogo Perez.",
+  },
+  {
+    year: "2024",
+    category: "Co-host · PodFlash 2ª Temporada",
+    title: "PodFlash #017 — Thamires Gomes",
+    location: "Me Estúdio, Brasília, DF",
+    url: "https://www.youtube.com/watch?v=uuZ6KboeVeU",
+    description: "Conversa com Thamires Gomes, fotógrafa de comida, sobre consciência, processo criativo e pensamento crítico.",
+  },
+  {
+    year: "2024",
+    category: "Co-host · PodFlash 2ª Temporada",
+    title: "PodFlash #018 — Frederico Gomes — A Arte de Fotografar Gestantes",
+    location: "Me Estúdio, Brasília, DF",
+    url: "https://www.youtube.com/watch?v=jhMvuaEl-Ok",
+    description: "Papo com Frederico Gomes, especialista em fotografia de gestantes, sobre generosidade e serviço no mercado fotográfico.",
+  },
+];
+
+const PALESTRAS = [
+  { year: "2026", title: "Quando a Imagem Pensa: Criar, decidir e permanecer autor em tempos de IA", url: "https://www.instagram.com/p/DTtOHZvCZmo/" },
+  { year: "2025", title: "Palestra sobre Fotografia e IA Criativa", url: "https://www.instagram.com/p/DRvQ9L3ifGY/" },
+  { year: "2025", title: "Palestra sobre Arte e Imagem com Alma", url: "https://www.instagram.com/p/DNN7FfrRS79/" },
+  { year: "2025", title: "Palestra sobre Fotografia Autoral", url: "https://www.instagram.com/p/DIMFwG6x_EQ/" },
+  { year: "2025", title: "Palestra sobre Processo Criativo", url: "https://www.instagram.com/p/DHoZazGPg5c/" },
+  { year: "2025", title: "Palestra sobre Fotografia e Arte", url: "https://www.instagram.com/p/DHoPLgMxV5E/" },
+  { year: "2025", title: "Palestra sobre Imagem e Identidade", url: "https://www.instagram.com/p/DF6MVitJxxc/" },
+  { year: "2025", title: "Palestra sobre Fotografia Feminina", url: "https://www.instagram.com/p/DE0kIoYp2oY/" },
+  { year: "2025", title: "Palestra sobre Visão Artística", url: "https://www.instagram.com/p/DCHXZ7eplB9/" },
+  { year: "2024", title: "Palestra sobre Fotografia e Emoção", url: "https://www.instagram.com/p/C_3Y1sZuxuy/" },
+  { year: "2024", title: "Palestra sobre Arte Contemporânea", url: "https://www.instagram.com/p/C_1XW8pMoXB/" },
+  { year: "2024", title: "Palestra sobre Fotografia como Expressão", url: "https://www.instagram.com/p/C_v3P8TJmU1/" },
 ];
 
 function AwardsSection({ visible }: { visible: boolean }) {
@@ -122,28 +190,66 @@ function AwardsSection({ visible }: { visible: boolean }) {
           <div className="divider-terracota mx-auto mt-6" />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {AWARDS.map((item, i) => (
-            <div
-              key={i}
-              className={`flex items-start gap-5 p-6 transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-              style={{ transitionDelay: `${200 + i * 100}ms`, borderBottom: "1px solid rgba(245,230,211,0.1)" }}
+        {/* ── Exposições ── */}
+        <div className={`mb-14 transition-all duration-800 delay-100 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+          <h3 className="font-serif text-2xl font-medium mb-6" style={{ color: "var(--brand-terracota)" }}>Exposições</h3>
+          {EXPOSICOES.map((item, i) => (
+            <a key={i} href={item.url} target="_blank" rel="noopener noreferrer"
+              className="flex items-start gap-5 p-6 mb-3 no-underline block transition-all duration-200 hover:opacity-80"
+              style={{ borderBottom: "1px solid rgba(245,230,211,0.1)", background: "rgba(245,230,211,0.03)" }}
             >
-              <div className="flex-shrink-0 text-center" style={{ minWidth: "52px" }}>
+              <div className="flex-shrink-0" style={{ minWidth: "52px" }}>
                 <span className="block text-xs tracking-widest font-medium" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>{item.year}</span>
               </div>
               <div>
                 <span className="block text-xs tracking-widest uppercase mb-1" style={{ color: "rgba(245,230,211,0.4)", fontFamily: "'Inter', sans-serif" }}>{item.category}</span>
                 <p className="font-serif text-lg font-medium mb-1" style={{ color: "var(--brand-bege)" }}>{item.title}</p>
-                <p className="text-xs" style={{ color: "rgba(245,230,211,0.5)", fontFamily: "'Inter', sans-serif" }}>{item.location}</p>
+                <p className="text-xs mb-2" style={{ color: "rgba(245,230,211,0.5)", fontFamily: "'Inter', sans-serif" }}>{item.location}</p>
+                <p className="text-xs leading-relaxed" style={{ color: "rgba(245,230,211,0.6)", fontFamily: "'Inter', sans-serif" }}>{item.description}</p>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 
-        <div className={`mt-12 text-center transition-all duration-800 delay-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          <p className="text-sm italic" style={{ color: "rgba(245,230,211,0.5)", fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem" }}>
-            Atualizado regularmente com novas exposições e reconhecimentos.
+        {/* ── Podcasts ── */}
+        <div className={`mb-14 transition-all duration-800 delay-200 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+          <h3 className="font-serif text-2xl font-medium mb-6" style={{ color: "var(--brand-terracota)" }}>Podcasts</h3>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+            {PODCASTS.map((item, i) => (
+              <a key={i} href={item.url} target="_blank" rel="noopener noreferrer"
+                className="flex items-start gap-4 p-5 no-underline block transition-all duration-200 hover:opacity-80"
+                style={{ border: "1px solid rgba(245,230,211,0.1)", background: "rgba(245,230,211,0.03)" }}
+              >
+                <div className="flex-shrink-0" style={{ minWidth: "44px" }}>
+                  <span className="block text-xs tracking-widest font-medium" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>{item.year}</span>
+                </div>
+                <div>
+                  <span className="block text-xs tracking-widest uppercase mb-1" style={{ color: "rgba(245,230,211,0.4)", fontFamily: "'Inter', sans-serif" }}>{item.category}</span>
+                  <p className="font-serif text-base font-medium mb-1" style={{ color: "var(--brand-bege)" }}>{item.title}</p>
+                  <p className="text-xs mb-2" style={{ color: "rgba(245,230,211,0.45)", fontFamily: "'Inter', sans-serif" }}>{item.location}</p>
+                  <p className="text-xs leading-relaxed" style={{ color: "rgba(245,230,211,0.55)", fontFamily: "'Inter', sans-serif" }}>{item.description}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Palestras ── */}
+        <div className={`transition-all duration-800 delay-300 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+          <h3 className="font-serif text-2xl font-medium mb-6" style={{ color: "var(--brand-terracota)" }}>Palestras</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {PALESTRAS.map((item, i) => (
+              <a key={i} href={item.url} target="_blank" rel="noopener noreferrer"
+                className="flex items-start gap-3 p-4 no-underline block transition-all duration-200 hover:opacity-80"
+                style={{ border: "1px solid rgba(245,230,211,0.1)", background: "rgba(245,230,211,0.03)" }}
+              >
+                <span className="text-xs tracking-widest font-medium flex-shrink-0 mt-0.5" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>{item.year}</span>
+                <p className="font-serif text-sm font-medium" style={{ color: "var(--brand-bege)" }}>{item.title}</p>
+              </a>
+            ))}
+          </div>
+          <p className="mt-8 text-xs italic" style={{ color: "rgba(245,230,211,0.4)", fontFamily: "'Cormorant Garamond', serif", fontSize: "0.9rem" }}>
+            Atualizado regularmente com novas exposições, podcasts e palestras.
           </p>
         </div>
       </div>

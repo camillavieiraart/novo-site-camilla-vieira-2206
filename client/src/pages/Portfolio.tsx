@@ -20,7 +20,7 @@ const PLACEHOLDER_IMGS = [
 ];
 
 // Lightbox
-function Lightbox({ src, onClose }: { src: string; onClose: () => void }) {
+function Lightbox({ src, alt, caption, onClose }: { src: string; alt?: string; caption?: string; onClose: () => void }) {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", handler);
@@ -28,11 +28,18 @@ function Lightbox({ src, onClose }: { src: string; onClose: () => void }) {
   }, [onClose]);
 
   return (
-    <div className="lightbox-backdrop" onClick={onClose}>
-      <button className="absolute top-6 right-6 text-white bg-transparent border-none cursor-pointer z-10" onClick={onClose}>
+    <div className="lightbox-backdrop" onClick={onClose} role="dialog" aria-modal="true" aria-label={alt || caption || "Foto ampliada"}>
+      <button className="absolute top-6 right-6 text-white bg-transparent border-none cursor-pointer z-10" onClick={onClose} aria-label="Fechar">
         <X size={28} />
       </button>
-      <img src={src} alt="" className="lightbox-img" onClick={e => e.stopPropagation()} />
+      <figure className="flex flex-col items-center" onClick={e => e.stopPropagation()}>
+        <img src={src} alt={alt || caption || "Fotografia artística por Camilla Vieira"} className="lightbox-img" />
+        {caption && (
+          <figcaption className="mt-3 text-center text-xs tracking-widest uppercase max-w-md" style={{ color: "rgba(250,247,242,0.7)", fontFamily: "'Inter', sans-serif" }}>
+            {caption}
+          </figcaption>
+        )}
+      </figure>
     </div>
   );
 }
@@ -41,9 +48,12 @@ function Lightbox({ src, onClose }: { src: string; onClose: () => void }) {
 function PortfolioOverview() {
   useSEO({
     title: "Portfólio",
-    description: "Portfólio de ensaios fotográficos de Camilla Vieira: ensaios femininos, gestante, profissionais, fotografia autoral, cerâmica e projetos especiais. Fotografia artística em Brasília, DF.",
-    keywords: "portfólio fotografia, ensaio feminino, ensaio gestante, ensaio profissional, fotografia autoral, Camilla Vieira",
+    description: "Portfólio de ensaios fotográficos de Camilla Vieira: ensaios femininos, gestante e profissionais com olhar artístico e personalizado. Fotografia única em Brasília, DF.",
+    descriptionEn: "Photography portfolio by Camilla Vieira: feminine, maternity and professional portraits with an artistic, personalized vision. Fine art photography in Brasília, Brazil.",
+    descriptionFr: "Portfolio photographique de Camilla Vieira: portraits féminins, maternité et professionnels avec une vision artistique et personnalisée. Photographie artistique à Brasília, Brésil.",
+    keywords: "portfólio fotografia, ensaio feminino Brasília, ensaio gestante Brasília, ensaio profissional, fotografia artística, Camilla Vieira, photography portfolio, fine art portrait, portfolio photographique",
     canonical: "/portfolio",
+    enableHreflang: true,
   });
   const { data: categories } = trpc.categories.getAll.useQuery();
   const [visible, setVisible] = useState(false);
@@ -81,15 +91,21 @@ function PortfolioOverview() {
               <Link key={cat.id} href={`/portfolio/${cat.slug}`}
                 className={`group block no-underline transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
                 style={{ transitionDelay: `${200 + i * 120}ms` }}>
-                <div className="img-hover aspect-[4/5] mb-5" style={{ border: "1px solid var(--brand-sand)" }}>
-                  <GalleryImage src={cat.coverImageUrl || PLACEHOLDER_IMGS[i % PLACEHOLDER_IMGS.length]} alt={cat.name} style={{ filter: "grayscale(20%)", width: "100%", height: "100%", objectFit: "cover" }} />
+                <figure className="img-hover aspect-[4/5] mb-5" style={{ border: "1px solid var(--brand-sand)" }}>
+                  <GalleryImage
+                    src={cat.coverImageUrl || PLACEHOLDER_IMGS[i % PLACEHOLDER_IMGS.length]}
+                    alt={`Ensaio ${cat.name} por Camilla Vieira — fotógrafa artística em Brasília`}
+                    title={cat.name}
+                    style={{ filter: "grayscale(20%)", width: "100%", height: "100%", objectFit: "cover" }}
+                  />
                   <div className="img-hover-overlay" />
                   <div className="absolute bottom-4 left-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span className="text-xs tracking-[0.15em] uppercase" style={{ color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
                       Ver Ensaios →
                     </span>
                   </div>
-                </div>
+                  <figcaption className="sr-only">{cat.name} — {cat.description}</figcaption>
+                </figure>
                 <h2 className="font-serif text-2xl font-medium mb-2" style={{ color: "var(--brand-marrom-deep)" }}>{cat.name}</h2>
                 <p className="text-xs leading-relaxed" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>{cat.description}</p>
               </Link>
@@ -97,7 +113,7 @@ function PortfolioOverview() {
           </div>
         </div>
       </div>
-      <StructuredData schemas={[
+        <StructuredData schemas={[
         buildBreadcrumb([{ name: "Portfólio", url: "/portfolio" }]),
         buildItemList(
           "Portfólio de Ensaios Fotográficos — Camilla Vieira",
@@ -111,7 +127,32 @@ function PortfolioOverview() {
           description: "Ensaios fotográficos artísticos com direção sensível e estética autoral. Ensaios femininos, gestante e profissionais em Brasília e São Paulo.",
           url: `${BASE_URL}/portfolio`,
           provider: { "@id": `${BASE_URL}/#person` },
-          areaServed: [{ "@type": "City", name: "Brasília" }, { "@type": "City", name: "São Paulo" }],
+          areaServed: [
+            { "@type": "City", name: "Brasília" },
+            { "@type": "City", name: "São Paulo" },
+            { "@type": "Country", name: "Brasil" },
+            { "@type": "Country", name: "France" },
+            { "@type": "Country", name: "United States" },
+          ],
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageGallery",
+          "@id": `${BASE_URL}/portfolio#gallery`,
+          name: "Portfólio de Ensaios Fotográficos — Camilla Vieira",
+          description: "Galeria de ensaios fotográficos femininos, gestante e profissionais por Camilla Vieira, fotógrafa artística em Brasília.",
+          url: `${BASE_URL}/portfolio`,
+          creator: { "@id": `${BASE_URL}/#person` },
+          inLanguage: ["pt-BR", "en", "fr"],
+          image: (categories || []).filter(c => c.coverImageUrl).map(c => ({
+            "@type": "ImageObject",
+            url: c.coverImageUrl,
+            name: `Ensaio ${c.name} por Camilla Vieira`,
+            description: c.description || `Ensaio fotográfico ${c.name} por Camilla Vieira, fotógrafa artística em Brasília`,
+            author: { "@id": `${BASE_URL}/#person` },
+            contentUrl: c.coverImageUrl,
+            thumbnailUrl: c.coverImageUrl,
+          })),
         },
       ]} />
       <AdminFloatingButton href="/admin/portfolio" label="Gerenciar Portfólio" />
@@ -122,7 +163,7 @@ function PortfolioOverview() {
 
 // Portfolio category detail
 function PortfolioCategory({ slug }: { slug: string }) {
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [lightboxSrc, setLightboxSrc] = useState<{ src: string; alt?: string; caption?: string } | null>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => { setTimeout(() => setVisible(true), 200); }, []);
 
@@ -155,7 +196,7 @@ function PortfolioCategory({ slug }: { slug: string }) {
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--brand-bege-light)" }}>
       <Navigation />
-      {lightboxSrc && <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
+      {lightboxSrc && <Lightbox src={lightboxSrc.src} alt={lightboxSrc.alt} caption={lightboxSrc.caption} onClose={() => setLightboxSrc(null)} />}
       <div className="pt-24 pb-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <Link href="/portfolio" className="inline-flex items-center gap-2 text-xs tracking-widest uppercase no-underline mb-10 transition-opacity hover:opacity-100 opacity-60"
@@ -178,17 +219,34 @@ function PortfolioCategory({ slug }: { slug: string }) {
             </div>
           ) : (
             <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
-              {images.map((img, i) => (
-                <div key={img.id}
-                  className={`break-inside-avoid cursor-pointer transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-                  style={{ transitionDelay: `${i * 60}ms` }}
-                  onClick={() => setLightboxSrc(img.imageUrl)}>
-                  <div className="img-hover overflow-hidden" style={{ border: "1px solid var(--brand-sand)" }}>
-                    <GalleryImage src={img.imageUrl} alt={img.caption || ""} className="w-full" style={{ filter: "grayscale(15%)" }} />
-                    <div className="img-hover-overlay" />
-                  </div>
-                </div>
-              ))}
+              {images.map((img, i) => {
+                const altText = img.caption
+                  ? `${img.caption} — ${displayName} por Camilla Vieira`
+                  : `Foto ${i + 1} do ensaio ${displayName} por Camilla Vieira, fotógrafa artística em Brasília`;
+                return (
+                  <figure key={img.id}
+                    className={`break-inside-avoid cursor-pointer transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+                    style={{ transitionDelay: `${i * 60}ms`, margin: 0 }}
+                    onClick={() => setLightboxSrc({ src: img.imageUrl, alt: altText, caption: img.caption || undefined })}>
+                    <div className="img-hover overflow-hidden" style={{ border: "1px solid var(--brand-sand)" }}>
+                      <GalleryImage
+                        src={img.imageUrl}
+                        alt={altText}
+                        title={img.caption || `${displayName} — Camilla Vieira`}
+                        className="w-full"
+                        style={{ filter: "grayscale(15%)" }}
+                        loading={i < 6 ? "eager" : "lazy"}
+                      />
+                      <div className="img-hover-overlay" />
+                    </div>
+                    {img.caption && (
+                      <figcaption className="mt-2 text-xs leading-relaxed px-1" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.75 }}>
+                        {img.caption}
+                      </figcaption>
+                    )}
+                  </figure>
+                );
+              })}
             </div>
           )}
         </div>
@@ -198,11 +256,42 @@ function PortfolioCategory({ slug }: { slug: string }) {
         {
           "@context": "https://schema.org",
           "@type": "ImageGallery",
+          "@id": `${BASE_URL}/portfolio/${slug}#gallery`,
           name: `${displayName} — Portfólio Camilla Vieira`,
-          description: description || `Ensaios fotográficos de ${displayName} por Camilla Vieira.`,
+          description: description || `Ensaios fotográficos de ${displayName} por Camilla Vieira, fotógrafa artística em Brasília.`,
           url: `${BASE_URL}/portfolio/${slug}`,
           creator: { "@id": `${BASE_URL}/#person` },
           numberOfItems: allImages.length,
+          inLanguage: ["pt-BR", "en", "fr"],
+          image: allImages.map((img, i) => ({
+            "@type": "ImageObject",
+            "@id": `${BASE_URL}/portfolio/${slug}#img-${img.id}`,
+            url: img.imageUrl,
+            contentUrl: img.imageUrl,
+            name: img.caption
+              ? `${img.caption} — ${displayName} por Camilla Vieira`
+              : `${displayName} foto ${i + 1} por Camilla Vieira`,
+            description: img.caption
+              ? `${img.caption}. Ensaio ${displayName} por Camilla Vieira, fotógrafa artística em Brasília.`
+              : `Foto ${i + 1} do ensaio ${displayName} por Camilla Vieira, fotógrafa artística em Brasília.`,
+            author: { "@id": `${BASE_URL}/#person` },
+            copyrightHolder: { "@id": `${BASE_URL}/#person` },
+            license: `${BASE_URL}/termos`,
+            acquireLicensePage: `${BASE_URL}/contato`,
+          })),
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          name: `Ensaio ${displayName} — Camilla Vieira`,
+          description: description || `Ensaio fotográfico ${displayName} com olhar artístico e personalizado por Camilla Vieira.`,
+          url: `${BASE_URL}/portfolio/${slug}`,
+          provider: { "@id": `${BASE_URL}/#person` },
+          areaServed: [
+            { "@type": "City", name: "Brasília" },
+            { "@type": "City", name: "São Paulo" },
+            { "@type": "Country", name: "Brasil" },
+          ],
         },
       ]} />
       <AdminFloatingButton href="/admin/portfolio" label="Gerenciar Portfólio" />

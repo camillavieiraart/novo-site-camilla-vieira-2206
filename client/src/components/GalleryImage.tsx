@@ -3,9 +3,11 @@ import { useState, useRef, useEffect } from "react";
 interface GalleryImageProps {
   src: string;
   alt: string;
+  title?: string;
   className?: string;
   style?: React.CSSProperties;
   onClick?: () => void;
+  loading?: "lazy" | "eager";
 }
 
 /**
@@ -13,7 +15,7 @@ interface GalleryImageProps {
  * Fades in smoothly once the image has loaded, with a subtle scale-in effect.
  * Uses IntersectionObserver so off-screen images only start loading when visible.
  */
-export function GalleryImage({ src, alt, className = "", style, onClick }: GalleryImageProps) {
+export function GalleryImage({ src, alt, title, className = "", style, onClick, loading = "lazy" }: GalleryImageProps) {
   const [loaded, setLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
@@ -29,7 +31,8 @@ export function GalleryImage({ src, alt, className = "", style, onClick }: Galle
       ref={imgRef}
       src={src}
       alt={alt}
-      loading="lazy"
+      title={title}
+      loading={loading}
       onLoad={() => setLoaded(true)}
       onClick={onClick}
       className={`gallery-img ${loaded ? "loaded" : ""} ${className}`}

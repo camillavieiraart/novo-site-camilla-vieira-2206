@@ -198,11 +198,14 @@ function ObrasGallery() {
   useSEO({
     title: "Obras de Arte – Série Fio",
     description: "Série Fio de Camilla Vieira: obras de arte que combinam fotografia e costura artesanal. Cada peça é uma intervenção única — linhas que atravessam a imagem fotográfica, criando nova camada de significado.",
-    keywords: "série fio, costura sobre fotografia, obras de arte, arte contemporânea, Camilla Vieira, fotografia artística",
+    descriptionEn: "Fio Series by Camilla Vieira: artworks combining photography and hand embroidery. Each piece is a unique intervention — threads crossing the photographic image, creating a new layer of meaning.",
+    descriptionFr: "Série Fio de Camilla Vieira: œuvres d'art combinant photographie et broderie artisanale. Chaque pièce est une intervention unique — des fils traversant l'image photographique, créant une nouvelle couche de sens.",
+    keywords: "série fio, costura sobre fotografia, obras de arte, arte contemporânea, Camilla Vieira, fotografia artística, fine art photography, contemporary art Brazil, art photographique Brésil",
     canonical: "/obras",
+    enableHreflang: true,
   });
   const [visible, setVisible] = useState(false);
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [lightboxSrc, setLightboxSrc] = useState<{ src: string; alt?: string; caption?: string } | null>(null);
   const { data: artworksData } = trpc.artworks.getAll.useQuery();
   useEffect(() => { setTimeout(() => setVisible(true), 200); }, []);
 
@@ -213,11 +216,18 @@ function ObrasGallery() {
       <StructuredData schemas={[SERIE_FIO_SCHEMA]} />
       <Navigation />
       {lightboxSrc && (
-        <div className="lightbox-backdrop" onClick={() => setLightboxSrc(null)}>
-          <button className="absolute top-6 right-6 text-white bg-transparent border-none cursor-pointer z-10" onClick={() => setLightboxSrc(null)}>
+        <div className="lightbox-backdrop" onClick={() => setLightboxSrc(null)} role="dialog" aria-modal="true" aria-label={lightboxSrc.alt || "Obra ampliada"}>
+          <button className="absolute top-6 right-6 text-white bg-transparent border-none cursor-pointer z-10" onClick={() => setLightboxSrc(null)} aria-label="Fechar">
             <X size={28} />
           </button>
-          <img src={lightboxSrc} alt="" className="lightbox-img" onClick={e => e.stopPropagation()} />
+          <figure className="flex flex-col items-center" onClick={e => e.stopPropagation()}>
+            <img src={lightboxSrc.src} alt={lightboxSrc.alt || "Obra de arte por Camilla Vieira"} className="lightbox-img" />
+            {lightboxSrc.caption && (
+              <figcaption className="mt-3 text-center text-xs tracking-widest uppercase max-w-md" style={{ color: "rgba(250,247,242,0.7)", fontFamily: "'Inter', sans-serif" }}>
+                {lightboxSrc.caption}
+              </figcaption>
+            )}
+          </figure>
         </div>
       )}
 
@@ -242,10 +252,17 @@ function ObrasGallery() {
                 className={`group artwork-card transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
                 style={{ transitionDelay: `${100 + i * 70}ms` }}>
                 <Link href={`/obras/${artwork.slug}`} className="block no-underline">
-                  <div className="img-hover aspect-square overflow-hidden">
-                    <GalleryImage src={artwork.imageUrl} alt={artwork.title} style={{ filter: "sepia(10%)", width: "100%", height: "100%", objectFit: "cover" }} />
+                  <figure className="img-hover aspect-square overflow-hidden" style={{ margin: 0 }}>
+                    <GalleryImage
+                      src={artwork.imageUrl}
+                      alt={`${artwork.title} — ${artwork.technique}, ${artwork.year}. Obra de Camilla Vieira, artista visual em Brasília.`}
+                      title={`${artwork.title} — Camilla Vieira`}
+                      loading={i < 4 ? "eager" : "lazy"}
+                      style={{ filter: "sepia(10%)", width: "100%", height: "100%", objectFit: "cover" }}
+                    />
                     <div className="img-hover-overlay" />
-                  </div>
+                    <figcaption className="sr-only">{artwork.title}. {artwork.technique}. {artwork.dimensions}. {artwork.year}. {artwork.description}</figcaption>
+                  </figure>
                   <div className="p-4 pb-2">
                     <h3 className="font-serif text-base font-medium mb-1" style={{ color: "var(--brand-marrom-deep)" }}>{artwork.title}</h3>
                     <p className="text-xs mb-2" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>

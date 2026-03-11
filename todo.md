@@ -459,3 +459,9 @@
 - [ ] sitemap.xml dinâmico: incluir blog, portfólio, obras e todas as páginas
 - [x] Blog e artigos: Schema BlogPosting com autor, data, idioma e hreflang
 - [x] Home: ativar hreflang multilíngue e keywords internacionais
+
+## Portfólio com Galerias SEO
+- [x] Analisar estrutura atual do portfólio e schema do banco de dados de fotos
+- [x] Implementar alt text semântico e legendas SEO nas galerias (Portfólio, Obras, Cerâmica)
+- [x] Adicionar Schema.org ImageGallery e ImageObject em todas as páginas de galeria
+- [x] Garantir lazy loading, atributo loading="lazy" e dimensões explícitas nas imagens

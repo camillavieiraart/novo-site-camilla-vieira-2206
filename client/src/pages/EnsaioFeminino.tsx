@@ -100,8 +100,8 @@ const DEPOIMENTOS = [
 
 export default function EnsaioFeminino() {
   useSEO({
-    title: "Ensaio Feminino em Brasília — Camilla Vieira Fotografia",
-    description: "Ensaio feminino artístico em Brasília com Camilla Vieira. Retratos que celebram a autenticidade e a beleza feminina com olhar sensível e autoral. Pacotes a partir de R$ 790.",
+    title: "Ensaio Feminino em Brasília",
+    description: "Ensaio feminino artístico em Brasília com Camilla Vieira. Retratos que celebram a autenticidade feminina com olhar sensível e autoral. Agende seu ensaio.",
     keywords: "ensaio feminino Brasília, fotografia feminina, retrato feminino, fotógrafa feminina Brasília, Camilla Vieira",
     canonical: "/ensaio-feminino",
   });

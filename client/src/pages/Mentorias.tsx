@@ -59,8 +59,8 @@ interface BookingForm {
 export default function Mentorias() {
   useSEO({
     title: "Mentorias de Fotografia",
-    description: "Mentorias individuais e em grupo com Camilla Vieira para fotógrafos que querem desenvolver olhar autoral, técnica e identidade visual. Presencial em Belo Horizonte ou online.",
-    keywords: "mentoria fotografia, mentoria fotógrafo, fotografia autoral, Camilla Vieira, Belo Horizonte",
+    description: "Mentorias individuais e em grupo com Camilla Vieira para fotógrafos que querem desenvolver olhar autoral, técnica e identidade visual. Presencial em Brasília, DF, ou online.",
+    keywords: "mentoria fotografia, mentoria fotógrafo, fotografia autoral, Camilla Vieira, Brasília, DF",
     canonical: "/mentorias",
   });
   const [visible, setVisible] = useState(false);

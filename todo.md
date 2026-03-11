@@ -418,3 +418,12 @@
 
 ## Blog - Links Internos Estratégicos (Mar 2026)
 - [ ] Editar os 5 posts mais importantes para incluir 2-3 links internos contextuais para páginas de serviço (/ensaio-gestante, /ensaio-feminino, /mentorias) e posts relacionados
+
+## SEO — Correções de Localização e Sitemap (Mar 2026)
+- [x] Corrigir "Belo Horizonte" para "Brasília" no hook useSEO.ts (descrição padrão)
+- [x] Corrigir "Belo Horizonte" para "Brasília" na meta description de /mentorias
+- [x] Corrigir "Belo Horizonte" para "Brasília" na meta description de /portfolio
+- [x] Ajustar meta descriptions das páginas de serviço para ≤160 chars
+- [x] Ajustar títulos das páginas /ensaio-feminino e /ensaio-gestante para ≤60 chars
+- [x] Adicionar /ensaio-feminino e /ensaio-gestante ao sitemap dinâmico do servidor
+- [x] Sitemap dinâmico agora tem 37 URLs: 22 páginas estáticas + 15 posts do blog

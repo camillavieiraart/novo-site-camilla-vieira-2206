@@ -40,7 +40,7 @@ function Lightbox({ src, onClose }: { src: string; onClose: () => void }) {
 function PortfolioOverview() {
   useSEO({
     title: "Portfólio",
-    description: "Portfólio de ensaios fotográficos de Camilla Vieira: ensaios femininos, gestante, profissionais, fotografia autoral, cerâmica e projetos especiais. Fotografia artística em Belo Horizonte, MG.",
+    description: "Portfólio de ensaios fotográficos de Camilla Vieira: ensaios femininos, gestante, profissionais, fotografia autoral, cerâmica e projetos especiais. Fotografia artística em Brasília, DF.",
     keywords: "portfólio fotografia, ensaio feminino, ensaio gestante, ensaio profissional, fotografia autoral, Camilla Vieira",
     canonical: "/portfolio",
   });

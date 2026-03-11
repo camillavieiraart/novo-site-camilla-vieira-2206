@@ -1,0 +1,115 @@
+{
+  "query": "SELECT id, slug, title, isPublished, publishedAt FROM blog_posts ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT id, slug, title, isPublished, publishedAt FROM blog_posts ORDER BY id;",
+  "rows": [
+    {
+      "id": "1",
+      "slug": "ia-nao-vai-te-salvar",
+      "title": "A IA não vai te salvar (se você não sabe o que quer dizer)",
+      "isPublished": "1",
+      "publishedAt": "2025-10-31 20:00:00"
+    },
+    {
+      "id": "2",
+      "slug": "fotografia-nao-e-registro-e-linguagem",
+      "title": "Fotografia não é registro. É linguagem.",
+      "isPublished": "1",
+      "publishedAt": "2025-10-14 20:00:00"
+    },
+    {
+      "id": "3",
+      "slug": "wong-kar-wai-luz-conta-mais-que-roteiro",
+      "title": "Wong Kar-wai e a luz que conta mais que o roteiro",
+      "isPublished": "1",
+      "publishedAt": "2025-09-19 20:00:00"
+    },
+    {
+      "id": "30001",
+      "slug": "o-que-wong-kar-wai-ensina-sobre-fotografar-o-desejo",
+      "title": "O que Wong Kar-wai ensina sobre fotografar o desejo",
+      "isPublished": "1",
+      "publishedAt": "2026-02-25 22:28:23"
+    },
+    {
+      "id": "60001",
+      "slug": "o-que-e-um-ensaio-feminino-de-verdade",
+      "title": "O que é um ensaio feminino de verdade (e por que ele não é sobre beleza)",
+      "isPublished": "1",
+      "publishedAt": "2026-01-08 07:00:00"
+    },
+    {
+      "id": "60002",
+      "slug": "como-se-preparar-para-seu-primeiro-ensaio-feminino",
+      "title": "Como se preparar para seu primeiro ensaio feminino (sem entrar em pânico)",
+      "isPublished": "1",
+      "publishedAt": "2026-01-15 07:00:00"
+    },
+    {
+      "id": "60003",
+      "slug": "fotografia-autoral-o-que-e-e-por-que-importa",
+      "title": "Fotografia autoral: o que é, por que importa e como ela transforma quem olha",
+      "isPublished": "1",
+      "publishedAt": "2026-01-22 07:00:00"
+    },
+    {
+      "id": "60004",
+      "slug": "ensaio-gestante-mais-que-um-registro",
+      "title": "Ensaio gestante: por que é muito mais do que um registro de gravidez",
+      "isPublished": "1",
+      "publishedAt": "2026-01-29 07:00:00"
+    },
+    {
+      "id": "60005",
+      "slug": "ceramica-e-fotografia-o-que-o-barro-me-ensinou-sobre-imagem",
+      "title": "Cerâmica e fotografia: o que o barro me ensinou sobre a imagem",
+      "isPublished": "1",
+      "publishedAt": "2026-02-05 07:00:00"
+    },
+    {
+      "id": "60006",
+      "slug": "quando-voce-esta-pronta-para-uma-mentoria-de-fotografia",
+      "title": "Quando você está pronta para uma mentoria de fotografia (e quando não está)",
+      "isPublished": "1",
+      "publishedAt": "2026-02-12 07:00:00"
+    },
+    {
+      "id": "60007",
+      "slug": "por-que-sua-marca-pessoal-precisa-de-imagens-que-te-representam",
+      "title": "Por que sua marca pessoal precisa de imagens que realmente te representam",
+      "isPublished": "1",
+      "publishedAt": "2026-02-19 07:00:00"
+    },
+    {
+      "id": "60008",
+      "slug": "fotografa-em-brasilia-o-que-considerar-antes-de-escolher",
+      "title": "Fotógrafa em Brasília: o que considerar antes de escolher a sua",
+      "isPublished": "1",
+      "publishedAt": "2026-02-26 07:00:00"
+    },
+    {
+      "id": "90001",
+      "slug": "ceramica-artesanal-em-brasilia-o-atelie-da-camilla-vieira",
+      "title": "Cerâmica artesanal em Brasília: o ateliê da Camilla Vieira",
+      "isPublished": "1",
+      "publishedAt": "2026-02-05 07:00:00"
+    },
+    {
+      "id": "120001",
+      "slug": "vivian-maier-retrospectiva-moma-olhar-anonimo",
+      "title": "O Fio Invisível: Vivian Maier e a Retrospectiva que Desvenda o Olhar Anônimo",
+      "isPublished": "1",
+      "publishedAt": "2026-03-05 15:00:58"
+    },
+    {
+      "id": "150001",
+      "slug": "fio-e-algoritmo-permanencia-textil-ia-arte-masp",
+      "title": "Fio e Algoritmo: A Permanência Têxtil na Era da Inteligência Artificial",
+      "isPublished": "1",
+      "publishedAt": "2026-03-05 15:22:23"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tslug\ttitle\tisPublished\tpublishedAt\n1\tia-nao-vai-te-salvar\tA IA não vai te salvar (se você não sabe o que quer dizer)\t1\t2025-10-31 20:00:00\n2\tfotografia-nao-e-registro-e-linguagem\tFotografia não é registro. É linguagem.\t1\t2025-10-14 20:00:00\n3\twong-kar-wai-luz-conta-mais-que-roteiro\tWong Kar-wai e a luz que conta mais que o roteiro\t1\t2025-09-19 20:00:00\n30001\to-que-wong-kar-wai-ensina-sobre-fotografar-o-desejo\tO que Wong Kar-wai ensina sobre fotografar o desejo\t1\t2026-02-25 22:28:23\n60001\to-que-e-um-ensaio-feminino-de-verdade\tO que é um ensaio feminino de verdade (e por que ele não é sobre beleza)\t1\t2026-01-08 07:00:00\n60002\tcomo-se-preparar-para-seu-primeiro-ensaio-feminino\tComo se preparar para seu primeiro ensaio feminino (sem entrar em pânico)\t1\t2026-01-15 07:00:00\n60003\tfotografia-autoral-o-que-e-e-por-que-importa\tFotografia autoral: o que é, por que importa e como ela transforma quem olha\t1\t2026-01-22 07:00:00\n60004\tensaio-gestante-mais-que-um-registro\tEnsaio gestante: por que é muito mais do que um registro de gravidez\t1\t2026-01-29 07:00:00\n60005\tceramica-e-fotografia-o-que-o-barro-me-ensinou-sobre-imagem\tCerâmica e fotografia: o que o barro me ensinou sobre a imagem\t1\t2026-02-05 07:00:00\n60006\tquando-voce-esta-pronta-para-uma-mentoria-de-fotografia\tQuando você está pronta para uma mentoria de fotografia (e quando não está)\t1\t2026-02-12 07:00:00\n60007\tpor-que-sua-marca-pessoal-precisa-de-imagens-que-te-representam\tPor que sua marca pessoal precisa de imagens que realmente te representam\t1\t2026-02-19 07:00:00\n60008\tfotografa-em-brasilia-o-que-considerar-antes-de-escolher\tFotógrafa em Brasília: o que considerar antes de escolher a sua\t1\t2026-02-26 07:00:00\n90001\tceramica-artesanal-em-brasilia-o-atelie-da-camilla-vieira\tCerâmica artesanal em Brasília: o ateliê da Camilla Vieira\t1\t2026-02-05 07:00:00\n120001\tvivian-maier-retrospectiva-moma-olhar-anonimo\tO Fio Invisível: Vivian Maier e a Retrospectiva que Desvenda o Olhar Anônimo\t1\t2026-03-05 15:00:58\n150001\tfio-e-algoritmo-permanencia-textil-ia-arte-masp\tFio e Algoritmo: A Permanência Têxtil na Era da Inteligência Artificial\t1\t2026-03-05 15:22:23\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

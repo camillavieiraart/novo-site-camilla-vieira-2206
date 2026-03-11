@@ -100,6 +100,8 @@ async function startServer() {
         { loc: "/projetos", changefreq: "monthly", priority: "0.7", lastmod: today },
         { loc: "/sobre", changefreq: "monthly", priority: "0.8", lastmod: today },
         { loc: "/mentorias", changefreq: "monthly", priority: "0.8", lastmod: today },
+        { loc: "/ensaio-feminino", changefreq: "monthly", priority: "0.9", lastmod: today },
+        { loc: "/ensaio-gestante", changefreq: "monthly", priority: "0.9", lastmod: today },
         { loc: "/loja", changefreq: "weekly", priority: "0.8", lastmod: today },
         { loc: "/blog", changefreq: "daily", priority: "0.9", lastmod: today },
         { loc: "/contato", changefreq: "yearly", priority: "0.6", lastmod: today },

@@ -82,8 +82,8 @@ const FAQS = [
 
 export default function EnsaioGestante() {
   useSEO({
-    title: "Ensaio Gestante em Brasília — Camilla Vieira Fotografia",
-    description: "Ensaio gestante artístico em Brasília com Camilla Vieira. Fotografia sensível que celebra a maternidade com beleza e autenticidade. Pacotes a partir de R$ 890. Agende sua consulta.",
+    title: "Ensaio Gestante em Brasília",
+    description: "Ensaio gestante artístico em Brasília com Camilla Vieira. Fotografia sensível que celebra a maternidade com beleza e autenticidade. Agende sua consulta.",
     keywords: "ensaio gestante Brasília, fotografia gestante, ensaio grávida, fotógrafa gestante Brasília, Camilla Vieira",
     canonical: "/ensaio-gestante",
   });

@@ -14,7 +14,7 @@ const SITE_NAME = "Camilla Vieira – Ateliê Digital";
 const BASE_URL = "https://camillavieira.art";
 const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.jpg`;
 const DEFAULT_DESCRIPTION =
-  "Camilla Vieira é fotógrafa artística e artista visual. Ensaios femininos, gestante e profissionais com alma. Obras da Série Fio: costura sobre fotografia. Cerâmica artística e mentorias em Belo Horizonte, MG.";
+  "Camilla Vieira é fotógrafa artística e artista visual. Ensaios femininos, gestante e profissionais com alma. Obras da Série Fio: costura sobre fotografia. Cerâmica artística e mentorias em Brasília, DF.";
 
 function setMeta(name: string, content: string, property = false) {
   const attr = property ? "property" : "name";

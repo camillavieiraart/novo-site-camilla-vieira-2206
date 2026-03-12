@@ -482,3 +482,7 @@
 ## Bugs Mobile (Mar 2026)
 - [x] Portfólio: clicar em categoria redireciona para /portfolio em vez de abrir a galeria da categoria
 - [x] Home: imagens do triptych de Fotografia Autoral não são clicáveis no mobile
+
+## Auditoria de Navegação + Blog Mobile (Mar 2026)
+- [x] Auditar todos os links do site e corrigir bugs de navegação (bug link newsletter Loja corrigido)
+- [x] Adicionar seção de preview do blog no final da Home (mobile-first)

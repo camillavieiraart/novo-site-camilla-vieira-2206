@@ -527,6 +527,86 @@ function TestimonialsSection() {
   );
 }
 
+// ─── Section: Blog Preview ──────────────────────────────────────────────────
+function BlogPreviewSection() {
+  const { data: posts, isLoading } = trpc.blog.getAll.useQuery({ limit: 3, offset: 0 });
+
+  return (
+    <section className="py-16 px-6" style={{ backgroundColor: "var(--brand-creme)" }}>
+      <div className="max-w-2xl mx-auto">
+        {/* Header */}
+        <div className="mb-10 text-center">
+          <span className="section-eyebrow block mb-3" style={{ color: "var(--brand-terracota)" }}>Reflexões & Processo</span>
+          <h2 className="font-serif text-3xl md:text-4xl font-medium mb-3" style={{ color: "var(--brand-marrom-deep)" }}>
+            Do ateliê ao mundo
+          </h2>
+          <p className="text-sm leading-relaxed" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+            Pensamentos sobre fotografia, arte, processo criativo e o olhar que transforma.
+          </p>
+        </div>
+
+        {/* Posts */}
+        {isLoading ? (
+          <div className="flex flex-col gap-4">
+            {[1,2,3].map(i => (
+              <div key={i} className="h-24 rounded-xl animate-pulse" style={{ backgroundColor: "rgba(139,111,71,0.1)" }} />
+            ))}
+          </div>
+        ) : posts && posts.length > 0 ? (
+          <div className="flex flex-col gap-5">
+            {posts.slice(0, 3).map((post: { slug: string; title: string; excerpt?: string | null; coverImageUrl?: string | null; publishedAt?: Date | null }) => (
+              <Link key={post.slug} href={`/blog/${post.slug}`}
+                className="flex gap-4 items-start rounded-xl p-4 no-underline transition-all hover:shadow-sm"
+                style={{ backgroundColor: "white", border: "1px solid rgba(139,111,71,0.12)" }}>
+                {post.coverImageUrl && (
+                  <img
+                    src={post.coverImageUrl}
+                    alt={post.title}
+                    loading="lazy"
+                    className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
+                  />
+                )}
+                <div className="flex flex-col gap-1 min-w-0">
+                  <h3 className="font-serif text-base font-medium leading-snug line-clamp-2"
+                    style={{ color: "var(--brand-marrom-deep)" }}>
+                    {post.title}
+                  </h3>
+                  {post.excerpt && (
+                    <p className="text-xs leading-relaxed line-clamp-2"
+                      style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+                      {post.excerpt}
+                    </p>
+                  )}
+                  {post.publishedAt && (
+                    <span className="text-xs mt-1" style={{ color: "rgba(139,111,71,0.6)", fontFamily: "'Inter', sans-serif" }}>
+                      {new Date(post.publishedAt).toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" })}
+                    </span>
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8">
+            <p className="text-sm" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+              Em breve, reflexões sobre fotografia, arte e processo criativo.
+            </p>
+          </div>
+        )}
+
+        {/* CTA */}
+        <div className="mt-8 text-center">
+          <Link href="/blog"
+            className="inline-flex items-center gap-2 text-sm font-medium no-underline transition-opacity hover:opacity-70"
+            style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>
+            Ver todos os artigos <ArrowRight size={14} />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
 export default function Home() {
   // Título: 36 chars (dentro do limite 30–60) ✔
@@ -595,6 +675,7 @@ export default function Home() {
         <ObrasSection isActive={activeSection === 4} />
 
         <section className="snap-section overflow-y-auto" style={{ height: "auto", minHeight: "100dvh" }}>
+          <BlogPreviewSection />
           <TestimonialsSection />
           <Footer />
         </section>

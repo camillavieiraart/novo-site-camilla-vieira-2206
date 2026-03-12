@@ -151,11 +151,12 @@ function EmptyState() {
       <p className="text-sm max-w-sm mx-auto" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
         Novos produtos chegando em breve. Assine a newsletter para ser a primeira a saber.
       </p>
-      <Link href="/#newsletter"
-        className="inline-flex items-center gap-2 mt-6 px-6 py-3 text-sm font-medium no-underline"
+      <button
+        onClick={() => window.dispatchEvent(new CustomEvent('open-newsletter'))}
+        className="inline-flex items-center gap-2 mt-6 px-6 py-3 text-sm font-medium cursor-pointer border-none"
         style={{ backgroundColor: "var(--brand-terracota)", color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
         Assinar newsletter <ArrowRight size={14} />
-      </Link>
+      </button>
     </div>
   );
 }

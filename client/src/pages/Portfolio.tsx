@@ -161,6 +161,100 @@ function PortfolioOverview() {
   );
 }
 
+// CTA config por categoria
+const CATEGORY_CTA: Record<string, { headline: string; sub: string; btn: string; href: string; color: string }> = {
+  "ensaios-femininos": {
+    headline: "Pronta para o seu ensaio feminino?",
+    sub: "Retratos que celebram quem você é — com leveza, autenticidade e beleza autoral.",
+    btn: "Ver pacotes e agendar",
+    href: "/ensaio-feminino",
+    color: "var(--brand-terracota)",
+  },
+  "gestante": {
+    headline: "Registre esse momento único",
+    sub: "Ensaios de gestante com olhar sensível e íntimo. Memórias que duram para sempre.",
+    btn: "Ver pacotes e agendar",
+    href: "/ensaio-gestante",
+    color: "var(--brand-terracota)",
+  },
+  "familia": {
+    headline: "Momentos que viram memória",
+    sub: "Ensaios familiares com luz natural e emoções genuínas. Cada família tem sua história.",
+    btn: "Quero agendar meu ensaio",
+    href: "/ensaio-feminino",
+    color: "var(--brand-terracota)",
+  },
+  "profissional": {
+    headline: "Sua imagem profissional merece arte",
+    sub: "Retratos corporativos com identidade visual marcante e olhar autoral.",
+    btn: "Quero meu retrato profissional",
+    href: "/contato",
+    color: "var(--brand-marrom-deep)",
+  },
+};
+
+function CategoryCTA({ slug, position }: { slug: string; position: "top" | "mid" | "bottom" }) {
+  const cta = CATEGORY_CTA[slug];
+  if (!cta) return null;
+
+  if (position === "top") {
+    return (
+      <div className="mb-10 px-5 py-4 rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+        style={{ backgroundColor: "rgba(139,111,71,0.08)", border: "1px solid rgba(139,111,71,0.18)" }}>
+        <p className="text-sm font-medium" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}>
+          ✦ Gostou do que viu? {cta.headline}
+        </p>
+        <Link href={cta.href}
+          className="shrink-0 inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs tracking-widest uppercase font-medium no-underline transition-opacity hover:opacity-80"
+          style={{ backgroundColor: cta.color, color: "#FAF7F2", fontFamily: "'Inter', sans-serif" }}>
+          {cta.btn}
+        </Link>
+      </div>
+    );
+  }
+
+  if (position === "mid") {
+    return (
+      <div className="my-10 rounded-2xl overflow-hidden" style={{ background: "linear-gradient(135deg, var(--brand-marrom-deep) 0%, #3D2B1F 100%)" }}>
+        <div className="px-8 py-10 text-center">
+          <span className="text-xs tracking-[0.3em] uppercase block mb-3" style={{ color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>Ateliê Digital</span>
+          <h3 className="font-serif text-2xl md:text-3xl mb-3" style={{ color: "#FAF7F2" }}>{cta.headline}</h3>
+          <p className="text-sm leading-relaxed mb-6 max-w-md mx-auto" style={{ color: "rgba(250,247,242,0.7)", fontFamily: "'Inter', sans-serif" }}>{cta.sub}</p>
+          <Link href={cta.href}
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-full text-xs tracking-widest uppercase font-medium no-underline transition-opacity hover:opacity-80"
+            style={{ backgroundColor: "var(--brand-terracota)", color: "#FAF7F2", fontFamily: "'Inter', sans-serif" }}>
+            {cta.btn} →
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  // bottom
+  return (
+    <div className="mt-16 pt-12" style={{ borderTop: "1px solid var(--brand-sand)" }}>
+      <div className="text-center max-w-lg mx-auto">
+        <span className="text-xs tracking-[0.3em] uppercase block mb-4" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>Próximo passo</span>
+        <h3 className="font-serif text-3xl md:text-4xl mb-4" style={{ color: "var(--brand-marrom-deep)" }}>{cta.headline}</h3>
+        <p className="text-sm leading-relaxed mb-8" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>{cta.sub}</p>
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <Link href={cta.href}
+            className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full text-xs tracking-widest uppercase font-medium no-underline transition-opacity hover:opacity-80"
+            style={{ backgroundColor: "var(--brand-terracota)", color: "#FAF7F2", fontFamily: "'Inter', sans-serif" }}>
+            {cta.btn} →
+          </Link>
+          <a href="https://wa.me/5561999999999?text=Olá%20Camilla!%20Vi%20seu%20portfólio%20e%20quero%20saber%20mais%20sobre%20os%20ensaios."
+            target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full text-xs tracking-widest uppercase font-medium no-underline transition-opacity hover:opacity-80"
+            style={{ border: "1px solid var(--brand-terracota)", color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Portfolio category detail
 function PortfolioCategory({ slug }: { slug: string }) {
   const [lightboxSrc, setLightboxSrc] = useState<{ src: string; alt?: string; caption?: string } | null>(null);
@@ -203,6 +297,9 @@ function PortfolioCategory({ slug }: { slug: string }) {
             style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
             <ArrowLeft size={14} /> Portfólio
           </Link>
+          {/* CTA topo */}
+          <CategoryCTA slug={slug} position="top" />
+
           <div className={`mb-12 transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <span className="section-eyebrow block mb-3">Portfólio</span>
             <h1 className="font-serif text-5xl md:text-6xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>{displayName}</h1>
@@ -220,10 +317,18 @@ function PortfolioCategory({ slug }: { slug: string }) {
           ) : (
             <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
               {images.map((img, i) => {
+                // CTA meio: inserir após a 6ª imagem
+                const showMidCTA = i === 6;
                 const altText = img.caption
                   ? `${img.caption} — ${displayName} por Camilla Vieira`
                   : `Foto ${i + 1} do ensaio ${displayName} por Camilla Vieira, fotógrafa artística em Brasília`;
                 return (
+                  <>
+                  {showMidCTA && (
+                    <div key={`cta-mid-${i}`} className="break-inside-avoid">
+                      <CategoryCTA slug={slug} position="mid" />
+                    </div>
+                  )}
                   <figure key={img.id}
                     className={`break-inside-avoid cursor-pointer transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
                     style={{ transitionDelay: `${i * 60}ms`, margin: 0 }}
@@ -245,10 +350,12 @@ function PortfolioCategory({ slug }: { slug: string }) {
                       </figcaption>
                     )}
                   </figure>
-                );
+                  </>);
               })}
             </div>
           )}
+          {/* CTA final */}
+          <CategoryCTA slug={slug} position="bottom" />
         </div>
       </div>
       <StructuredData schemas={[

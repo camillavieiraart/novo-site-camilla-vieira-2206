@@ -19,37 +19,30 @@ const GALLERY_IMGS = [
 
 const PACOTES = [
   {
-    id: "essencial",
-    nome: "Essencial",
-    preco: "R$ 890",
+    id: "gestante-i",
+    nome: "Gestante I",
+    preco: "R$ 1.957",
+    precoEntrada: "Entrada: R$ 979",
+    precoPix: "Pix: R$ 1.907 (5% off)",
     destaque: false,
     duracao: "1h30",
     locacao: "1 locação",
     fotos: "30 fotos editadas",
     entrega: "15 dias úteis",
-    extras: ["Álbum digital em alta resolução", "Galeria online privada por 30 dias"],
+    extras: ["1 figurino", "Galeria digital para download", "Call de alinhamento incluída"],
   },
   {
-    id: "completo",
-    nome: "Completo",
-    preco: "R$ 1.390",
+    id: "gestante-ii",
+    nome: "Gestante II",
+    preco: "R$ 2.617",
+    precoEntrada: "Entrada: R$ 1.309",
+    precoPix: "Pix: R$ 2.487 (5% off)",
     destaque: true,
-    duracao: "2h30",
-    locacao: "2 locações",
-    fotos: "60 fotos editadas",
+    duracao: "3h",
+    locacao: "1 locação",
+    fotos: "40 fotos editadas",
     entrega: "15 dias úteis",
-    extras: ["Álbum digital em alta resolução", "Galeria online privada por 60 dias", "10 fotos impressas 15×21cm", "Mini álbum impresso"],
-  },
-  {
-    id: "imersao",
-    nome: "Imersão",
-    preco: "R$ 2.100",
-    destaque: false,
-    duracao: "Dia completo",
-    locacao: "Locações ilimitadas",
-    fotos: "100+ fotos editadas",
-    entrega: "20 dias úteis",
-    extras: ["Álbum digital em alta resolução", "Galeria online privada por 90 dias", "20 fotos impressas 20×30cm", "Álbum impresso capa dura 30×30cm", "Vídeo slideshow com música"],
+    extras: ["2 figurinos", "1 vídeo de até 1 minuto", "Galeria digital para download", "Call de alinhamento incluída"],
   },
 ];
 
@@ -259,7 +252,9 @@ export default function EnsaioGestante() {
                   </span>
                 )}
                 <h3 className="font-serif text-2xl font-medium mb-1" style={{ color: "var(--brand-bege)" }}>{p.nome}</h3>
-                <p className="font-serif text-4xl font-medium mb-6" style={{ color: p.destaque ? "var(--brand-bege)" : "var(--brand-terracota)" }}>{p.preco}</p>
+                <p className="font-serif text-4xl font-medium mb-2" style={{ color: p.destaque ? "var(--brand-bege)" : "var(--brand-terracota)" }}>{p.preco}</p>
+                <p className="text-xs mb-1" style={{ color: "rgba(245,235,220,0.6)", fontFamily: "'Inter', sans-serif" }}>{p.precoPix}</p>
+                <p className="text-xs mb-6" style={{ color: "rgba(245,235,220,0.6)", fontFamily: "'Inter', sans-serif" }}>{p.precoEntrada}</p>
                 <div className="space-y-2 mb-6 flex-1">
                   {[
                     `⏱ ${p.duracao}`,

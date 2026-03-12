@@ -243,7 +243,7 @@ function CategoryCTA({ slug, position }: { slug: string; position: "top" | "mid"
             style={{ backgroundColor: "var(--brand-terracota)", color: "#FAF7F2", fontFamily: "'Inter', sans-serif" }}>
             {cta.btn} →
           </Link>
-          <a href="https://wa.me/5561991087909?text=Ol%C3%A1%20Camilla!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20saber%20mais%20sobre%20os%20ensaios."
+          <a href="https://wa.me/5511910868299?text=Ol%C3%A1%20Camilla!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20saber%20mais%20sobre%20os%20ensaios."
             target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full text-xs tracking-widest uppercase font-medium no-underline transition-opacity hover:opacity-80"
             style={{ border: "1px solid var(--brand-terracota)", color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>

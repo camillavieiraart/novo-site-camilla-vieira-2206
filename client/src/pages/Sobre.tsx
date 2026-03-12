@@ -304,7 +304,7 @@ function QuickContactSection({ visible }: { visible: boolean }) {
             <div className="space-y-4">
               {[
                 { icon: <Mail size={16} />, label: "contato@camillavieira.art", href: "mailto:contato@camillavieira.art" },
-                { icon: <Phone size={16} />, label: "WhatsApp", href: "https://wa.me/5561991087909" },
+                { icon: <Phone size={16} />, label: "WhatsApp", href: "https://wa.me/5511910868299" },
                 { icon: <Instagram size={16} />, label: "@camillavieira.art", href: "https://instagram.com/camillavieira.art" },
               ].map(({ icon, label, href }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer"
@@ -411,7 +411,7 @@ export default function Sobre() {
       "description": "Fotógrafa artística, artista visual e ceramista. Criadora da Série Fio. Baseada em Brasília, Brasil.",
       "jobTitle": "Fotógrafa Artística e Artista Visual",
       "email": "contato@camillavieira.art",
-      "telephone": "+55-61-99108-7909",
+      "telephone": "+55-11-91086-8299",
       "worksFor": { "@type": "Organization", "name": "Camilla Vieira — Ateliê Digital", "url": siteUrl },
       "address": { "@type": "PostalAddress", "addressLocality": "Brasília", "addressRegion": "DF", "addressCountry": "BR" },
       "sameAs": ["https://www.instagram.com/camillavieira.art", "https://camillavieira.art"],

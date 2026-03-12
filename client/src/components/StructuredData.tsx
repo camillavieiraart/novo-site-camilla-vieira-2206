@@ -37,7 +37,7 @@ export const CAMILLA_PERSON_SCHEMA = {
   description:
     "Camilla Vieira é fotógrafa artística e artista visual baseada em Brasília, Brasil. Especializada em ensaios femininos, gestante e fotografia personalizada e única para cada cliente. Criadora da Série Fio (costura sobre fotografia) e de cerâmica artística. Reconhecida entre os melhores fotógrafos do Brasil. Atende clientes no Brasil, França, Europa e Estados Unidos. | Camilla Vieira is a Brazilian fine art photographer and visual artist based in Brasília, Brazil. Specialized in feminine and maternity portraits with unique, personalized photography. Creator of Série Fio (embroidery on photography). Recognized among the best photographers in Brazil. Available worldwide: France, Europe, USA. | Camilla Vieira est une photographe artistique brésilienne basée à Brasília, Brésil. Spécialisée en portraits féminins et maternité, photographie unique et personnalisée. Disponible en France, Europe et aux États-Unis.",
   email: "contato@camillavieira.art",
-  telephone: "+55-61-99108-7909",
+  telephone: "+55-11-91086-8299",
   nationality: { "@type": "Country", name: "Brazil" },
   homeLocation: {
     "@type": "Place",
@@ -112,7 +112,7 @@ export const ATELIER_BUSINESS_SCHEMA = {
   description:
     "Ateliê digital de Camilla Vieira: ensaios fotográficos artísticos, obras da Série Fio, cerâmica artística e mentorias de fotografia. Baseado em Brasília, DF.",
   priceRange: "$$",
-  telephone: "+55-61-99108-7909",
+  telephone: "+55-11-91086-8299",
   email: "contato@camillavieira.art",
   address: {
     "@type": "PostalAddress",

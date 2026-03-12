@@ -478,7 +478,7 @@ export default function EnsaioProfissional() {
                 </button>
                 <p className="text-center text-xs" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.6 }}>
                   Ou fale diretamente pelo{" "}
-                  <a href="https://wa.me/5561991087909?text=Olá%20Camilla!%20Tenho%20interesse%20no%20ensaio%20profissional."
+                  <a href="https://wa.me/5511910868299?text=Olá%20Camilla!%20Tenho%20interesse%20no%20ensaio%20profissional."
                     target="_blank" rel="noopener noreferrer"
                     style={{ color: "var(--brand-terracota)" }}>WhatsApp</a>
                 </p>

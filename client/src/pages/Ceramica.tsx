@@ -113,7 +113,7 @@ export default function Ceramica() {
                     <div className="flex items-center justify-between mt-2">
                       <span className="text-sm font-medium" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>{item.priceDisplay}</span>
                       {item.isAvailable ? (
-                        <a href={`https://wa.me/5561991087909?text=Ol%C3%A1%2C+Camilla!+Tenho+interesse+na+pe%C3%A7a+de+cer%C3%A2mica+${encodeURIComponent(item.title)}.+Poderia+me+dar+mais+informa%C3%A7%C3%B5es%3F`}
+                        <a href={`https://wa.me/5511910868299?text=Ol%C3%A1%2C+Camilla!+Tenho+interesse+na+pe%C3%A7a+de+cer%C3%A2mica+${encodeURIComponent(item.title)}.+Poderia+me+dar+mais+informa%C3%A7%C3%B5es%3F`}
                           target="_blank" rel="noopener noreferrer"
                           className="flex items-center gap-1 text-xs no-underline transition-opacity hover:opacity-100 opacity-70"
                           style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>

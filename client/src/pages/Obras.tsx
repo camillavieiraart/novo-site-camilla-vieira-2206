@@ -177,7 +177,7 @@ function ArtworkDetail({ slug }: { slug: string }) {
                   <p className="font-serif text-3xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>{artwork.priceDisplay}</p>
                 </div>
               )}
-                <a href={`https://wa.me/5561991087909?text=Ol%3%A1!%20Tenho%20interesse%20na%20obra%20${encodeURIComponent(artwork.title)}`}
+                <a href={`https://wa.me/5511910868299?text=Ol%3%A1!%20Tenho%20interesse%20na%20obra%20${encodeURIComponent(artwork.title)}`}
                 className="btn-primary w-full justify-center"
                 target="_blank" rel="noopener noreferrer">
                 <MessageCircle size={14} />
@@ -290,7 +290,7 @@ function ObrasGallery() {
                 <div className="px-4 pb-4">
                   {artwork.isAvailable ? (
                     <a
-                      href={`https://wa.me/5561991087909?text=Ol%C3%A1%2C+Camilla!+Tenho+interesse+na+obra+${encodeURIComponent(artwork.title)}+da+S%C3%A9rie+Fio.+Poderia+me+dar+mais+informa%C3%A7%C3%B5es%3F`}
+                      href={`https://wa.me/5511910868299?text=Ol%C3%A1%2C+Camilla!+Tenho+interesse+na+obra+${encodeURIComponent(artwork.title)}+da+S%C3%A9rie+Fio.+Poderia+me+dar+mais+informa%C3%A7%C3%B5es%3F`}
                       target="_blank" rel="noopener noreferrer"
                       className="flex items-center justify-center gap-2 w-full py-2 text-xs tracking-widest uppercase no-underline transition-all hover:opacity-80"
                       style={{ backgroundColor: "var(--brand-terracota)", color: "var(--brand-bege-light)", fontFamily: "'Inter', sans-serif" }}>
@@ -357,7 +357,7 @@ function ObrasGallery() {
                 Cada peça da Série Fio carrega uma história. Se uma obra tocou algo em você, vamos conversar — sem compromisso.
               </p>
               <a
-                href="https://wa.me/5561991087909?text=Ol%C3%A1%2C+Camilla!+Gostaria+de+conversar+sobre+as+obras+da+S%C3%A9rie+Fio."
+                href="https://wa.me/5511910868299?text=Ol%C3%A1%2C+Camilla!+Gostaria+de+conversar+sobre+as+obras+da+S%C3%A9rie+Fio."
                 target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-8 py-3 text-xs tracking-widest uppercase no-underline transition-all hover:opacity-80"
                 style={{ backgroundColor: "var(--brand-terracota)", color: "var(--brand-bege-light)", fontFamily: "'Inter', sans-serif" }}>

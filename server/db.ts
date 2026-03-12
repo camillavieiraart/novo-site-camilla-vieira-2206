@@ -1,4 +1,4 @@
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import {
   InsertUser, artworks, blogPosts, bookings, ceramics, contactMessages,
@@ -156,6 +156,47 @@ export async function addPortfolioImage(data: typeof portfolioImages.$inferInser
 export async function deletePortfolioImage(id: number) {
   const db = await getDb(); if (!db) return;
   await db.delete(portfolioImages).where(eq(portfolioImages.id, id));
+}
+
+// ─── PORTFOLIO IMAGES BY CATEGORY ─────────────────────────────────────────────
+export async function getImagesByCategory(categorySlug: string) {
+  const db = await getDb(); if (!db) return [];
+  const cat = await getPortfolioCategoryBySlug(categorySlug);
+  if (!cat) return [];
+  const shoots = await db.select({ id: portfolioShoots.id })
+    .from(portfolioShoots)
+    .where(and(eq(portfolioShoots.categoryId, cat.id), eq(portfolioShoots.isActive, true)));
+  if (shoots.length === 0) return [];
+  const shootIds = shoots.map(s => s.id);
+  return db.select().from(portfolioImages)
+    .where(and(inArray(portfolioImages.shootId, shootIds), eq(portfolioImages.isActive, true)))
+    .orderBy(asc(portfolioImages.order), asc(portfolioImages.id));
+}
+
+export async function getOrCreateDefaultShoot(categorySlug: string): Promise<number | null> {
+  const db = await getDb(); if (!db) return null;
+  const cat = await getPortfolioCategoryBySlug(categorySlug);
+  if (!cat) return null;
+  const existing = await db.select({ id: portfolioShoots.id })
+    .from(portfolioShoots)
+    .where(and(eq(portfolioShoots.categoryId, cat.id), eq(portfolioShoots.isActive, true)))
+    .orderBy(asc(portfolioShoots.order))
+    .limit(1);
+  if (existing.length > 0) return existing[0].id;
+  const slug = `${categorySlug}-galeria`;
+  await db.insert(portfolioShoots).values({ categoryId: cat.id, title: cat.name, slug, isActive: true, order: 0 });
+  const created = await db.select({ id: portfolioShoots.id }).from(portfolioShoots).where(eq(portfolioShoots.slug, slug)).limit(1);
+  return created[0]?.id ?? null;
+}
+
+export async function updatePortfolioImageOrder(id: number, order: number) {
+  const db = await getDb(); if (!db) return;
+  await db.update(portfolioImages).set({ order }).where(eq(portfolioImages.id, id));
+}
+
+export async function updatePortfolioImageCaption(id: number, caption: string) {
+  const db = await getDb(); if (!db) return;
+  await db.update(portfolioImages).set({ caption }).where(eq(portfolioImages.id, id));
 }
 
 // ─── ARTWORKS ─────────────────────────────────────────────────────────────────

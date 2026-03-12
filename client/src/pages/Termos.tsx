@@ -161,7 +161,7 @@ export default function Termos() {
             <p><strong>Camilla Vieira — Fotografia e Arte</strong></p>
             <p className="mt-1">Brasília, DF — Setor Sudoeste</p>
             <p className="mt-1">E-mail: <a href="mailto:ola@camillavieira.art" className="text-[#C97064] hover:underline">ola@camillavieira.art</a></p>
-            <p className="mt-1">WhatsApp: <a href="https://wa.me/5561991087909" className="text-[#C97064] hover:underline">(61) 99108-7909</a></p>
+            <p className="mt-1">WhatsApp: <a href="https://wa.me/5511910868299" className="text-[#C97064] hover:underline">(11) 91086-8299</a></p>
           </div>
         </section>
 

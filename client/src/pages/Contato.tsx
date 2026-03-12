@@ -239,7 +239,7 @@ export default function Contato() {
       "name": "Camilla Vieira — Ateliê Digital",
       "description": "Fotógrafa artística, artista visual e mentora criativa. Ensaios fotográficos, obras de arte, cerâmica artesanal e mentorias de marca pessoal.",
       "url": siteUrl,
-      "telephone": "+55-61-99108-7909",
+      "telephone": "+55-11-91086-8299",
       "email": "contato@camillavieira.art",
       "address": {
         "@type": "PostalAddress",
@@ -315,7 +315,7 @@ export default function Contato() {
 
               <div className="flex flex-col gap-4 mb-12">
                 {[
-                  { icon: <MessageCircle size={18} />, label: "WhatsApp", value: "(61) 99108-7909", href: "https://wa.me/5561991087909?text=Olá%20Camilla!%20Vim%20pelo%20site%20e%20gostaria%20de%20saber%20mais." },
+                  { icon: <MessageCircle size={18} />, label: "WhatsApp", value: "(11) 91086-8299", href: "https://wa.me/5511910868299?text=Olá%20Camilla!%20Vim%20pelo%20site%20e%20gostaria%20de%20saber%20mais." },
                   { icon: <Mail size={18} />, label: "E-mail", value: "contato@camillavieira.art", href: "mailto:contato@camillavieira.art" },
                   { icon: <Instagram size={18} />, label: "Instagram", value: "@camillavieira.art", href: "https://instagram.com/camillavieira.art" },
                   { icon: <Youtube size={18} />, label: "YouTube", value: "@camillavieira.art", href: "https://youtube.com/@camillavieira.art" },

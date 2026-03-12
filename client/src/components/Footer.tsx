@@ -62,7 +62,7 @@ export function Footer() {
                 <Mail size={14} />
                 contato@camillavieira.art
               </a>
-              <a href="https://wa.me/5561991087909"
+              <a href="https://wa.me/5511910868299"
                 className="flex items-center gap-2.5 text-xs no-underline transition-opacity hover:opacity-100 opacity-65"
                 style={{ color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
                 <Phone size={14} />

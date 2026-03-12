@@ -14,6 +14,7 @@ import Fotografia from "./pages/Fotografia";
 import Ceramica from "./pages/Ceramica";
 import Projetos from "./pages/Projetos";
 import Admin from "./pages/Admin";
+import AdminFotos from "./pages/AdminFotos";
 import Blog, { BlogPost } from "./pages/Blog";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { NewsletterPopup } from "./components/NewsletterPopup";
@@ -48,6 +49,7 @@ function Router() {
       <Route path="/contato" component={Contato} />
       <Route path="/admin" component={Admin} />
       <Route path="/admin/:section" component={Admin} />
+      <Route path="/admin-fotos" component={AdminFotos} />
       <Route path="/onboarding/:token" component={FormOnboarding} />
       <Route path="/satisfacao/:token" component={FormSatisfacao} />
       <Route path="/privacidade" component={Privacidade} />

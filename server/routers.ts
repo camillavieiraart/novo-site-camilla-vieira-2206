@@ -15,6 +15,7 @@ import {
   getPortfolioCategoryBySlug, getShootsByCategorySlug,
   getShootsByCategory, getShootBySlug, getAllShoots, upsertShoot, deleteShoot,
   getImagesByShoot, addPortfolioImage, deletePortfolioImage,
+  getImagesByCategory, getOrCreateDefaultShoot, updatePortfolioImageOrder, updatePortfolioImageCaption,
   getArtworks, getAllArtworks, getArtworkBySlug, upsertArtwork, deleteArtwork,
   getCeramics, getAllCeramics, upsertCeramic, deleteCeramic,
   getSpecialProjects, getAllSpecialProjects, upsertSpecialProject, deleteSpecialProject,
@@ -129,6 +130,10 @@ export const appRouter = router({
   portfolioImages: router({
     getByShoot: publicProcedure.input(z.object({ shootId: z.number() }))
       .query(({ input }) => getImagesByShoot(input.shootId)),
+    getByCategory: publicProcedure.input(z.object({ categorySlug: z.string() }))
+      .query(({ input }) => getImagesByCategory(input.categorySlug)),
+    getOrCreateDefaultShoot: adminProcedure.input(z.object({ categorySlug: z.string() }))
+      .mutation(({ input }) => getOrCreateDefaultShoot(input.categorySlug)),
     add: adminProcedure.input(z.object({
       shootId: z.number(),
       imageUrl: z.string(),
@@ -137,6 +142,10 @@ export const appRouter = router({
     })).mutation(({ input }) => addPortfolioImage(input as any)),
     delete: adminProcedure.input(z.object({ id: z.number() }))
       .mutation(({ input }) => deletePortfolioImage(input.id)),
+    updateOrder: adminProcedure.input(z.object({ id: z.number(), order: z.number() }))
+      .mutation(({ input }) => updatePortfolioImageOrder(input.id, input.order)),
+    updateCaption: adminProcedure.input(z.object({ id: z.number(), caption: z.string() }))
+      .mutation(({ input }) => updatePortfolioImageCaption(input.id, input.caption)),
   }),
 
   // ─── ARTWORKS ───────────────────────────────────────────────────────────────

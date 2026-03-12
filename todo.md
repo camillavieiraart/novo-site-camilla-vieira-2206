@@ -478,3 +478,7 @@
 - [ ] Pesquisar detalhes da exposição Fio (Metrópoles)
 - [ ] Pesquisar detalhes das palestras (Instagram posts)
 - [ ] Atualizar página Sobre com dados reais de podcasts, exposição e palestras
+
+## Bugs Mobile (Mar 2026)
+- [x] Portfólio: clicar em categoria redireciona para /portfolio em vez de abrir a galeria da categoria
+- [x] Home: imagens do triptych de Fotografia Autoral não são clicáveis no mobile

@@ -234,15 +234,15 @@ function FotografiaSection({ isActive }: { isActive: boolean }) {
     <section className="snap-section relative overflow-hidden" style={{ paddingTop: 0 }}>
       <div className="triptych">
         {[
-          { src: IMG_SERIE_FIO, label: "Série Fio" },
-          { src: IMG_MATERNIDADE, label: "Maternidade" },
-          { src: IMG_FOTOGRAFIA_AUTORAL, label: "Autoral" },
-        ].map(({ src, label }, i) => (
-          <div key={i} className="triptych-col">
+          { src: IMG_SERIE_FIO, label: "Série Fio", href: "/obras" },
+          { src: IMG_MATERNIDADE, label: "Maternidade", href: "/fotografia" },
+          { src: IMG_FOTOGRAFIA_AUTORAL, label: "Autoral", href: "/fotografia" },
+        ].map(({ src, label, href }, i) => (
+          <Link key={i} href={href} className="triptych-col" style={{ cursor: "pointer", display: "block" }}>
             <img src={src} alt={label} />
             <div className="triptych-label">{label}</div>
             <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(76,48,34,0.5) 0%, transparent 60%)" }} />
-          </div>
+          </Link>
         ))}
       </div>
 

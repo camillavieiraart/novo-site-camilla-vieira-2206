@@ -301,7 +301,8 @@ function PortfolioCategory({ slug }: { slug: string }) {
 }
 
 export default function Portfolio() {
-  const params = useParams<{ slug?: string }>();
-  if (params.slug) return <PortfolioCategory slug={params.slug} />;
+  const params = useParams<{ slug?: string; category?: string }>();
+  const slug = params.slug || params.category;
+  if (slug) return <PortfolioCategory slug={slug} />;
   return <PortfolioOverview />;
 }

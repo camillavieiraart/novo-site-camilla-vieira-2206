@@ -1,102 +1,124 @@
 import { useState, useEffect } from "react";
 import { useSEO } from "@/hooks/useSEO";
-import { StructuredData, buildBreadcrumb, BASE_URL } from "@/components/StructuredData";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { Link } from "wouter";
-import { ArrowRight, Clock, Camera, Package, Heart, Star, ChevronDown, ChevronUp, Sparkles } from "lucide-react";
+import { ArrowRight, Clock, Camera, Package, Briefcase, Star, ChevronDown, ChevronUp, Sparkles } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 
 const GALLERY_IMGS = [
-  "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=800&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=800&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1509460913899-515f1df34fea?w=800&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=800&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=800&q=80&auto=format&fit=crop",
 ];
 
 const PACOTES = [
   {
-    id: "essencia-i",
-    nome: "Essência I",
-    preco: "R$ 1.957",
-    precoEntrada: "Entrada: R$ 979",
-    precoPix: "Pix: R$ 1.907 (5% off)",
+    id: "essencial",
+    nome: "Essencial",
+    preco: "R$ 2.197",
+    precoEntrada: "Entrada: R$ 1.099",
+    precoPix: "Pix: R$ 2.087 (5% off)",
     destaque: false,
     duracao: "1h30",
     locacao: "1 locação",
-    fotos: "30 fotos editadas",
-    entrega: "15 dias úteis",
-    extras: ["1 figurino", "Galeria digital para download", "Call de alinhamento incluída"],
+    fotos: "20 fotos editadas",
+    entrega: "10 dias úteis",
+    extras: [
+      "1 figurino",
+      "Galeria digital para download",
+      "Ideal para LinkedIn e redes profissionais",
+    ],
   },
   {
-    id: "essencia-ii",
-    nome: "Essência II",
-    preco: "R$ 2.617",
-    precoEntrada: "Entrada: R$ 1.309",
-    precoPix: "Pix: R$ 2.487 (5% off)",
+    id: "profissional",
+    nome: "Profissional",
+    preco: "R$ 4.197",
+    precoEntrada: "Entrada: R$ 2.099",
+    precoPix: "Pix: R$ 3.987 (5% off)",
     destaque: true,
     duracao: "3h",
-    locacao: "1 locação",
+    locacao: "2 locações",
     fotos: "40 fotos editadas",
+    entrega: "10 dias úteis",
+    extras: [
+      "2 figurinos",
+      "1 vídeo de até 1 minuto",
+      "Galeria digital para download",
+      "Call de briefing incluída",
+    ],
+  },
+  {
+    id: "premium",
+    nome: "Premium",
+    preco: "R$ 7.497",
+    precoEntrada: "Entrada: R$ 3.749",
+    precoPix: "Pix: R$ 7.122 (5% off)",
+    destaque: false,
+    duracao: "Dia completo",
+    locacao: "Múltiplas locações",
+    fotos: "80 fotos editadas",
     entrega: "15 dias úteis",
-    extras: ["2 figurinos", "1 vídeo de até 1 minuto", "Galeria digital para download", "Call de alinhamento incluída"],
+    extras: [
+      "Figurinos ilimitados",
+      "2 vídeos de até 1 minuto",
+      "Galeria digital para download",
+      "Consultoria de imagem incluída",
+      "Entrega expressa disponível",
+    ],
   },
 ];
 
 const FAQS = [
   {
-    q: "Preciso ter experiência com fotos para fazer um ensaio feminino?",
-    a: "Não. A maioria das minhas clientes nunca fez um ensaio antes e chega com muito nervosismo. Parte do meu trabalho é criar um ambiente seguro e acolhedor onde você esquece a câmera e simplesmente existe. A direção é suave e intuitiva.",
+    q: "O que é um ensaio profissional e para quem é indicado?",
+    a: "É um ensaio fotográfico voltado para construção de imagem pessoal e corporativa — ideal para empreendedores, executivos, coaches, médicos, advogados, influenciadores e qualquer profissional que queira transmitir autoridade e autenticidade nas suas fotos.",
   },
   {
-    q: "O que devo usar no ensaio?",
-    a: "Após confirmar o agendamento, você recebe um guia completo de estilo com sugestões de roupas, cores e acessórios alinhados ao seu estilo e à proposta do ensaio. Não precisa comprar nada novo — trabalhamos com o que você já tem e ama.",
+    q: "Posso usar as fotos para LinkedIn, site e materiais de marketing?",
+    a: "Sim. Todas as fotos são entregues em alta resolução com licença de uso comercial para fins pessoais e profissionais. Você pode usar em qualquer plataforma digital ou impressa.",
   },
   {
-    q: "Posso fazer o ensaio em casa?",
-    a: "Sim! Ensaios em casa têm uma intimidade e autenticidade únicas. Também trabalho com estúdio, locações externas (parques, jardins, áreas urbanas) e espaços alugados. Definimos juntas o ambiente que mais combina com você.",
+    q: "Como é a direção durante o ensaio?",
+    a: "A direção é consultiva e estratégica. Antes do ensaio, fazemos um briefing para entender sua marca pessoal, público-alvo e objetivos. Durante o ensaio, oriento poses, expressões e cenários que comuniquem sua autoridade e personalidade.",
   },
   {
-    q: "Como funciona a entrega das fotos?",
-    a: "As fotos são entregues em galeria online privada e protegida por senha, em alta resolução, prontas para impressão. O prazo é de 15 dias úteis após o ensaio. Você escolhe as favoritas para impressão (nos pacotes que incluem).",
+    q: "Preciso contratar um maquiador ou stylist?",
+    a: "Não é obrigatório, mas recomendado para o resultado mais impactante. Posso indicar profissionais parceiros em Brasília. Nos pacotes Profissional e Premium, a consultoria de imagem já está incluída.",
   },
   {
-    q: "Qual é a política de remarcação?",
-    a: "Você pode remarcar o ensaio com até 48h de antecedência sem custo adicional. Em caso de imprevistos ou condições climáticas adversas, a remarcação é gratuita independente do prazo.",
-  },
-  {
-    q: "Onde são realizados os ensaios?",
-    a: "Atendo em Brasília com locações internas (estúdio, residências, espaços alugados) e externas (parques, jardins, áreas urbanas). Também viajo para São Paulo mensalmente e para outros estados mediante consulta.",
+    q: "Qual é o prazo de entrega?",
+    a: "O prazo padrão é de 10 a 15 dias úteis após o ensaio, dependendo do pacote. Entrega expressa (5 dias úteis) está disponível mediante consulta.",
   },
 ];
 
 const DEPOIMENTOS = [
   {
-    texto: "Eu nunca me senti tão eu mesma na frente de uma câmera. A Camilla tem um jeito de te fazer esquecer que está sendo fotografada. As fotos ficaram além do que eu imaginava.",
-    nome: "Mariana S.",
+    texto: "As fotos transformaram minha presença digital. Recebi elogios de clientes e parceiros logo na primeira semana após atualizar meu LinkedIn. Investimento que se paga rápido.",
+    nome: "Ricardo A.",
     cidade: "Brasília",
   },
   {
-    texto: "Foi a primeira vez que eu olhei para fotos minhas e pensei: 'essa sou eu de verdade'. Não uma versão editada, não uma pose — eu. Recomendo de olhos fechados.",
-    nome: "Fernanda L.",
+    texto: "Eu precisava de fotos que transmitissem quem eu sou como profissional — não apenas um rosto sorrindo. A Camilla entendeu isso perfeitamente. Resultado incrível.",
+    nome: "Patrícia M.",
     cidade: "São Paulo",
   },
   {
-    texto: "O processo todo foi muito acolhedor. Desde a conversa inicial até a entrega. As fotos contam uma história que eu não sabia que tinha para contar.",
-    nome: "Juliana M.",
+    texto: "Profissionalismo do início ao fim. O briefing foi fundamental para o resultado. As fotos ficaram exatamente com a identidade que eu queria para minha marca.",
+    nome: "Carlos E.",
     cidade: "Brasília",
   },
 ];
 
-export default function EnsaioFeminino() {
+export default function EnsaioProfissional() {
   useSEO({
-    title: "Ensaio Feminino em Brasília",
-    description: "Ensaio feminino artístico em Brasília com Camilla Vieira. Retratos que celebram a autenticidade feminina com olhar sensível e autoral. Agende seu ensaio.",
-    keywords: "ensaio feminino Brasília, fotografia feminina, retrato feminino, fotógrafa feminina Brasília, Camilla Vieira",
-    canonical: "/ensaio-feminino",
+    title: "Ensaio Profissional em Brasília",
+    description: "Ensaio fotográfico profissional em Brasília com Camilla Vieira. Fotos para LinkedIn, site e marca pessoal com olhar artístico e autoral. Agende seu ensaio.",
+    keywords: "ensaio profissional Brasília, fotografia corporativa, foto LinkedIn, marca pessoal, Camilla Vieira",
+    canonical: "/ensaio-profissional",
   });
 
   const [visible, setVisible] = useState(false);
@@ -123,8 +145,8 @@ export default function EnsaioFeminino() {
       name: formData.name,
       email: formData.email,
       phone: formData.phone,
-      subject: "Ensaio Feminino",
-      message: `[ENSAIO FEMININO]\n\n${formData.message || "Interesse em ensaio feminino."}`,
+      subject: "Ensaio Profissional",
+      message: `[ENSAIO PROFISSIONAL]\n\n${formData.message || "Interesse em ensaio profissional."}`,
     });
   };
 
@@ -136,28 +158,28 @@ export default function EnsaioFeminino() {
       <section className="relative min-h-[90vh] flex items-end pb-20 overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=1600&q=85&auto=format&fit=crop"
-            alt="Ensaio feminino artístico"
+            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1600&q=85&auto=format&fit=crop"
+            alt="Ensaio profissional artístico"
             className="w-full h-full object-cover"
-            style={{ filter: "brightness(0.5)" }}
+            style={{ filter: "brightness(0.45)" }}
           />
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(44,28,18,0.88) 0%, rgba(44,28,18,0.2) 60%, transparent 100%)" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(44,28,18,0.90) 0%, rgba(44,28,18,0.2) 60%, transparent 100%)" }} />
         </div>
         <div className={`relative z-10 max-w-5xl mx-auto px-6 lg:px-10 transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="block text-xs tracking-[0.25em] uppercase mb-4" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>
-            Retratos Femininos
+            Fotografia Profissional
           </span>
           <h1 className="font-serif text-5xl md:text-7xl font-medium leading-tight mb-6" style={{ color: "var(--brand-bege)" }}>
-            Ensaio Feminino
+            Ensaio Profissional
           </h1>
           <p className="text-base md:text-lg leading-relaxed max-w-xl mb-10" style={{ color: "rgba(245,235,220,0.85)", fontFamily: "'Inter', sans-serif" }}>
-            Não é sobre parecer bonita. É sobre ser vista — de verdade. Um espaço seguro para você se encontrar, se reconhecer e se surpreender com quem você já é.
+            Sua imagem profissional comunica antes mesmo de você falar. Fotos que transmitem autoridade, autenticidade e a essência da sua marca pessoal.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a href="#agendar"
               className="inline-flex items-center gap-2 px-8 py-4 text-sm tracking-widest uppercase font-medium transition-all duration-300 hover:opacity-90"
               style={{ backgroundColor: "var(--brand-terracota)", color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
-              Agendar Meu Ensaio <ArrowRight size={16} />
+              Agendar Consulta <ArrowRight size={16} />
             </a>
             <a href="#pacotes"
               className="inline-flex items-center gap-2 px-8 py-4 text-sm tracking-widest uppercase font-medium transition-all duration-300"
@@ -175,28 +197,28 @@ export default function EnsaioFeminino() {
             <div className="grid grid-cols-2 gap-3">
               {GALLERY_IMGS.slice(0, 4).map((src, i) => (
                 <div key={i} className="overflow-hidden" style={{ aspectRatio: i % 3 === 0 ? "3/4" : "4/5", border: "1px solid var(--brand-sand)" }}>
-                  <img src={src} alt="" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" style={{ filter: "grayscale(15%)" }} />
+                  <img src={src} alt="" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" style={{ filter: "grayscale(10%)" }} />
                 </div>
               ))}
             </div>
             <div>
               <span className="section-eyebrow block mb-4">Para quem é</span>
               <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6" style={{ color: "var(--brand-marrom-deep)" }}>
-                Para a mulher que quer se ver com outros olhos.
+                Para quem quer ser lembrado pela imagem certa.
               </h2>
               <div className="divider-terracota mb-6" />
               <p className="text-sm leading-relaxed mb-4" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
-                Para quem nunca se sentiu fotogênica. Para quem está em transição — de fase, de corpo, de vida. Para quem quer celebrar quem se tornou. Para quem simplesmente quer ter fotos que a representem de verdade.
+                Empreendedores, executivos, coaches, médicos, advogados, consultores, influenciadores e qualquer profissional que entende que a imagem é parte do negócio.
               </p>
               <p className="text-sm leading-relaxed mb-6" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
-                O ensaio feminino não é um serviço de vaidade. É um ato de presença. De parar e dizer: eu mereço ser vista. Eu mereço ter registros de quem eu sou agora.
+                Fotos profissionais não são luxo — são investimento. Uma boa imagem abre portas, gera confiança e comunica sua proposta de valor antes mesmo da primeira palavra.
               </p>
               <div className="space-y-3">
                 {[
-                  "Aniversários e marcos de vida",
-                  "Autoconhecimento e reconexão com o corpo",
-                  "Presente para si mesma (ou para alguém especial)",
-                  "Fotos profissionais com alma e autenticidade",
+                  "LinkedIn, site e materiais de marketing",
+                  "Lançamentos de produtos e serviços",
+                  "Construção de marca pessoal",
+                  "Apresentações corporativas e mídia",
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <Sparkles size={14} style={{ color: "var(--brand-terracota)", flexShrink: 0 }} />
@@ -214,15 +236,15 @@ export default function EnsaioFeminino() {
         <div className="max-w-5xl mx-auto px-6 lg:px-10">
           <div className="text-center mb-16">
             <span className="section-eyebrow block mb-3">Como funciona</span>
-            <h2 className="font-serif text-4xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>Do primeiro contato às fotos nas mãos</h2>
+            <h2 className="font-serif text-4xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>Do briefing às fotos que vendem</h2>
             <div className="divider-terracota mx-auto mt-4" />
           </div>
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { num: "01", icon: <Heart size={24} />, titulo: "Escolha seu pacote", desc: "Conheça os pacotes, escolha o que faz sentido para você e confirme com o pagamento de 50% de entrada." },
-              { num: "02", icon: <Sparkles size={24} />, titulo: "Call de Alinhamento", desc: "Após o pagamento, agendamos uma call exclusiva — com pelo menos 1 semana de antecedência — para entender seus objetivos, montar referências e definir figurinos e locações." },
-              { num: "03", icon: <Camera size={24} />, titulo: "O ensaio", desc: "Tudo já planejado na call. Você chega sabendo o que esperar. Leveza, música e direção suave — eu capturo quem você é." },
-              { num: "04", icon: <Package size={24} />, titulo: "Entrega", desc: "Galeria online privada com todas as fotos editadas em alta resolução, prontas para impressão e para guardar para sempre." },
+              { num: "01", icon: <Briefcase size={24} />, titulo: "Briefing", desc: "Conversa estratégica para entender sua marca pessoal, público-alvo, objetivos e o que você quer comunicar com suas fotos." },
+              { num: "02", icon: <Sparkles size={24} />, titulo: "Planejamento", desc: "Definimos locações, figurinos, paleta visual e roteiro do ensaio alinhados à sua identidade profissional." },
+              { num: "03", icon: <Camera size={24} />, titulo: "O ensaio", desc: "Direção profissional com foco em expressão, postura e autenticidade. Você transmite confiança, eu capturo isso." },
+              { num: "04", icon: <Package size={24} />, titulo: "Entrega", desc: "Galeria digital em alta resolução com licença comercial. Prontas para usar em qualquer plataforma." },
             ].map((step, i) => (
               <div key={i} className="text-center">
                 <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: "var(--brand-terracota)", color: "var(--brand-bege)" }}>
@@ -242,9 +264,9 @@ export default function EnsaioFeminino() {
         <div className="max-w-5xl mx-auto px-6 lg:px-10">
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { icon: <Clock size={20} />, titulo: "Duração", desc: "De 1h30 a dia completo, dependendo do pacote. Sem pressa — o ritmo é o seu." },
-              { icon: <Camera size={20} />, titulo: "Locação", desc: "Brasília (estúdio, externo, residência). São Paulo mensalmente. Outros estados sob consulta." },
-              { icon: <Package size={20} />, titulo: "Entrega", desc: "Galeria digital privada em alta resolução + fotos impressas (conforme pacote). Prazo: 15 dias úteis." },
+              { icon: <Clock size={20} />, titulo: "Duração", desc: "De 1h30 a dia completo, dependendo do pacote. Ritmo estratégico para o melhor resultado." },
+              { icon: <Camera size={20} />, titulo: "Locação", desc: "Brasília (estúdio, escritório, externo). São Paulo mensalmente. Outros estados sob consulta." },
+              { icon: <Package size={20} />, titulo: "Entrega", desc: "Galeria digital privada em alta resolução com licença comercial. Prazo: 10 a 15 dias úteis." },
             ].map((item, i) => (
               <div key={i} className="flex gap-4 p-6" style={{ border: "1px solid var(--brand-sand)" }}>
                 <div className="flex-shrink-0 mt-1" style={{ color: "var(--brand-terracota)" }}>{item.icon}</div>
@@ -265,7 +287,7 @@ export default function EnsaioFeminino() {
             <span className="block text-xs tracking-[0.25em] uppercase mb-3" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>Investimento</span>
             <h2 className="font-serif text-4xl font-medium mb-4" style={{ color: "var(--brand-bege)" }}>Escolha seu pacote</h2>
             <p className="text-sm" style={{ color: "rgba(245,235,220,0.7)", fontFamily: "'Inter', sans-serif" }}>
-              Todos os pacotes incluem consulta inicial gratuita e guia de estilo personalizado.
+              Todos os pacotes incluem briefing estratégico e licença de uso comercial.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
@@ -313,7 +335,7 @@ export default function EnsaioFeminino() {
             ))}
           </div>
           <p className="text-center text-xs mt-8" style={{ color: "rgba(245,235,220,0.5)", fontFamily: "'Inter', sans-serif" }}>
-            Parcelamento em até 6× sem juros no cartão. Pacotes personalizados sob consulta.
+            Parcelamento em até 6× sem juros no cartão. Pacotes para equipes e empresas sob consulta.
           </p>
         </div>
       </section>
@@ -323,7 +345,7 @@ export default function EnsaioFeminino() {
         <div className="max-w-5xl mx-auto px-6 lg:px-10">
           <div className="text-center mb-16">
             <span className="section-eyebrow block mb-3">O que dizem</span>
-            <h2 className="font-serif text-4xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>Histórias reais</h2>
+            <h2 className="font-serif text-4xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>Resultados reais</h2>
             <div className="divider-terracota mx-auto mt-4" />
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -381,75 +403,84 @@ export default function EnsaioFeminino() {
           {sent ? (
             <div className="text-center py-16">
               <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: "var(--brand-terracota)" }}>
-                <Heart size={28} style={{ color: "var(--brand-bege)" }} />
+                <Briefcase size={28} style={{ color: "var(--brand-bege)" }} />
               </div>
               <h2 className="font-serif text-3xl font-medium mb-4" style={{ color: "var(--brand-marrom-deep)" }}>Mensagem recebida!</h2>
               <p className="text-sm leading-relaxed" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
-                Camilla entrará em contato em até 24 horas. Após confirmar o pacote e o pagamento de 50%, você agenda sua call de alinhamento exclusiva — onde planejamos cada detalhe do seu ensaio.
+                Camilla entrará em contato em até 24 horas para agendar seu briefing inicial gratuito.
               </p>
             </div>
           ) : (
             <>
               <div className="text-center mb-12">
                 <span className="section-eyebrow block mb-3">Próximo passo</span>
-                <h2 className="font-serif text-4xl font-medium mb-4" style={{ color: "var(--brand-marrom-deep)" }}>Agende seu ensaio</h2>
+                <h2 className="font-serif text-4xl font-medium mb-4" style={{ color: "var(--brand-marrom-deep)" }}>Agende seu briefing gratuito</h2>
                 <p className="text-sm leading-relaxed" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
-                  Escolha seu pacote, confirme com 50% de entrada e ganhe acesso à sua call de alinhamento exclusiva — onde planejamos juntas cada detalhe do ensaio.
+                  Uma conversa de 20 minutos para entender seus objetivos e criar a estratégia visual ideal para você.
                 </p>
               </div>
               <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                  <label className="block text-xs tracking-widest uppercase mb-2" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>Nome *</label>
-                  <input
-                    type="text" required
-                    value={formData.name}
-                    onChange={e => setFormData(p => ({ ...p, name: e.target.value }))}
-                    className="w-full px-4 py-3 text-sm bg-transparent outline-none transition-colors"
-                    style={{ border: "1px solid var(--brand-marrom)", color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}
-                    placeholder="Seu nome completo"
-                  />
+                <div className="grid md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-xs tracking-widest uppercase mb-2" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>Nome *</label>
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={e => setFormData(p => ({ ...p, name: e.target.value }))}
+                      className="w-full px-4 py-3 text-sm outline-none transition-all"
+                      style={{ border: "1px solid var(--brand-sand)", backgroundColor: "white", color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}
+                      placeholder="Seu nome completo"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs tracking-widest uppercase mb-2" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>Telefone *</label>
+                    <input
+                      type="tel"
+                      value={formData.phone}
+                      onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))}
+                      className="w-full px-4 py-3 text-sm outline-none transition-all"
+                      style={{ border: "1px solid var(--brand-sand)", backgroundColor: "white", color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}
+                      placeholder="(61) 99999-9999"
+                    />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-xs tracking-widest uppercase mb-2" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>E-mail *</label>
                   <input
-                    type="email" required
+                    type="email"
                     value={formData.email}
                     onChange={e => setFormData(p => ({ ...p, email: e.target.value }))}
-                    className="w-full px-4 py-3 text-sm bg-transparent outline-none"
-                    style={{ border: "1px solid var(--brand-marrom)", color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}
+                    className="w-full px-4 py-3 text-sm outline-none transition-all"
+                    style={{ border: "1px solid var(--brand-sand)", backgroundColor: "white", color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}
                     placeholder="seu@email.com"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs tracking-widest uppercase mb-2" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>WhatsApp *</label>
-                  <input
-                    type="tel" required
-                    value={formData.phone}
-                    onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))}
-                    className="w-full px-4 py-3 text-sm bg-transparent outline-none"
-                    style={{ border: "1px solid var(--brand-marrom)", color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}
-                    placeholder="(61) 9 0000-0000"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs tracking-widest uppercase mb-2" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>O que você está buscando? (opcional)</label>
-                  <textarea
-                    rows={4}
+                  <label className="block text-xs tracking-widest uppercase mb-2" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>Pacote de interesse</label>
+                  <select
                     value={formData.message}
                     onChange={e => setFormData(p => ({ ...p, message: e.target.value }))}
-                    className="w-full px-4 py-3 text-sm bg-transparent outline-none resize-none"
-                    style={{ border: "1px solid var(--brand-marrom)", color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}
-                    placeholder="Aniversário, presente para mim mesma, fotos profissionais, simplesmente quero me ver diferente..."
-                  />
+                    className="w-full px-4 py-3 text-sm outline-none transition-all"
+                    style={{ border: "1px solid var(--brand-sand)", backgroundColor: "white", color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}>
+                    <option value="">Selecione um pacote</option>
+                    <option value="Essencial (R$ 2.197)">Essencial — R$ 2.197</option>
+                    <option value="Profissional (R$ 4.197)">Profissional — R$ 4.197</option>
+                    <option value="Premium (R$ 7.497)">Premium — R$ 7.497</option>
+                    <option value="Ainda não sei, quero conversar">Ainda não sei, quero conversar</option>
+                  </select>
                 </div>
                 <button
-                  type="submit" disabled={sending}
-                  className="w-full py-4 text-sm tracking-widest uppercase font-medium transition-all duration-300 hover:opacity-90 disabled:opacity-60"
+                  type="submit"
+                  disabled={sending}
+                  className="w-full py-4 text-sm tracking-widest uppercase font-medium transition-all duration-300 hover:opacity-90 disabled:opacity-50"
                   style={{ backgroundColor: "var(--brand-terracota)", color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
-                  {sending ? "Enviando..." : "Quero Agendar Meu Ensaio →"}
+                  {sending ? "Enviando..." : "Solicitar Briefing Gratuito"}
                 </button>
                 <p className="text-center text-xs" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.6 }}>
-                  Seus dados são protegidos conforme a LGPD. Nenhum spam, nunca.
+                  Ou fale diretamente pelo{" "}
+                  <a href="https://wa.me/5561991087909?text=Olá%20Camilla!%20Tenho%20interesse%20no%20ensaio%20profissional."
+                    target="_blank" rel="noopener noreferrer"
+                    style={{ color: "var(--brand-terracota)" }}>WhatsApp</a>
                 </p>
               </form>
             </>
@@ -457,39 +488,6 @@ export default function EnsaioFeminino() {
         </div>
       </section>
 
-      {/* ── LINK PARA PORTFÓLIO ── */}
-      <section className="py-16" style={{ backgroundColor: "var(--brand-sand)" }}>
-        <div className="max-w-5xl mx-auto px-6 lg:px-10 text-center">
-          <p className="text-sm mb-4" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>Quer ver exemplos antes de decidir?</p>
-          <Link href="/portfolio/ensaios-femininos"
-            className="inline-flex items-center gap-2 text-sm tracking-widest uppercase no-underline transition-opacity hover:opacity-70"
-            style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>
-            Ver portfólio de ensaios femininos <ArrowRight size={14} />
-          </Link>
-        </div>
-      </section>
-
-      <StructuredData schemas={[
-        buildBreadcrumb([
-          { name: "Portfólio", url: "/portfolio" },
-          { name: "Ensaio Feminino", url: "/ensaio-feminino" },
-        ]),
-        {
-          "@context": "https://schema.org",
-          "@type": "Service",
-          name: "Ensaio Feminino — Camilla Vieira",
-          description: "Fotografia feminina artística e sensível em Brasília. Retratos que celebram a autenticidade e a beleza feminina com olhar autoral.",
-          url: `${BASE_URL}/ensaio-feminino`,
-          provider: { "@id": `${BASE_URL}/#person` },
-          areaServed: [{ "@type": "City", name: "Brasília" }, { "@type": "City", name: "São Paulo" }],
-          offers: PACOTES.map(p => ({
-            "@type": "Offer",
-            name: p.nome,
-            price: p.preco.replace("R$ ", "").replace(".", ""),
-            priceCurrency: "BRL",
-          })),
-        },
-      ]} />
       <Footer />
     </div>
   );

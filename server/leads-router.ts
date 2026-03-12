@@ -140,6 +140,41 @@ const getLead = adminProcedure
   });
 
 // ----------------------------------------------------------------------------
+// Envia lead para o Octalk (Camélia) via webhook
+async function sendLeadToOctalk(lead: {
+  name: string;
+  phone?: string | null;
+  email?: string | null;
+  instagram?: string | null;
+  serviceInterest?: string | null;
+  notes?: string | null;
+}) {
+  const OCTALK_API_KEY = "oct_T6FhOPaUma6LUZqbRJNWPdbfV7q4HhcUdYyaqFhm";
+  const OCTALK_WEBHOOK_URL = "https://octalk.ai/api/webhooks/lead";
+  try {
+    const payload = {
+      api_key: OCTALK_API_KEY,
+      name: lead.name,
+      phone: lead.phone || undefined,
+      email: lead.email || undefined,
+      instagram: lead.instagram || undefined,
+      service: lead.serviceInterest || undefined,
+      message: lead.notes || undefined,
+      source: "crm_site",
+    };
+    const res = await fetch(OCTALK_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    console.log("[Octalk] Lead enviado:", lead.name, "| Status:", res.status);
+  } catch (err: any) {
+    console.warn("[Octalk] Falha ao enviar lead:", err.message);
+    // Não lança erro — o CRM interno já foi salvo
+  }
+}
+
+// ----------------------------------------------------------------------------
 const createLead = adminProcedure
   .input(z.object({
     name: z.string().min(1),
@@ -165,7 +200,19 @@ const createLead = adminProcedure
       source: input.source,
       notes: input.notes || null,
     });
-    return { success: true, id: Number((result as any).insertId) };
+    const leadId = Number((result as any).insertId);
+    // Envia para o Octalk (Camélia) em paralelo, sem bloquear a resposta
+    if (input.source !== "carmelia_whatsapp") {
+      sendLeadToOctalk({
+        name: input.name,
+        phone: input.phone,
+        email: input.email,
+        instagram: input.instagram,
+        serviceInterest: input.serviceInterest,
+        notes: input.notes,
+      });
+    }
+    return { success: true, id: leadId };
   });
 
 // ----------------------------------------------------------------------------

@@ -29,7 +29,7 @@ const PACOTES = [
     locacao: "1 locação",
     fotos: "30 fotos editadas",
     entrega: "15 dias úteis",
-    extras: ["1 figurino", "Galeria digital para download", "Call de alinhamento incluída"],
+    extras: ["1 figurino", "Galeria digital para download", "Call de alinhamento após confirmação"],
   },
   {
     id: "gestante-ii",
@@ -42,7 +42,7 @@ const PACOTES = [
     locacao: "1 locação",
     fotos: "40 fotos editadas",
     entrega: "15 dias úteis",
-    extras: ["2 figurinos", "1 vídeo de até 1 minuto", "Galeria digital para download", "Call de alinhamento incluída"],
+    extras: ["2 figurinos", "1 vídeo de até 1 minuto", "Galeria digital para download", "Call de alinhamento após confirmação"],
   },
 ];
 
@@ -188,8 +188,8 @@ export default function EnsaioGestante() {
           </div>
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { num: "01", icon: <Heart size={24} />, titulo: "Consulta inicial", desc: "Conversa por vídeo ou WhatsApp para entender sua história, estilo e expectativas. Sem compromisso." },
-              { num: "02", icon: <Camera size={24} />, titulo: "Planejamento", desc: "Definimos locação, figurino, paleta de cores e o roteiro emocional do ensaio. Você recebe um guia completo." },
+              { num: "01", icon: <Heart size={24} />, titulo: "Escolha seu pacote", desc: "Conheça os pacotes, escolha o que faz sentido para você e confirme com o pagamento de 50% de entrada." },
+              { num: "02", icon: <Camera size={24} />, titulo: "Call de Alinhamento", desc: "Após o pagamento, agendamos uma call exclusiva — com pelo menos 1 semana de antecedência — para entender seus objetivos, montar referências e definir figurinos, locações e o roteiro emocional do ensaio." },
               { num: "03", icon: <Star size={24} />, titulo: "O ensaio", desc: "Um encontro com leveza e cuidado. Direção suave para que você se sinta segura e bonita em cada momento." },
               { num: "04", icon: <Package size={24} />, titulo: "Entrega", desc: "Galeria online privada com todas as fotos editadas em alta resolução. Prontas para impressão e para guardar." },
             ].map((step, i) => (
@@ -234,7 +234,7 @@ export default function EnsaioGestante() {
             <span className="block text-xs tracking-[0.25em] uppercase mb-3" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>Investimento</span>
             <h2 className="font-serif text-4xl font-medium mb-4" style={{ color: "var(--brand-bege)" }}>Escolha seu pacote</h2>
             <p className="text-sm" style={{ color: "rgba(245,235,220,0.7)", fontFamily: "'Inter', sans-serif" }}>
-              Todos os pacotes incluem consulta inicial gratuita e guia de estilo personalizado.
+              Todos os pacotes incluem call de alinhamento exclusiva após confirmação e guia de estilo personalizado.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
@@ -325,14 +325,14 @@ export default function EnsaioGestante() {
               </div>
               <h2 className="font-serif text-3xl font-medium mb-4" style={{ color: "var(--brand-marrom-deep)" }}>Mensagem recebida!</h2>
               <p className="text-sm leading-relaxed" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
-                Camilla entrará em contato em até 24 horas para agendar sua consulta inicial gratuita.
+                Camilla entrará em contato em até 24 horas. Após confirmar o pacote e o pagamento de 50%, você agenda sua call de alinhamento exclusiva — onde planejamos cada detalhe do seu ensaio.
               </p>
             </div>
           ) : (
             <>
               <div className="text-center mb-12">
                 <span className="section-eyebrow block mb-3">Próximo passo</span>
-                <h2 className="font-serif text-4xl font-medium mb-4" style={{ color: "var(--brand-marrom-deep)" }}>Agende sua consulta gratuita</h2>
+                <h2 className="font-serif text-4xl font-medium mb-4" style={{ color: "var(--brand-marrom-deep)" }}>Agende seu ensaio</h2>
                 <p className="text-sm leading-relaxed" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
                   Uma conversa de 20 minutos para entender sua história e ver se temos conexão. Sem compromisso.
                 </p>
@@ -399,7 +399,7 @@ export default function EnsaioGestante() {
                   type="submit" disabled={sending}
                   className="w-full py-4 text-sm tracking-widest uppercase font-medium transition-all duration-300 hover:opacity-90 disabled:opacity-60"
                   style={{ backgroundColor: "var(--brand-terracota)", color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
-                  {sending ? "Enviando..." : "Agendar consulta gratuita →"}
+                  {sending ? "Enviando..." : "Quero Agendar Meu Ensaio →"}
                 </button>
                 <p className="text-center text-xs" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.6 }}>
                   Seus dados são protegidos conforme a LGPD. Nenhum spam, nunca.

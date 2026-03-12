@@ -337,6 +337,92 @@ async function startServer() {
     }
   });
 
+  // ── OCTALK WEBHOOK: recebe leads capturados pela Camélia ──────────────────
+  app.options("/api/webhook/octalk", (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.sendStatus(204);
+  });
+
+  app.post("/api/webhook/octalk", async (req, res) => {
+    try {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+      res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+      // Octalk envia dados do lead capturado pela Camélia
+      // Campos esperados (podem variar conforme configuração do Octalk):
+      const {
+        name, email, phone, instagram,
+        service, message, source,
+        // campos alternativos que o Octalk pode enviar
+        contact_name, contact_email, contact_phone,
+        lead_name, lead_email, lead_phone,
+      } = req.body;
+
+      // Normaliza campos (Octalk pode usar diferentes nomes)
+      const leadName = name || contact_name || lead_name || "Lead Camélia";
+      const leadEmail = email || contact_email || lead_email || null;
+      const leadPhone = phone || contact_phone || lead_phone || null;
+      const leadService = service || message || null;
+
+      console.log("[Octalk Webhook] Lead recebido:", { leadName, leadEmail, leadPhone, leadService });
+
+      const { drizzle } = await import("drizzle-orm/mysql2");
+      const { leads } = await import("../../drizzle/schema");
+      const { eq } = await import("drizzle-orm");
+      const db = drizzle(process.env.DATABASE_URL!);
+
+      // Verifica se já existe lead com esse telefone ou email
+      let existing = null;
+      if (leadEmail) {
+        const rows = await db.select({ id: leads.id }).from(leads).where(eq(leads.email, leadEmail)).limit(1);
+        if (rows.length > 0) existing = rows[0];
+      }
+      if (!existing && leadPhone) {
+        const rows = await db.select({ id: leads.id }).from(leads).where(eq(leads.phone, leadPhone)).limit(1);
+        if (rows.length > 0) existing = rows[0];
+      }
+
+      if (existing) {
+        // Atualiza lead existente
+        await db.update(leads).set({
+          source: "carmelia_whatsapp",
+          notes: leadService ? `[Camélia] ${leadService}` : undefined,
+          updatedAt: new Date(),
+        } as any).where(eq(leads.id, existing.id));
+        console.log("[Octalk Webhook] Lead atualizado:", existing.id);
+        return res.json({ success: true, action: "updated", leadId: existing.id });
+      } else {
+        // Cria novo lead
+        const result = await db.insert(leads).values({
+          name: leadName,
+          email: leadEmail,
+          phone: leadPhone,
+          instagram: instagram || null,
+          serviceInterest: leadService || "ensaio",
+          stage: "lead_frio",
+          source: "carmelia_whatsapp",
+          notes: leadService ? `[Camélia] ${leadService}` : null,
+        } as any);
+        const leadId = Number((result as any).insertId);
+        console.log("[Octalk Webhook] Novo lead criado:", leadId);
+
+        // Notifica a Camilla
+        await notifyOwner({
+          title: `Nova lead via Camélia: ${leadName}`,
+          content: `Telefone: ${leadPhone || "não informado"} | Email: ${leadEmail || "não informado"} | Interesse: ${leadService || "não informado"}`,
+        }).catch(() => {});
+
+        return res.json({ success: true, action: "created", leadId });
+      }
+    } catch (err: any) {
+      console.error("[Octalk Webhook] Erro:", err.message);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   // development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);

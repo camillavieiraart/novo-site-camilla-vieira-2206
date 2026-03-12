@@ -1,0 +1,58 @@
+{
+  "query": "SELECT source, service_interest, COUNT(*) as total FROM leads GROUP BY source, service_interest ORDER BY total DESC; SELECT COUNT(*) as total_geral FROM leads;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT source, service_interest, COUNT(*) as total FROM leads GROUP BY source, service_interest ORDER BY total DESC; SELECT COUNT(*) as total_geral FROM leads;",
+  "rows": [
+    {
+      "source": "planilha_leads_camilla",
+      "service_interest": "parceria",
+      "total": "57"
+    },
+    {
+      "source": "leads_casamento_civil",
+      "service_interest": "parceria-casamento",
+      "total": "42"
+    },
+    {
+      "source": "planilha_leads_brasilia_b2b",
+      "service_interest": "ensaio-profissional",
+      "total": "38"
+    },
+    {
+      "source": "leads_mulheres_posicionamento",
+      "service_interest": "ensaio-feminino",
+      "total": "37"
+    },
+    {
+      "source": "whatsapp",
+      "service_interest": "ensaio",
+      "total": "24"
+    },
+    {
+      "source": "planilha_mulheres_ensaios_brasilia",
+      "service_interest": "parceria",
+      "total": "14"
+    },
+    {
+      "source": "leads_campanhas_whatsapp_sp",
+      "service_interest": "ensaio-profissional",
+      "total": "8"
+    },
+    {
+      "source": "agente_vendas",
+      "service_interest": "ensaio",
+      "total": "4"
+    },
+    {
+      "source": "whatsapp",
+      "service_interest": "obra_arte",
+      "total": "3"
+    }
+  ],
+  "messages": [
+    "total_geral",
+    "227"
+  ],
+  "stdout": "source\tservice_interest\ttotal\nplanilha_leads_camilla\tparceria\t57\nleads_casamento_civil\tparceria-casamento\t42\nplanilha_leads_brasilia_b2b\tensaio-profissional\t38\nleads_mulheres_posicionamento\tensaio-feminino\t37\nwhatsapp\tensaio\t24\nplanilha_mulheres_ensaios_brasilia\tparceria\t14\nleads_campanhas_whatsapp_sp\tensaio-profissional\t8\nagente_vendas\tensaio\t4\nwhatsapp\tobra_arte\t3\ntotal_geral\n227\n",
+  "stderr": "",
+  "execution_time_ms": 61
+}

@@ -8,6 +8,8 @@ import { ArrowRight, Clock, Camera, Package, Heart, Star, ChevronDown, ChevronUp
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 
+const VENDASDEMO_BASE = "https://vendasdemo-35ftt8sk.manus.space";
+
 const GALLERY_IMGS = [
   "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800&q=80&auto=format&fit=crop",
@@ -20,6 +22,7 @@ const GALLERY_IMGS = [
 const PACOTES = [
   {
     id: "gestante-i",
+    vendaUrl: `${VENDASDEMO_BASE}/?tab=gestante`,
     nome: "Gestante I",
     preco: "R$ 1.957",
     precoEntrada: "Entrada: R$ 979",
@@ -33,6 +36,7 @@ const PACOTES = [
   },
   {
     id: "gestante-ii",
+    vendaUrl: `${VENDASDEMO_BASE}/?tab=gestante`,
     nome: "Gestante II",
     preco: "R$ 2.617",
     precoEntrada: "Entrada: R$ 1.309",
@@ -136,7 +140,7 @@ export default function EnsaioGestante() {
             Um registro íntimo e poético do momento mais transformador da sua vida. Fotografia que celebra o corpo, a espera e a conexão que já existe antes do primeiro olhar.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <a href="#agendar"
+            <a href={`${VENDASDEMO_BASE}/?tab=gestante`} target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-4 text-sm tracking-widest uppercase font-medium transition-all duration-300 hover:opacity-90"
               style={{ backgroundColor: "var(--brand-terracota)", color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
               Agendar Consulta <ArrowRight size={16} />
@@ -268,7 +272,7 @@ export default function EnsaioGestante() {
                     </p>
                   ))}
                 </div>
-                <a href="#agendar"
+                <a href={p.vendaUrl} target="_blank" rel="noopener noreferrer"
                   className="block text-center py-3 text-xs tracking-widest uppercase font-medium transition-all duration-300"
                   style={{
                     backgroundColor: p.destaque ? "var(--brand-bege)" : "transparent",
@@ -276,7 +280,7 @@ export default function EnsaioGestante() {
                     border: p.destaque ? "none" : "1px solid rgba(245,235,220,0.4)",
                     fontFamily: "'Inter', sans-serif",
                   }}>
-                  Quero este pacote
+                  Quero este pacote →
                 </a>
               </div>
             ))}

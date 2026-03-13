@@ -6,6 +6,8 @@ import { ArrowRight, Clock, Camera, Package, Briefcase, Star, ChevronDown, Chevr
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 
+const VENDASDEMO_BASE = "https://vendasdemo-35ftt8sk.manus.space";
+
 const GALLERY_IMGS = [
   "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&q=80&auto=format&fit=crop",
@@ -18,6 +20,7 @@ const GALLERY_IMGS = [
 const PACOTES = [
   {
     id: "essencial",
+    vendaUrl: `${VENDASDEMO_BASE}/?tab=profissional`,
     nome: "Essencial",
     preco: "R$ 2.197",
     precoEntrada: "Entrada: R$ 1.099",
@@ -35,6 +38,7 @@ const PACOTES = [
   },
   {
     id: "profissional",
+    vendaUrl: `${VENDASDEMO_BASE}/?tab=profissional`,
     nome: "Profissional",
     preco: "R$ 4.197",
     precoEntrada: "Entrada: R$ 2.099",
@@ -53,6 +57,7 @@ const PACOTES = [
   },
   {
     id: "premium",
+    vendaUrl: `${VENDASDEMO_BASE}/?tab=profissional`,
     nome: "Premium",
     preco: "R$ 7.497",
     precoEntrada: "Entrada: R$ 3.749",
@@ -176,7 +181,7 @@ export default function EnsaioProfissional() {
             Sua imagem profissional comunica antes mesmo de você falar. Fotos que transmitem autoridade, autenticidade e a essência da sua marca pessoal.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <a href="#agendar"
+            <a href={`${VENDASDEMO_BASE}/?tab=profissional`} target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-4 text-sm tracking-widest uppercase font-medium transition-all duration-300 hover:opacity-90"
               style={{ backgroundColor: "var(--brand-terracota)", color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
               Agendar Consulta <ArrowRight size={16} />
@@ -321,7 +326,7 @@ export default function EnsaioProfissional() {
                     </p>
                   ))}
                 </div>
-                <a href="#agendar"
+                <a href={p.vendaUrl} target="_blank" rel="noopener noreferrer"
                   className="block text-center py-3 text-xs tracking-widest uppercase font-medium transition-all duration-300"
                   style={{
                     backgroundColor: p.destaque ? "var(--brand-bege)" : "transparent",
@@ -329,7 +334,7 @@ export default function EnsaioProfissional() {
                     border: p.destaque ? "none" : "1px solid rgba(245,235,220,0.4)",
                     fontFamily: "'Inter', sans-serif",
                   }}>
-                  Quero este pacote
+                  Quero este pacote →
                 </a>
               </div>
             ))}

@@ -486,3 +486,9 @@
 ## Auditoria de Navegação + Blog Mobile (Mar 2026)
 - [x] Auditar todos os links do site e corrigir bugs de navegação (bug link newsletter Loja corrigido)
 - [x] Adicionar seção de preview do blog no final da Home (mobile-first)
+
+## Links Diretos ao Vendasdemo nos CTAs (Mar 2026)
+- [x] Mapear parâmetros de URL do vendasdemo: ?tab=essencia, ?tab=gestante, ?tab=profissional, etc.
+- [x] EnsaioFeminino.tsx: botão hero e "Quero este pacote" → vendasdemo/?tab=essencia
+- [x] EnsaioGestante.tsx: botão hero e "Quero este pacote" → vendasdemo/?tab=gestante
+- [x] EnsaioProfissional.tsx: botão hero e "Quero este pacote" → vendasdemo/?tab=profissional

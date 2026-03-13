@@ -580,16 +580,19 @@ export async function recordEmailEvent(
       }
 
       // Atualizar engajamento do assinante
-      await db
-        .update(newsletterSubscribers)
-        .set({
-          totalOpens: db
-            .select({ v: newsletterSubscribers.totalOpens })
-            .from(newsletterSubscribers)
-            .where(eq(newsletterSubscribers.email, subscriberEmail)) as unknown as number,
-          lastOpenedAt: new Date(),
-        })
+      const [sub] = await db
+        .select({ totalOpens: newsletterSubscribers.totalOpens })
+        .from(newsletterSubscribers)
         .where(eq(newsletterSubscribers.email, subscriberEmail));
+      if (sub !== undefined) {
+        await db
+          .update(newsletterSubscribers)
+          .set({
+            totalOpens: (sub.totalOpens || 0) + 1,
+            lastOpenedAt: new Date(),
+          })
+          .where(eq(newsletterSubscribers.email, subscriberEmail));
+      }
     }
 
     if (eventType === "click") {

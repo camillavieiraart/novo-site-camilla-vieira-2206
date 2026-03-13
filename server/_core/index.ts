@@ -423,6 +423,83 @@ async function startServer() {
     }
   });
 
+  // ── NEWSLETTER TRACKING: abertura (pixel 1x1) ────────────────────────────
+  app.get("/api/newsletter/track", async (req, res) => {
+    const { type, nid, email, url } = req.query as Record<string, string>;
+
+    // Responde imediatamente para não bloquear o cliente
+    if (type === "open") {
+      // Pixel transparente 1×1
+      const pixel = Buffer.from(
+        "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+        "base64"
+      );
+      res.setHeader("Content-Type", "image/gif");
+      res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+      res.end(pixel);
+    } else if (type === "click" && url) {
+      // Redireciona para a URL de destino
+      const destination = decodeURIComponent(url);
+      res.redirect(302, destination);
+    } else {
+      res.status(400).send("Bad Request");
+      return;
+    }
+
+    // Registra o evento de forma assíncrona (não bloqueia a resposta)
+    if (nid && email) {
+      try {
+        const { recordEmailEvent } = await import("../newsletter-agent");
+        await recordEmailEvent(
+          parseInt(nid, 10),
+          decodeURIComponent(email),
+          type as "open" | "click",
+          url ? decodeURIComponent(url) : undefined,
+          req.headers["user-agent"] || undefined,
+          (req.headers["x-forwarded-for"] as string || req.socket.remoteAddress || undefined)
+        );
+      } catch (err: any) {
+        console.error("[Newsletter Track] Erro ao registrar evento:", err.message);
+      }
+    }
+  });
+
+  // ── NEWSLETTER UNSUBSCRIBE: cancela inscrição via link do e-mail ──────────
+  app.get("/api/newsletter/unsubscribe", async (req, res) => {
+    const { token, email } = req.query as Record<string, string>;
+    const BASE = "https://camillavieira.art";
+
+    if (!email) {
+      return res.redirect(302, `${BASE}/?unsubscribe=error`);
+    }
+
+    try {
+      const { unsubscribeNewsletter } = await import("../db");
+      await unsubscribeNewsletter(decodeURIComponent(email));
+      console.log(`[Newsletter] Descadastro: ${decodeURIComponent(email)}`);
+
+      // Redireciona para a home com mensagem de confirmação
+      return res.redirect(302, `${BASE}/?unsubscribe=success`);
+    } catch (err: any) {
+      console.error("[Newsletter Unsubscribe] Erro:", err.message);
+      return res.redirect(302, `${BASE}/?unsubscribe=error`);
+    }
+  });
+
+  // ── NEWSLETTER UNSUBSCRIBE: one-click via POST (RFC 8058 / List-Unsubscribe-Post) ──
+  app.post("/api/newsletter/unsubscribe", async (req, res) => {
+    const { token, email } = req.query as Record<string, string>;
+    if (!email) { return res.status(400).json({ error: "email required" }); }
+    try {
+      const { unsubscribeNewsletter } = await import("../db");
+      await unsubscribeNewsletter(decodeURIComponent(email));
+      return res.json({ success: true });
+    } catch (err: any) {
+      console.error("[Newsletter Unsubscribe POST] Erro:", err.message);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   // development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);

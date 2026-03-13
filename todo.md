@@ -492,3 +492,10 @@
 - [x] EnsaioFeminino.tsx: botão hero e "Quero este pacote" → vendasdemo/?tab=essencia
 - [x] EnsaioGestante.tsx: botão hero e "Quero este pacote" → vendasdemo/?tab=gestante
 - [x] EnsaioProfissional.tsx: botão hero e "Quero este pacote" → vendasdemo/?tab=profissional
+
+## Bug — Links da Newsletter com Erro (Mar 2026)
+- [x] Investigar por que links do e-mail da newsletter para /blog e /portfolio retornam erro — causa: rotas /api/newsletter/track e /api/newsletter/unsubscribe nunca foram registradas no Express
+- [x] Criar rota GET /api/newsletter/track: type=open retorna pixel GIF 1x1; type=click redireciona para URL destino (302)
+- [x] Criar rota GET /api/newsletter/unsubscribe: cancela inscrição e redireciona para /?unsubscribe=success
+- [x] Criar rota POST /api/newsletter/unsubscribe: one-click RFC 8058 (List-Unsubscribe-Post)
+- [x] Testar todas as rotas localmente — respostas corretas (302 redirect, 200 GIF, 302 unsubscribe)

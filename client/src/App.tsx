@@ -27,6 +27,7 @@ import ProdutoDetalhe from "./pages/ProdutoDetalhe";
 import PedidoSucesso from "./pages/PedidoSucesso";
 import EnsaioGestante from "./pages/EnsaioGestante";
 import EnsaioFeminino from "./pages/EnsaioFeminino";
+import EnsaioProfissional from "./pages/EnsaioProfissional";
 import ClienteVip from "./pages/ClienteVip";
 
 function Router() {
@@ -59,6 +60,7 @@ function Router() {
       <Route path="/loja/:slug" component={ProdutoDetalhe} />
       <Route path="/ensaio-gestante" component={EnsaioGestante} />
       <Route path="/ensaio-feminino" component={EnsaioFeminino} />
+      <Route path="/ensaio-profissional" component={EnsaioProfissional} />
       <Route path="/cliente-vip" component={ClienteVip} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />

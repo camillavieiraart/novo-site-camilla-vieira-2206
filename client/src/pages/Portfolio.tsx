@@ -186,9 +186,9 @@ const CATEGORY_CTA: Record<string, { headline: string; sub: string; btn: string;
   },
   "profissional": {
     headline: "Sua imagem profissional merece arte",
-    sub: "Retratos corporativos com identidade visual marcante e olhar autoral.",
-    btn: "Quero meu retrato profissional",
-    href: "/contato",
+    sub: "Retratos corporativos com identidade visual marcante e olhar autoral. Veja os pacotes e agende seu ensaio.",
+    btn: "Ver pacotes e agendar",
+    href: "/ensaio-profissional",
     color: "var(--brand-marrom-deep)",
   },
 };

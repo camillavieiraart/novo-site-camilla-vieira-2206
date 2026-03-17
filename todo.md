@@ -509,3 +509,9 @@
 ## Galeria Maneva Origem (Mar 2026)
 - [x] Upload das 31 fotos do DVD Maneva Origem para o CDN
 - [x] Adicionar seção "Direção de Fotografia" na página /sobre com galeria masonry das 31 fotos (entre Exposições e Podcasts)
+
+## Página /ensaio-profissional e CTAs Portfólio (Mar 2026)
+- [x] Criar página /ensaio-profissional com hero, para quem é, galeria, processo, pacotes (Essencial/Profissional/Premium), FAQ, depoimentos e formulário
+- [x] Registrar rota /ensaio-profissional no App.tsx
+- [x] Corrigir CTA da categoria "profissional" no portfólio para apontar para /ensaio-profissional (estava apontando para /contato)
+- [x] CTAs estratégicos no portfólio (topo, meio, final) já implementados para todas as categorias

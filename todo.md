@@ -499,3 +499,13 @@
 - [x] Criar rota GET /api/newsletter/unsubscribe: cancela inscrição e redireciona para /?unsubscribe=success
 - [x] Criar rota POST /api/newsletter/unsubscribe: one-click RFC 8058 (List-Unsubscribe-Post)
 - [x] Testar todas as rotas localmente — respostas corretas (302 redirect, 200 GIF, 302 unsubscribe)
+
+## Correções Visuais — Arquétipos e Botão Flutuante (Mar 2026)
+- [x] Renomear arquétipo A Maga → A Artista (texto atualizado: "A câmera é sua linguagem — a luz, sua matéria")
+- [x] Renomear arquétipo A Sábia → A Mentora (texto atualizado: "Conduz porque sabe que o crescimento é coletivo")
+- [x] Atualizar frase do manifesto: "Sou Criadora, Artista e Mentora"
+- [x] Botão flutuante "Agendar Ensaio": no mobile fica no canto inferior esquerdo (left-4), no desktop mantém direita (sm:right-6) — evita sobreposição com chat Octalk
+
+## Galeria Maneva Origem (Mar 2026)
+- [x] Upload das 31 fotos do DVD Maneva Origem para o CDN
+- [x] Adicionar seção "Direção de Fotografia" na página /sobre com galeria masonry das 31 fotos (entre Exposições e Podcasts)

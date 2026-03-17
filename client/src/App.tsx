@@ -72,7 +72,7 @@ function FloatingBookingButton() {
       href="https://vendasdemo-35ftt8sk.manus.space"
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#8B4513] hover:bg-[#6B3410] text-[#F5F0E8] text-xs font-semibold tracking-widest uppercase px-5 py-3 rounded-full shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+      className="fixed bottom-6 left-4 sm:left-auto sm:right-6 z-50 flex items-center gap-2 bg-[#8B4513] hover:bg-[#6B3410] text-[#F5F0E8] text-xs font-semibold tracking-widest uppercase px-5 py-3 rounded-full shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
       style={{ letterSpacing: '0.12em' }}
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

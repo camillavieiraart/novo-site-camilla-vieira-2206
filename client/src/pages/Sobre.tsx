@@ -99,6 +99,40 @@ function TestimonialsSection({ visible }: { visible: boolean }) {
 }
 
 // ─── Awards & Exhibitions Section ────────────────────────────────────────────────────
+const MANEVA_FOTOS = [
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC00873_68beab68.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC00928_622ce276.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC01216_a7874599.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC01297_785d6176.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC01815_2499db0a.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC01825_42e584e2.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC01836_235a38c0.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC01892_eed27e00.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC01936_35afef84.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC01986_c8a96537.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02004_32a05cc7.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC01999_c4732a0a.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02007_216c6281.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02022_0fc594a0.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02041_35437233.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02042_23f74faf.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02059_0a4c5a1f.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02088_1c0b5691.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02112_2cc591a6.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02146_4b487fc5.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02151_16207c79.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02201_844689fd.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02240_0b0f4258.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02261_8d57c8d4.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02286_aece6915.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02287_12c2e2fe.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/IMG_1661_23a7c555.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02307_2b6cc7e5.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02319_b9caf6b4.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02315_322c89ab.jpeg",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/DSC02374_07ec66a4.jpeg",
+];
+
 const EXPOSICOES = [
   {
     year: "2023",
@@ -209,6 +243,38 @@ function AwardsSection({ visible }: { visible: boolean }) {
               </div>
             </a>
           ))}
+        </div>
+
+        {/* ── Maneva Origem ── */}
+        <div className={`mb-14 transition-all duration-800 delay-150 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+          <h3 className="font-serif text-2xl font-medium mb-2" style={{ color: "var(--brand-terracota)" }}>Direção de Fotografia</h3>
+          <div className="mb-6 p-6" style={{ borderBottom: "1px solid rgba(245,230,211,0.1)", background: "rgba(245,230,211,0.03)" }}>
+            <div className="flex items-start gap-5">
+              <div className="flex-shrink-0" style={{ minWidth: "52px" }}>
+                <span className="block text-xs tracking-widest font-medium" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>2019</span>
+              </div>
+              <div>
+                <span className="block text-xs tracking-widest uppercase mb-1" style={{ color: "rgba(245,230,211,0.4)", fontFamily: "'Inter', sans-serif" }}>DVD Ao Vivo</span>
+                <p className="font-serif text-lg font-medium mb-1" style={{ color: "var(--brand-bege)" }}>Maneva — Origem</p>
+                <p className="text-xs mb-3" style={{ color: "rgba(245,230,211,0.5)", fontFamily: "'Inter', sans-serif" }}>Direção de Fotografia do DVD ao vivo da banda Maneva</p>
+                <p className="text-xs leading-relaxed" style={{ color: "rgba(245,230,211,0.6)", fontFamily: "'Inter', sans-serif" }}>Responsável pela direção de fotografia do DVD "Origem" da banda Maneva, um dos maiores nomes do reggae brasileiro. O trabalho envolveu a captura do show ao vivo, bastidores e retratos dos músicos, traduzindo em imagens a energia e a identidade visual da banda.</p>
+              </div>
+            </div>
+          </div>
+          {/* Galeria de fotos */}
+          <div className="columns-2 sm:columns-3 lg:columns-4 gap-2 space-y-2">
+            {MANEVA_FOTOS.map((url, i) => (
+              <div key={i} className="break-inside-avoid overflow-hidden" style={{ borderRadius: "2px" }}>
+                <img
+                  src={url}
+                  alt={`Maneva Origem — bastidores e show, foto ${i + 1}`}
+                  loading="lazy"
+                  className="w-full object-cover transition-all duration-500 hover:scale-105"
+                  style={{ display: "block" }}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* ── Podcasts ── */}
@@ -447,7 +513,7 @@ export default function Sobre() {
     manifesto2,
     manifesto3,
     "Meu trabalho transita entre o ensaio fotográfico e a obra de arte. Entre o retrato que revela e a imagem que questiona. Entre o belo e o verdadeiro.",
-    "Sou Criadora, Maga e Sábia. Crio porque preciso. Transformo porque é minha natureza. Compartilho porque acredito que arte só existe no encontro.",
+    "Sou Criadora, Artista e Mentora. Crio porque preciso. Transformo porque é minha natureza. Compartilho porque acredito que arte só existe no encontro.",
     "Este ateliê digital é um convite. Para olhar com mais cuidado. Para sentir com mais profundidade. Para reconhecer que beleza não é superfície — é essência.",
   ].filter(Boolean);
 
@@ -585,14 +651,14 @@ export default function Sobre() {
                 desc: "Cria porque precisa. Transforma matéria em significado. Cada imagem é um ato de criação — não de reprodução.",
               },
               {
-                title: "A Maga",
+                title: "A Artista",
                 icon: "◈",
-                desc: "Transforma o ordinário em extraordinário. Vê o que outros não veem. A câmera é sua varinha — a luz, sua magia.",
+                desc: "Transforma o ordinário em extraordinário. Vê o que outros não veem. A câmera é sua linguagem — a luz, sua matéria.",
               },
               {
-                title: "A Sábia",
+                title: "A Mentora",
                 icon: "◎",
-                desc: "Compartilha conhecimento com generosidade. Acredita que arte e técnica se ensinam. Mentora porque sabe que o crescimento é coletivo.",
+                desc: "Compartilha conhecimento com generosidade. Acredita que arte e técnica se ensinam. Conduz porque sabe que o crescimento é coletivo.",
               },
             ].map(({ title, icon, desc }, i) => (
               <div key={title}

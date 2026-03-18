@@ -207,6 +207,7 @@ const upsertProduct = adminProcedure
     isActive: z.boolean().default(true),
     isFeatured: z.boolean().default(false),
     order: z.number().default(0),
+    buyUrl: z.string().optional(),
     metadata: z.string().optional(),
   }))
   .mutation(async ({ input }) => {

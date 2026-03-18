@@ -261,28 +261,14 @@ function PortfolioCategory({ slug }: { slug: string }) {
   const [visible, setVisible] = useState(false);
   useEffect(() => { setTimeout(() => setVisible(true), 200); }, []);
 
-  // Fetch category and its shoots from the database
+  // Busca categoria e TODAS as imagens de uma vez (sem camada de ensaios)
   const { data: category } = trpc.categories.getBySlug.useQuery({ slug });
-  const { data: shoots, isLoading } = trpc.categories.getShootsBySlug.useQuery({ slug });
-
-  // Collect all shoot IDs to fetch images
-  const shootIds = shoots?.map(s => s.id) ?? [];
-
-  // Fetch images for each shoot individually
-  const shoot0 = trpc.portfolioImages.getByShoot.useQuery({ shootId: shootIds[0] ?? 0 }, { enabled: shootIds.length > 0 });
-  const shoot1 = trpc.portfolioImages.getByShoot.useQuery({ shootId: shootIds[1] ?? 0 }, { enabled: shootIds.length > 1 });
-  const shoot2 = trpc.portfolioImages.getByShoot.useQuery({ shootId: shootIds[2] ?? 0 }, { enabled: shootIds.length > 2 });
-
-  const allImages = [
-    ...(shoot0.data ?? []),
-    ...(shoot1.data ?? []),
-    ...(shoot2.data ?? []),
-  ];
+  const { data: allImages = [], isLoading } = trpc.portfolioImages.getByCategory.useQuery({ categorySlug: slug });
 
   const displayName = category?.name || slug.replace(/-/g, " ");
   const description = category?.description || "";
 
-  // Use real images if available, otherwise placeholder
+  // Usa fotos reais ou placeholder enquanto carrega
   const images = allImages.length > 0 ? allImages : PLACEHOLDER_IMGS.map((src, i) => ({
     id: i + 1, imageUrl: src, caption: `Foto ${i + 1}`, order: i, shootId: 1, isActive: true, createdAt: new Date(),
   }));

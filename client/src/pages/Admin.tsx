@@ -173,6 +173,8 @@ function ArtworksAdmin() {
   };
 
   const imageUrl = watch("imageUrl");
+  const audioUrl = watch("audioUrl");
+  const videoUrl = watch("videoUrl");
 
   return (
     <div>
@@ -235,14 +237,36 @@ function ArtworksAdmin() {
                 <input {...register("priceDisplay")} className="form-input" placeholder="R$ 2.800" />
               </div>
               <div>
-                <label className="form-label">Áudio Narrado (URL)</label>
-                <input {...register("audioUrl")} className="form-input" placeholder="https://cdn.../audio.mp3" />
-                <p className="text-xs mt-1" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.7 }}>URL do áudio narrado da obra (Série Fio)</p>
+                <MediaUploader
+                  label="Áudio Narrado"
+                  value={audioUrl}
+                  onChange={(url) => setValue("audioUrl", url)}
+                  onClear={() => setValue("audioUrl", "")}
+                  folder="obras-audio"
+                  type="audio"
+                />
+                <input type="hidden" {...register("audioUrl")} />
+                <p className="text-xs mt-1" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.7 }}>Faça upload do MP3 ou cole a URL abaixo</p>
+                <input {...register("audioUrl")} className="form-input mt-1" placeholder="Ou cole URL: https://cdn.../audio.mp3" />
               </div>
               <div>
-                <label className="form-label">Vídeo Narrado (URL)</label>
-                <input {...register("videoUrl")} className="form-input" placeholder="https://youtube.com/watch?v=... ou URL direta" />
-                <p className="text-xs mt-1" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.7 }}>URL do vídeo narrado da obra</p>
+                <MediaUploader
+                  label="Vídeo Narrado"
+                  value={videoUrl}
+                  onChange={(url) => setValue("videoUrl", url)}
+                  onClear={() => setValue("videoUrl", "")}
+                  folder="obras-video"
+                  type="video"
+                  aspectRatio="video"
+                />
+                <input type="hidden" {...register("videoUrl")} />
+                <p className="text-xs mt-1" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.7 }}>Faça upload do vídeo ou cole URL do YouTube abaixo</p>
+                <input {...register("videoUrl")} className="form-input mt-1" placeholder="Ou cole URL: https://youtube.com/watch?v=..." />
+              </div>
+              <div>
+                <label className="form-label">Link de Compra</label>
+                <input {...register("buyUrl")} className="form-input" placeholder="https://..." />
+                <p className="text-xs mt-1" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.7 }}>Link direto para compra (Stripe, WhatsApp, Linktree, etc.)</p>
               </div>
               <div>
                 <MediaUploader
@@ -611,45 +635,25 @@ function VideosAdmin() {
 // ─── Portfolio Admin ──────────────────────────────────────────────────────────
 function PortfolioAdmin() {
   const { data: categories, refetch } = trpc.categories.getAllAdmin.useQuery();
-  const { data: shoots, refetch: refetchShoots } = trpc.shoots.getAll.useQuery();
   const upsertCat = trpc.categories.upsert.useMutation({ onSuccess: () => { refetch(); setEditingCat(null); toast.success("Categoria salva!"); } });
-  const delCat = trpc.categories.delete.useMutation({ onSuccess: () => { refetch(); toast.success("Categoria removida."); } });
-  const upsertShoot = trpc.shoots.upsert.useMutation({ onSuccess: () => { refetchShoots(); setEditingShoot(null); toast.success("Ensaio salvo!"); } });
-  const delShoot = trpc.shoots.delete.useMutation({ onSuccess: () => { refetchShoots(); toast.success("Ensaio removido."); } });
-
   const [editingCat, setEditingCat] = useState<any | null>(null);
-  const [editingShoot, setEditingShoot] = useState<any | null>(null);
   const { register: regCat, handleSubmit: submitCat, reset: resetCat, setValue: setValCat, watch: watchCat } = useForm<any>();
-  const { register: regShoot, handleSubmit: submitShoot, reset: resetShoot, setValue: setValShoot, watch: watchShoot } = useForm<any>();
-
   const openNewCat = () => { resetCat({ isActive: true, type: "ensaio" }); setEditingCat({}); };
   const openEditCat = (c: any) => { resetCat(c); setEditingCat(c); };
   const onSubmitCat = (data: any) => {
-    if (!data.slug && data.name) data.slug = data.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    if (!data.slug && data.name) data.slug = data.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
     upsertCat.mutate(data);
   };
-
-  const openNewShoot = () => { resetShoot({ isActive: true, categoryId: categories?.[0]?.id }); setEditingShoot({}); };
-  const openEditShoot = (s: any) => { resetShoot(s); setEditingShoot(s); };
-  const onSubmitShoot = (data: any) => {
-    if (!data.slug && data.title) data.slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-    upsertShoot.mutate({ ...data, categoryId: Number(data.categoryId) });
-  };
-
   const coverCat = watchCat("coverImageUrl");
-  const coverShoot = watchShoot("coverImageUrl");
 
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
         <h1 className="font-serif text-3xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>Portfólio</h1>
-        <div className="flex gap-3">
-          <button onClick={openNewCat} className="btn-outline-dark"><Plus size={14} /> Nova Categoria</button>
-          <button onClick={openNewShoot} className="btn-primary"><Plus size={14} /> Novo Ensaio</button>
-        </div>
+        <button onClick={openNewCat} className="btn-primary"><Plus size={14} /> Nova Categoria</button>
       </div>
 
-      {/* Category form */}
+      {/* Edit category modal */}
       {editingCat !== null && (
         <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4 pt-16"
           style={{ backgroundColor: "rgba(76,48,34,0.7)" }}>
@@ -676,8 +680,8 @@ function PortfolioAdmin() {
                 </select>
               </div>
               <div>
-                <label className="form-label">Descrição</label>
-                <textarea {...regCat("description")} className="form-input min-h-[60px] resize-none" />
+                <label className="form-label">Descrição (aparece na página pública)</label>
+                <textarea {...regCat("description")} className="form-input min-h-[80px] resize-none" placeholder="Escreva o que quiser sobre esta categoria..." />
               </div>
               <div>
                 <MediaUploader
@@ -692,7 +696,7 @@ function PortfolioAdmin() {
                 <input type="hidden" {...regCat("coverImageUrl")} />
               </div>
               <label className="flex items-center gap-2 cursor-pointer text-sm" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
-                <input type="checkbox" {...regCat("isActive")} className="w-4 h-4" /> Ativo
+                <input type="checkbox" {...regCat("isActive")} className="w-4 h-4" /> Ativo (aparece no portfólio)
               </label>
               <div className="flex gap-3 pt-2">
                 <button type="submit" disabled={upsertCat.isPending} className="btn-primary flex-1 justify-center">
@@ -705,114 +709,34 @@ function PortfolioAdmin() {
         </div>
       )}
 
-      {/* Shoot form */}
-      {editingShoot !== null && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4 pt-16"
-          style={{ backgroundColor: "rgba(76,48,34,0.7)" }}>
-          <div className="w-full max-w-lg p-8" style={{ backgroundColor: "var(--brand-bege-light)" }}>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="font-serif text-2xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>
-                {editingShoot.id ? "Editar Ensaio" : "Novo Ensaio"}
-              </h2>
-              <button onClick={() => setEditingShoot(null)} className="bg-transparent border-none cursor-pointer"><X size={20} /></button>
-            </div>
-            <form onSubmit={submitShoot(onSubmitShoot)} className="flex flex-col gap-4">
-              <input type="hidden" {...regShoot("id")} />
-              <div>
-                <label className="form-label">Título *</label>
-                <input {...regShoot("title", { required: true })} className="form-input" />
-              </div>
-              <div>
-                <label className="form-label">Categoria *</label>
-                <select {...regShoot("categoryId", { required: true })} className="form-input">
-                  {categories?.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                </select>
-              </div>
-              <div>
-                <label className="form-label">Descrição</label>
-                <textarea {...regShoot("description")} className="form-input min-h-[60px] resize-none" />
-              </div>
-              <div>
-                <MediaUploader
-                  label="Imagem de Capa do Ensaio"
-                  value={coverShoot}
-                  onChange={(url) => setValShoot("coverImageUrl", url)}
-                  onClear={() => setValShoot("coverImageUrl", "")}
-                  folder="portfolio"
-                  type="image"
-                  aspectRatio="portrait"
-                />
-                <input type="hidden" {...regShoot("coverImageUrl")} />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="form-label">Data</label>
-                  <input {...regShoot("date")} className="form-input" placeholder="2024" />
-                </div>
-                <div>
-                  <label className="form-label">Local</label>
-                  <input {...regShoot("location")} className="form-input" placeholder="São Paulo, SP" />
-                </div>
-              </div>
-              <label className="flex items-center gap-2 cursor-pointer text-sm" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
-                <input type="checkbox" {...regShoot("isActive")} className="w-4 h-4" /> Ativo
-              </label>
-              <div className="flex gap-3 pt-2">
-                <button type="submit" disabled={upsertShoot.isPending} className="btn-primary flex-1 justify-center">
-                  {upsertShoot.isPending ? "Salvando..." : "Salvar"}
-                </button>
-                <button type="button" onClick={() => setEditingShoot(null)} className="btn-outline-dark">Cancelar</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Categories */}
-      <h2 className="font-serif text-xl font-medium mb-4" style={{ color: "var(--brand-marrom-deep)" }}>Categorias</h2>
-      <div className="flex flex-col gap-2 mb-10">
+      {/* Categories list */}
+      <p className="text-sm mb-6" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
+        Clique em <strong>Adicionar Fotos</strong> para fazer upload de várias fotos de uma vez. Clique em <strong>Editar</strong> para mudar o nome, descrição ou imagem de capa.
+      </p>
+      <div className="flex flex-col gap-3">
         {categories?.map(c => (
           <div key={c.id} className="flex items-center gap-4 p-4" style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
-            {c.coverImageUrl && <img src={c.coverImageUrl} alt={c.name} className="w-12 h-12 object-cover" />}
-            <div className="flex-1">
-              <p className="font-serif text-sm font-medium" style={{ color: "var(--brand-marrom-deep)" }}>{c.name}</p>
-              <p className="text-xs" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>{c.type} · {c.isActive ? "Ativo" : "Inativo"}</p>
+            {c.coverImageUrl
+              ? <img src={c.coverImageUrl} alt={c.name} className="w-14 h-14 object-cover flex-shrink-0" style={{ border: "1px solid var(--brand-sand)" }} />
+              : <div className="w-14 h-14 flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "var(--brand-sand)" }}><Image size={20} style={{ color: "var(--brand-marrom)" }} /></div>
+            }
+            <div className="flex-1 min-w-0">
+              <p className="font-serif text-base font-medium" style={{ color: "var(--brand-marrom-deep)" }}>{c.name}</p>
+              <p className="text-xs truncate" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.7 }}>
+                {c.description || "Sem descrição"} · {c.isActive ? "Ativo" : "Inativo"}
+              </p>
             </div>
-            <div className="flex gap-2">
-              <button onClick={() => openEditCat(c)} className="flex items-center gap-1 text-xs px-2 py-1 bg-transparent border cursor-pointer"
+            <div className="flex gap-2 flex-shrink-0">
+              <Link href={`/admin/fotos?cat=${c.slug}`}
+                className="flex items-center gap-1 text-xs px-3 py-1.5 no-underline"
+                style={{ backgroundColor: "var(--brand-terracota)", color: "white", fontFamily: "'Inter', sans-serif" }}>
+                <Upload size={11} /> Adicionar Fotos
+              </Link>
+              <button onClick={() => openEditCat(c)}
+                className="flex items-center gap-1 text-xs px-3 py-1.5 bg-transparent border cursor-pointer"
                 style={{ color: "var(--brand-marrom)", borderColor: "var(--brand-sand)", fontFamily: "'Inter', sans-serif" }}>
-                <Pencil size={10} /> Editar
+                <Pencil size={11} /> Editar
               </button>
-              <button onClick={() => { if (confirm("Remover?")) delCat.mutate({ id: c.id }); }}
-                className="flex items-center gap-1 text-xs px-2 py-1 bg-transparent border cursor-pointer"
-                style={{ color: "var(--brand-terracota)", borderColor: "var(--brand-sand)", fontFamily: "'Inter', sans-serif" }}>
-                <Trash2 size={10} />
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Shoots */}
-      <h2 className="font-serif text-xl font-medium mb-4" style={{ color: "var(--brand-marrom-deep)" }}>Ensaios</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {shoots?.map(s => (
-          <div key={s.id} className="artwork-card" style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
-            {s.coverImageUrl && <div className="aspect-[4/3] overflow-hidden"><img src={s.coverImageUrl} alt={s.title} className="w-full h-full object-cover" /></div>}
-            <div className="p-3">
-              <p className="font-serif text-sm font-medium mb-1" style={{ color: "var(--brand-marrom-deep)" }}>{s.title}</p>
-              <p className="text-xs mb-2" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>{s.date} · {s.location}</p>
-              <div className="flex gap-2">
-                <button onClick={() => openEditShoot(s)} className="flex items-center gap-1 text-xs px-2 py-1 bg-transparent border cursor-pointer"
-                  style={{ color: "var(--brand-marrom)", borderColor: "var(--brand-sand)", fontFamily: "'Inter', sans-serif" }}>
-                  <Pencil size={10} /> Editar
-                </button>
-                <button onClick={() => { if (confirm("Remover?")) delShoot.mutate({ id: s.id }); }}
-                  className="flex items-center gap-1 text-xs px-2 py-1 bg-transparent border cursor-pointer"
-                  style={{ color: "var(--brand-terracota)", borderColor: "var(--brand-sand)", fontFamily: "'Inter', sans-serif" }}>
-                  <Trash2 size={10} />
-                </button>
-              </div>
             </div>
           </div>
         ))}

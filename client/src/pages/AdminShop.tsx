@@ -27,6 +27,7 @@ interface Product {
   order: number;
   stripePriceId: string | null;
   stripeProductId: string | null;
+  buyUrl?: string | null;
 }
 
 interface Order {
@@ -287,6 +288,12 @@ function ProductsAdmin() {
                   <label className="form-label">Ordem de exibição</label>
                   <input {...register("order")} type="number" className="form-input" placeholder="0" />
                 </div>
+              </div>
+
+              <div>
+                <label className="form-label">Link de Compra Direto</label>
+                <input {...register("buyUrl")} className="form-input" placeholder="https://... (WhatsApp, link externo, etc.)" />
+                <p className="text-xs mt-1" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif", opacity: 0.7 }}>Se preenchido, o botão "Comprar" abre este link direto. Deixe vazio para usar checkout Stripe.</p>
               </div>
 
               <div className="flex gap-6">

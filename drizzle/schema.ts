@@ -107,6 +107,7 @@ export const artworks = mysqlTable("artworks", {
   additionalImages: text("additionalImages"), // JSON array
   audioUrl: text("audioUrl"), // CDN URL for audio narration
   videoUrl: text("videoUrl"), // CDN URL for video narration
+  buyUrl: text("buyUrl"), // Link direto de compra
   price: decimal("price", { precision: 10, scale: 2 }),
   priceDisplay: varchar("priceDisplay", { length: 50 }),
   isAvailable: boolean("isAvailable").default(true),
@@ -128,6 +129,7 @@ export const ceramics = mysqlTable("ceramics", {
   additionalImages: text("additionalImages"), // JSON array
   price: decimal("price", { precision: 10, scale: 2 }),
   priceDisplay: varchar("priceDisplay", { length: 50 }),
+  buyUrl: text("buyUrl"), // Link direto de compra
   isAvailable: boolean("isAvailable").default(true),
   isFeatured: boolean("isFeatured").default(false),
   order: int("order").default(0),
@@ -382,6 +384,7 @@ export const products = mysqlTable("products", {
   isActive: boolean("isActive").default(true).notNull(),
   isFeatured: boolean("isFeatured").default(false).notNull(),
   order: int("order").default(0).notNull(),
+  buyUrl: text("buyUrl"), // Link direto de compra (externo, WhatsApp, etc.)
   metadata: text("metadata"), // JSON com dados extras (dimensões, técnica, etc.)
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

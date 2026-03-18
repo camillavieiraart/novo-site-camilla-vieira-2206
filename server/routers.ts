@@ -168,6 +168,7 @@ export const appRouter = router({
       additionalImages: z.string().optional(),
       audioUrl: z.string().optional(),
       videoUrl: z.string().optional(),
+      buyUrl: z.string().optional(),
       price: z.string().optional(),
       priceDisplay: z.string().optional(),
       isAvailable: z.boolean().optional(),

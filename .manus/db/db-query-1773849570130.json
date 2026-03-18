@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE artworks ADD COLUMN buyUrl TEXT NULL AFTER videoUrl;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute ALTER TABLE artworks ADD COLUMN buyUrl TEXT NULL AFTER videoUrl;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 670
+}

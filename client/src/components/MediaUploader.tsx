@@ -1,8 +1,8 @@
 import { useState, useRef, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
-import { Upload, X, Film, Image as ImageIcon, Loader2 } from "lucide-react";
+import { Upload, X, Film, Image as ImageIcon, Loader2, Music } from "lucide-react";
 
-type MediaType = "image" | "video" | "any";
+type MediaType = "image" | "video" | "audio" | "any";
 
 interface MediaUploaderProps {
   value?: string | null;
@@ -12,18 +12,20 @@ interface MediaUploaderProps {
   folder?: string;
   label?: string;
   className?: string;
-  aspectRatio?: "square" | "portrait" | "landscape" | "video";
+  aspectRatio?: "square" | "portrait" | "landscape" | "video" | "audio";
 }
 
 const ACCEPTED: Record<MediaType, string> = {
   image: "image/jpeg,image/png,image/webp,image/gif",
   video: "video/mp4,video/webm,video/mov,video/quicktime",
-  any: "image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/mov,video/quicktime",
+  audio: "audio/mpeg,audio/mp3,audio/wav,audio/ogg,audio/m4a,audio/aac",
+  any: "image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/mov,video/quicktime,audio/mpeg,audio/mp3,audio/wav",
 };
 
 const MAX_SIZE_MB: Record<MediaType, number> = {
   image: 20,
   video: 500,
+  audio: 100,
   any: 500,
 };
 
@@ -32,6 +34,7 @@ const ASPECT_CLASSES: Record<string, string> = {
   portrait: "aspect-[3/4]",
   landscape: "aspect-video",
   video: "aspect-video",
+  audio: "h-20",
 };
 
 export default function MediaUploader({
@@ -42,12 +45,15 @@ export default function MediaUploader({
   folder = "uploads",
   label,
   className = "",
-  aspectRatio = "landscape",
+  aspectRatio,
 }: MediaUploaderProps) {
   const [progress, setProgress] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Default aspect ratio based on type
+  const resolvedAspect = aspectRatio ?? (type === "audio" ? "audio" : type === "video" ? "video" : "landscape");
 
   const uploadMutation = trpc.upload.uploadBase64.useMutation({
     onSuccess: (data) => {
@@ -62,6 +68,7 @@ export default function MediaUploader({
   });
 
   const isVideo = value && (value.includes(".mp4") || value.includes(".webm") || value.includes(".mov") || value.includes("video"));
+  const isAudio = type === "audio" || (value && (value.includes(".mp3") || value.includes(".wav") || value.includes(".ogg") || value.includes(".m4a") || value.includes("audio")));
 
   const processFile = useCallback(async (file: File) => {
     setError(null);
@@ -71,7 +78,6 @@ export default function MediaUploader({
       return;
     }
 
-    // Simulate progress while reading
     setProgress(10);
     const reader = new FileReader();
     reader.onprogress = (e) => {
@@ -85,7 +91,6 @@ export default function MediaUploader({
         contentType: file.type,
         folder,
       });
-      // Fake progress while uploading
       const interval = setInterval(() => {
         setProgress((p) => {
           if (p >= 90) { clearInterval(interval); return p; }
@@ -121,15 +126,20 @@ export default function MediaUploader({
 
       {/* Preview area */}
       {value ? (
-        <div className={`relative group ${ASPECT_CLASSES[aspectRatio]} rounded overflow-hidden border`}
+        <div className={`relative group ${ASPECT_CLASSES[resolvedAspect]} rounded overflow-hidden border`}
           style={{ borderColor: "var(--brand-sand)" }}>
-          {isVideo ? (
+          {isAudio ? (
+            <div className="w-full h-full flex items-center gap-3 px-4" style={{ backgroundColor: "var(--brand-bege)" }}>
+              <Music size={20} style={{ color: "var(--brand-marrom)", flexShrink: 0 }} />
+              <audio src={value} controls className="flex-1 min-w-0" style={{ height: "36px" }} />
+            </div>
+          ) : isVideo ? (
             <video src={value} controls className="w-full h-full object-cover" />
           ) : (
             <img src={value} alt="preview" className="w-full h-full object-cover" />
           )}
           {/* Overlay on hover */}
-          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+          <div className={`absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 ${isAudio ? "rounded" : ""}`}>
             <button
               type="button"
               onClick={() => inputRef.current?.click()}
@@ -152,7 +162,7 @@ export default function MediaUploader({
       ) : (
         /* Drop zone */
         <div
-          className={`${ASPECT_CLASSES[aspectRatio]} rounded border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors ${isDragging ? "border-[var(--brand-terracota)] bg-[var(--brand-bege)]" : "border-[var(--brand-sand)] hover:border-[var(--brand-marrom)]"}`}
+          className={`${ASPECT_CLASSES[resolvedAspect]} rounded border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors ${isDragging ? "border-[var(--brand-terracota)] bg-[var(--brand-bege)]" : "border-[var(--brand-sand)] hover:border-[var(--brand-marrom)]"}`}
           style={{ backgroundColor: isDragging ? undefined : "var(--brand-bege-light)" }}
           onClick={() => !isLoading && inputRef.current?.click()}
           onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
@@ -176,7 +186,9 @@ export default function MediaUploader({
             </div>
           ) : (
             <div className="flex flex-col items-center gap-2 p-4 text-center">
-              {type === "video" ? (
+              {type === "audio" ? (
+                <Music size={24} style={{ color: "var(--brand-marrom)", opacity: 0.5 }} />
+              ) : type === "video" ? (
                 <Film size={28} style={{ color: "var(--brand-marrom)", opacity: 0.5 }} />
               ) : (
                 <ImageIcon size={28} style={{ color: "var(--brand-marrom)", opacity: 0.5 }} />
@@ -185,7 +197,7 @@ export default function MediaUploader({
                 {isDragging ? "Solte aqui" : "Clique ou arraste"}
               </p>
               <p className="text-xs opacity-50" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
-                {type === "video" ? "MP4, WebM, MOV • até 500MB" : "JPG, PNG, WebP • até 20MB"}
+                {type === "audio" ? "MP3, WAV, OGG • até 100MB" : type === "video" ? "MP4, WebM, MOV • até 500MB" : "JPG, PNG, WebP • até 20MB"}
               </p>
             </div>
           )}

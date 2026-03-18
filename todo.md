@@ -536,3 +536,23 @@
 - [x] Projetos.tsx: adicionado useSEO (description + keywords + canonical)
 - [x] ClienteVip.tsx: adicionadas keywords ao useSEO existente
 - [x] PedidoSucesso.tsx: description expandida de 38 para 115 chars; keywords adicionadas
+
+## Simplificação do Portfólio (Mar 2026)
+- [x] Página pública: clicar em categoria abre galeria masonry com TODAS as fotos da categoria (sem ensaios)
+- [x] Admin: entrar na categoria e fazer upload de várias fotos de uma vez (botão "Adicionar Fotos")
+- [x] Admin: listar todas as fotos da categoria com opção de remover
+- [x] Admin: campo de texto/descrição editável por categoria (aparece abaixo da galeria)
+
+## Reformulação Portfólio + Loja + Obras (Mar 2026)
+- [x] Portfólio público: clicar em categoria abre galeria masonry com TODAS as fotos (sem ensaios intermediários)
+- [x] Portfólio admin (AdminFotos): upload múltiplo de fotos direto na categoria, sem criar ensaios
+- [x] Portfólio admin: listar todas as fotos da categoria com botão remover
+- [x] Portfólio admin: campo de texto/descrição editável por categoria
+- [x] Schema artworks: adicionar campo buyUrl (link direto de compra)
+- [x] Loja: reformular para vender fotos avulsas, obras de arte, cerâmica e ensaios
+- [x] Loja: grid com filtro por categoria, busca por nome, ordenação (mais recente, preço)
+- [x] Loja: cada item com foto, título, preço e botão "Comprar" direto
+- [x] Obras admin: upload direto de áudio (sem precisar colar URL)
+- [x] Obras admin: upload direto de vídeo (sem precisar colar URL)
+- [x] Obras admin: campo link de compra (buyUrl) por obra
+- [x] Obras público: botão "Adquirir esta obra" com link direto de compra

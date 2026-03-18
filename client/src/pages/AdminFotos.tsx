@@ -25,6 +25,12 @@ const CATEGORIES = [
   { slug: "ensaios-femininos", name: "Ensaios Femininos", emoji: "✨", color: "#C4956A" },
   { slug: "gestante", name: "Gestante", emoji: "🤰", color: "#8B7355" },
   { slug: "profissional", name: "Profissional", emoji: "💼", color: "#4C3022" },
+  { slug: "casamentos", name: "Casamentos", emoji: "💍", color: "#9B7B6B" },
+  { slug: "familia", name: "Família", emoji: "👨‍👩‍👧", color: "#7A6550" },
+  { slug: "editoriais", name: "Editoriais", emoji: "📸", color: "#5C4033" },
+  { slug: "fotografia-autoral", name: "Fotografia Autoral", emoji: "🎨", color: "#4C3022" },
+  { slug: "ceramica", name: "Cerâmica", emoji: "🏺", color: "#A0785A" },
+  { slug: "projetos-especiais", name: "Projetos Especiais", emoji: "⭐", color: "#8B6355" },
 ];
 
 // ─── Upload helpers ───────────────────────────────────────────────────────────
@@ -400,7 +406,10 @@ function GalleryManager({ category, onBack }: { category: typeof CATEGORIES[0]; 
 export default function AdminFotos() {
   const { user, loading } = useAuth();
   const [, navigate] = useLocation();
-  const [selectedCategory, setSelectedCategory] = useState<typeof CATEGORIES[0] | null>(null);
+  // Read ?cat= from URL to open directly from PortfolioAdmin
+  const catSlugFromUrl = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("cat") : null;
+  const initialCat = catSlugFromUrl ? CATEGORIES.find(c => c.slug === catSlugFromUrl) ?? null : null;
+  const [selectedCategory, setSelectedCategory] = useState<typeof CATEGORIES[0] | null>(initialCat);
 
   if (loading) {
     return (

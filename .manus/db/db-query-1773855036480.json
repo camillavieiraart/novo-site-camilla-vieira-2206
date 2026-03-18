@@ -1,0 +1,26 @@
+{
+  "query": "SELECT id, title FROM portfolio_shoots WHERE categoryId = 3 LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT id, title FROM portfolio_shoots WHERE categoryId = 3 LIMIT 5;",
+  "rows": [
+    {
+      "id": "7",
+      "title": "Retrato Profissional 01"
+    },
+    {
+      "id": "8",
+      "title": "Retrato Profissional 02"
+    },
+    {
+      "id": "9",
+      "title": "Retrato Profissional 03"
+    },
+    {
+      "id": "30005",
+      "title": "Ensaio Profissional"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\n7\tRetrato Profissional 01\n8\tRetrato Profissional 02\n9\tRetrato Profissional 03\n30005\tEnsaio Profissional\n",
+  "stderr": "",
+  "execution_time_ms": 351
+}

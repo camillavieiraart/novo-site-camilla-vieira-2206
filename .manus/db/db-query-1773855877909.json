@@ -1,0 +1,34 @@
+{
+  "query": "\nSELECT ps.id as shoot_id, ps.title, ps.slug, pc.slug as cat_slug\nFROM portfolio_shoots ps\nJOIN portfolio_categories pc ON ps.categoryId = pc.id\nWHERE pc.slug = 'profissional';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute \nSELECT ps.id as shoot_id, ps.title, ps.slug, pc.slug as cat_slug\nFROM portfolio_shoots ps\nJOIN portfolio_categories pc ON ps.categoryId = pc.id\nWHERE pc.slug = 'profissional';\n",
+  "rows": [
+    {
+      "shoot_id": "7",
+      "title": "Retrato Profissional 01",
+      "slug": "retrato-profissional-01",
+      "cat_slug": "profissional"
+    },
+    {
+      "shoot_id": "8",
+      "title": "Retrato Profissional 02",
+      "slug": "retrato-profissional-02",
+      "cat_slug": "profissional"
+    },
+    {
+      "shoot_id": "9",
+      "title": "Retrato Profissional 03",
+      "slug": "retrato-profissional-03",
+      "cat_slug": "profissional"
+    },
+    {
+      "shoot_id": "30005",
+      "title": "Ensaio Profissional",
+      "slug": "ensaio-profissional-curadoria",
+      "cat_slug": "profissional"
+    }
+  ],
+  "messages": [],
+  "stdout": "shoot_id\ttitle\tslug\tcat_slug\n7\tRetrato Profissional 01\tretrato-profissional-01\tprofissional\n8\tRetrato Profissional 02\tretrato-profissional-02\tprofissional\n9\tRetrato Profissional 03\tretrato-profissional-03\tprofissional\n30005\tEnsaio Profissional\tensaio-profissional-curadoria\tprofissional\n",
+  "stderr": "",
+  "execution_time_ms": 364
+}

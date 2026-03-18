@@ -525,3 +525,14 @@
 ## SEO — Home (/) (Mar 2026)
 - [x] Reduzir keywords de 24 para 6 palavras-chave focadas (Brasília + serviços principais + marca)
 - [x] Encurtar description de 179 para 118 caracteres (dentro do limite de 160)
+
+## Skill SEO + Auditoria de Páginas (Mar 2026)
+- [x] Criar skill seo-page-audit com script Python de auditoria automática
+- [x] Script verifica: useSEO presente, description 50-160 chars, keywords 3-8 termos, canonical, Schema.org
+- [x] Portfolio.tsx: description reduzida de 167 para 125 chars; keywords reduzidas de 9 para 6 termos focados
+- [x] Obras.tsx: keywords reduzidas de 9 para 6 termos focados (removidos termos em inglês/francês)
+- [x] EnsaioProfissional.tsx: adicionado Schema.org Service com breadcrumb e offers (3 pacotes)
+- [x] Fotografia.tsx: adicionado useSEO na FotografiaOverview (description + keywords + canonical)
+- [x] Projetos.tsx: adicionado useSEO (description + keywords + canonical)
+- [x] ClienteVip.tsx: adicionadas keywords ao useSEO existente
+- [x] PedidoSucesso.tsx: description expandida de 38 para 115 chars; keywords adicionadas

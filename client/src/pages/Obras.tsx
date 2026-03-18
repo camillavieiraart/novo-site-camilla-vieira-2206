@@ -200,7 +200,7 @@ function ObrasGallery() {
     description: "Série Fio de Camilla Vieira: obras de arte que combinam fotografia e costura artesanal. Cada peça é uma intervenção única — linhas que atravessam a imagem fotográfica, criando nova camada de significado.",
     descriptionEn: "Fio Series by Camilla Vieira: artworks combining photography and hand embroidery. Each piece is a unique intervention — threads crossing the photographic image, creating a new layer of meaning.",
     descriptionFr: "Série Fio de Camilla Vieira: œuvres d'art combinant photographie et broderie artisanale. Chaque pièce est une intervention unique — des fils traversant l'image photographique, créant une nouvelle couche de sens.",
-    keywords: "série fio, costura sobre fotografia, obras de arte, arte contemporânea, Camilla Vieira, fotografia artística, fine art photography, contemporary art Brazil, art photographique Brésil",
+    keywords: "série fio, costura sobre fotografia, obras de arte contemporânea, Camilla Vieira artista, fotografia artística Brasil, arte fotográfica Brasília",
     canonical: "/obras",
     enableHreflang: true,
   });

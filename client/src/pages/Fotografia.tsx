@@ -46,6 +46,12 @@ function FotografiaOverview() {
   const [visible, setVisible] = useState(false);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   useEffect(() => { setTimeout(() => setVisible(true), 200); }, []);
+  useSEO({
+    title: "Fotografia Autoral",
+    description: "Séries fotográficas autorais de Camilla Vieira: Série Fio e Maternidade. Arte visual que explora identidade, corpo e memória em Brasília.",
+    keywords: "fotografia autoral Brasília, série fio, costura sobre fotografia, arte visual contemporânea, Camilla Vieira artista",
+    canonical: "/fotografia",
+  });
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--brand-bege-light)" }}>

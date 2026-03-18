@@ -26,6 +26,12 @@ export default function Projetos() {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const { data: projectsData } = trpc.specialProjects.getAll.useQuery();
   useEffect(() => { setTimeout(() => setVisible(true), 200); }, []);
+  useSEO({
+    title: "Projetos Especiais",
+    description: "Projetos especiais de Camilla Vieira: exposições, colaborações e trabalhos únicos que exploram fotografia artística e identidade visual.",
+    keywords: "projetos fotografia artística, exposição fotografia Brasília, Camilla Vieira projetos, colaboração fotografia",
+    canonical: "/projetos",
+  });
 
   const projects = (projectsData && projectsData.length > 0) ? projectsData : PROJECTS_FALLBACK;
 

@@ -10,6 +10,7 @@ export default function ClienteVip() {
   useSEO({
     title: "Área Exclusiva — Clientes Camilla Vieira",
     description: "Página exclusiva para clientes da Camilla Vieira. Atualize seus dados e, se quiser, deixe um depoimento sobre sua experiência.",
+    keywords: "cliente Camilla Vieira, depoimento ensaio fotográfico, área exclusiva clientes",
     canonical: "/cliente-vip",
   });
 

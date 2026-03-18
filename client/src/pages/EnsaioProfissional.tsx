@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSEO } from "@/hooks/useSEO";
+import { StructuredData, buildBreadcrumb, BASE_URL } from "@/components/StructuredData";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { ArrowRight, Clock, Camera, Package, Briefcase, Star, ChevronDown, ChevronUp, Sparkles } from "lucide-react";
@@ -493,6 +494,26 @@ export default function EnsaioProfissional() {
         </div>
       </section>
 
+      <StructuredData schemas={[
+        buildBreadcrumb([
+          { name: "Portfólio", url: "/portfolio" },
+          { name: "Ensaio Profissional", url: "/ensaio-profissional" },
+        ]),
+        {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          name: "Ensaio Fotográfico Profissional — Camilla Vieira",
+          description: "Ensaio fotográfico profissional em Brasília com olhar artístico. Fotos para LinkedIn, site e marca pessoal.",
+          url: `${BASE_URL}/ensaio-profissional`,
+          provider: { "@type": "Person", name: "Camilla Vieira", url: BASE_URL },
+          areaServed: [{ "@type": "City", name: "Brasília" }, { "@type": "City", name: "São Paulo" }],
+          offers: [
+            { "@type": "Offer", name: "Essencial", price: "2197", priceCurrency: "BRL" },
+            { "@type": "Offer", name: "Profissional", price: "4197", priceCurrency: "BRL" },
+            { "@type": "Offer", name: "Premium", price: "7497", priceCurrency: "BRL" },
+          ],
+        },
+      ]} />
       <Footer />
     </div>
   );

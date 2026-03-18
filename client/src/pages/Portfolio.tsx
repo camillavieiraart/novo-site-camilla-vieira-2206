@@ -48,10 +48,10 @@ function Lightbox({ src, alt, caption, onClose }: { src: string; alt?: string; c
 function PortfolioOverview() {
   useSEO({
     title: "Portfólio",
-    description: "Portfólio de ensaios fotográficos de Camilla Vieira: ensaios femininos, gestante e profissionais com olhar artístico e personalizado. Fotografia única em Brasília, DF.",
+    description: "Portfólio de Camilla Vieira: ensaios femininos, gestante e profissionais com olhar artístico. Fotografia única em Brasília, DF.",
     descriptionEn: "Photography portfolio by Camilla Vieira: feminine, maternity and professional portraits with an artistic, personalized vision. Fine art photography in Brasília, Brazil.",
     descriptionFr: "Portfolio photographique de Camilla Vieira: portraits féminins, maternité et professionnels avec une vision artistique et personnalisée. Photographie artistique à Brasília, Brésil.",
-    keywords: "portfólio fotografia, ensaio feminino Brasília, ensaio gestante Brasília, ensaio profissional, fotografia artística, Camilla Vieira, photography portfolio, fine art portrait, portfolio photographique",
+    keywords: "portfólio fotografia Brasília, ensaio feminino Brasília, ensaio gestante Brasília, fotografia artística, Camilla Vieira fotógrafa, ensaio profissional Brasília",
     canonical: "/portfolio",
     enableHreflang: true,
   });

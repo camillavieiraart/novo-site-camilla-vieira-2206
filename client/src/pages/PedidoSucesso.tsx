@@ -9,7 +9,8 @@ import { CheckCircle, ArrowRight, ShoppingBag, Mail } from "lucide-react";
 export default function PedidoSucesso() {
   useSEO({
     title: "Pedido Confirmado",
-    description: "Seu pedido foi confirmado com sucesso.",
+    description: "Seu pedido foi confirmado com sucesso. Em breve você receberá um e-mail com os detalhes do seu ensaio fotográfico.",
+    keywords: "pedido confirmado, ensaio fotográfico agendado, Camilla Vieira",
     canonical: "/loja/sucesso",
   });
 

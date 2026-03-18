@@ -49,8 +49,9 @@ function Router() {
       <Route path="/mentorias" component={Mentorias} />
       <Route path="/contato" component={Contato} />
       <Route path="/admin" component={Admin} />
-      <Route path="/admin/:section" component={Admin} />
+      <Route path="/admin/fotos" component={AdminFotos} />
       <Route path="/admin-fotos" component={AdminFotos} />
+      <Route path="/admin/:section" component={Admin} />
       <Route path="/onboarding/:token" component={FormOnboarding} />
       <Route path="/satisfacao/:token" component={FormSatisfacao} />
       <Route path="/privacidade" component={Privacidade} />

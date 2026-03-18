@@ -134,6 +134,16 @@ export const appRouter = router({
       .query(({ input }) => getImagesByCategory(input.categorySlug)),
     getOrCreateDefaultShoot: adminProcedure.input(z.object({ categorySlug: z.string() }))
       .mutation(({ input }) => getOrCreateDefaultShoot(input.categorySlug)),
+    // Upload direto por categoria (sem precisar de shootId)
+    addByCategory: adminProcedure.input(z.object({
+      categorySlug: z.string(),
+      imageUrl: z.string(),
+      caption: z.string().optional(),
+    })).mutation(async ({ input }) => {
+      const shootId = await getOrCreateDefaultShoot(input.categorySlug);
+      if (!shootId) throw new TRPCError({ code: 'NOT_FOUND', message: 'Categoria não encontrada' });
+      return addPortfolioImage({ shootId, imageUrl: input.imageUrl, caption: input.caption, order: 0 });
+    }),
     add: adminProcedure.input(z.object({
       shootId: z.number(),
       imageUrl: z.string(),

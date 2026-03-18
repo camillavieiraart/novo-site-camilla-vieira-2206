@@ -556,3 +556,10 @@
 - [x] Obras admin: upload direto de vídeo (sem precisar colar URL)
 - [x] Obras admin: campo link de compra (buyUrl) por obra
 - [x] Obras público: botão "Adquirir esta obra" com link direto de compra
+
+## Upload Inline na Galeria Pública (Mar 2026)
+
+- [ ] Portfólio público: quando logada como admin, mostrar botão "+" flutuante na galeria para adicionar fotos direto na página
+- [ ] Portfólio público: quando logada, mostrar botão "×" em cada foto para remover direto na galeria
+- [ ] Portfólio público: quando logada, mostrar campo de descrição editável inline (clica e edita)
+- [ ] Corrigir rota "Em breve" no admin que aparece quando a URL não corresponde a nenhuma seção

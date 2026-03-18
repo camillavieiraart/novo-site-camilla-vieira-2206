@@ -8,6 +8,7 @@ import {
   Package, Palette, Users, Mail, Home, FileText
 } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
@@ -949,7 +950,21 @@ export default function Admin() {
     </div>
   );
 
-  if (!user || user.role !== "admin") return (
+  if (!user) {
+    // Redireciona automaticamente para o login, voltando para /admin após autenticar
+    sessionStorage.setItem("adminReturnPath", "/admin");
+    window.location.href = getLoginUrl();
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "var(--brand-bege-light)" }}>
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin mx-auto mb-4" style={{ borderColor: "var(--brand-terracota)" }} />
+          <p className="text-sm" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>Redirecionando para login...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (user.role !== "admin") return (
     <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "var(--brand-bege-light)" }}>
       <div className="text-center p-8 max-w-sm">
         <h1 className="font-serif text-3xl font-medium mb-4" style={{ color: "var(--brand-marrom-deep)" }}>Acesso Restrito</h1>

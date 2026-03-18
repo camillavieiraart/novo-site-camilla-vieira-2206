@@ -515,3 +515,9 @@
 - [x] Registrar rota /ensaio-profissional no App.tsx
 - [x] Corrigir CTA da categoria "profissional" no portfólio para apontar para /ensaio-profissional (estava apontando para /contato)
 - [x] CTAs estratégicos no portfólio (topo, meio, final) já implementados para todas as categorias
+
+## Menu de Navegação — Ensaio Profissional (Mar 2026)
+- [ ] Adicionar /ensaio-profissional ao dropdown de navegação principal
+
+## Bug — Admin sem Botão de Login (Mar 2026)
+- [x] Corrigir página /admin para redirecionar automaticamente para login quando usuário não está autenticado (em vez de mostrar "Acesso Restrito" sem saída)

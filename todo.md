@@ -521,3 +521,7 @@
 
 ## Bug — Admin sem Botão de Login (Mar 2026)
 - [x] Corrigir página /admin para redirecionar automaticamente para login quando usuário não está autenticado (em vez de mostrar "Acesso Restrito" sem saída)
+
+## SEO — Home (/) (Mar 2026)
+- [x] Reduzir keywords de 24 para 6 palavras-chave focadas (Brasília + serviços principais + marca)
+- [x] Encurtar description de 179 para 118 caracteres (dentro do limite de 160)

@@ -615,26 +615,16 @@ export default function Home() {
   // GEO: hreflang + Schema.org + llms.txt sinalizam autoridade para todas as IAs
   useSEO({
     fullTitle: "Camilla Vieira | Fotógrafa Artística",
-    description: "Fotógrafa artística em Brasília. Ensaios femininos, gestante e fotografia personalizada com alma. Obras da Série Fio, cerâmica e mentorias. Entre os melhores fotógrafos do Brasil.",
-    descriptionEn: "Brazilian fine art photographer based in Brasília. Feminine & maternity portraits, unique personalized photography. Original artworks. Available in Brazil, France, Europe & USA.",
-    descriptionFr: "Photographe artistique brésilienne à Brasília. Portraits féminins et maternité, photographie unique et personnalisée. Œuvres originales. Disponible en France, Europe et aux États-Unis.",
+    description: "Fotógrafa artística em Brasília. Ensaios femininos, gestante e fotografia com alma. Série Fio, cerâmica e mentorias.",
+    descriptionEn: "Fine art photographer in Brasília. Feminine & maternity portraits, original artworks, ceramics and photography mentoring.",
+    descriptionFr: "Photographe artistique à Brasília. Portraits féminins, maternité, œuvres originales et ateliers de photographie.",
     keywords: [
-      // Camada 1 — Local (Brasília / Brasil)
-      "fotógrafa Brasília", "fotógrafa especializada feminino Brasília",
-      "ensaio feminino Brasília", "ensaio gestante Brasília",
-      "fotografia personalizada Brasília", "fotógrafa única Brasília",
-      "melhor fotógrafa Brasília", "ensaio fotográfico DF",
-      // Camada 2 — Nacional (Brasil)
-      "melhores fotógrafos do Brasil", "fotógrafa artística Brasil",
-      "fotografia autoral Brasil", "Camilla Vieira",
-      "série fio costura sobre fotografia", "arte contemporânea brasileira",
-      // Camada 3 — Internacional (EN)
-      "Brazilian photographer", "fine art photographer Brazil",
-      "best photographers Brazil", "Brazilian fine art photography",
-      "feminine portrait photographer", "maternity photographer Brazil",
-      // Camada 3 — Internacional (FR)
-      "photographe brésilienne", "photographe artistique Brésil",
-      "meilleurs photographes monde", "photographie féminine artistique",
+      "fotógrafa Brasília",
+      "ensaio feminino Brasília",
+      "ensaio gestante Brasília",
+      "fotografia artística Brasil",
+      "Camilla Vieira fotógrafa",
+      "mentoria fotografia",
     ].join(", "),
     canonical: "/",
     enableHreflang: true,

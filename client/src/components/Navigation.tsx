@@ -58,6 +58,7 @@ export function Navigation({ transparent = false }: NavigationProps) {
                 <div className="dropdown-menu">
                   <Link href="/ensaio-feminino" className="dropdown-item" style={{ fontWeight: 500 }}>✦ Ensaio Feminino</Link>
                   <Link href="/ensaio-gestante" className="dropdown-item" style={{ fontWeight: 500 }}>✦ Ensaio Gestante</Link>
+                  <Link href="/ensaio-profissional" className="dropdown-item" style={{ fontWeight: 500 }}>✦ Ensaio Profissional</Link>
                   <div style={{ height: "1px", backgroundColor: "var(--brand-sand)", margin: "0.25rem 0" }} />
                   <Link href="/portfolio/ensaios-femininos" className="dropdown-item">Portfólio Feminino</Link>
                   <Link href="/portfolio/gestante" className="dropdown-item">Portfólio Gestante</Link>
@@ -134,6 +135,7 @@ export function Navigation({ transparent = false }: NavigationProps) {
             <Link href="/portfolio" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Ver Todos</Link>
             <Link href="/ensaio-feminino" className="mobile-nav-sub" onClick={() => setMobileOpen(false)} style={{ color: "var(--brand-terracota)" }}>✦ Ensaio Feminino</Link>
             <Link href="/ensaio-gestante" className="mobile-nav-sub" onClick={() => setMobileOpen(false)} style={{ color: "var(--brand-terracota)" }}>✦ Ensaio Gestante</Link>
+            <Link href="/ensaio-profissional" className="mobile-nav-sub" onClick={() => setMobileOpen(false)} style={{ color: "var(--brand-terracota)" }}>✦ Ensaio Profissional</Link>
             <Link href="/portfolio/ensaios-femininos" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Portfólio Feminino</Link>
             <Link href="/portfolio/gestante" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Portfólio Gestante</Link>
             <Link href="/portfolio/profissional" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Profissional</Link>

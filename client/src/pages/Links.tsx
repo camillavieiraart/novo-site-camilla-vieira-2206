@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-// Foto P&B grande atrás
-const BG_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/links-bg-bw_9f643b56.jpg";
 // Foto colorida menor na frente
 const FRONT_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/links-front_d5f5dbae.jpg";
+
+const FULL_NAME = "Camilla Vieira";
 
 const links = [
   { label: "AGENDAR ENSAIO", href: "https://camillavieira.art/ensaio-feminino", num: "01" },
@@ -15,168 +15,227 @@ const links = [
 ];
 
 export default function Links() {
+  const [displayedName, setDisplayedName] = useState("");
+  const [showCursor, setShowCursor] = useState(true);
+  const [nameComplete, setNameComplete] = useState(false);
+
   useEffect(() => {
     document.title = "Camilla Vieira | @camillavieira.art";
   }, []);
 
+  // Typewriter do nome
+  useEffect(() => {
+    let i = 0;
+    const delay = setTimeout(() => {
+      const interval = setInterval(() => {
+        if (i < FULL_NAME.length) {
+          setDisplayedName(FULL_NAME.slice(0, i + 1));
+          i++;
+        } else {
+          setNameComplete(true);
+          clearInterval(interval);
+        }
+      }, 120);
+      return () => clearInterval(interval);
+    }, 400);
+    return () => clearTimeout(delay);
+  }, []);
+
+  // Piscar cursor
+  useEffect(() => {
+    if (nameComplete) {
+      const t = setTimeout(() => setShowCursor(false), 1200);
+      return () => clearTimeout(t);
+    }
+    const interval = setInterval(() => setShowCursor((v) => !v), 500);
+    return () => clearInterval(interval);
+  }, [nameComplete]);
+
   return (
     <>
       <style>{`
-        .links-page {
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500&display=swap');
+
+        .lp-page {
           min-height: 100vh;
-          background: #2a1a0e;
+          background: #3d2410;
           display: flex;
           flex-direction: column;
           font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
           overflow-x: hidden;
+          position: relative;
+        }
+
+        /* Pinceladas decorativas */
+        .lp-brush {
+          position: absolute;
+          pointer-events: none;
+          z-index: 0;
+          opacity: 0.18;
+        }
+        .lp-brush-tl {
+          top: -20px;
+          left: -30px;
+          width: 220px;
+          height: 220px;
+        }
+        .lp-brush-br {
+          bottom: 30px;
+          right: -20px;
+          width: 180px;
+          height: 180px;
+          transform: rotate(180deg);
         }
 
         /* Ticker */
-        .links-ticker-wrap {
-          background: #2a1a0e;
-          border-bottom: 1px solid rgba(240,235,227,0.08);
+        .lp-ticker-wrap {
+          position: relative;
+          z-index: 1;
+          background: transparent;
+          border-bottom: 1px solid rgba(240,225,200,0.1);
           overflow: hidden;
           padding: 9px 0;
         }
-        .links-ticker-inner {
+        .lp-ticker-inner {
           display: inline-block;
           white-space: nowrap;
-          animation: ticker 32s linear infinite;
-          color: #f0ebe3;
-          font-size: 0.65rem;
-          letter-spacing: 0.25em;
-          font-weight: 500;
-          opacity: 0.7;
+          animation: lp-ticker 32s linear infinite;
+          color: #f0e6d3;
+          font-size: 0.62rem;
+          letter-spacing: 0.28em;
+          font-weight: 400;
+          opacity: 0.55;
         }
-        @keyframes ticker {
+        @keyframes lp-ticker {
           from { transform: translateX(0); }
           to { transform: translateX(-50%); }
         }
 
-        /* Hero com duas fotos sobrepostas */
-        .links-hero {
+        /* Hero */
+        .lp-hero {
           position: relative;
-          width: 100%;
-          height: 58vw;
-          max-height: 62vh;
-          min-height: 240px;
-          overflow: hidden;
-          background: #2a1a0e;
+          z-index: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 2.5rem 1.5rem 1.5rem;
+          min-height: 52vw;
+          max-height: 56vh;
         }
 
-        /* Foto de fundo P&B — ocupa tudo */
-        .links-hero-bg {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center 20%;
-          display: block;
-          filter: brightness(0.7) grayscale(80%) sepia(20%);
+        /* Subtítulo acima do nome */
+        .lp-supertitle {
+          color: rgba(240,225,200,0.55);
+          font-size: 0.6rem;
+          letter-spacing: 0.3em;
+          font-weight: 400;
+          text-transform: uppercase;
+          margin-bottom: 0.6rem;
+          font-family: 'Inter', sans-serif;
         }
 
-        /* Foto da frente colorida — canto inferior direito, levemente rotacionada */
-        .links-hero-front {
+        /* Nome com typewriter */
+        .lp-name {
+          font-family: 'Cormorant Garamond', 'Georgia', serif;
+          font-weight: 300;
+          font-size: clamp(2.4rem, 10vw, 4rem);
+          color: #f0e6d3;
+          line-height: 1.05;
+          letter-spacing: 0.02em;
+          margin: 0 0 0.5rem;
+          min-height: 1.1em;
+        }
+        .lp-cursor {
+          display: inline-block;
+          width: 2px;
+          height: 0.85em;
+          background: #c97a4a;
+          margin-left: 2px;
+          vertical-align: middle;
+          border-radius: 1px;
+        }
+
+        /* Localidades */
+        .lp-location {
+          color: rgba(240,225,200,0.45);
+          font-size: 0.65rem;
+          letter-spacing: 0.2em;
+          font-weight: 300;
+          margin-top: 0.3rem;
+          font-family: 'Inter', sans-serif;
+        }
+
+        /* Foto flutuante */
+        .lp-photo {
           position: absolute;
-          bottom: -8px;
-          right: 12px;
-          width: 52%;
-          max-width: 220px;
+          bottom: -24px;
+          right: 16px;
+          width: 46%;
+          max-width: 200px;
           aspect-ratio: 2/3;
           object-fit: cover;
           object-position: center 15%;
-          display: block;
-          box-shadow: -4px 4px 24px rgba(0,0,0,0.6);
+          box-shadow: -4px 6px 28px rgba(0,0,0,0.45);
           transform: rotate(1.5deg);
-          border: 2px solid rgba(255,255,255,0.08);
-        }
-
-        /* Nome sobre a foto de fundo */
-        .links-hero-name {
-          position: absolute;
-          top: 50%;
-          left: 18px;
-          transform: translateY(-50%);
+          border: 2px solid rgba(255,255,255,0.06);
           z-index: 2;
         }
-        .links-hero-name h1 {
-          color: #f0ebe3;
-          font-size: clamp(1.6rem, 7vw, 2.8rem);
-          font-weight: 300;
-          letter-spacing: 0.06em;
-          line-height: 1.1;
-          margin: 0;
-          text-shadow: 0 2px 12px rgba(0,0,0,0.5);
-          font-family: 'Cormorant Garamond', 'Georgia', serif;
-        }
-        .links-hero-name span {
-          display: block;
-          color: rgba(240,235,227,0.5);
-          font-size: 0.6rem;
-          letter-spacing: 0.28em;
-          font-family: 'Inter', sans-serif;
-          font-weight: 400;
-          margin-top: 6px;
-          text-transform: uppercase;
+
+        /* Divisor */
+        .lp-divider {
+          position: relative;
+          z-index: 1;
+          height: 1px;
+          background: rgba(240,225,200,0.1);
+          margin: 2rem 1.5rem 0;
         }
 
-        /* Content */
-        .links-content {
-          background: #2a1a0e;
+        /* Links */
+        .lp-content {
+          position: relative;
+          z-index: 1;
           padding: 1.8rem 1.5rem 3.5rem;
           display: flex;
           flex-direction: column;
+          margin-top: 16px;
         }
 
-        .links-tagline {
-          color: rgba(240,235,227,0.4);
-          font-size: 0.6rem;
-          letter-spacing: 0.28em;
-          font-weight: 400;
-          margin-bottom: 1.6rem;
-          text-transform: uppercase;
-        }
-
-        /* Nav */
-        .links-nav {
+        .lp-nav {
           display: flex;
           flex-direction: column;
           width: 100%;
         }
 
-        .links-item {
+        .lp-item {
           display: flex;
           align-items: center;
           justify-content: space-between;
           padding: 1rem 0;
-          border-top: 1px solid rgba(240,235,227,0.1);
+          border-top: 1px solid rgba(240,225,200,0.1);
           text-decoration: none;
           transition: opacity 0.18s ease;
         }
-        .links-item:last-child {
-          border-bottom: 1px solid rgba(240,235,227,0.1);
+        .lp-item:last-child {
+          border-bottom: 1px solid rgba(240,225,200,0.1);
         }
-        .links-item:hover {
-          opacity: 0.45;
-        }
-        .links-item-label {
-          color: #f0ebe3;
+        .lp-item:hover { opacity: 0.45; }
+
+        .lp-item-label {
+          color: #f0e6d3;
           font-size: 0.75rem;
           letter-spacing: 0.22em;
           font-weight: 500;
           text-transform: uppercase;
         }
-        .links-item-num {
-          color: rgba(240,235,227,0.25);
+        .lp-item-num {
+          color: rgba(240,225,200,0.25);
           font-size: 0.62rem;
           letter-spacing: 0.1em;
           font-weight: 300;
         }
 
-        /* Footer */
-        .links-footer {
-          color: rgba(240,235,227,0.18);
+        .lp-footer {
+          color: rgba(240,225,200,0.18);
           font-size: 0.58rem;
           letter-spacing: 0.2em;
           margin-top: 2.5rem;
@@ -184,66 +243,67 @@ export default function Links() {
           text-transform: uppercase;
         }
 
-        /* Desktop */
         @media (min-width: 600px) {
-          .links-hero {
-            max-height: 65vh;
-          }
-          .links-hero-front {
-            width: 44%;
-            max-width: 260px;
-            right: 20px;
-          }
-          .links-content {
+          .lp-hero { min-height: 40vh; max-height: 50vh; padding: 3rem 2rem 2rem; }
+          .lp-photo { max-width: 240px; right: 24px; }
+          .lp-content {
             max-width: 460px;
-            margin: 0 auto;
+            margin: 16px auto 0;
             width: 100%;
-            padding: 2.2rem 0 4rem;
+            padding: 2rem 0 4rem;
           }
-          .links-item-label {
-            font-size: 0.8rem;
-          }
+          .lp-divider { margin: 2rem auto 0; max-width: 460px; }
+          .lp-item-label { font-size: 0.8rem; }
         }
       `}</style>
 
-      <div className="links-page">
+      <div className="lp-page">
+        {/* Pincelada topo esquerdo */}
+        <svg className="lp-brush lp-brush-tl" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 190 Q20 80 100 60 Q160 45 190 10" stroke="#c97a4a" strokeWidth="28" strokeLinecap="round" fill="none"/>
+        </svg>
+        {/* Pincelada baixo direito */}
+        <svg className="lp-brush lp-brush-br" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 190 Q20 80 100 60 Q160 45 190 10" stroke="#c97a4a" strokeWidth="22" strokeLinecap="round" fill="none"/>
+        </svg>
+
         {/* Ticker */}
-        <div className="links-ticker-wrap">
-          <span className="links-ticker-inner">
-            {"CAMILLA VIEIRA · FOTOGRAFIA É ARTE · BRASÍLIA · ".repeat(8)}
+        <div className="lp-ticker-wrap">
+          <span className="lp-ticker-inner">
+            {"CAMILLA VIEIRA · FOTOGRAFIA É ARTE · BRASÍLIA · SP · MG · RJ · ".repeat(6)}
           </span>
         </div>
 
-        {/* Hero com duas fotos */}
-        <div className="links-hero">
-          <img src={BG_IMAGE} alt="" className="links-hero-bg" />
-          <img src={FRONT_IMAGE} alt="Camilla Vieira" className="links-hero-front" />
-          <div className="links-hero-name">
-            <h1>Camilla<br />Vieira</h1>
-            <span>@camillavieira.art</span>
-          </div>
+        {/* Hero */}
+        <div className="lp-hero">
+          <p className="lp-supertitle">ATELIÊ DIGITAL</p>
+          <h1 className="lp-name">
+            {displayedName}
+            {!nameComplete && <span className="lp-cursor" style={{ opacity: showCursor ? 1 : 0 }} />}
+          </h1>
+          <p className="lp-location">Brasília · São Paulo · Minas Gerais · e outros estados</p>
+          <img src={FRONT_IMAGE} alt="Camilla Vieira" className="lp-photo" />
         </div>
 
-        {/* Content */}
-        <div className="links-content">
-          <p className="links-tagline">FOTOGRAFIA É ARTE.</p>
+        <div className="lp-divider" />
 
-          <nav className="links-nav">
+        {/* Links */}
+        <div className="lp-content">
+          <nav className="lp-nav">
             {links.map((link) => (
               <a
                 key={link.num}
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="links-item"
+                className="lp-item"
               >
-                <span className="links-item-label">{link.label}</span>
-                <span className="links-item-num">{link.num}</span>
+                <span className="lp-item-label">{link.label}</span>
+                <span className="lp-item-num">{link.num}</span>
               </a>
             ))}
           </nav>
-
-          <p className="links-footer">camillavieira.art</p>
+          <p className="lp-footer">camillavieira.art</p>
         </div>
       </div>
     </>

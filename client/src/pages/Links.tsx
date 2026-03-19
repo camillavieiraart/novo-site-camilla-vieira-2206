@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
 // Foto P&B de fundo
-const BG_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/links-bg-bw_9f643b56.jpg";
+const BG_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/links-bg-new_9cf1880c.jpeg";
 
 // Foto colorida menor na frente
-const FRONT_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/links-front_d5f5dbae.jpg";
+const FRONT_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/links-front-new_bf4f91aa.jpeg";
 
 const FULL_NAME = "Camilla Vieira";
 

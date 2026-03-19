@@ -1,0 +1,8 @@
+{
+  "query": "SELECT pi.image_url, ps.title, pc.name FROM portfolio_images pi JOIN portfolio_shoots ps ON pi.shoot_id = ps.id JOIN portfolio_categories pc ON ps.category_id = pc.id WHERE pc.name IN ('Femininos', 'Profissional', 'Gestantes') AND pi.image_url LIKE '%cloudfront%' LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT pi.image_url, ps.title, pc.name FROM portfolio_images pi JOIN portfolio_shoots ps ON pi.shoot_id = ps.id JOIN portfolio_categories pc ON ps.category_id = pc.id WHERE pc.name IN ('Femininos', 'Profissional', 'Gestantes') AND pi.image_url LIKE '%cloudfront%' LIMIT 10;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'pi.shoot_id' in 'on clause'"
+  ]
+}

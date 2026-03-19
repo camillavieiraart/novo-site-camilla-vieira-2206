@@ -1,0 +1,19 @@
+{
+  "query": "SELECT COUNT(*) as total FROM artwork_variants; SELECT COUNT(*) as total_artworks FROM artworks WHERE series = 'Fine Art';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT COUNT(*) as total FROM artwork_variants; SELECT COUNT(*) as total_artworks FROM artworks WHERE series = 'Fine Art';",
+  "rows": [
+    {
+      "total": "70"
+    },
+    {
+      "total": "total_artworks"
+    },
+    {
+      "total": "14"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\n70\ntotal_artworks\n14\n",
+  "stderr": "",
+  "execution_time_ms": 415
+}

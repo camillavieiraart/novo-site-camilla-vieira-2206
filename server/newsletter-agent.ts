@@ -140,8 +140,8 @@ Retorne um JSON com exatamente estes campos:
   "body": "Corpo principal em HTML (3-4 parágrafos com tags p, pode incluir strong e em, 400-600 palavras, reflexivo e rico em imagens mentais)",
   "quote": "Uma citação relevante sobre o tema (de fotógrafo, artista, cineasta ou escritor)",
   "quoteAuthor": "Autor da citação",
-  "ctaText": "Texto do botão de call-to-action (ex: Ver o ensaio completo, Ler no blog)",
-  "ctaUrl": "URL relativa do CTA (ex: /blog, /obras, /portfolio)",
+  "ctaText": "Texto do botão de call-to-action (ex: Ver o ensaio completo, Ler no blog, Explorar portfólio)",
+  "ctaUrl": "URL relativa do CTA (ex: /blog, /obras, /ensaio-feminino, /portfolio, /mentorias). NUNCA use /links como destino do CTA",
   "closingThought": "Pensamento de encerramento (1-2 frases, quente e pessoal, como uma despedida)"
 }`;
 

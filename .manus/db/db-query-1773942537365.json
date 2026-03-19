@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS `artwork_variants` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `artworkId` int NOT NULL,\n  `size` varchar(50) NOT NULL,\n  `finish` enum('canvas','fine_art') NOT NULL DEFAULT 'fine_art',\n  `priceInCents` int NOT NULL,\n  `stripePriceId` varchar(100),\n  `stripeProductId` varchar(100),\n  `isActive` boolean NOT NULL DEFAULT true,\n  CONSTRAINT `artwork_variants_id` PRIMARY KEY(`id`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute CREATE TABLE IF NOT EXISTS `artwork_variants` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `artworkId` int NOT NULL,\n  `size` varchar(50) NOT NULL,\n  `finish` enum('canvas','fine_art') NOT NULL DEFAULT 'fine_art',\n  `priceInCents` int NOT NULL,\n  `stripePriceId` varchar(100),\n  `stripeProductId` varchar(100),\n  `isActive` boolean NOT NULL DEFAULT true,\n  CONSTRAINT `artwork_variants_id` PRIMARY KEY(`id`)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 603
+}

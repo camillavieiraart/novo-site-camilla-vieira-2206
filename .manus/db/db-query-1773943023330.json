@@ -1,0 +1,35 @@
+{
+  "query": "SELECT DISTINCT size, finish, priceInCents FROM artwork_variants ORDER BY priceInCents LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT DISTINCT size, finish, priceInCents FROM artwork_variants ORDER BY priceInCents LIMIT 20;",
+  "rows": [
+    {
+      "size": "30x45 cm",
+      "finish": "fine_art",
+      "priceInCents": "97000"
+    },
+    {
+      "size": "30x45 cm",
+      "finish": "canvas",
+      "priceInCents": "127000"
+    },
+    {
+      "size": "60x90 cm",
+      "finish": "fine_art",
+      "priceInCents": "197000"
+    },
+    {
+      "size": "60x90 cm",
+      "finish": "canvas",
+      "priceInCents": "247000"
+    },
+    {
+      "size": "90x120 cm",
+      "finish": "fine_art",
+      "priceInCents": "347000"
+    }
+  ],
+  "messages": [],
+  "stdout": "size\tfinish\tpriceInCents\n30x45 cm\tfine_art\t97000\n30x45 cm\tcanvas\t127000\n60x90 cm\tfine_art\t197000\n60x90 cm\tcanvas\t247000\n90x120 cm\tfine_art\t347000\n",
+  "stderr": "",
+  "execution_time_ms": 369
+}

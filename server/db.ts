@@ -1,7 +1,7 @@
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import {
-  InsertUser, artworks, blogPosts, bookings, ceramics, contactMessages,
+  InsertUser, artworks, artworkVariants, blogPosts, bookings, ceramics, contactMessages,
   homeSections, mentorships, newsletterSubscribers, portfolioCategories, portfolioImages,
   portfolioShoots, siteSettings, specialProjects, testimonials, users, videos,
 } from "../drizzle/schema";
@@ -225,6 +225,29 @@ export async function upsertArtwork(data: typeof artworks.$inferInsert) {
 export async function deleteArtwork(id: number) {
   const db = await getDb(); if (!db) return;
   await db.delete(artworks).where(eq(artworks.id, id));
+}
+
+// ─── ARTWORK VARIANTS (Fine Art) ─────────────────────────────────────────────
+export async function getArtworkVariants(artworkId: number) {
+  const db = await getDb(); if (!db) return [];
+  return db.select().from(artworkVariants)
+    .where(and(eq(artworkVariants.artworkId, artworkId), eq(artworkVariants.isActive, true)))
+    .orderBy(asc(artworkVariants.priceInCents));
+}
+export async function getFineArtworks() {
+  const db = await getDb(); if (!db) return [];
+  return db.select().from(artworks)
+    .where(and(eq(artworks.isActive, true), eq(artworks.series, 'Fine Art')))
+    .orderBy(asc(artworks.order));
+}
+export async function getFineArtworkWithVariants(slug: string) {
+  const db = await getDb(); if (!db) return null;
+  const artwork = await db.select().from(artworks).where(eq(artworks.slug, slug)).limit(1);
+  if (!artwork[0]) return null;
+  const variants = await db.select().from(artworkVariants)
+    .where(and(eq(artworkVariants.artworkId, artwork[0].id), eq(artworkVariants.isActive, true)))
+    .orderBy(asc(artworkVariants.priceInCents));
+  return { ...artwork[0], variants };
 }
 
 // ─── CERAMICS ─────────────────────────────────────────────────────────────────

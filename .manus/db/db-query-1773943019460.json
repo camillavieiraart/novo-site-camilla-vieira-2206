@@ -1,0 +1,45 @@
+{
+  "query": "SELECT av.id, av.artworkId, av.size, av.finish, av.priceInCents FROM artwork_variants av WHERE av.artworkId = 30001 LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT av.id, av.artworkId, av.size, av.finish, av.priceInCents FROM artwork_variants av WHERE av.artworkId = 30001 LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "artworkId": "30001",
+      "size": "30x45 cm",
+      "finish": "fine_art",
+      "priceInCents": "97000"
+    },
+    {
+      "id": "2",
+      "artworkId": "30001",
+      "size": "60x90 cm",
+      "finish": "fine_art",
+      "priceInCents": "197000"
+    },
+    {
+      "id": "3",
+      "artworkId": "30001",
+      "size": "90x120 cm",
+      "finish": "fine_art",
+      "priceInCents": "347000"
+    },
+    {
+      "id": "4",
+      "artworkId": "30001",
+      "size": "30x45 cm",
+      "finish": "canvas",
+      "priceInCents": "127000"
+    },
+    {
+      "id": "5",
+      "artworkId": "30001",
+      "size": "60x90 cm",
+      "finish": "canvas",
+      "priceInCents": "247000"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tartworkId\tsize\tfinish\tpriceInCents\n1\t30001\t30x45 cm\tfine_art\t97000\n2\t30001\t60x90 cm\tfine_art\t197000\n3\t30001\t90x120 cm\tfine_art\t347000\n4\t30001\t30x45 cm\tcanvas\t127000\n5\t30001\t60x90 cm\tcanvas\t247000\n",
+  "stderr": "",
+  "execution_time_ms": 394
+}

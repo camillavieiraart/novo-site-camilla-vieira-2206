@@ -575,3 +575,11 @@
 - [ ] Configurar entrega automática por e-mail após pagamento (link de download)
 - [ ] Upload dos arquivos .xmp/.dng para o CDN (aguardando envio da Camilla)
 - [ ] Adicionar "Presets" ao botão da página /links
+
+## Fine Art / Quadros para Venda (Mar 2026)
+
+- [x] Inserir 14 obras Fine Art no banco de dados com URLs do CDN e preços
+- [x] Criar tabela de variações de tamanho/acabamento (30x45, 60x90, 90x120 — Canvas / Fine Art)
+- [x] Criar produtos Stripe para cada variação
+- [x] Implementar UI de venda na página de Obras de Arte com seletor de tamanho/acabamento e checkout
+- [x] Testes vitest para lógica de variantes Fine Art (15 testes passando)

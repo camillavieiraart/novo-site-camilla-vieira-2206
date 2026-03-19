@@ -17,6 +17,7 @@ import {
   getImagesByShoot, addPortfolioImage, deletePortfolioImage,
   getImagesByCategory, getOrCreateDefaultShoot, updatePortfolioImageOrder, updatePortfolioImageCaption,
   getArtworks, getAllArtworks, getArtworkBySlug, upsertArtwork, deleteArtwork,
+  getArtworkVariants, getFineArtworks, getFineArtworkWithVariants,
   getCeramics, getAllCeramics, upsertCeramic, deleteCeramic,
   getSpecialProjects, getAllSpecialProjects, upsertSpecialProject, deleteSpecialProject,
   getVideos, getAllVideos, upsertVideo, deleteVideo,
@@ -188,6 +189,56 @@ export const appRouter = router({
     })).mutation(({ input }) => upsertArtwork(input as any)),
     delete: adminProcedure.input(z.object({ id: z.number() }))
       .mutation(({ input }) => deleteArtwork(input.id)),
+    getFineArt: publicProcedure.query(() => getFineArtworks()),
+    getFineArtBySlug: publicProcedure.input(z.object({ slug: z.string() }))
+      .query(({ input }) => getFineArtworkWithVariants(input.slug)),
+    getVariants: publicProcedure.input(z.object({ artworkId: z.number() }))
+      .query(({ input }) => getArtworkVariants(input.artworkId)),
+    createFineArtCheckout: publicProcedure.input(z.object({
+      artworkId: z.number(),
+      variantId: z.number(),
+      origin: z.string(),
+    })).mutation(async ({ input, ctx }) => {
+      const Stripe = (await import('stripe')).default;
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2025-01-27.acacia' as any });
+      const variants = await getArtworkVariants(input.artworkId);
+      const variant = variants.find((v: any) => v.id === input.variantId);
+      if (!variant) throw new TRPCError({ code: 'NOT_FOUND', message: 'Variante n\u00e3o encontrada' });
+      const artworks_list = await getAllArtworks();
+      const art = artworks_list.find((a: any) => a.id === input.artworkId);
+      if (!art) throw new TRPCError({ code: 'NOT_FOUND', message: 'Obra n\u00e3o encontrada' });
+      const finishLabel = variant.finish === 'canvas' ? 'Canvas' : 'Fine Art';
+      const session = await stripe.checkout.sessions.create({
+        mode: 'payment',
+        payment_method_types: ['card'],
+        line_items: [{
+          price_data: {
+            currency: 'brl',
+            unit_amount: variant.priceInCents,
+            product_data: {
+              name: `${art.title} \u2014 ${variant.size} (${finishLabel})`,
+              description: art.description || undefined,
+              images: art.imageUrl ? [art.imageUrl] : [],
+            },
+          },
+          quantity: 1,
+        }],
+        client_reference_id: ctx.user?.id?.toString() || 'guest',
+        customer_email: ctx.user?.email || undefined,
+        metadata: {
+          artwork_id: input.artworkId.toString(),
+          variant_id: input.variantId.toString(),
+          artwork_title: art.title,
+          size: variant.size,
+          finish: variant.finish,
+          user_id: ctx.user?.id?.toString() || 'guest',
+        },
+        allow_promotion_codes: true,
+        success_url: `${input.origin}/obras?success=1&artwork=${art.slug}`,
+        cancel_url: `${input.origin}/obras/${art.slug}`,
+      });
+      return { url: session.url };
+    }),
   }),
 
   // ─── CERAMICS ───────────────────────────────────────────────────────────────

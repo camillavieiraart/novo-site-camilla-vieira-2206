@@ -118,6 +118,18 @@ export const artworks = mysqlTable("artworks", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
+// ─── ARTWORK VARIANTS (Fine Art sizes/finishes) ──────────────────────────────
+export const artworkVariants = mysqlTable("artwork_variants", {
+  id: int("id").autoincrement().primaryKey(),
+  artworkId: int("artworkId").notNull(), // FK → artworks.id
+  size: varchar("size", { length: 50 }).notNull(), // e.g. "30x45", "60x90", "90x120"
+  finish: mysqlEnum("finish", ["canvas", "fine_art"]).notNull().default("fine_art"),
+  priceInCents: int("priceInCents").notNull(),
+  stripePriceId: varchar("stripePriceId", { length: 100 }),
+  stripeProductId: varchar("stripeProductId", { length: 100 }),
+  isActive: boolean("isActive").default(true).notNull(),
+});
+
 // ─── CERAMICS ─────────────────────────────────────────────────────────────────
 export const ceramics = mysqlTable("ceramics", {
   id: int("id").autoincrement().primaryKey(),
@@ -340,6 +352,7 @@ export type PortfolioCategory = typeof portfolioCategories.$inferSelect;
 export type PortfolioShoot = typeof portfolioShoots.$inferSelect;
 export type PortfolioImage = typeof portfolioImages.$inferSelect;
 export type Artwork = typeof artworks.$inferSelect;
+export type ArtworkVariant = typeof artworkVariants.$inferSelect;
 export type Ceramic = typeof ceramics.$inferSelect;
 export type SpecialProject = typeof specialProjects.$inferSelect;
 export type Video = typeof videos.$inferSelect;

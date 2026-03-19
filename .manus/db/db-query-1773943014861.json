@@ -1,0 +1,108 @@
+{
+  "query": "SELECT id, title, slug, series, imageUrl FROM artworks WHERE series = 'Fine Art' ORDER BY `order` LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user C1B4vyDWEL91fMS.2d0d0eb02ebb --database ej2TpcbaYKYkYBzWSZou7r --execute SELECT id, title, slug, series, imageUrl FROM artworks WHERE series = 'Fine Art' ORDER BY `order` LIMIT 20;",
+  "rows": [
+    {
+      "id": "30001",
+      "title": "Essência em Movimento: Corpo e Flor",
+      "slug": "essencia-em-movimento",
+      "series": "Fine Art",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/WxrPfxPMPOTQVaft.jpg"
+    },
+    {
+      "id": "30002",
+      "title": "Conexão Invisível",
+      "slug": "conexao-invisivel",
+      "series": "Fine Art",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/gDrLrTrFGCJcaKTM.jpg"
+    },
+    {
+      "id": "30003",
+      "title": "Passos de Força: Elegância em Movimento",
+      "slug": "passos-de-forca",
+      "series": "Fine Art",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/SaJiGIgjiWNQxGCu.jpg"
+    },
+    {
+      "id": "30004",
+      "title": "Elegância e Força em Harmonia Natural",
+      "slug": "elegancia-e-forca",
+      "series": "Fine Art",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/FhZaRTqNyiAixsEd.jpg"
+    },
+    {
+      "id": "30005",
+      "title": "Metamorfose: A Beleza da Transformação",
+      "slug": "metamorfose-transformacao",
+      "series": "Fine Art",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/fWyjSbBoAjwGCScc.jpg"
+    },
+    {
+      "id": "30006",
+      "title": "Flores da Mente: A Beleza da Imaginação",
+      "slug": "flores-da-mente",
+      "series": "Fine Art",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/SMvTIidTHsTUQiGT.jpg"
+    },
+    {
+      "id": "30007",
+      "title": "Força e Luz: Retrato Contemporâneo de Empoderamento Feminino",
+      "slug": "forca-e-luz",
+      "series": "Fine Art",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/LjfHYuEoBIZAwLqm.jpg"
+    },
+    {
+      "id": "30008",
+      "title": "Florescer Interior: A Arte da Transformação Feminina",
+      "slug": "florescer-interior",
+      "series": "Fine Art",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/QcronfksXENyYgdS.jpg"
+    },
+    {
+      "id": "30009",
+      "title": "Leveza e Transformação",
+      "slug": "leveza-e-transformacao",
+      "series": "Fine Art",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/gavZfKfYTpBhVdIu.jpg"
+    },
+    {
+      "id": "30010",
+      "title": "Metamorfose da Alma",
+      "slug": "metamorfose-da-alma",
+      "series": "Fine Art",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/nmCgsSHgzHvMFSmV.jpg"
+    },
+    {
+      "id": "30011",
+      "title": "Essência Natural - Arte Feminina Contemporânea",
+      "slug": "essencia-natural",
+      "series": "Fine Art",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/UexORXUhVIWorlfD.jpg"
+    },
+    {
+      "id": "30012",
+      "title": "Delicadeza e Força: A Flor e o Braço",
+      "slug": "delicadeza-e-forca-flor",
+      "series": "Fine Art",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/KpFeqcFeAcCAeWwC.png"
+    },
+    {
+      "id": "30013",
+      "title": "Delicadeza e Força: Braço com Flores",
+      "slug": "delicadeza-e-forca-braco",
+      "series": "Fine Art",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/OYqfqcgYfSmYIOrt.png"
+    },
+    {
+      "id": "30014",
+      "title": "Florescer da Alma: Retrato Poético com Borboletas",
+      "slug": "florescer-da-alma",
+      "series": "Fine Art",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/RsTPoGVbQSgmYGcj.png"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tslug\tseries\timageUrl\n30001\tEssência em Movimento: Corpo e Flor\tessencia-em-movimento\tFine Art\thttps://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/WxrPfxPMPOTQVaft.jpg\n30002\tConexão Invisível\tconexao-invisivel\tFine Art\thttps://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/gDrLrTrFGCJcaKTM.jpg\n30003\tPassos de Força: Elegância em Movimento\tpassos-de-forca\tFine Art\thttps://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/SaJiGIgjiWNQxGCu.jpg\n30004\tElegância e Força em Harmonia Natural\telegancia-e-forca\tFine Art\thttps://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/FhZaRTqNyiAixsEd.jpg\n30005\tMetamorfose: A Beleza da Transformação\tmetamorfose-transformacao\tFine Art\thttps://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/fWyjSbBoAjwGCScc.jpg\n30006\tFlores da Mente: A Beleza da Imaginação\tflores-da-mente\tFine Art\thttps://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/SMvTIidTHsTUQiGT.jpg\n30007\tForça e Luz: Retrato Contemporâneo de Empoderamento Feminino\tforca-e-luz\tFine Art\thttps://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/LjfHYuEoBIZAwLqm.jpg\n30008\tFlorescer Interior: A Arte da Transformação Feminina\tflorescer-interior\tFine Art\thttps://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/QcronfksXENyYgdS.jpg\n30009\tLeveza e Transformação\tleveza-e-transformacao\tFine Art\thttps://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/gavZfKfYTpBhVdIu.jpg\n30010\tMetamorfose da Alma\tmetamorfose-da-alma\tFine Art\thttps://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/nmCgsSHgzHvMFSmV.jpg\n30011\tEssência Natural - Arte Feminina Contemporânea\tessencia-natural\tFine Art\thttps://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/UexORXUhVIWorlfD.jpg\n30012\tDelicadeza e Força: A Flor e o Braço\tdelicadeza-e-forca-flor\tFine Art\thttps://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/KpFeqcFeAcCAeWwC.png\n30013\tDelicadeza e Força: Braço com Flores\tdelicadeza-e-forca-braco\tFine Art\thttps://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/OYqfqcgYfSmYIOrt.png\n30014\tFlorescer da Alma: Retrato Poético com Borboletas\tflorescer-da-alma\tFine Art\thttps://files.manuscdn.com/user_upload_by_module/session_file/310419663030818024/RsTPoGVbQSgmYGcj.png\n",
+  "stderr": "",
+  "execution_time_ms": 436
+}

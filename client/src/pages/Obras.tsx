@@ -8,6 +8,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { trpc } from "@/lib/trpc";
 import { GalleryImage } from "@/components/GalleryImage";
+import { FineArtShop } from "@/components/FineArtShop";
 
 const PLACEHOLDER_ARTWORKS = [
   { id: 1, title: "Fio I — Raízes", slug: "fio-i-raizes", series: "Fio", year: "2023", technique: "Costura sobre fotografia", dimensions: "40 × 50 cm", description: "Linhas de linho natural que atravessam a imagem como raízes invisíveis, conectando o que foi ao que é.", poeticText: "O fio não costura apenas o tecido — ele costura o tempo.", imageUrl: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=800&q=80&auto=format&fit=crop", priceDisplay: "R$ 2.800", isAvailable: true, audioUrl: null, videoUrl: null },
@@ -146,10 +147,10 @@ function ArtworkDetail({ slug }: { slug: string }) {
               </h1>
               <div className="divider-terracota mb-6" />
 
-              {artwork.poeticText && (
+              {(artwork as any).poeticText && (
                 <blockquote className="font-display text-xl italic mb-8 pl-4"
                   style={{ color: "var(--brand-marrom)", borderLeft: "2px solid var(--brand-terracota)", fontFamily: "'Cormorant Garamond', serif" }}>
-                  "{artwork.poeticText}"
+                  "{(artwork as any).poeticText}"
                 </blockquote>
               )}
 
@@ -160,11 +161,11 @@ function ArtworkDetail({ slug }: { slug: string }) {
               {/* Metadata */}
               <div className="grid grid-cols-2 gap-4 mb-8 p-5" style={{ backgroundColor: "var(--brand-bege)", border: "1px solid var(--brand-sand)" }}>
                 {[
-                  { label: "Ano", value: artwork.year },
-                  { label: "Técnica", value: artwork.technique },
-                  { label: "Dimensões", value: artwork.dimensions },
+                  { label: "Ano", value: (artwork as any).year },
+                  { label: "Técnica", value: (artwork as any).technique },
+                  { label: "Dimensões", value: (artwork as any).dimensions },
                   { label: "Disponibilidade", value: artwork.isAvailable ? "Disponível" : "Vendida" },
-                ].map(({ label, value }) => (
+                ].filter(item => item.value).map(({ label, value }) => (
                   <div key={label}>
                     <p className="text-xs tracking-widest uppercase mb-1" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>{label}</p>
                     <p className="text-sm font-medium" style={{ color: "var(--brand-marrom-deep)", fontFamily: "'Inter', sans-serif" }}>{value}</p>
@@ -174,10 +175,10 @@ function ArtworkDetail({ slug }: { slug: string }) {
 
               {artwork.isAvailable && (
                 <div className="flex items-center justify-between mb-6">
-                  <p className="font-serif text-3xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>{artwork.priceDisplay}</p>
+                  <p className="font-serif text-3xl font-medium" style={{ color: "var(--brand-marrom-deep)" }}>{(artwork as any).priceDisplay}</p>
                 </div>
               )}
-                <a href={`https://wa.me/5511910868299?text=Ol%3%A1!%20Tenho%20interesse%20na%20obra%20${encodeURIComponent(artwork.title)}`}
+              <a href={`https://wa.me/5511910868299?text=Ol%C3%A1!%20Tenho%20interesse%20na%20obra%20${encodeURIComponent(artwork.title)}`}
                 className="btn-primary w-full justify-center"
                 target="_blank" rel="noopener noreferrer">
                 <MessageCircle size={14} />
@@ -231,7 +232,8 @@ function ObrasGallery() {
         </div>
       )}
 
-      <div className="pt-24 pb-20">
+      {/* ── Série Fio Section ── */}
+      <div className="pt-24 pb-16" style={{ backgroundColor: "var(--brand-bege-light)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           {/* Header */}
           <div className={`mb-16 transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
@@ -246,7 +248,7 @@ function ObrasGallery() {
           </div>
 
           {/* Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 mb-24">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 mb-8">
             {artworks.map((artwork, i) => (
               <div key={artwork.id}
                 className={`group artwork-card transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
@@ -255,22 +257,22 @@ function ObrasGallery() {
                   <figure className="img-hover aspect-square overflow-hidden" style={{ margin: 0 }}>
                     <GalleryImage
                       src={artwork.imageUrl}
-                      alt={`${artwork.title} — ${artwork.technique}, ${artwork.year}. Obra de Camilla Vieira, artista visual em Brasília.`}
+                      alt={`${artwork.title} — ${(artwork as any).technique}, ${(artwork as any).year}. Obra de Camilla Vieira, artista visual em Brasília.`}
                       title={`${artwork.title} — Camilla Vieira`}
                       loading={i < 4 ? "eager" : "lazy"}
                       style={{ filter: "sepia(10%)", width: "100%", height: "100%", objectFit: "cover" }}
                     />
                     <div className="img-hover-overlay" />
-                    <figcaption className="sr-only">{artwork.title}. {artwork.technique}. {artwork.dimensions}. {artwork.year}. {artwork.description}</figcaption>
+                    <figcaption className="sr-only">{artwork.title}. {(artwork as any).technique}. {(artwork as any).dimensions}. {(artwork as any).year}. {artwork.description}</figcaption>
                   </figure>
                   <div className="p-4 pb-2">
                     <h3 className="font-serif text-base font-medium mb-1" style={{ color: "var(--brand-marrom-deep)" }}>{artwork.title}</h3>
                     <p className="text-xs mb-2" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
-                      {artwork.technique} · {artwork.year}
+                      {(artwork as any).technique} · {(artwork as any).year}
                     </p>
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-sm font-medium" style={{ color: "var(--brand-terracota)", fontFamily: "'Inter', sans-serif" }}>
-                        {artwork.priceDisplay}
+                        {(artwork as any).priceDisplay}
                       </span>
                       <div className="flex items-center gap-1">
                         {(artwork as any).audioUrl && (
@@ -306,8 +308,15 @@ function ObrasGallery() {
               </div>
             ))}
           </div>
+        </div>
+      </div>
 
-          {/* Como Comprar */}
+      {/* ── Fine Art Prints Section ── */}
+      <FineArtShop />
+
+      {/* ── Como Adquirir Section ── */}
+      <div className="pb-20" style={{ backgroundColor: "var(--brand-bege-light)" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           <div className={`mb-20 transition-all duration-800 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <div className="mb-10 text-center">
               <span className="section-eyebrow block mb-3">Colecionismo</span>
@@ -367,6 +376,7 @@ function ObrasGallery() {
           </div>
         </div>
       </div>
+
       <AdminFloatingButton href="/admin/obras" label="Gerenciar Obras" />
       <Footer />
     </div>

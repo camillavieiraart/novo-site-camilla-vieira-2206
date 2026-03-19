@@ -113,6 +113,13 @@
       "when": 1773850395394,
       "tag": "0015_serious_ender_wiggin",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "5",
+      "when": 1773942502599,
+      "tag": "0016_right_genesis",
+      "breakpoints": true
     }
   ]
 }

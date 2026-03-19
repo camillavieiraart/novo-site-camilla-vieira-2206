@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+// Foto P&B de fundo
+const BG_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/links-bg-bw_9f643b56.jpg";
+
 // Foto colorida menor na frente
 const FRONT_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/links-front_d5f5dbae.jpg";
 
@@ -121,6 +124,32 @@ export default function Links() {
           padding: 2.5rem 1.5rem 1.5rem;
           min-height: 52vw;
           max-height: 56vh;
+          overflow: hidden;
+        }
+
+        /* Foto P&B de fundo com overlay */
+        .lp-hero-bg {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center 20%;
+          display: block;
+          filter: grayscale(100%) brightness(0.5);
+          z-index: 0;
+        }
+        .lp-hero-overlay {
+          position: absolute;
+          inset: 0;
+          background: rgba(45, 20, 8, 0.72);
+          z-index: 1;
+        }
+
+        /* Conteúdo do hero acima do overlay */
+        .lp-hero > *:not(.lp-hero-bg):not(.lp-hero-overlay) {
+          position: relative;
+          z-index: 2;
         }
 
         /* Subtítulo acima do nome */
@@ -276,6 +305,8 @@ export default function Links() {
 
         {/* Hero */}
         <div className="lp-hero">
+          <img src={BG_IMAGE} alt="" className="lp-hero-bg" />
+          <div className="lp-hero-overlay" />
           <p className="lp-supertitle">ATELIÊ DIGITAL</p>
           <h1 className="lp-name">
             {displayedName}

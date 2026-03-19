@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 
-const BG_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/links-bg_197f88ee.png";
+// Foto P&B grande atrás
+const BG_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/links-bg-bw_9f643b56.jpg";
+// Foto colorida menor na frente
+const FRONT_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030818024/ej2TpcbaYKYkYBzWSZou7r/links-front_d5f5dbae.jpg";
 
 const links = [
   { label: "AGENDAR ENSAIO", href: "https://camillavieira.art/ensaio-feminino", num: "01" },
@@ -21,7 +24,7 @@ export default function Links() {
       <style>{`
         .links-page {
           min-height: 100vh;
-          background: #0a0a0a;
+          background: #0c0c0c;
           display: flex;
           flex-direction: column;
           font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
@@ -30,58 +33,108 @@ export default function Links() {
 
         /* Ticker */
         .links-ticker-wrap {
-          background: #0a0a0a;
-          border-bottom: 1px solid rgba(240,235,227,0.1);
+          background: #0c0c0c;
+          border-bottom: 1px solid rgba(240,235,227,0.08);
           overflow: hidden;
-          padding: 10px 0;
+          padding: 9px 0;
         }
         .links-ticker-inner {
           display: inline-block;
           white-space: nowrap;
-          animation: ticker 28s linear infinite;
+          animation: ticker 32s linear infinite;
           color: #f0ebe3;
-          font-size: 0.7rem;
-          letter-spacing: 0.22em;
+          font-size: 0.65rem;
+          letter-spacing: 0.25em;
           font-weight: 500;
-          opacity: 0.85;
+          opacity: 0.7;
         }
         @keyframes ticker {
           from { transform: translateX(0); }
           to { transform: translateX(-50%); }
         }
 
-        /* Hero */
+        /* Hero com duas fotos sobrepostas */
         .links-hero {
-          width: 100%;
-          height: 52vw;
-          max-height: 58vh;
-          min-height: 220px;
-          overflow: hidden;
           position: relative;
+          width: 100%;
+          height: 58vw;
+          max-height: 62vh;
+          min-height: 240px;
+          overflow: hidden;
+          background: #111;
         }
-        .links-hero-img {
+
+        /* Foto de fundo P&B — ocupa tudo */
+        .links-hero-bg {
+          position: absolute;
+          inset: 0;
           width: 100%;
           height: 100%;
           object-fit: cover;
-          object-position: center 35%;
+          object-position: center 20%;
           display: block;
-          filter: brightness(0.82);
+          filter: brightness(0.75) grayscale(100%);
+        }
+
+        /* Foto da frente colorida — canto inferior direito, levemente rotacionada */
+        .links-hero-front {
+          position: absolute;
+          bottom: -8px;
+          right: 12px;
+          width: 52%;
+          max-width: 220px;
+          aspect-ratio: 2/3;
+          object-fit: cover;
+          object-position: center 15%;
+          display: block;
+          box-shadow: -4px 4px 24px rgba(0,0,0,0.6);
+          transform: rotate(1.5deg);
+          border: 2px solid rgba(255,255,255,0.08);
+        }
+
+        /* Nome sobre a foto de fundo */
+        .links-hero-name {
+          position: absolute;
+          top: 50%;
+          left: 18px;
+          transform: translateY(-50%);
+          z-index: 2;
+        }
+        .links-hero-name h1 {
+          color: #f0ebe3;
+          font-size: clamp(1.6rem, 7vw, 2.8rem);
+          font-weight: 300;
+          letter-spacing: 0.06em;
+          line-height: 1.1;
+          margin: 0;
+          text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+          font-family: 'Cormorant Garamond', 'Georgia', serif;
+        }
+        .links-hero-name span {
+          display: block;
+          color: rgba(240,235,227,0.5);
+          font-size: 0.6rem;
+          letter-spacing: 0.28em;
+          font-family: 'Inter', sans-serif;
+          font-weight: 400;
+          margin-top: 6px;
+          text-transform: uppercase;
         }
 
         /* Content */
         .links-content {
-          background: #0a0a0a;
+          background: #0c0c0c;
           padding: 1.8rem 1.5rem 3.5rem;
           display: flex;
           flex-direction: column;
         }
 
         .links-tagline {
-          color: rgba(240,235,227,0.5);
-          font-size: 0.65rem;
+          color: rgba(240,235,227,0.4);
+          font-size: 0.6rem;
           letter-spacing: 0.28em;
           font-weight: 400;
-          margin-bottom: 1.8rem;
+          margin-bottom: 1.6rem;
           text-transform: uppercase;
         }
 
@@ -96,35 +149,35 @@ export default function Links() {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 1.05rem 0;
-          border-top: 1px solid rgba(240,235,227,0.12);
+          padding: 1rem 0;
+          border-top: 1px solid rgba(240,235,227,0.1);
           text-decoration: none;
           transition: opacity 0.18s ease;
         }
         .links-item:last-child {
-          border-bottom: 1px solid rgba(240,235,227,0.12);
+          border-bottom: 1px solid rgba(240,235,227,0.1);
         }
         .links-item:hover {
-          opacity: 0.5;
+          opacity: 0.45;
         }
         .links-item-label {
           color: #f0ebe3;
-          font-size: 0.78rem;
+          font-size: 0.75rem;
           letter-spacing: 0.22em;
           font-weight: 500;
           text-transform: uppercase;
         }
         .links-item-num {
-          color: rgba(240,235,227,0.3);
-          font-size: 0.65rem;
+          color: rgba(240,235,227,0.25);
+          font-size: 0.62rem;
           letter-spacing: 0.1em;
           font-weight: 300;
         }
 
         /* Footer */
         .links-footer {
-          color: rgba(240,235,227,0.2);
-          font-size: 0.6rem;
+          color: rgba(240,235,227,0.18);
+          font-size: 0.58rem;
           letter-spacing: 0.2em;
           margin-top: 2.5rem;
           text-align: center;
@@ -134,7 +187,12 @@ export default function Links() {
         /* Desktop */
         @media (min-width: 600px) {
           .links-hero {
-            max-height: 62vh;
+            max-height: 65vh;
+          }
+          .links-hero-front {
+            width: 44%;
+            max-width: 260px;
+            right: 20px;
           }
           .links-content {
             max-width: 460px;
@@ -143,7 +201,7 @@ export default function Links() {
             padding: 2.2rem 0 4rem;
           }
           .links-item-label {
-            font-size: 0.82rem;
+            font-size: 0.8rem;
           }
         }
       `}</style>
@@ -156,9 +214,14 @@ export default function Links() {
           </span>
         </div>
 
-        {/* Hero */}
+        {/* Hero com duas fotos */}
         <div className="links-hero">
-          <img src={BG_IMAGE} alt="Camilla Vieira" className="links-hero-img" />
+          <img src={BG_IMAGE} alt="" className="links-hero-bg" />
+          <img src={FRONT_IMAGE} alt="Camilla Vieira" className="links-hero-front" />
+          <div className="links-hero-name">
+            <h1>Camilla<br />Vieira</h1>
+            <span>@camillavieira.art</span>
+          </div>
         </div>
 
         {/* Content */}

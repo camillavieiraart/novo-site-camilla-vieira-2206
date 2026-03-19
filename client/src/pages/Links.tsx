@@ -24,7 +24,7 @@ export default function Links() {
       <style>{`
         .links-page {
           min-height: 100vh;
-          background: #0c0c0c;
+          background: #2a1a0e;
           display: flex;
           flex-direction: column;
           font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
@@ -33,7 +33,7 @@ export default function Links() {
 
         /* Ticker */
         .links-ticker-wrap {
-          background: #0c0c0c;
+          background: #2a1a0e;
           border-bottom: 1px solid rgba(240,235,227,0.08);
           overflow: hidden;
           padding: 9px 0;
@@ -61,7 +61,7 @@ export default function Links() {
           max-height: 62vh;
           min-height: 240px;
           overflow: hidden;
-          background: #111;
+          background: #2a1a0e;
         }
 
         /* Foto de fundo P&B — ocupa tudo */
@@ -73,7 +73,7 @@ export default function Links() {
           object-fit: cover;
           object-position: center 20%;
           display: block;
-          filter: brightness(0.75) grayscale(100%);
+          filter: brightness(0.7) grayscale(80%) sepia(20%);
         }
 
         /* Foto da frente colorida — canto inferior direito, levemente rotacionada */
@@ -123,7 +123,7 @@ export default function Links() {
 
         /* Content */
         .links-content {
-          background: #0c0c0c;
+          background: #2a1a0e;
           padding: 1.8rem 1.5rem 3.5rem;
           display: flex;
           flex-direction: column;

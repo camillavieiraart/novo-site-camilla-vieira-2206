@@ -388,13 +388,12 @@ function GalleryManager({ category, onBack }: { category: typeof CATEGORIES[0]; 
         </div>
       )}
 
-      {/* Hidden file input — multiple + capture for iPhone */}
+      {/* Hidden file input — multiple, sem capture para mostrar galeria + câmera no iPhone */}
       <input
         ref={fileInputRef}
         type="file"
         accept="image/*"
         multiple
-        capture="environment"
         className="hidden"
         onChange={handleFileInput}
       />

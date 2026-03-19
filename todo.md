@@ -563,3 +563,15 @@
 - [ ] Portfólio público: quando logada, mostrar botão "×" em cada foto para remover direto na galeria
 - [ ] Portfólio público: quando logada, mostrar campo de descrição editável inline (clica e edita)
 - [ ] Corrigir rota "Em breve" no admin que aparece quando a URL não corresponde a nenhuma seção
+
+## Link na Bio Instagram (Mar 2026)
+- [x] Criar página /links com foto da Camilla, identidade visual e 6 botões
+- [x] Botões: Agendar Ensaio (1º), WhatsApp, Site, Portfólio, Loja, Mentoria
+- [x] Upload da foto para CDN e design com fundo terroso escuro
+
+## Venda de Presets (Mar 2026)
+- [ ] Criar página /presets com 5 packs (Feminino, P&B, Editorial, Vintage, Cinematográfico) a R$97 cada + bundle R$347
+- [ ] Configurar Stripe para pagamento dos presets
+- [ ] Configurar entrega automática por e-mail após pagamento (link de download)
+- [ ] Upload dos arquivos .xmp/.dng para o CDN (aguardando envio da Camilla)
+- [ ] Adicionar "Presets" ao botão da página /links

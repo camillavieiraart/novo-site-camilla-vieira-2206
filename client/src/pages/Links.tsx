@@ -15,6 +15,7 @@ const links = [
   { label: "PORTFÓLIO", href: "https://camillavieira.art/portfolio", num: "04" },
   { label: "LOJA", href: "https://camillavieira.art/loja", num: "05" },
   { label: "MENTORIA", href: "https://camillavieira.art/mentorias", num: "06" },
+  { label: "NEWSLETTER & BLOG", href: "https://camillavieira.art/blog", num: "07" },
 ];
 
 export default function Links() {

@@ -284,6 +284,20 @@
 }
 .btn-outline-dark:hover { background: var(--brand-marrom-deep); color: var(--brand-bege); border-color: var(--brand-marrom-deep); }
 
+.btn-primary-dark {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  background-color: var(--brand-terracota);
+  color: #FAF7F2;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  border: none; cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+}
+.btn-primary-dark:hover { background-color: var(--brand-marrom-deep); transform: translateY(-1px); }
+
 /* ── IMAGE EFFECTS ───────────────────────────────────────────────────────── */
 .img-hover {
   position: relative; overflow: hidden;

@@ -28,6 +28,12 @@ export function Navigation({ transparent = false }: NavigationProps) {
   const isTransparent = transparent && !scrolled && !mobileOpen;
   const navClass = isTransparent ? "nav-transparent" : "";
 
+  const isPortfolio = location.startsWith("/portfolio");
+  const isObras = location.startsWith("/obras") || location === "/ceramica" || location.startsWith("/fotografia");
+  const isEnsaios = location.startsWith("/ensaio");
+  const isBlog = location.startsWith("/blog");
+  const isSobre = location === "/sobre" || location === "/mentorias" || location === "/contato" || location === "/projetos";
+
   return (
     <>
       <nav
@@ -48,11 +54,12 @@ export function Navigation({ transparent = false }: NavigationProps) {
               Camilla.art
             </Link>
 
-            {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-              {/* Portfólio dropdown */}
+            {/* Desktop Nav — 5 itens */}
+            <div className="hidden lg:flex items-center gap-7 xl:gap-9">
+
+              {/* 1. Portfólio */}
               <div className="dropdown-trigger">
-                <button className={`nav-link flex items-center gap-1 bg-transparent border-none p-0 ${location.startsWith("/portfolio") ? "active" : ""}`}>
+                <button className={`nav-link flex items-center gap-1 bg-transparent border-none p-0 ${isPortfolio ? "active" : ""}`}>
                   Portfólio <ChevronDown size={10} />
                 </button>
                 <div className="dropdown-menu">
@@ -62,30 +69,55 @@ export function Navigation({ transparent = false }: NavigationProps) {
                   <Link href="/portfolio/familia" className="dropdown-item">Família</Link>
                   <Link href="/portfolio/casamentos" className="dropdown-item">Casamentos</Link>
                   <Link href="/portfolio/editoriais" className="dropdown-item">Editoriais</Link>
-                  <Link href="/portfolio" className="dropdown-item" style={{ borderTop: "1px solid var(--brand-sand)", marginTop: "0.25rem", paddingTop: "0.75rem" }}>Ver Todos</Link>
+                  <Link href="/portfolio" className="dropdown-item" style={{ borderTop: "1px solid var(--brand-sand)", marginTop: "0.25rem", paddingTop: "0.75rem" }}>
+                    Ver Todos
+                  </Link>
                 </div>
               </div>
 
-              {/* Fotografia Autoral dropdown */}
+              {/* 2. Obras */}
               <div className="dropdown-trigger">
-                <button className={`nav-link flex items-center gap-1 bg-transparent border-none p-0 ${location.startsWith("/fotografia") ? "active" : ""}`}>
-                  Fotografia Autoral <ChevronDown size={10} />
+                <button className={`nav-link flex items-center gap-1 bg-transparent border-none p-0 ${isObras ? "active" : ""}`}>
+                  Obras <ChevronDown size={10} />
                 </button>
                 <div className="dropdown-menu">
-                  <Link href="/fotografia/serie-fio" className="dropdown-item">Série Fio</Link>
-                  <Link href="/fotografia/maternidade" className="dropdown-item">Maternidade</Link>
-                  <Link href="/fotografia" className="dropdown-item" style={{ borderTop: "1px solid var(--brand-sand)", marginTop: "0.25rem", paddingTop: "0.75rem" }}>Ver Todas</Link>
+                  <Link href="/obras" className="dropdown-item">Série Fio</Link>
+                  <Link href="/obras#fine-art" className="dropdown-item">Fine Art</Link>
+                  <Link href="/ceramica" className="dropdown-item">Cerâmica</Link>
+                  <Link href="/fotografia" className="dropdown-item">Fotografia Autoral</Link>
+                  <Link href="/projetos" className="dropdown-item" style={{ borderTop: "1px solid var(--brand-sand)", marginTop: "0.25rem", paddingTop: "0.75rem" }}>
+                    Projetos Especiais
+                  </Link>
                 </div>
               </div>
 
-              <Link href="/obras" className={`nav-link ${location === "/obras" || location.startsWith("/obras/") ? "active" : ""}`}>Obras de Arte</Link>
-              <Link href="/ceramica" className={`nav-link ${location === "/ceramica" ? "active" : ""}`}>Cerâmica</Link>
-              <Link href="/projetos" className={`nav-link ${location === "/projetos" ? "active" : ""}`}>Projetos</Link>
-              <Link href="/mentorias" className={`nav-link ${location === "/mentorias" ? "active" : ""}`}>Mentorias</Link>
-              <Link href="/loja" className={`nav-link ${location === "/loja" || location.startsWith("/loja/") ? "active" : ""}`}>Loja</Link>
-              <Link href="/blog" className={`nav-link ${location === "/blog" || location.startsWith("/blog/") ? "active" : ""}`}>Blog</Link>
-              <Link href="/sobre" className={`nav-link ${location === "/sobre" ? "active" : ""}`}>Sobre</Link>
-              <Link href="/contato" className={`nav-link ${location === "/contato" ? "active" : ""}`}>Contato</Link>
+              {/* 3. Ensaios */}
+              <div className="dropdown-trigger">
+                <button className={`nav-link flex items-center gap-1 bg-transparent border-none p-0 ${isEnsaios ? "active" : ""}`}>
+                  Ensaios <ChevronDown size={10} />
+                </button>
+                <div className="dropdown-menu">
+                  <Link href="/ensaio-feminino" className="dropdown-item">Ensaio Feminino</Link>
+                  <Link href="/ensaio-gestante" className="dropdown-item">Ensaio Gestante</Link>
+                  <Link href="/ensaio-profissional" className="dropdown-item">Ensaio Profissional</Link>
+                </div>
+              </div>
+
+              {/* 4. Blog */}
+              <Link href="/blog" className={`nav-link ${isBlog ? "active" : ""}`}>Blog</Link>
+
+              {/* 5. Sobre */}
+              <div className="dropdown-trigger">
+                <button className={`nav-link flex items-center gap-1 bg-transparent border-none p-0 ${isSobre ? "active" : ""}`}>
+                  Sobre <ChevronDown size={10} />
+                </button>
+                <div className="dropdown-menu">
+                  <Link href="/sobre" className="dropdown-item">Sobre Camilla</Link>
+                  <Link href="/mentorias" className="dropdown-item">Mentorias</Link>
+                  <Link href="/contato" className="dropdown-item">Contato</Link>
+                </div>
+              </div>
+
               {user?.role === "admin" && (
                 <Link href="/admin" className="nav-link" style={{ color: "var(--brand-terracota)" }}>Admin</Link>
               )}
@@ -118,11 +150,11 @@ export function Navigation({ transparent = false }: NavigationProps) {
         className={`fixed inset-0 z-40 flex flex-col transition-all duration-300 ${mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
         style={{ backgroundColor: "var(--brand-bege-light)" }}
       >
-        {/* Spacer for nav height */}
         <div className="h-14" />
 
         <div className="flex-1 overflow-y-auto px-6 py-6">
-          {/* Group: Portfólio */}
+
+          {/* Portfólio */}
           <div className="mobile-nav-group">
             <span className="mobile-nav-group-label">Portfólio</span>
             <Link href="/portfolio/ensaios-femininos" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Feminino</Link>
@@ -134,35 +166,35 @@ export function Navigation({ transparent = false }: NavigationProps) {
             <Link href="/portfolio" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Ver Todos</Link>
           </div>
 
-          {/* Group: Fotografia Autoral */}
+          {/* Obras */}
           <div className="mobile-nav-group">
-            <span className="mobile-nav-group-label">Fotografia Autoral</span>
-            <Link href="/fotografia" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Ver Todas</Link>
-            <Link href="/fotografia/serie-fio" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Série Fio</Link>
-            <Link href="/fotografia/maternidade" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Maternidade</Link>
+            <span className="mobile-nav-group-label">Obras</span>
+            <Link href="/obras" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Série Fio</Link>
+            <Link href="/obras#fine-art" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Fine Art</Link>
+            <Link href="/ceramica" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Cerâmica</Link>
+            <Link href="/fotografia" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Fotografia Autoral</Link>
+            <Link href="/projetos" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Projetos Especiais</Link>
           </div>
 
-          {/* Group: Coleções */}
+          {/* Ensaios */}
           <div className="mobile-nav-group">
-            <span className="mobile-nav-group-label">Coleções</span>
-            <Link href="/obras" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Obras de Arte</Link>
-            <Link href="/ceramica" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Cerâmica</Link>
-            <Link href="/projetos" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Projetos Especiais</Link>
+            <span className="mobile-nav-group-label">Ensaios</span>
+            <Link href="/ensaio-feminino" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Ensaio Feminino</Link>
+            <Link href="/ensaio-gestante" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Ensaio Gestante</Link>
+            <Link href="/ensaio-profissional" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Ensaio Profissional</Link>
           </div>
 
-          {/* Group: Blog */}
+          {/* Blog */}
           <div className="mobile-nav-group">
-            <span className="mobile-nav-group-label">Blog</span>
-            <Link href="/blog" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Reflexões & Processo</Link>
+            <Link href="/blog" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Blog</Link>
           </div>
 
-          {/* Group: Sobre & Contato */}
+          {/* Sobre */}
           <div className="mobile-nav-group">
             <span className="mobile-nav-group-label">Sobre</span>
-            <Link href="/mentorias" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Mentorias</Link>
-            <Link href="/loja" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Loja</Link>
-            <Link href="/sobre" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Sobre Camilla</Link>
-            <Link href="/contato" className="mobile-nav-item" onClick={() => setMobileOpen(false)}>Contato</Link>
+            <Link href="/sobre" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Sobre Camilla</Link>
+            <Link href="/mentorias" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Mentorias</Link>
+            <Link href="/contato" className="mobile-nav-sub" onClick={() => setMobileOpen(false)}>Contato</Link>
           </div>
 
           {user?.role === "admin" && (
@@ -173,7 +205,7 @@ export function Navigation({ transparent = false }: NavigationProps) {
             </div>
           )}
 
-          {/* Social links */}
+          {/* Social */}
           <div className="flex gap-5 mt-8 pt-6 border-t border-[var(--brand-sand)]">
             <a href="https://instagram.com/camillavieira.art" target="_blank" rel="noopener noreferrer"
               className="text-[var(--brand-marrom)] hover:text-[var(--brand-terracota)] transition-colors">
@@ -185,7 +217,6 @@ export function Navigation({ transparent = false }: NavigationProps) {
             </a>
           </div>
 
-          {/* Brand tagline */}
           <p className="mt-6 text-xs tracking-widest uppercase opacity-40" style={{ color: "var(--brand-marrom)", fontFamily: "'Inter', sans-serif" }}>
             Fotografia é Arte
           </p>

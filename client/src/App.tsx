@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Link, Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
@@ -72,11 +72,13 @@ function Router() {
 }
 
 function FloatingBookingButton() {
+  const [location] = useLocation();
+  // Ocultar nas páginas de ensaio (já têm CTA próprio) e admin
+  const hide = location.startsWith("/ensaio") || location.startsWith("/admin") || location === "/links";
+  if (hide) return null;
   return (
-    <a
-      href="https://vendasdemo-35ftt8sk.manus.space"
-      target="_blank"
-      rel="noopener noreferrer"
+    <Link
+      href="/ensaio-feminino"
       className="fixed bottom-6 left-4 sm:left-auto sm:right-6 z-50 flex items-center gap-2 bg-[#8B4513] hover:bg-[#6B3410] text-[#F5F0E8] text-xs font-semibold tracking-widest uppercase px-5 py-3 rounded-full shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
       style={{ letterSpacing: '0.12em' }}
     >
@@ -87,7 +89,7 @@ function FloatingBookingButton() {
         <line x1="3" y1="10" x2="21" y2="10"/>
       </svg>
       Agendar Ensaio
-    </a>
+    </Link>
   );
 }
 

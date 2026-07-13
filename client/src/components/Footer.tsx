@@ -5,9 +5,10 @@ export function Footer() {
   return (
     <footer style={{ backgroundColor: "var(--brand-marrom-deep)", color: "var(--brand-bege)" }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-10 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+
           {/* Brand */}
-          <div>
+          <div className="md:col-span-1">
             <h3 className="font-serif text-2xl font-medium mb-4" style={{ color: "var(--brand-bege)" }}>
               Camilla.art
             </h3>
@@ -26,20 +27,18 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Links */}
+          {/* Portfólio & Ensaios */}
           <div>
             <h4 className="text-xs font-medium tracking-[0.18em] uppercase mb-5" style={{ color: "var(--brand-sand)", fontFamily: "'Inter', sans-serif" }}>
-              Navegação
+              Portfólio
             </h4>
             <div className="flex flex-col gap-2.5">
               {[
-                { href: "/portfolio", label: "Portfólio" },
-                { href: "/fotografia", label: "Fotografia Autoral" },
-                { href: "/obras", label: "Obras de Arte" },
-                { href: "/ceramica", label: "Cerâmica" },
-                { href: "/projetos", label: "Projetos Especiais" },
-                { href: "/mentorias", label: "Mentorias" },
-                { href: "/sobre", label: "Sobre" },
+                { href: "/portfolio/ensaios-femininos", label: "Feminino" },
+                { href: "/portfolio/gestante", label: "Gestante" },
+                { href: "/portfolio/profissional", label: "Profissional" },
+                { href: "/portfolio/editoriais", label: "Editoriais" },
+                { href: "/portfolio", label: "Ver Todos" },
               ].map(({ href, label }) => (
                 <Link key={href} href={href}
                   className="text-xs tracking-wide no-underline transition-colors hover:opacity-100"
@@ -50,7 +49,31 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Contact */}
+          {/* Obras & Ensaios */}
+          <div>
+            <h4 className="text-xs font-medium tracking-[0.18em] uppercase mb-5" style={{ color: "var(--brand-sand)", fontFamily: "'Inter', sans-serif" }}>
+              Obras & Ensaios
+            </h4>
+            <div className="flex flex-col gap-2.5">
+              {[
+                { href: "/obras", label: "Série Fio" },
+                { href: "/obras#fine-art", label: "Fine Art" },
+                { href: "/ceramica", label: "Cerâmica" },
+                { href: "/fotografia", label: "Fotografia Autoral" },
+                { href: "/ensaio-feminino", label: "Ensaio Feminino" },
+                { href: "/ensaio-gestante", label: "Ensaio Gestante" },
+                { href: "/mentorias", label: "Mentorias" },
+              ].map(({ href, label }) => (
+                <Link key={href} href={href}
+                  className="text-xs tracking-wide no-underline transition-colors hover:opacity-100"
+                  style={{ color: "rgba(245,230,211,0.6)", fontFamily: "'Inter', sans-serif" }}>
+                  {label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Contato */}
           <div>
             <h4 className="text-xs font-medium tracking-[0.18em] uppercase mb-5" style={{ color: "var(--brand-sand)", fontFamily: "'Inter', sans-serif" }}>
               Contato
@@ -62,11 +85,11 @@ export function Footer() {
                 <Mail size={14} />
                 contato@camillavieira.art
               </a>
-              <a href="https://wa.me/5511910868299"
+              <a href="https://wa.me/5561991087909"
                 className="flex items-center gap-2.5 text-xs no-underline transition-opacity hover:opacity-100 opacity-65"
                 style={{ color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
                 <Phone size={14} />
-                WhatsApp
+                (61) 99108-7909
               </a>
               <a href="https://instagram.com/camillavieira.art" target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2.5 text-xs no-underline transition-opacity hover:opacity-100 opacity-65"
@@ -84,17 +107,21 @@ export function Footer() {
             © {new Date().getFullYear()} Camilla Vieira. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-5">
+            <Link href="/blog" className="text-xs no-underline transition-opacity hover:opacity-100 opacity-50"
+              style={{ color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
+              Blog
+            </Link>
+            <Link href="/sobre" className="text-xs no-underline transition-opacity hover:opacity-100 opacity-50"
+              style={{ color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
+              Sobre
+            </Link>
             <Link href="/privacidade" className="text-xs no-underline transition-opacity hover:opacity-100 opacity-50"
               style={{ color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
-              Política de Privacidade
+              Privacidade
             </Link>
             <Link href="/termos" className="text-xs no-underline transition-opacity hover:opacity-100 opacity-50"
               style={{ color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
-              Termos de Uso
-            </Link>
-            <Link href="/contato" className="text-xs no-underline transition-opacity hover:opacity-100 opacity-50"
-              style={{ color: "var(--brand-bege)", fontFamily: "'Inter', sans-serif" }}>
-              Fale Comigo
+              Termos
             </Link>
           </div>
         </div>

@@ -257,10 +257,13 @@ function FotografiaSection({ isActive }: { isActive: boolean }) {
         </div>
       </div>
 
-      {/* Bottom CTA */}
-      <div className={`absolute bottom-10 left-1/2 -translate-x-1/2 z-10 pointer-events-auto transition-all duration-1000 delay-700 ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-        <Link href="/fotografia" className="btn-outline-light">
-          Ver Fotografia Autoral <ArrowRight size={14} />
+      {/* Bottom CTAs */}
+      <div className={`absolute bottom-10 left-1/2 -translate-x-1/2 z-10 pointer-events-auto transition-all duration-1000 delay-700 ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"} flex gap-3`}>
+        <Link href="/portfolio" className="btn-outline-light">
+          Ver Portfólio <ArrowRight size={14} />
+        </Link>
+        <Link href="/obras" className="btn-outline-light" style={{ opacity: 0.7 }}>
+          Obras de Arte <ArrowRight size={14} />
         </Link>
       </div>
     </section>
@@ -343,7 +346,10 @@ function EnsaiosSection({ isActive }: { isActive: boolean }) {
           ))}
         </div>
 
-        <div className={`text-center mt-10 transition-all duration-800 delay-700 ${isActive ? "opacity-100" : "opacity-0"}`}>
+        <div className={`text-center mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 transition-all duration-800 delay-700 ${isActive ? "opacity-100" : "opacity-0"}`}>
+          <Link href="/ensaio-feminino" className="btn-primary-dark">
+            Agendar Ensaio <ArrowRight size={14} />
+          </Link>
           <Link href={ctaLink} className="btn-outline-dark">
             {ctaText} <ArrowRight size={14} />
           </Link>
@@ -383,8 +389,11 @@ function ObrasSection({ isActive }: { isActive: boolean }) {
               A agulha como extensão do olhar. O fio como metáfora da conexão entre o visível e o invisível.
             </p>
             <div className="mb-8" style={{ width: "48px", height: "1px", backgroundColor: "rgba(201,112,100,0.6)" }} />
-            <div>
-              <Link href={obrasLink} className="btn-outline-light inline-flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link href="/obras#fine-art" className="btn-outline-light inline-flex items-center gap-2">
+                Comprar Fine Art <ArrowRight size={14} />
+              </Link>
+              <Link href={obrasLink} className="btn-outline-light inline-flex items-center gap-2" style={{ opacity: 0.7 }}>
                 {obrasCta} <ArrowRight size={14} />
               </Link>
             </div>

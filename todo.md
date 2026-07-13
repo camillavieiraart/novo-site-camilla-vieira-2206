@@ -583,3 +583,18 @@
 - [x] Criar produtos Stripe para cada variação
 - [x] Implementar UI de venda na página de Obras de Arte com seletor de tamanho/acabamento e checkout
 - [x] Testes vitest para lógica de variantes Fine Art (15 testes passando)
+
+## Simplificação de Navegação (Jul 2026)
+- [x] Redesenhar menu desktop: de 12+ itens para 5 grupos (Portfólio, Obras, Ensaios, Blog, Sobre)
+- [x] Obras agrupa: Série Fio, Fine Art, Cerâmica, Fotografia Autoral, Projetos Especiais
+- [x] Ensaios agrupa: Ensaio Feminino, Gestante, Profissional (páginas de venda)
+- [x] Sobre agrupa: Sobre Camilla, Mentorias, Contato
+- [x] Menu mobile reorganizado com os mesmos 5 grupos
+- [x] Footer expandido para 4 colunas com links secundários preservados
+- [x] Botão flutuante "Agendar Ensaio" aponta para /ensaio-feminino (interno)
+- [x] Botão flutuante oculto nas páginas de ensaio e admin
+- [x] CTA da seção Ensaios na Home: botão primário "Agendar Ensaio" + botão secundário portfólio
+- [x] CTA da seção Obras na Home: botão "Comprar Fine Art" + botão "Explorar Obras"
+- [x] CTA da seção Fotografia Autoral: dois botões (Portfólio + Obras de Arte)
+- [x] Corrigir número WhatsApp no CTA do portfólio: (61) 99108-7909
+- [x] Adicionar classe CSS btn-primary-dark (terracota para fundos claros)

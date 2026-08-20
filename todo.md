@@ -598,3 +598,11 @@
 - [x] CTA da seção Fotografia Autoral: dois botões (Portfólio + Obras de Arte)
 - [x] Corrigir número WhatsApp no CTA do portfólio: (61) 99108-7909
 - [x] Adicionar classe CSS btn-primary-dark (terracota para fundos claros)
+
+## Auditoria GitHub e Ambiente Local (Jul 2026)
+- [x] Confirmar a direção e o comportamento da sincronização entre Manus e GitHub
+- [x] Verificar a existência de guia seguro para variáveis de ambiente locais
+- [x] Orientar o uso de chaves Stripe de teste e banco local sem expor segredos de produção
+- [x] Criar guia de modelo seguro para `.env.local` sem incluir valores confidenciais
+- [x] Mapear dependências de plataforma: banco, storage/Forge, OAuth e rotinas de infraestrutura
+- [x] Documentar limitações de execução em localhost e plano de saída da plataforma
